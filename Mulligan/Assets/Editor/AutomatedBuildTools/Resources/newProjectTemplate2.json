@@ -1,0 +1,4 @@
+{
+  "name" : "env.gitpath",
+  "value" : "<!project_gitpath!>"
+}

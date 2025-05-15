@@ -1,0 +1,14 @@
+<project id="IsItCakeGit" name="CameoGames" parentProjectId="_Root" href="/app/rest/projects/id:IsItCakeGit" webUrl="http://192.168.1.92:8111/project.html?projectId=IsItCakeGit">
+<parentProject id="_Root" name="Root project" description="Contains all other projects" href="/app/rest/projects/id:_Root" webUrl="http://192.168.1.92:8111/project.html?projectId=_Root"/>
+<buildTypes count="2">
+<buildType id="com_cameogames_isitcake" name="com_cameogames_isitcake" projectName="CameoGames" projectId="IsItCakeGit" href="/app/rest/buildTypes/id:com_cameogames_isitcake" webUrl="http://192.168.1.92:8111/viewType.html?buildTypeId=com_cameogames_isitcake"/>
+<buildType id="IsItCakeGit_BekIos" name="NumWars_IOS" projectName="CameoGames" projectId="IsItCakeGit" href="/app/rest/buildTypes/id:IsItCakeGit_BekIos" webUrl="http://192.168.1.92:8111/viewType.html?buildTypeId=IsItCakeGit_BekIos"/>
+</buildTypes>
+<templates count="1">
+<buildType id="cameo_template" name="cameotemplate" templateFlag="true" projectName="CameoGames" projectId="IsItCakeGit" href="/app/rest/buildTypes/id:cameo_template"/>
+</templates>
+<parameters count="0" href="/app/rest/projects/id:IsItCakeGit/parameters"/>
+<vcsRoots count="2" href="/app/rest/vcs-roots?locator=project:(id:IsItCakeGit)"/>
+<projectFeatures count="0" href="/app/rest/projects/id:IsItCakeGit/projectFeatures"/>
+<projects count="0"/>
+</project>
