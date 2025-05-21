@@ -703,8 +703,8 @@ public class AutomatedBuildWindow : EditorWindow
     /// </summary>
     public void IosBuildAutomated()
     {
-        //BuildIos();
-        BuildAndroid();
+        BuildIos();
+        //BuildAndroid();
         //start the gradle task
     }
 
