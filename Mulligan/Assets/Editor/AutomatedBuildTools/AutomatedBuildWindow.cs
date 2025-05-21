@@ -758,22 +758,7 @@ public class AutomatedBuildWindow : EditorWindow
     static void BuildAndroid()
     {
         string[] defaultScene = {
-            "Assets/Scenes/_FireMan_Base.unity",
-            "Assets/Scenes/_FireMan_Level_Tutorial.unity",
-            "Assets/Scenes/_FireMan_Level0.unity",
-            "Assets/Scenes/_FireMan_Level1.unity",
-            "Assets/Scenes/_FireMan_Level2.unity",
-            "Assets/Scenes/_FireMan_Level3_outside.unity",
-            "Assets/Scenes/_FireMan_Level4_outside.unity",
-            "Assets/Scenes/_FireMan_Level5_outside.unity",
-            "Assets/Scenes/_FireMan_Level6_farm.unity",
-            "Assets/Scenes/_FireMan_Level7_farm.unity",
-            "Assets/Scenes/_FireMan_Level8_farm.unity",
-            "Assets/Scenes/_FireMan_Level9_HOUSE.unity",
-            "Assets/Scenes/_FireMan_Level10_Gym.unity",
-
-
-
+            "Assets/Scenes/main.unity",
             };
 
         BuildPipeline.BuildPlayer(defaultScene, "FireFighterBlaze_.apk",
