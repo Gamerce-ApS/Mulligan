@@ -144,7 +144,7 @@ public class HandManager : Singleton<HandManager>
             cardScript.Init(cardInstance);
 
             // 4. Animate to slot
-            LeanTween.scale(realCard, Vector3.one, 0.3f).setEaseOutBack();
+            LeanTween.scale(realCard, new Vector3(0.9f, 0.9f, 0.9f), 0.3f).setEaseOutBack();
             LeanTween.rotateLocal(realCard, slot.rotation.eulerAngles, 0.4f).setEaseOutCubic();
             LeanTween.move(realCard, slot.position, 0.4f).setEaseOutCubic().setOnComplete(() =>
             {
