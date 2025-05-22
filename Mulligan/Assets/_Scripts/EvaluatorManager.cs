@@ -60,7 +60,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         Queue<System.Action<System.Action>> steps = new();
 
         steps.Enqueue(next => {
-            int synergyCritBonus = GetGlobalCritMultiplier();
+            int synergyCritBonus = GetGlobalCritMultiplier(HandManager.Instance.PlayedHand);
             UIManager.Instance.AddCritical(synergyCritBonus);
             LeanTween.delayedCall(gameObject, 1.0f, () =>
             {
@@ -86,7 +86,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         // Step 3: Synergy Damage Bonuses
         steps.Enqueue(next => {
-            int synergyBonus = GetSynergyDamage(aCard);
+            int synergyBonus = GetSynergyDamage(aCard,HandManager.Instance.PlayedHand);
             aCard.CardGO.AddDamage(synergyBonus, next);
         });
 
@@ -136,13 +136,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         return boosted;
     }
-    public int GetSynergyDamage(CardInstance card)
+    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand)
     {
         // Count synergies in current PlayedHand
         int raceCount = 0;
         int classCount = 0;
 
-        foreach (var c in HandManager.Instance.PlayedHand)
+        foreach (var c in aHand)
         {
             if (c.data.race == card.data.race) raceCount++;
             if (c.data.cardClass == card.data.cardClass) classCount++;
@@ -165,12 +165,12 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         return bonus;
     }
 
-    public int GetGlobalCritMultiplier()
+    public int GetGlobalCritMultiplier(List<CardInstance> aHand)
     {
         Dictionary<CardRace, int> raceCounts = new();
         Dictionary<CardClass, int> classCounts = new();
 
-        foreach (var card in HandManager.Instance.PlayedHand)
+        foreach (var card in aHand)
         {
             if (!raceCounts.ContainsKey(card.data.race))
                 raceCounts[card.data.race] = 0;
@@ -201,7 +201,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             }
         }
 
-        return critTriggered * 2;
+        return critTriggered * 3;
     }
 
     private void RunNextStep(Queue<System.Action<System.Action>> steps)

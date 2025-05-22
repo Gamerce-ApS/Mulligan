@@ -37,6 +37,10 @@ public class CardContainer : Singleton<CardContainer>
     
     public CardInstance DrawCard()
     {
+        if(CurrentDeck.Count<=0)
+        {
+            Shuffel();
+        }
         CardInstance ins = CurrentDeck[0];
         CurrentDeck.RemoveAt(0);
         return ins;
@@ -51,9 +55,9 @@ public class CardContainer : Singleton<CardContainer>
             CurrentDeck.Add(a);
         DiscardDeck.Clear();
 
-        foreach (var a in HandManager.Instance.CurrentHand)
-            CurrentDeck.Add(a);
-        HandManager.Instance.CurrentHand.Clear();
+        //foreach (var a in HandManager.Instance.CurrentHand)
+        //    CurrentDeck.Add(a);
+        //HandManager.Instance.CurrentHand.Clear();
 
         CurrentDeck.Shuffle();
     }

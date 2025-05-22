@@ -16,8 +16,11 @@ public class CardInstance
 
     public int GetDamage()
     {
-        if (data.RankUpgrades != null && currentRank < data.RankUpgrades.Count)
-            return data.RankUpgrades[currentRank];
+        if(currentRank == 0)
+            return data.damage;
+
+        if (data.RankUpgrades != null && currentRank-1 < data.RankUpgrades.Count)
+            return data.RankUpgrades[currentRank-1];
         return data.damage;
     }
 

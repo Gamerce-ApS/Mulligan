@@ -65,6 +65,8 @@ public class HandManager : Singleton<HandManager>
         List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(PlayedHand, out totalDmg);
 
 
+        UIManager.Instance.DamageReset();
+
         //Delay so lifting works
         UnityHelper.RunAfterDelay(this, 0.6f, () =>
         {
@@ -100,7 +102,7 @@ public class HandManager : Singleton<HandManager>
         }
         UnityHelper.RunAfterDelay(this, 1.0f, () =>
         {
-            UIManager.Instance.ShiftUI(250f, () => { PlayedHand.Clear(); RefillHand(); });
+            UIManager.Instance.ShiftUI(250f, () => { PlayedHand.Clear(); RefillHand(); GameManager.Instance.FinishRound(); });
             
         });
     }
@@ -186,6 +188,15 @@ public class HandManager : Singleton<HandManager>
 
         LeanTween.rotateZ(cardRT.gameObject, 0f, duration);
     }
-
+    public int SelectedCardCount()
+    {
+        int count = 0;
+        foreach (var card in CurrentHand)
+        {
+            if (card.CardGO != null && card.CardGO.isSelected)
+                count++;
+        }
+        return count;
+    }
 
 }

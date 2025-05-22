@@ -52,6 +52,13 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (!isSelected)
         {
+            if (HandManager.Instance.SelectedCardCount() >= 4)
+            {
+                LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.2f).setEasePunch();
+                UIManager.Instance.ShowTooltip("Only 4 cards can be selected.");
+                return;
+            }
+
             originalAnchoredPos = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition += new Vector2(0, 70f); // Lift
             isSelected = true;
@@ -63,6 +70,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
 
         UIManager.Instance.ShowSynergies();
+        UIManager.Instance.RefreshPreDamage();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -111,13 +119,15 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
+
         {
             isDragging = false;
-
+ 
             // Return to grid in same position as placeholder
             int returnIndex = placeholder.transform.GetSiblingIndex();
             transform.SetParent(originalParent, false);
             transform.SetSiblingIndex(returnIndex);
+            transform.localScale = Vector3.one;
             rectTransform.anchoredPosition = originalAnchoredPos;
 
             // Clean up placeholder

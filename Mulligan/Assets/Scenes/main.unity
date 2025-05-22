@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 21327729}
   - component: {fileID: 21327728}
   m_Layer: 5
-  m_Name: Text (TMP) (4)
+  m_Name: goldlabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1906,7 +1906,7 @@ GameObject:
   - component: {fileID: 251933098}
   - component: {fileID: 251933097}
   m_Layer: 5
-  m_Name: Text (TMP) (10)
+  m_Name: option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2062,8 +2062,14 @@ MonoBehaviour:
   DamageLabel: {fileID: 1410922545}
   CriticalLabel: {fileID: 703350275}
   DiscardPileIcon: {fileID: 882925970}
+  AttackLabel: {fileID: 1491464310}
+  ReRollLabel: {fileID: 334657847}
+  RoundsLabel: {fileID: 1138941259}
+  WorldLabel: {fileID: 459066031}
+  GoldLabel: {fileID: 21327728}
   thCanvas: {fileID: 679112065}
   SynergiTemplate: {fileID: 1511482162}
+  TooltipPrefab: {fileID: 8366319179163436643, guid: ede06cb6fbf0f4644a595d0e85f0691d, type: 3}
 --- !u!4 &256931585
 Transform:
   m_ObjectHideFlags: 0
@@ -2440,7 +2446,7 @@ GameObject:
   - component: {fileID: 334657848}
   - component: {fileID: 334657847}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: rerollslabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3397,7 +3403,7 @@ GameObject:
   - component: {fileID: 459066032}
   - component: {fileID: 459066031}
   m_Layer: 5
-  m_Name: Text (TMP) (9)
+  m_Name: world
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3604,7 +3610,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 256931584}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ClickPlayHand
+        m_MethodName: ClickReRoll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7744,7 +7750,7 @@ GameObject:
   - component: {fileID: 1138941260}
   - component: {fileID: 1138941259}
   m_Layer: 5
-  m_Name: Text (TMP) (8)
+  m_Name: rounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9635,7 +9641,7 @@ GameObject:
   - component: {fileID: 1491464311}
   - component: {fileID: 1491464310}
   m_Layer: 5
-  m_Name: Text (TMP) (3)
+  m_Name: attackroundslabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11321,19 +11327,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1653984238}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 256931584}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ClickPlayHand
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1653984238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12999,19 +12993,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1931884095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 256931584}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ClickPlayHand
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1931884095
 MonoBehaviour:
   m_ObjectHideFlags: 0

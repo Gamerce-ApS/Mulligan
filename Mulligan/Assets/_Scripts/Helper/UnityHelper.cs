@@ -36,5 +36,23 @@ public static class UnityHelper
     {
         return new List<T>(array);
     }
+    public static void AnimateTMPColorTransition(TMPro.TMP_Text label, Color fromColor, Color toColor, float duration, bool destroyAfter = false)
+    {
+        if (label == null) return;
+
+        label.color = fromColor;
+
+        LeanTween.value(label.gameObject, 0f, 1f, duration)
+            .setOnUpdate((float t) =>
+            {
+                if (label == null) return;
+                label.color = Color.Lerp(fromColor, toColor, t);
+            })
+            .setOnComplete(() =>
+            {
+                if (destroyAfter && label != null)
+                    GameObject.Destroy(label.gameObject);
+            });
+    }
 }
 

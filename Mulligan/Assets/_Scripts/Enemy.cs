@@ -14,11 +14,14 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Health = 100;
-
         image = GetComponent<Image>();
         originalColor = image.color;
 
+    }
+    public void Init(int aHealth)
+    {
+        Health = aHealth;
+        healthLabel.text = Health.ToString();
     }
     public void DoDamage(int aDamage)
     {

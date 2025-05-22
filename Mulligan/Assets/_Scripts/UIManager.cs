@@ -14,28 +14,48 @@ public class UIManager : Singleton<UIManager>
     public GameObject CriticalLabel;
     public GameObject DiscardPileIcon;
 
+    public TMPro.TMP_Text AttackLabel;
+    public TMPro.TMP_Text ReRollLabel;
+    public TMPro.TMP_Text RoundsLabel;
+    public TMPro.TMP_Text WorldLabel;
+    public TMPro.TMP_Text GoldLabel;
+
     public Canvas thCanvas;
 
     // Start is called before the first frame update
     public void Init()
     {
+        DamageReset();
+    }
+    public void DamageReset()
+    {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "0";
     }
-
     // Update is called once per frame
     void Update()
     {
         
     }
+    public void UpdateLabels()
+    {
+        AttackLabel.text = GameData.CurrentAttacks.ToString();
+        ReRollLabel.text = GameData.CurrentReRolls.ToString();
+        RoundsLabel.text = "Round "+GameData.CurrentRound.ToString();
+        WorldLabel.text = "1/8";
+        GoldLabel.text = GameData.CurrentGold.ToString();
 
+    }
     public void ClickPlayHand()
     {
         HandManager.Instance.PlayHand();
     }
     public void ClickReRoll()
     {
-
+        if(GameData.CurrentReRolls >0)
+        {
+            GameData.CurrentReRolls--;
+        }
     }
     public void AddDamage(float aDamage)
     {
@@ -61,7 +81,51 @@ public class UIManager : Singleton<UIManager>
             }).setOnComplete(onComplete);
     }
     public GameObject SynergiTemplate;
+    public void RefreshPreDamage()
+    {
+        Dictionary<CardRace, int> raceCounts = new();
+        Dictionary<CardClass, int> classCounts = new();
+        List<CardInstance> selectedCards = new List<CardInstance>();
+        foreach (var cardInstance in HandManager.Instance.CurrentHand)
+        {
+            if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected) continue;
+            selectedCards.Add(cardInstance);
+            var data = cardInstance.data;
 
+            if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
+            raceCounts[data.race]++;
+
+            if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
+            classCounts[data.cardClass]++;
+        }
+
+
+        int totalDmg;
+        List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(selectedCards, out totalDmg);
+
+        foreach(var card in boostedCards)
+        {
+            int synergyDMG = EvaluatorManager.Instance.GetSynergyDamage(card, selectedCards);
+            totalDmg += synergyDMG;
+        }
+
+        TMPro.TMP_Text text = DamageLabel.GetComponent<TMPro.TMP_Text>();
+        int prevValue = int.Parse(text.text);
+        if(totalDmg < prevValue)
+            UnityHelper.AnimateTMPColorTransition(text, new Color(1f, 0.2f, 0.2f, 1f), new Color(0.866f, 0.757f, 0.573f, 1f), 0.5f);
+        else if(totalDmg > prevValue)
+            UnityHelper.AnimateTMPColorTransition(text, new Color(0.18f, 0.70f, 0.14f, 1f), new Color(0.866f, 0.757f, 0.573f, 1f), 0.5f);
+
+        DamageLabel.GetComponent<TMPro.TMP_Text>().text = (totalDmg).ToString();
+        if(totalDmg != 0)
+        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+
+
+        int crit = EvaluatorManager.Instance.GetGlobalCritMultiplier(selectedCards);
+        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit).ToString();
+        if(crit != 0)
+        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+    }
     public void ShowSynergies()
     {
         Transform parent = SynergiTemplate.transform.parent;
@@ -208,7 +272,36 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+    public GameObject TooltipPrefab;
+    public void ShowTooltip(string message)
+    {
+        GameObject tooltip = Instantiate(TooltipPrefab, thCanvas.transform);
+        TMPro.TMP_Text text = tooltip.GetComponentInChildren<TMPro.TMP_Text>();
+        RectTransform rt = tooltip.GetComponent<RectTransform>();
 
+        text.text = message;
+
+        // Position it in center-bottom or wherever you want
+        rt.anchoredPosition = new Vector2(0, -300); // adjust to your canvas
+        rt.localScale = Vector3.one;
+
+        CanvasGroup cg = tooltip.GetComponent<CanvasGroup>() ?? tooltip.AddComponent<CanvasGroup>();
+        cg.alpha = 0;
+
+        // Fade in + float up
+        LeanTween.value(tooltip, 0f, 1f, 0.2f)
+            .setOnUpdate((float val) => cg.alpha = val);
+
+        LeanTween.moveY(rt, rt.anchoredPosition.y + 40f, 1f).setEaseOutCubic();
+
+        // Fade out
+        LeanTween.delayedCall(tooltip, 1f, () =>
+        {
+            LeanTween.value(tooltip, 1f, 0f, 0.3f)
+                .setOnUpdate((float val) => cg.alpha = val)
+                .setOnComplete(() => Destroy(tooltip));
+        });
+    }
 
 
 
