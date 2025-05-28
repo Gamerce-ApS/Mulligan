@@ -28,6 +28,9 @@ public class CardInstance
     {
         if (currentRank < data.RankUpgrades.Count - 1)
             currentRank++;
+
+        if (CardGO != null)
+            CardGO.UpdateCardUI();
     }
 
 }

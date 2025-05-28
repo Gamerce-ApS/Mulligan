@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
     private RectTransform rectTransform;
     private Canvas canvas;
@@ -18,11 +18,15 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public TMPro.TMP_Text NameLabel;
     public TMPro.TMP_Text DamageLabel;
+    public TMPro.TMP_Text RankLabel;
     public Image Portrait_BG;
     public Image Portrait;
     public Image RaceIcon;
     public Image ClassIcon;
 
+    private float holdTimer = 0f;
+    private bool isHolding = false;
+    CardInstance cardInstance;
 
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     public void Init(CardInstance aCardInstance)
     {
+        cardInstance = aCardInstance;
         // Sett image, name, type and so on
         NameLabel.text = aCardInstance.data.cardName;
 
@@ -39,12 +44,52 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         NameLabel.text = splitName[0] + "\n" + splitName[1];
 
         DamageLabel.text = aCardInstance.data.damage.ToString();
+        DamageLabel.text = aCardInstance.GetDamage().ToString();
 
         Portrait.sprite = aCardInstance.data.portrait;
         RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aCardInstance.data.race);
         ClassIcon.sprite = CardContainer.Instance.GetSpriteForClass(aCardInstance.data.cardClass);
         Portrait_BG.color = CardContainer.Instance.GetColorForRace(aCardInstance.data.race);
+        RankLabel.text = aCardInstance.currentRank.ToString();
 
+        if (aCardInstance.currentRank == 0)
+            RankLabel.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            RankLabel.transform.parent.gameObject.SetActive(true);
+        }
+
+
+    }
+    public void UpdateCardUI()
+    {
+        if (cardInstance.currentRank == 0)
+            RankLabel.transform.parent.gameObject.SetActive(false);
+        else
+        {
+            RankLabel.text = cardInstance.currentRank.ToString();
+            RankLabel.transform.parent.gameObject.SetActive(true);
+        }
+
+        DamageLabel.text = cardInstance.GetDamage().ToString();
+
+    }
+    void Update()
+    {
+        if (isHolding)
+        {
+            holdTimer += Time.deltaTime;
+            if (holdTimer > 0.4f) // 400 ms hold
+            {
+                isHolding = false;
+                UIManager.Instance.ShowCardInfoPopup(
+                    NameLabel.text,
+                    "Description",
+                    Portrait.sprite,
+                    transform
+                );
+            }
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -116,7 +161,18 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             rectTransform.position = globalMousePos;
         }
     }
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        isHolding = true;
+        holdTimer = 0f;
+    }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        isHolding = false;
+        holdTimer = 0f;
+        UIManager.Instance.HideCardInfoPopup();
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
 

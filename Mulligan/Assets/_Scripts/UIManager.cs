@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,11 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text GoldLabel;
 
     public Canvas thCanvas;
+
+    public GameObject ArtifactSlotTemplate; // prefab with icon image
+    public Transform ArtifactSlotParent; // grid/horizontal layout holder
+
+    public RectTransform BuyItemArea;
 
     // Start is called before the first frame update
     public void Init()
@@ -56,6 +62,10 @@ public class UIManager : Singleton<UIManager>
         {
             GameData.CurrentReRolls--;
         }
+    }
+    public void ClickContinueFromShop()
+    {
+        ShopManager.Instance.HideShopWindow();
     }
     public void AddDamage(float aDamage)
     {
@@ -302,7 +312,129 @@ public class UIManager : Singleton<UIManager>
                 .setOnComplete(() => Destroy(tooltip));
         });
     }
+    public void UpdateArtifactSlotsUI()
+    {
+        foreach (Transform child in ArtifactSlotParent)
+        {
+            if (child != ArtifactSlotTemplate.transform)
+                Destroy(child.gameObject);
+        }
 
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            Artifact slot = Instantiate(ArtifactSlotTemplate, ArtifactSlotParent).GetComponent<Artifact>();
+            slot.gameObject.SetActive(true);
+            slot.ArtifactData = artifact;
+            slot.Init(artifact);
+            //slot.transform.Find("Icon").GetComponent<Image>().sprite = artifact.icon;
+            // Optionally add tooltip or highlight here
+        }
+    }
+    public Artifact GetVisualArtifact(ArtifactData aArtifactData)
+    {
+        foreach (Transform child in ArtifactSlotParent)
+        {
+            if (child.GetComponent<Artifact>().ArtifactData == aArtifactData)
+                return child.GetComponent<Artifact>();
 
+        }
+        return null;
+    }
+    public GameObject CardInfoPopupPrefab;
+    private GameObject activeInfoPopup;
+
+    public void ShowCardInfoPopup(string title, string description, Sprite icon, Transform target)
+    {
+        if (activeInfoPopup != null) Destroy(activeInfoPopup);
+
+        GameObject popup = Instantiate(CardInfoPopupPrefab, thCanvas.transform);
+        activeInfoPopup = popup;
+
+        TMP_Text titleText = popup.transform.Find("Title").GetComponent<TMP_Text>();
+        TMP_Text descText = popup.transform.Find("Description").GetComponent<TMP_Text>();
+        //Image iconImage = popup.transform.Find("Icon").GetComponent<Image>();
+
+        title = title.Replace("\n", " ");
+        titleText.text = title;
+        descText.text = description;
+        //iconImage.sprite = icon;
+
+        RectTransform popupRT = popup.GetComponent<RectTransform>();
+
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
+        popupRT.transform.position = target.transform.position;
+
+        if(screenPos.y < Screen.height * 0.5f)
+            popupRT.transform.position += new Vector3(0, 35,0);
+        else
+            popupRT.transform.position += new Vector3(0, -30, 0);
+
+        // Fade in
+        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        cg.alpha = 0;
+        LeanTween.alphaCanvas(cg, 1f, 0.2f);
+    }
+    public void HideCardInfoPopup()
+    {
+        if (activeInfoPopup != null)
+        {
+            Destroy(activeInfoPopup);
+            activeInfoPopup = null;
+        }
+    }
+    private string[] funMessages = new string[]
+{
+        "- You did great!",
+        "- Victory is yours!",
+        "- The crowd goes wild!",
+        "- Another step to glory!",
+        "- You're unstoppable!",
+        "- Hero of the realm!",
+        "- You crushed it!"
+};
+    public TMP_Text VictoryFunText;
+    public GameObject VictoryParent;
+    public void ShowVictoryScreen(System.Action onComplete)
+    {
+        VictoryParent.GetComponent<CanvasGroup>().alpha = 0f;
+        VictoryParent.SetActive(true);
+
+        // Pick a fun message
+        VictoryFunText.text = funMessages[UnityEngine.Random.Range(0, funMessages.Length)];
+
+        // Fade in
+        LeanTween.alphaCanvas(VictoryParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        {
+            // Animate children
+            StartCoroutine(AnimateChildrenIn(onComplete));
+        });
+        foreach (Transform child in VictoryParent.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+    }
+    private IEnumerator AnimateChildrenIn(System.Action onComplete)
+    {
+        int i = 0;
+        foreach (Transform child in VictoryParent.transform)
+        {
+            child.gameObject.SetActive(true);
+            Vector3 targetScale = child.localScale;
+            child.localScale = Vector3.zero;
+            LeanTween.scale(child.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(i * 0.1f);
+            i++;
+        }
+
+        yield return new WaitForSeconds(2.5f);
+
+        onComplete?.Invoke();
+        LeanTween.alphaCanvas(VictoryParent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        {
+
+            VictoryParent.SetActive(false);
+        });
+
+    }
 
 }

@@ -1,0 +1,116 @@
+[
+    {
+        "name": "+2 Crit",
+        "description": "Adds <color=#EAAF3B>+2</color> flat Crit to your total each round.",
+        "value": 2,
+        "effect": "AddCritFlat"
+    },
+    {
+        "name": "+4 Crit",
+        "description": "Adds <color=#EAAF3B>+4</color> flat Crit to your total each round.",
+        "value": 4,
+        "effect": "AddCritFlat"
+    },
+    {
+        "name": "+20 Dmg",
+        "description": "Adds <color=#EAAF3B>+20</color> flat Damage to your total each round.",
+        "value": 20,
+        "effect": "AddDamageFlat"
+    },
+    {
+        "name": "+40 Dmg",
+        "description": "Adds <color=#EAAF3B>+40</color> flat Damage to your total each round.",
+        "value": 40,
+        "effect": "AddDamageFlat"
+    },
+    {
+        "name": "Crit / Upg",
+        "description": "Gain <color=#EAAF3B>+1</color> Crit for each upgraded unit in your army.",
+        "value": 1,
+        "effect": "CritPerUpgradedUnit"
+    },
+    {
+        "name": "Crit / Skip",
+        "description": "Gain <color=#EAAF3B>+1</color> Crit for each skipped level.",
+        "value": 1,
+        "effect": "CritPerSkippedLevel"
+    },
+    {
+        "name": "Dmg / Gold",
+        "description": "Gain <color=#EAAF3B>+2</color> Damage per Gold you have.",
+        "value": 2,
+        "effect": "DamagePerGold"
+    },
+    {
+        "name": "Crit / Potion",
+        "description": "Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.",
+        "value": 1,
+        "effect": "CritPerPotionUsed"
+    },
+    {
+        "name": "+1 Reroll",
+        "description": "Grants <color=#EAAF3B>+1</color> extra reroll.",
+        "value": 1,
+        "effect": "AddReroll"
+    },
+    {
+        "name": "+1 Army",
+        "description": "Increase army size by <color=#EAAF3B>+1</color> slot.",
+        "value": 1,
+        "effect": "AddArmySize"
+    },
+    {
+        "name": "Atk / Lvl",
+        "description": "Gain <color=#EAAF3B>+1</color> extra attack each level.",
+        "value": 1,
+        "effect": "AttackPerLevel"
+    },
+    {
+        "name": "Rank Random",
+        "description": "Ranks up <color=#EAAF3B>1</color> random unit at the start of each level.",
+        "value": 1,
+        "effect": "RankRandomUnit"
+    },
+    {
+        "name": "Double Potions",
+        "description": "All potion effects are <color=#EAAF3B>doubled</color>.",
+        "value": 1,
+        "effect": "DoublePotionEffects"
+    },
+    {
+        "name": "Copy Right",
+        "description": "Copies the ability of the artifact to its <color=#EAAF3B>right</color>.",
+        "value": 1,
+        "effect": "CopyRightArtifact"
+    },
+    {
+        "name": "Retrigger",
+        "description": "Retriggers your attacking units <color=#EAAF3B>once</color>.",
+        "value": 1,
+        "effect": "RetriggerAttacks"
+    },
+    {
+        "name": "+5 Gold / Loss",
+        "description": "Gain <color=#EAAF3B>+5</color> Gold when losing a level.",
+        "value": 5,
+        "effect": "GoldOnLose"
+    },
+    {
+        "name": "Heal After",
+        "description": "Heal hero <color=#EAAF3B>10%</color> of max HP after each level.",
+        "value": 10,
+        "effect": "HealAfterLevel"
+    },
+    {
+        "name": "+20% Max HP",
+        "description": "Increases hero's max HP by <color=#EAAF3B>+20%</color>.",
+        "value": 20,
+        "effect": "AddMaxHP"
+    },
+    {
+        "name": "Double Synergy",
+        "description": "Doubles all <color=#EAAF3B>race synergy</color> effects.",
+        "value": 1,
+        "effect": "DoubleSynergies"
+    }
+]

@@ -34,16 +34,54 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound++;
-        TheEnemy.Init(250 * GameData.CurrentRound);
+        LeanTween.delayedCall(gameObject, 1f, () =>
+        {
+            UIManager.Instance.ShowVictoryScreen(() => {
+  
+                TheEnemy.gameObject.SetActive(false);
+                ArcCardLayout.Instance.transform.gameObject.SetActive(false);
+                ShopManager.Instance.ShowShopWindow(() => {
+                    ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+
+                    TheEnemy.gameObject.SetActive(true);
+                    TheEnemy.Init(250 * GameData.CurrentRound);
+                    EvaluatorManager.Instance.StartLevel();
+                });
+     
+             });
+        });
+
+
     }
     public void LostGame()
     {
-        StartGame();
-        SceneManager.LoadScene(0);
+
+
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            if (artifact.effect == ArtifactEffectType.GoldOnLose &&
+            GameData.CurrentAttacks <= 0 &&
+            GameManager.Instance.TheEnemy.Health > 0)
+            {
+                GameData.CurrentGold += artifact.value;
+                UIManager.Instance.ShowTooltip($"+{artifact.value} Gold from artifact");
+            }
+        }
+
+        LeanTween.delayedCall(gameObject, 1f, () =>
+        {
+            StartGame();
+            SceneManager.LoadScene(0);
+        });
+
+
+
     }
     public void FinishRound()
     {
         GameData.CurrentAttacks--;
+        EvaluatorManager.Instance.FinisLevel();
+
         if ( TheEnemy.Health < 0)
         {
             WinGame();
@@ -57,6 +95,31 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyUp(KeyCode.S))
+        {
+            ArtifactManager.Instance.AddRandomArtifact();
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            ArtifactManager.Instance.AddArtifact(ArtifactEffectType.AddCritFlat);
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            HandManager.Instance.RankUpRandom();
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            TheHero.Attack(500);
+        }
+        if (Input.GetKeyUp(KeyCode.G))
+        {
+            GameData.CurrentGold += 100;
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            ShopManager.Instance.ShowShopWindow();
+        }
+
+
     }
 }

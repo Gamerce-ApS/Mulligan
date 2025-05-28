@@ -1,0 +1,116 @@
+[
+    {
+        "name": "+2 Crit",
+        "description": "Adds +2 flat Crit to your total each round.",
+        "value": 2,
+        "effect": "AddCritFlat"
+    },
+    {
+        "name": "+4 Crit",
+        "description": "Adds +4 flat Crit to your total each round.",
+        "value": 4,
+        "effect": "AddCritFlat"
+    },
+    {
+        "name": "+20 Damage",
+        "description": "Adds +20 flat Damage to your total each round.",
+        "value": 20,
+        "effect": "AddDamageFlat"
+    },
+    {
+        "name": "+40 Damage",
+        "description": "Adds +40 flat Damage to your total each round.",
+        "value": 40,
+        "effect": "AddDamageFlat"
+    },
+    {
+        "name": "+1 Crit per Upgraded Unit",
+        "description": "Gain +1 Crit for each unit in your Army that has been upgraded.",
+        "value": 1,
+        "effect": "CritPerUpgradedUnit"
+    },
+    {
+        "name": "+1 Crit per Skipped Level",
+        "description": "Gain +1 Crit for each level you skipped this run.",
+        "value": 1,
+        "effect": "CritPerSkippedLevel"
+    },
+    {
+        "name": "+2 Damage per Gold",
+        "description": "Gain +2 Damage for each Gold you currently have.",
+        "value": 2,
+        "effect": "DamagePerGold"
+    },
+    {
+        "name": "+1 Crit per Potion Used",
+        "description": "Gain +1 Crit for each potion you\u2019ve used this run.",
+        "value": 1,
+        "effect": "CritPerPotionUsed"
+    },
+    {
+        "name": "+1 Reroll",
+        "description": "Gain +1 extra Reroll.",
+        "value": 1,
+        "effect": "AddReroll"
+    },
+    {
+        "name": "+1 Army Size",
+        "description": "Increase your Army size by 1 slot.",
+        "value": 1,
+        "effect": "AddArmySize"
+    },
+    {
+        "name": "+1 Attack per Level",
+        "description": "Gain +1 extra attack each new Level.",
+        "value": 1,
+        "effect": "AttackPerLevel"
+    },
+    {
+        "name": "Rank Up Random Unit",
+        "description": "Ranks up 1 random unit in your Army at the start of each Level.",
+        "value": 1,
+        "effect": "RankRandomUnit"
+    },
+    {
+        "name": "Double Potion Effects",
+        "description": "All potion effects are doubled.",
+        "value": 1,
+        "effect": "DoublePotionEffects"
+    },
+    {
+        "name": "Copy Right Artifact",
+        "description": "Copies the ability of the artifact to its right.",
+        "value": 1,
+        "effect": "CopyRightArtifact"
+    },
+    {
+        "name": "Retrigger Attacking Units",
+        "description": "All attacking units are retriggered after their first attack.",
+        "value": 1,
+        "effect": "RetriggerAttacks"
+    },
+    {
+        "name": "+5 Gold on Level Loss",
+        "description": "Gain +5 Gold whenever you lose a Level.",
+        "value": 5,
+        "effect": "GoldOnLose"
+    },
+    {
+        "name": "Heal 10% HP After Level",
+        "description": "Heal the Hero for 10% of max HP after each Level.",
+        "value": 10,
+        "effect": "HealAfterLevel"
+    },
+    {
+        "name": "+20% Max HP",
+        "description": "Increases the Hero's maximum HP by 20%.",
+        "value": 20,
+        "effect": "AddMaxHP"
+    },
+    {
+        "name": "Double Race Synergies",
+        "description": "Race synergy effects are doubled.",
+        "value": 1,
+        "effect": "DoubleSynergies"
+    }
+]

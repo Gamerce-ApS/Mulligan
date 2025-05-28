@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
+    public float Health = 100;
+    public float MaxHealth = 100;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+    public void AddMaxHPPercent(float aValue)
+    {
+        MaxHealth *= aValue;
+    }
+    public void HealPercent(float percent)
+    {
+        int healAmount = Mathf.RoundToInt(MaxHealth * percent);
+        Health += healAmount; // assuming you have a Heal(int) method
     }
     public void Attack(int aDamage)
     {
@@ -54,9 +65,6 @@ public class Hero : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.A))
-        {
-            Attack(11);
-        }
+    
     }
 }

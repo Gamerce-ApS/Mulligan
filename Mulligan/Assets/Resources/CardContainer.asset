@@ -135,3 +135,101 @@ MonoBehaviour:
   - theClass: 4
     theSprite: {fileID: 21300000, guid: a22e32b865d01407ba0c6a02d78fac87, type: 3}
     theColor: {r: 0, g: 0, b: 0, a: 0}
+  allArtifacts:
+  - name: +2 Crit
+    description: Adds <color=#EAAF3B>+2</color> flat Crit to your total each round.
+    icon: {fileID: 0}
+    effect: 0
+    value: 2
+  - name: +4 Crit
+    description: Adds <color=#EAAF3B>+4</color> flat Crit to your total each round.
+    icon: {fileID: 0}
+    effect: 0
+    value: 4
+  - name: +20 Dmg
+    description: Adds <color=#EAAF3B>+20</color> flat Damage to your total each round.
+    icon: {fileID: 0}
+    effect: 1
+    value: 20
+  - name: +40 Dmg
+    description: Adds <color=#EAAF3B>+40</color> flat Damage to your total each round.
+    icon: {fileID: 0}
+    effect: 1
+    value: 40
+  - name: Crit / Upg
+    description: 'Gain <color=#EAAF3B>+1</color> Crit for each upgraded unit in your
+      army. '
+    icon: {fileID: 0}
+    effect: 2
+    value: 1
+  - name: Crit / Skip
+    description: Gain <color=#EAAF3B>+1</color> Crit for each skipped level.
+    icon: {fileID: 0}
+    effect: 3
+    value: 1
+  - name: Dmg / Gold
+    description: Gain <color=#EAAF3B>+2</color> Damage per Gold you have.
+    icon: {fileID: 0}
+    effect: 4
+    value: 2
+  - name: Crit / Potion
+    description: Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.
+    icon: {fileID: 0}
+    effect: 5
+    value: 1
+  - name: +1 Reroll
+    description: Grants <color=#EAAF3B>+1</color> extra reroll.
+    icon: {fileID: 0}
+    effect: 6
+    value: 1
+  - name: +1 Army
+    description: Increase army size by <color=#EAAF3B>+1</color> slot.
+    icon: {fileID: 0}
+    effect: 7
+    value: 1
+  - name: Atk / Lvl
+    description: Gain <color=#EAAF3B>+1</color> extra attack each level.
+    icon: {fileID: 0}
+    effect: 8
+    value: 1
+  - name: Rank Random
+    description: Ranks up <color=#EAAF3B>1</color> random unit at the start of each
+      level.
+    icon: {fileID: 0}
+    effect: 9
+    value: 1
+  - name: Double Potions
+    description: All potion effects are <color=#EAAF3B>doubled</color>.
+    icon: {fileID: 0}
+    effect: 10
+    value: 1
+  - name: Copy Right
+    description: Copies the ability of the artifact to its <color=#EAAF3B>right</color>.
+    icon: {fileID: 0}
+    effect: 11
+    value: 1
+  - name: Retrigger
+    description: Retriggers your attacking units <color=#EAAF3B>once</color>.
+    icon: {fileID: 0}
+    effect: 12
+    value: 1
+  - name: +5 Gold / Loss
+    description: Gain <color=#EAAF3B>+5</color> Gold when losing a level.
+    icon: {fileID: 0}
+    effect: 13
+    value: 5
+  - name: Heal After
+    description: Heal hero <color=#EAAF3B>10%</color> of max HP after each level.
+    icon: {fileID: 0}
+    effect: 14
+    value: 10
+  - name: +20% Max HP
+    description: Increases hero's max HP by <color=#EAAF3B>+20%</color>.
+    icon: {fileID: 0}
+    effect: 15
+    value: 20
+  - name: Double Synergy
+    description: Doubles all <color=#EAAF3B>race synergy</color> effects.
+    icon: {fileID: 0}
+    effect: 16
+    value: 1

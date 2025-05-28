@@ -8,7 +8,7 @@ using UnityEngine;
         public CardData[] allCards;
         public RaceData[] raceData;
         public ClassData[] classData;
+        public ArtifactData[] allArtifacts;
 
-    
 }
 

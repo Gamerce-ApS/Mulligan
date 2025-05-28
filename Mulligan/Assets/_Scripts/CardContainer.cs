@@ -12,7 +12,6 @@ public class CardContainer : Singleton<CardContainer>
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
 
-
     public void Init()
     {
         CardsDataList = CardLoader.LoadAllCards().allCards;
@@ -93,5 +92,6 @@ public class CardContainer : Singleton<CardContainer>
         }
         return Color.white;
     }
-    
+
+
 }

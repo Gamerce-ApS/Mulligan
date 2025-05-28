@@ -37,14 +37,15 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     {
         if (index >= boostedCards.Count)
         {
-            LastCardEvaluatedDoDamgge();
+            EvaluateAttackPost(() => LastCardEvaluatedDoDamgge());
             return;
+
         }
 
         // Pre Evaluation
         if (index == -1)
         {
-            EvaluatePre(() =>  PlayBoostedCardsSequentially(boostedCards, index + 1));
+            EvaluateAttackPre(() =>  PlayBoostedCardsSequentially(boostedCards, index + 1));
             return;
         }
 
@@ -55,25 +56,77 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         });
 
     }
-    public void EvaluatePre(System.Action onComplete)
+    public void EvaluateAttackPost(System.Action onComplete)
     {
         Queue<System.Action<System.Action>> steps = new();
 
-        steps.Enqueue(next => {
-            int synergyCritBonus = GetGlobalCritMultiplier(HandManager.Instance.PlayedHand);
-            UIManager.Instance.AddCritical(synergyCritBonus);
-            LeanTween.delayedCall(gameObject, 1.0f, () =>
+        // Step 2: Apply artifacts
+        steps.Enqueue(next =>
+        {
+
+            // 🔁 Retrigger attacking units
+            if (ArtifactManager.Instance.HasArtifact(ArtifactEffectType.RetriggerAttacks))
             {
-                onComplete?.Invoke();
-            });
+                Debug.Log("Retriggering attacking units from artifact.");
+                //foreach (var card in HandManager.Instance.PlayedHand)
+                //{
+                //    // Re-evaluate each attacking card again
+                //    EvaluateCard(card, () =>
+                //    {
+                //        Debug.Log("Retriggered attack completed.");
+                //    });
+                //}
+
+            }else
+            {
+            }
+
+            LeanTween.delayedCall(gameObject, 0.5f, next); // ✅ continue the sequence
+
 
         });
 
-        // Step 6: Done
-        steps.Enqueue(_ => onComplete.Invoke());
+        steps.Enqueue(next =>
+        {
+            EvaluateArtifactsPost(next);
+        });
+
+        // Step 3: Done
+        steps.Enqueue(_ => onComplete?.Invoke());
 
         RunNextStep(steps);
     }
+    public void EvaluateAttackPre(System.Action onComplete)
+    {
+        Queue<System.Action<System.Action>> steps = new();
+
+        // Step 1: Apply synergy crit
+        steps.Enqueue(next =>
+        {
+            int synergyCritBonus = GetGlobalCritMultiplier(HandManager.Instance.PlayedHand);
+            UIManager.Instance.AddCritical(synergyCritBonus);
+            LeanTween.delayedCall(gameObject, 1.0f, next); // ✅ continue the sequence
+        });
+
+        // Step 2: Apply artifacts
+        steps.Enqueue(next =>
+        {
+            foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+            {
+                if (artifact.effect == ArtifactEffectType.AddMaxHP)
+                {
+                    GameManager.Instance.TheHero.AddMaxHPPercent(artifact.value);
+                }
+            }
+            next(); // ✅ properly proceed to the next step
+        });
+
+        // Step 3: Done
+        steps.Enqueue(_ => onComplete?.Invoke());
+
+        RunNextStep(steps);
+    }
+
     public void EvaluateCard(CardInstance aCard, System.Action onComplete)
     {
         Queue<System.Action<System.Action>> steps = new();
@@ -91,7 +144,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         });
 
         // Step 4: Artifact Bonuses (currently 0)
-        steps.Enqueue(next => aCard.CardGO.AddDamage(0, next));
+        steps.Enqueue(next => EvaluateArtifactsForCard(aCard, next));
 
         // Step 5: Total Damage
         steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next));
@@ -100,6 +153,51 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         steps.Enqueue(_ => onComplete.Invoke());
 
         RunNextStep(steps);
+
+    }
+    public void FinisLevel()
+    {
+        // ❤️ Heal 10% HP After Level
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            if (artifact.effect == ArtifactEffectType.HealAfterLevel)
+            {
+                float healPercent = artifact.value / 100f;
+                GameManager.Instance.TheHero.HealPercent(healPercent);
+                UIManager.Instance.ShowTooltip($"Healed {artifact.value}% HP from artifact");
+            }
+        }
+    }
+    public void StartLevel()
+    {
+        // Called when level Start
+            GameData.CurrentArmySize = 0;
+            foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+            {
+                switch (artifact.effect)
+                {
+                    case ArtifactEffectType.AddReroll:
+                        GameData.CurrentReRolls += artifact.value;
+                        UIManager.Instance.ShowTooltip($"+{artifact.value} Reroll");
+                        break;
+
+                    case ArtifactEffectType.AddArmySize:
+                        GameData.CurrentArmySize += artifact.value;
+                        UIManager.Instance.ShowTooltip($"+{artifact.value} Army Size");
+                        break;
+
+                    case ArtifactEffectType.AttackPerLevel:
+                        GameData.CurrentAttacks += artifact.value;
+                        UIManager.Instance.ShowTooltip($"+{artifact.value} Attack");
+                        break;
+
+                    case ArtifactEffectType.RankRandomUnit:
+                        HandManager.Instance.RankUpRandom();
+                        break;
+                }
+            }
+       
+
 
     }
     public List<CardInstance> EvaluateHand(List<CardInstance> playedCards, out int totalDamage)
@@ -211,5 +309,108 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         var step = steps.Dequeue();
         step(() => RunNextStep(steps));
     }
+
+    public void EvaluateArtifactsForCard(CardInstance card, System.Action onComplete)
+    {
+        Queue<System.Action<System.Action>> steps = new();
+
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            steps.Enqueue(next =>
+            {
+                switch (artifact.effect)
+                {
+                    // No artifacts affecting individual cards yet
+                    default:
+                        next();
+                        break;
+                }
+            });
+        }
+
+        steps.Enqueue(_ => onComplete.Invoke());
+
+        RunNextStep(steps);
+    }
+    //public void EvaluateArtifactsPost(System.Action onComplete)
+
+    public void EvaluateArtifactsPost(System.Action onComplete)
+    {
+        Queue<System.Action<System.Action>> steps = new();
+
+        foreach (var artifactData in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            steps.Enqueue(next =>
+            {
+                Artifact visual = UIManager.Instance.GetVisualArtifact(artifactData);
+                if (visual == null)
+                {
+                    next();
+                    return;
+                }
+
+                switch (artifactData.effect)
+                {
+                    case ArtifactEffectType.AddDamageFlat:
+                        visual.AddDamage(artifactData.value, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        });
+                        break;
+
+                    case ArtifactEffectType.DamagePerGold:
+                        if(GameData.CurrentGold ==0)
+                        {
+                            next();
+                            break;
+                        }
+                        int dmg = GameData.CurrentGold * artifactData.value;
+                        visual.AddDamage(dmg, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        });
+                        break;
+
+                    case ArtifactEffectType.AddCritFlat:
+                        visual.AddDamage(artifactData.value, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        },true);
+              
+                        break;
+
+                    case ArtifactEffectType.CritPerPotionUsed:
+                        int crit = GameData.PotionsUsed * artifactData.value;
+                        UIManager.Instance.AddCritical(crit);
+                        next();
+                        break;
+
+                    case ArtifactEffectType.RetriggerAttacks:
+                        // logic handled elsewhere
+                        next();
+                        break;
+
+                    default:
+                        next();
+                        break;
+                }
+            });
+        }
+
+        steps.Enqueue(_ => onComplete?.Invoke());
+        RunNextStep(steps);
+    }
+
+
+
 
 }

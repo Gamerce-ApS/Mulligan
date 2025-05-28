@@ -24,4 +24,17 @@ public class GameData
         get { return PlayerPrefs.GetInt("CurrentReRolls", 0); }
         set { PlayerPrefs.SetInt("CurrentReRolls", value); UIManager.Instance.UpdateLabels(); }
     }
+    public static int PotionsUsed
+    {
+        get { return PlayerPrefs.GetInt("PotionsUsed", 0); }
+        set { PlayerPrefs.SetInt("PotionsUsed", value); UIManager.Instance.UpdateLabels(); }
+    }
+
+    public static int CurrentArmySize
+    {
+        get { return PlayerPrefs.GetInt("CurrentArmySize", 0); }
+        set { PlayerPrefs.SetInt("CurrentArmySize", value); UIManager.Instance.UpdateLabels(); }
+    }
+    
+
 }

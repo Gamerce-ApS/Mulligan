@@ -24,7 +24,15 @@ public class HandManager : Singleton<HandManager>
     {
         
     }
-
+    public void RankUpRandom()
+    {
+        if (CurrentHand.Count > 0)
+        {
+            var randomCard = CurrentHand[Random.Range(0, CurrentHand.Count)];
+            randomCard.UpgradeRank();
+            UIManager.Instance.ShowTooltip("1 Unit Ranked Up!");
+        }
+    }
     public void DrawHand()
     {
         for(int i = 0; i< 8;i++)
