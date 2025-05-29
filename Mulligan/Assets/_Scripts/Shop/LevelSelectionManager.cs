@@ -11,7 +11,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
 
@@ -35,10 +35,10 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         OnHideShop = onComplete;
         ShopWindow.SetActive(true);
         // Store the target position
-        Vector2 targetPos = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
+        Vector2 targetPos = startPosition;
 
         // Start below the screen
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height*2);
 
         // Animate to its original position
         LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
