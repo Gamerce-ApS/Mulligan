@@ -16,8 +16,12 @@ public class GameManager : Singleton<GameManager>
         CardContainer.Instance.Init();
         HandManager.Instance.Init();
         UIManager.Instance.Init();
-        //if(GameData.CurrentRound ==0)
+
+
+
+
             StartGame();
+
     }
 
     public void StartGame()
@@ -26,10 +30,15 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
-        TheEnemy.Init(250* GameData.CurrentRound);
+        LevelSelectionManager.Instance.ShowWindow(() => {
+            TheEnemy.Init(250 * GameData.CurrentRound);
+
+        });
+
     }
     public void WinGame()
     {
+        GameData.CurrentGold = (int)((float)GameData.CurrentGold * 1.2f);
         GameData.CurrentGold += 5;
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
@@ -37,15 +46,20 @@ public class GameManager : Singleton<GameManager>
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             UIManager.Instance.ShowVictoryScreen(() => {
-  
-                TheEnemy.gameObject.SetActive(false);
-                ArcCardLayout.Instance.transform.gameObject.SetActive(false);
-                ShopManager.Instance.ShowShopWindow(() => {
-                    ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+                ArmoryManager.Instance.ShowWindow(() => {
+                    TheEnemy.gameObject.SetActive(false);
+                    ArcCardLayout.Instance.transform.gameObject.SetActive(false);
+                    ShopManager.Instance.ShowShopWindow(() => {
+                        LevelSelectionManager.Instance.ShowWindow(() => {
+                            ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+                            TheEnemy.gameObject.SetActive(true);
+                            TheEnemy.Init(250 * GameData.CurrentRound);
+                            EvaluatorManager.Instance.StartLevel();
+                        });
 
-                    TheEnemy.gameObject.SetActive(true);
-                    TheEnemy.Init(250 * GameData.CurrentRound);
-                    EvaluatorManager.Instance.StartLevel();
+                    });
+
+  
                 });
      
              });
@@ -115,11 +129,24 @@ public class GameManager : Singleton<GameManager>
         {
             GameData.CurrentGold += 100;
         }
-        if (Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.X))
         {
             ShopManager.Instance.ShowShopWindow();
         }
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            ArmoryManager.Instance.ShowWindow();
+        }
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            LevelSelectionManager.Instance.ShowWindow();
+        }
 
+    }
 
+    // Debug functions
+    public void AddGold(int aValue)
+    {
+        GameData.CurrentGold += aValue;
     }
 }

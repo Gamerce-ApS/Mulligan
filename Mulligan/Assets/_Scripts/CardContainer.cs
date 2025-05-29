@@ -33,7 +33,10 @@ public class CardContainer : Singleton<CardContainer>
     {
         
     }
-    
+    public CardData GetRandomCardData()
+    {
+        return CardsDataList[Random.Range(0, CardsDataList.Length - 1)]; ;
+    }
     public CardInstance DrawCard()
     {
         if(CurrentDeck.Count<=0)

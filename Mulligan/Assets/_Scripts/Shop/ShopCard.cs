@@ -19,12 +19,15 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool isDragging = false;
     private float holdTimer = 0f;
     private bool isHolding = false;
-    //public TMPro.TMP_Text NameLabel;
+    public TMPro.TMP_Text PriceLabel;
 
     public void Init(ArtifactData aData)
     {
         //NameLabel.text = aData.name;
         ArtifactData = aData;
+        Price = 6;
+
+        PriceLabel.text = Price.ToString();
     }
     void Start()
     {

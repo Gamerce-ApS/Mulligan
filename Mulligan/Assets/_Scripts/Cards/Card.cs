@@ -26,8 +26,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private float holdTimer = 0f;
     private bool isHolding = false;
-    CardInstance cardInstance;
+    public CardInstance cardInstance;
 
+    public System.Action<Card> OnClick = null;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -93,6 +94,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(OnClick != null)
+        {
+            OnClick.Invoke(this);
+            originalAnchoredPos = rectTransform.anchoredPosition;
+            LeanTween.scale(gameObject, transform.localScale * 1.3f, 0.5f).setEasePunch();
+
+            rectTransform.anchoredPosition += new Vector2(0, 20f); // Lift
+            rectTransform.rotation = Quaternion.identity;
+            return;
+        }
         if (isDragging) return;
 
         if (!isSelected)
