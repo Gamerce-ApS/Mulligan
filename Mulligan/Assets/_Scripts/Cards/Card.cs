@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
-    private RectTransform rectTransform;
+    public RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
 
     private Transform originalParent;
-    private Vector2 originalAnchoredPos;
+    public Vector2 originalAnchoredPos;
     public bool isSelected = false;
     private bool isDragging = false;
 
@@ -29,6 +29,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public CardInstance cardInstance;
 
     public System.Action<Card> OnClick = null;
+
+    public CardTypeEnum myType;
+    public bool allowDrag = true;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -38,19 +41,14 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void Init(CardInstance aCardInstance)
     {
         cardInstance = aCardInstance;
-        // Sett image, name, type and so on
-        NameLabel.text = aCardInstance.data.cardName;
+        if(aCardInstance.data != null)
+        {
+            Init(aCardInstance.data);
+        }else if(aCardInstance.upgradeData != null)
+        {
+            Init(aCardInstance.upgradeData);
+        }
 
-        string[] splitName = aCardInstance.data.cardName.Split(" ");
-        NameLabel.text = splitName[0] + "\n" + splitName[1];
-
-        DamageLabel.text = aCardInstance.data.damage.ToString();
-        DamageLabel.text = aCardInstance.GetDamage().ToString();
-
-        Portrait.sprite = aCardInstance.data.portrait;
-        RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aCardInstance.data.race);
-        ClassIcon.sprite = CardContainer.Instance.GetSpriteForClass(aCardInstance.data.cardClass);
-        Portrait_BG.color = CardContainer.Instance.GetColorForRace(aCardInstance.data.race);
         RankLabel.text = aCardInstance.currentRank.ToString();
 
         if (aCardInstance.currentRank == 0)
@@ -61,6 +59,26 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
 
 
+    }
+    public void Init(CardData aData)
+    {
+        // Sett image, name, type and so on
+        NameLabel.text = aData.cardName;
+
+        string[] splitName = aData.cardName.Split(" ");
+        NameLabel.text = splitName[0] + "\n" + splitName[1];
+
+        DamageLabel.text = aData.damage.ToString();
+        DamageLabel.text = cardInstance.GetDamage().ToString();
+
+        Portrait.sprite = cardInstance.data.portrait;
+        RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aData.race);
+        ClassIcon.sprite = CardContainer.Instance.GetSpriteForClass(aData.cardClass);
+        Portrait_BG.color = CardContainer.Instance.GetColorForRace(aData.race);
+    }
+    public void Init(UpgradeCardData aData)
+    {
+        NameLabel.text = aData.name;
     }
     public void UpdateCardUI()
     {
@@ -85,23 +103,34 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
                     NameLabel.text,
-                    "Description",
-                    Portrait.sprite,
+                    GetDescription(),
+                    "",
                     transform
                 );
             }
         }
     }
+    public string GetDescription()
+    {
+        string upgradeString = "";
+        foreach( var upg in cardInstance.appliedUpgrades)
+        {
+            return upg.description;
+        }
+
+        return upgradeString;
+    }
+    public Quaternion originalRotation;
     public void OnPointerClick(PointerEventData eventData)
     {
+
+
         if(OnClick != null)
         {
             OnClick.Invoke(this);
-            originalAnchoredPos = rectTransform.anchoredPosition;
-            LeanTween.scale(gameObject, transform.localScale * 1.3f, 0.5f).setEasePunch();
 
-            rectTransform.anchoredPosition += new Vector2(0, 20f); // Lift
-            rectTransform.rotation = Quaternion.identity;
+
+
             return;
         }
         if (isDragging) return;
@@ -131,6 +160,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!allowDrag)
+            return;
 
         if(isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
@@ -162,10 +193,14 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         // Move card out to canvas (visually)
         transform.SetParent(canvas.transform, true);
         canvasGroup.blocksRaycasts = false;
+        UIManager.Instance.HideCardInfoPopup();
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!allowDrag)
+            return;
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -182,11 +217,21 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         isHolding = false;
         holdTimer = 0f;
-        UIManager.Instance.HideCardInfoPopup();
+
+        if(myType == CardTypeEnum.UnitCard)
+        {
+            if (UIManager.Instance.currentTransform != transform)
+            {
+                UIManager.Instance.HideCardInfoPopup();
+            }
+            UIManager.Instance.currentTransform = null;
+        }
+
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-
+        if (!allowDrag)
+            return;
         {
             isDragging = false;
  
@@ -214,6 +259,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         LeanTween.value(gameObject, startAnchored, targetAnchored, scaleTime)
         .setEaseOutCubic()
         .setOnUpdate((Vector2 val) => rt.anchoredPosition = val);
+
     }
     public void PlayBoostAnimation( int damageAmount, Transform targetLabel, System.Action onComplete = null)
     {
@@ -256,10 +302,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
             });
         });
+        UIManager.Instance.HideCardInfoPopup();
+
     }
 
     public GameObject DmgNumber = null;
-    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false)
+    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false)
     {
         if(damageAmount==0)
         {
@@ -269,10 +317,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         // Pulse
         LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.5f)
         .setEasePunch();
-
-
-
-
 
         int totalD = damageAmount;
         // 3. Create damage number above the card
@@ -295,6 +339,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (isCrit)
         {
             dmgText.text = "+" + totalD + " Critical";
+        }else if(isGold)
+        {
+            dmgText.text = "+" + totalD + " Gold";
         }
         else
             dmgText.text = "+" + totalD;
@@ -314,12 +361,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
 
     
-    public void AddToTotalDamage(System.Action onComplete)
+    public void AddToTotalDamage(System.Action onComplete, bool isCrit = false, bool isGold = false)
     {
         // 5. Wait, then fly to damage label
         LeanTween.delayedCall(DmgNumber, 0.75f, () =>
         {
             Vector3 worldTarget = UIManager.Instance.DamageLabel.transform.position;
+            if(isCrit)
+                worldTarget = UIManager.Instance.CriticalLabel.transform.position;
+            if (isGold)
+                worldTarget = UIManager.Instance.GoldLabel.transform.position;
 
             LeanTween.move(DmgNumber, worldTarget, 0.25f)
                 .setEaseInCubic()
@@ -330,12 +381,21 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                     DmgNumber = null;
 
                     // After animation add to the total
-                    UIManager.Instance.AddDamage(int.Parse(amount));
+                    if (isCrit)
+                        UIManager.Instance.AddCritical(int.Parse(amount.Replace(" Critical", "")));
+                    else if(isGold)
+                    {
+                        GameManager.Instance.AddGold(int.Parse(amount.Replace(" Gold", "")));
+                    }
+                    else
+                        UIManager.Instance.AddDamage(int.Parse(amount));
 
                     onComplete?.Invoke();
                 });
         });
     }
+
+
     public void FlyAwayAndDiscard(Vector3 flyTargetWorld, float delay,CardInstance cInstance)
     {
         float flyTime = 0.5f;

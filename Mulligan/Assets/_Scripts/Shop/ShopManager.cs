@@ -31,8 +31,12 @@ public class ShopManager : Singleton<ShopManager>
         go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
 
-        GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+        go.GetComponent<ShopCard>().Init(3);
+
+        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+        go.GetComponent<ShopCard>().Init(3);
+
     }
     // Start is called before the first frame update
     void Start()

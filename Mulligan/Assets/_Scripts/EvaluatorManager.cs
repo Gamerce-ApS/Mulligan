@@ -90,7 +90,10 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         {
             EvaluateArtifactsPost(next);
         });
-
+        steps.Enqueue(next =>
+        {
+            EvaluateUpgradesPost(next);
+        });
         // Step 3: Done
         steps.Enqueue(_ => onComplete?.Invoke());
 
@@ -134,8 +137,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // Step 1: Base Damage
         steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamage(), next));
 
-        // Step 2: Card Bonuses (currently 0)
-        steps.Enqueue(next => aCard.CardGO.AddDamage(0, next));
+
+        // Step 2.5: Card Bonuses damage
+        steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeDamageBonus(), next));
 
         // Step 3: Synergy Damage Bonuses
         steps.Enqueue(next => {
@@ -149,7 +153,22 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // Step 5: Total Damage
         steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next));
 
-        // Step 6: Done
+        // Step 6: Add crit from upgrades
+        if(aCard.GetUpgradeCritBonus() > 0)
+        {
+            steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeCritBonus(), next, true));
+            steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next, true));
+        }
+
+        if (aCard.GetUpgradeGold() > 0)
+        {
+            steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeGold(), next, false,true));
+            steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next, false,true));
+        }
+        steps.Enqueue(next => aCard.EvaluateUpgrades(next));
+
+
+        // Step 7: Done
         steps.Enqueue(_ => onComplete.Invoke());
 
         RunNextStep(steps);
@@ -332,8 +351,38 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         RunNextStep(steps);
     }
-    //public void EvaluateArtifactsPost(System.Action onComplete)
+    public void EvaluateUpgradesPost(System.Action onComplete)
+    {
+        HashSet<CardInstance> alreadyRetriggered = new();
+        Queue<System.Action<System.Action>> steps = new();
 
+        foreach (var card in HandManager.Instance.PlayedHand)
+        {
+            if (alreadyRetriggered.Contains(card)) continue;
+
+            foreach (var upgrade in card.appliedUpgrades)
+            {
+                if (upgrade.effect == UpgradeEffect.Enchantment_Retrigger)
+                {
+                    alreadyRetriggered.Add(card);
+                    steps.Enqueue(next =>
+                    {
+                        Debug.Log("Retriggering card from upgrade: " + card.data.cardName);
+                        UIManager.Instance.ShowTooltip($"Retriggered: {card.data.cardName}");
+                        EvaluateCard(card, () =>
+                        {
+                            Debug.Log("Retrigger complete for: " + card.data.cardName);
+                            next();
+                        });
+                    });
+                }
+            }
+        }
+
+        steps.Enqueue(_ => onComplete?.Invoke());
+
+        RunNextStep(steps);
+    }
     public void EvaluateArtifactsPost(System.Action onComplete)
     {
         Queue<System.Action<System.Action>> steps = new();

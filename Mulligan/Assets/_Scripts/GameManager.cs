@@ -141,6 +141,11 @@ public class GameManager : Singleton<GameManager>
         {
             LevelSelectionManager.Instance.ShowWindow();
         }
+        if (Input.GetKeyUp(KeyCode.V))
+        {
+            UnitUpgradeManager.Instance.ShowWindow();
+        }
+        
 
     }
 

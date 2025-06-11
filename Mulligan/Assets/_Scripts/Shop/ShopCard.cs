@@ -29,6 +29,14 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         PriceLabel.text = Price.ToString();
     }
+    public void Init(int aCost)
+    {
+        //NameLabel.text = aData.name;
+        ArtifactData = null;
+        Price = aCost;
+
+        PriceLabel.text = Price.ToString();
+    }
     void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -83,7 +91,12 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 GameData.CurrentGold -= Price;
                 UIManager.Instance.UpdateLabels();
 
-                ArtifactManager.Instance.AddArtifact(ArtifactData); // Add logic here
+                if(ArtifactData != null)
+                    ArtifactManager.Instance.AddArtifact(ArtifactData); // Add logic here
+                else
+                {
+                    UnitUpgradeManager.Instance.ShowWindow();
+                }
                 canvasGroup.blocksRaycasts = true;
                 //Destroy(gameObject);
                 canvasGroup.alpha = 0;
@@ -127,12 +140,25 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (!isSelected)
         {
-            UIManager.Instance.ShowCardInfoPopup(
-              ArtifactData.name,
-              ArtifactData.description,
-              ArtifactData.icon,
-              transform
-          );
+            if(ArtifactData ==null)
+            {
+                UIManager.Instance.ShowCardInfoPopup(
+                             "Unit Upgrade Pack",
+                             "Allows you to upgrade your units with Charms, Enchantments or Rank up",
+                             "",
+                             transform
+                         );
+            }
+            else
+            {
+                UIManager.Instance.ShowCardInfoPopup(
+                  ArtifactData.name,
+                  ArtifactData.description,
+                  "",
+                  transform
+              );
+            }
+
             isSelected = true;
         }
         else
@@ -146,20 +172,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     void Update()
     {
-        //if (isHolding)
-        //{
-        //    holdTimer += Time.deltaTime;
-        //    if (holdTimer > 0.6f) // 400 ms hold
-        //    {
-        //        isHolding = false;
-        //        UIManager.Instance.ShowCardInfoPopup(
-        //            ArtifactData.name,
-        //            ArtifactData.description,
-        //            ArtifactData.icon,
-        //            transform
-        //        );
-        //    }
-        //}
+
     }
 
     public void OnPointerDown(PointerEventData eventData)

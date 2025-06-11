@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 1359343549220029360}
   - component: {fileID: 6173281388479074483}
   - component: {fileID: 6532476186031418269}
+  - component: {fileID: 6669903958728101265}
   m_Layer: 5
   m_Name: UnityPack
   m_TagString: Untagged
@@ -264,6 +265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754aa056eb0cb4796a6a4ce9ae7d7b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  originalAnchoredPos: {x: 0, y: 0}
   isSelected: 0
   NameLabel: {fileID: 4316910718403649933}
   DamageLabel: {fileID: 2702171434738910329}
@@ -272,6 +275,9 @@ MonoBehaviour:
   Portrait: {fileID: 3647561566628939063}
   RaceIcon: {fileID: 4462771556255047802}
   ClassIcon: {fileID: 7342225921192719731}
+  myType: 0
+  allowDrag: 1
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
   DmgNumber: {fileID: 1734360536560061929}
 --- !u!225 &6532476186031418269
 CanvasGroup:
@@ -285,6 +291,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6669903958728101265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733190934476340599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178f9faebb0ff484e97f4af5b63ac24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArtifactData:
+    name: 
+    description: 
+    icon: {fileID: 0}
+    effect: 0
+    value: 0
+  Price: 30
+  isSelected: 0
+  PriceLabel: {fileID: 2471101628122356944}
 --- !u!1 &1734360536560061929
 GameObject:
   m_ObjectHideFlags: 0

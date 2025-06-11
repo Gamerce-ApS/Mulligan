@@ -93,6 +93,23 @@ public class ArmoryManager : Singleton<ArmoryManager>
     }
     public void ClickOnCard(Card aCard)
     {
+        if (aCard.isSelected == false)
+        {
+            aCard.originalAnchoredPos = aCard.rectTransform.anchoredPosition;
+            LeanTween.scale(aCard.gameObject, aCard.transform.localScale * 1.3f, 0.5f).setEasePunch();
+            aCard.originalRotation = aCard.rectTransform.rotation;
+            aCard.rectTransform.anchoredPosition += new Vector2(0, 20f); // Lift
+            aCard.rectTransform.rotation = Quaternion.identity;
+            aCard.isSelected = true;
+        }
+        else
+        {
+
+            aCard.rectTransform.anchoredPosition = aCard.originalAnchoredPos;
+            aCard.rectTransform.rotation = aCard.originalRotation;
+            aCard.isSelected = false;
+        }
+
         for (int i = UnitPackParent.childCount - 1; i >= 0; i--)
         {
             if(UnitPackParent.GetChild(i).GetComponent<Card>() != aCard)

@@ -6,6 +6,7 @@ public class Hero : MonoBehaviour
 {
     public float Health = 100;
     public float MaxHealth = 100;
+    public float CurrentLifeStealProc = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +54,8 @@ public class Hero : MonoBehaviour
             LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
                         .setEasePunch();
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
-
+            Health += aDamage * (CurrentLifeStealProc);
+            CurrentLifeStealProc = 0;
         });
 
 

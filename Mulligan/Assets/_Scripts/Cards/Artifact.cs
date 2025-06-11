@@ -78,7 +78,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 UIManager.Instance.ShowCardInfoPopup(
                     ArtifactData.name,
                     ArtifactData.description,
-                    ArtifactData.icon,
+                    "",
                     transform
                 );
             }

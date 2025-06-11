@@ -233,3 +233,58 @@ MonoBehaviour:
     icon: {fileID: 0}
     effect: 16
     value: 1
+  allUpgradeCards:
+  - name: Crit
+    description: ' Adds a permanent multiplier boost'
+    icon: {fileID: 0}
+    effect: 0
+    type: 0
+    value: 2
+  - name: Any Class
+    description: Can act as any Class
+    icon: {fileID: 0}
+    effect: 1
+    type: 0
+    value: 0
+  - name: Changeling
+    description: Can act as any Race
+    icon: {fileID: 0}
+    effect: 2
+    type: 0
+    value: 0
+  - name: Retrigger
+    description: Retriggers unit Charm
+    icon: {fileID: 0}
+    effect: 3
+    type: 0
+    value: 0
+  - name: Lifesteal
+    description: Apply 10% lifesteal
+    icon: {fileID: 0}
+    effect: 4
+    type: 0
+    value: 0
+  - name: Gold
+    description: +3 Gold
+    icon: {fileID: 0}
+    effect: 5
+    type: 1
+    value: 3
+  - name: Potion
+    description: +1 Potion
+    icon: {fileID: 0}
+    effect: 6
+    type: 1
+    value: 1
+  - name: Heal
+    description: Heal 10% max HP
+    icon: {fileID: 0}
+    effect: 7
+    type: 1
+    value: 10
+  - name: Rank Upgrade
+    description: Increases the Units rank
+    icon: {fileID: 0}
+    effect: 8
+    type: 2
+    value: 1

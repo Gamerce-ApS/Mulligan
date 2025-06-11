@@ -55,6 +55,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickPlayHand()
     {
         HandManager.Instance.PlayHand();
+        UIManager.Instance.HideCardInfoPopup();
     }
     public void ClickReRoll()
     {
@@ -77,6 +78,9 @@ public class UIManager : Singleton<UIManager>
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(CriticalLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
         LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
     }
+
+
+
     public void ShiftUI(float offsetY, System.Action onComplete=null)
     {
         if (UIShiftGroup == null) return;
@@ -342,21 +346,25 @@ public class UIManager : Singleton<UIManager>
     }
     public GameObject CardInfoPopupPrefab;
     private GameObject activeInfoPopup;
-
-    public void ShowCardInfoPopup(string title, string description, Sprite icon, Transform target)
+    public Transform currentTransform;
+    public void ShowCardInfoPopup(string title, string description, string text2, Transform target)
     {
         if (activeInfoPopup != null) Destroy(activeInfoPopup);
 
+        currentTransform = target;
         GameObject popup = Instantiate(CardInfoPopupPrefab, thCanvas.transform);
         activeInfoPopup = popup;
 
         TMP_Text titleText = popup.transform.Find("Title").GetComponent<TMP_Text>();
         TMP_Text descText = popup.transform.Find("Description").GetComponent<TMP_Text>();
+        TMP_Text text2Text = popup.transform.Find("Text2").GetComponent<TMP_Text>();
+
         //Image iconImage = popup.transform.Find("Icon").GetComponent<Image>();
 
         title = title.Replace("\n", " ");
         titleText.text = title;
         descText.text = description;
+        text2Text.text = text2;
         //iconImage.sprite = icon;
 
         RectTransform popupRT = popup.GetComponent<RectTransform>();
@@ -381,6 +389,7 @@ public class UIManager : Singleton<UIManager>
             Destroy(activeInfoPopup);
             activeInfoPopup = null;
         }
+        currentTransform = null;
     }
     private string[] funMessages = new string[]
 {

@@ -37,6 +37,15 @@ public class CardContainer : Singleton<CardContainer>
     {
         return CardsDataList[Random.Range(0, CardsDataList.Length - 1)]; ;
     }
+    public CardInstance GetRandomCardFromDecks()
+    {
+        List<CardInstance> allC = new List<CardInstance>();
+        allC.AddRange(CurrentDeck);
+        allC.AddRange(DiscardDeck);
+        allC.AddRange(HandManager.Instance.CurrentHand);
+        return allC[Random.Range(0, allC.Count - 1)];
+
+    }
     public CardInstance DrawCard()
     {
         if(CurrentDeck.Count<=0)

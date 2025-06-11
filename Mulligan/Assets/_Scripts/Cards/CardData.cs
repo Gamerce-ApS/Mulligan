@@ -39,7 +39,33 @@ public enum ArtifactEffectType
     AddMaxHP, // Done
     DoubleSynergies
 }
-
+public enum UpgradeEffect
+{
+    Enchantment_Crit,
+    Enchantment_PlusOneClass,
+    Enchantment_Changeling,
+    Enchantment_Retrigger,
+    Enchantment_LifeSteal,
+    Charms_Gold,
+    Charms_Potion,
+    Charms_Heal,
+    RankUpgrade_Normal
+}
+public enum UpgradeType
+{
+    Enchantment,
+    Charms,
+    RankUpgrade
+}
+public enum CardTypeEnum
+{
+    UnitCard,
+    UnitSelectCard,
+    ArtifactCard,
+    UnitPackCard,
+    UnitUpgradeCard,
+    PotionCard,
+}
 
 [System.Serializable]
 public class CardData
@@ -74,5 +100,16 @@ public class ArtifactData
     public Sprite icon;
 
     public ArtifactEffectType effect;
+    public int value; // if needed (e.g. +2 crit, +20 dmg)
+}
+[System.Serializable]
+public class UpgradeCardData
+{
+    public string name;
+    [TextArea] public string description;
+    public Sprite icon;
+
+    public UpgradeEffect effect;
+    public UpgradeType type;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
 }
