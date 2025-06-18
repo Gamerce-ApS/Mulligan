@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     private Image image;
     private Color originalColor;
     public Image bar;
-
+    public float Damage=0;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +21,47 @@ public class Enemy : MonoBehaviour
         originalColor = image.color;
 
     }
-    public void Init(int aHealth)
+    public void Init(int aRound)
     {
-        Health = aHealth;
-        healthLabel.text = Health.ToString();
-        MaxHealth = aHealth;
+
+        if(aRound % 4 == 0)
+        {
+            BossData d = CardContainer.Instance.GetRandomBoss();
+            SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
+            image.sprite = d.theSprite;
+        }
+        else
+        {
+            EnemyData d = CardContainer.Instance.GetRandomEnemy();
+            SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
+            image.sprite = d.theSprite;
+        }
+
+
+        //Health = aHealth;
+        //MaxHealth = aHealth;
     }
-    public void Attack(int aDamage)
+    // Example function to calculate scaled stats for a given enemy/boss at a certain level.
+    public void SetupEnemyForLevel(int baseHp, int baseDmg, int level)
+    {
+        // Example scaling: 10% increase in stats per level (adjust factor as needed)
+        float growthRate = CardContainer.Instance.GrowthRate;  // 10% per level
+
+        // Calculate multiplier based on level (level 1 => 1.0, level 2 => 1.1, level 3 => 1.2, etc.)
+        float statMultiplier = 1f + (level - 1) * growthRate;
+
+        int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth*baseHp * statMultiplier);
+        int scaledDamage = Mathf.RoundToInt(baseDmg * statMultiplier);
+
+        // Apply these values to the enemy instance (for example, to its health component)
+        Health = scaledHP;
+        MaxHealth = Health;
+        Damage = scaledDamage;
+        healthLabel.text = Health.ToString();
+
+    }
+
+    public void Attack(int aDamage=0)
     {
         float attackDuration = 0.4f;
 

@@ -91,6 +91,13 @@ public class CardData
     public Sprite portrait;
     public List<int> RankUpgrades;
 }
+public enum BossAbilityEnum
+{
+    None,
+    DisableHumanUnits,
+    DisableRerolls,
+    DisablePotions,
+}
 
 [System.Serializable]
 public class RaceData
@@ -135,4 +142,22 @@ public class UpgradeCardData
     public UpgradeEffect effect;
     public UpgradeType type;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
+}
+[System.Serializable]
+public class BossData
+{
+    public string name;
+    public string description;
+    public Sprite theSprite;
+    public List<BossAbilityEnum> abilities;
+    public int baseHP;
+    public int baseDamage;
+}
+[System.Serializable]
+public class EnemyData
+{
+    public string name;
+    public Sprite theSprite;
+    public int baseHP;
+    public int baseDamage;
 }

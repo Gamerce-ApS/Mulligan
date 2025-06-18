@@ -45,5 +45,9 @@ public class GameData
         get { return PlayerPrefs.GetInt("GlobalDamageMultiplier", 1); }
         set { PlayerPrefs.SetInt("GlobalDamageMultiplier", value); UIManager.Instance.UpdateLabels(); }
     }
-    
+
+
+
+
+
 }

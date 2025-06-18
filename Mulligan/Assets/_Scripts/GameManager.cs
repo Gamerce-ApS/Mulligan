@@ -19,27 +19,27 @@ public class GameManager : Singleton<GameManager>
 
 
 
-        TheHero.Init(250);
+        TheHero.Init(CardContainer.Instance.StatingHealth);
             StartGame();
 
     }
 
     public void StartGame()
     {
-        GameData.CurrentGold = 0;
+        GameData.CurrentGold = CardContainer.Instance.StatingGold;
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
         LevelSelectionManager.Instance.ShowWindow(() => {
-            TheEnemy.Init(250 * GameData.CurrentRound);
+            TheEnemy.Init(GameData.CurrentRound);
 
         });
 
     }
     public void WinGame()
     {
-        GameData.CurrentGold = (int)((float)GameData.CurrentGold * 1.2f);
-        GameData.CurrentGold += 5;
+        GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation));
+        GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound++;
@@ -53,7 +53,7 @@ public class GameManager : Singleton<GameManager>
                         LevelSelectionManager.Instance.ShowWindow(() => {
                             ArcCardLayout.Instance.transform.gameObject.SetActive(true);
                             TheEnemy.gameObject.SetActive(true);
-                            TheEnemy.Init(250 * GameData.CurrentRound);
+                            TheEnemy.Init(GameData.CurrentRound);
                             EvaluatorManager.Instance.StartLevel();
                         });
 
@@ -108,7 +108,7 @@ public class GameManager : Singleton<GameManager>
             LostGame();
         }else
         {
-            TheEnemy.Attack(15);
+            TheEnemy.Attack();
             if (TheHero.Health < 0)
             {
                 LostGame();
@@ -163,7 +163,14 @@ public class GameManager : Singleton<GameManager>
         {
             PotionManager.Instance.AddRandomPotion();
         }
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            TheEnemy.Init(GameData.CurrentRound);
+            GameData.CurrentRound++;
+        }
 
+
+ 
     }
 
     // Debug functions

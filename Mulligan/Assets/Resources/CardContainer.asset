@@ -342,3 +342,54 @@ MonoBehaviour:
     effect: 8
     type: 2
     value: 1
+  allBosses:
+  - name: Boss 1
+    description: 
+    theSprite: {fileID: 21300000, guid: ce4147f61344a4065a9ee498ec704fa9, type: 3}
+    abilities: 
+    baseHP: 1
+    baseDamage: 1
+  - name: Boss 2
+    description: 
+    theSprite: {fileID: 21300000, guid: 8b8903a93152844869280227b9750e82, type: 3}
+    abilities: 
+    baseHP: 1
+    baseDamage: 1
+  - name: Boss 3
+    description: 
+    theSprite: {fileID: 21300000, guid: 94d132e8f5d784071a4333a3080f7be5, type: 3}
+    abilities: 
+    baseHP: 1
+    baseDamage: 1
+  allEnemies:
+  - name: Enemy 1
+    theSprite: {fileID: 21300000, guid: ac5cc3907503e4bc68d307ffc8739f0c, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  - name: Enemy 2
+    theSprite: {fileID: 21300000, guid: 2f2d2d483395b40c09bba1105747a0c4, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  - name: Enemy 3
+    theSprite: {fileID: 21300000, guid: 076dd02092d644283a2d589da52f7289, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  - name: Enemy 4
+    theSprite: {fileID: 21300000, guid: 517b72074aba24a0fb7d880264952076, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  - name: Enemy 5
+    theSprite: {fileID: 21300000, guid: 750552c6dff5d4efda1bab0a1e527eba, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  - name: Enemy 6
+    theSprite: {fileID: 21300000, guid: 5e481cd17c8d943478223c36df579dfe, type: 3}
+    baseHP: 1
+    baseDamage: 1
+  StatingGold: 0
+  GoldGainPerLevel: 5
+  GoldInflation: 1.2
+  StatingHealth: 250
+  EnemyBaseHealth: 250
+  EnemyBaseDamage: 15
+  GrowthRate: 0.1
