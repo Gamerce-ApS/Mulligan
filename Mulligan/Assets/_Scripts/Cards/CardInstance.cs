@@ -6,9 +6,15 @@ public class CardInstance
 {
     public CardData data=null;
     public UpgradeCardData upgradeData=null;
+    public PotionCardData potionData=null; // ADD THIS
     public int currentRank;
     public Card CardGO=null;
     public List<UpgradeCardData> appliedUpgrades = new List<UpgradeCardData>();
+
+    public int tempCritBonus = 0;
+    public int tempDamageBonus = 0;
+    public bool WillExplodeAfterAttack = false;
+    public bool IsFacelessThisTurn = false;
 
     public CardInstance(CardData data)
     {
@@ -23,15 +29,19 @@ public class CardInstance
     public int GetDamage()
     {
         if(currentRank == 0)
-            return data.damage;
+            return (data.damage+ tempDamageBonus) * GameData.GlobalDamageMultiplier;
 
         if (data.RankUpgrades != null && currentRank-1 < data.RankUpgrades.Count)
-            return data.RankUpgrades[currentRank-1];
-        return data.damage;
+            return (data.RankUpgrades[currentRank-1]+ tempDamageBonus) * GameData.GlobalDamageMultiplier;
+        return data.damage * GameData.GlobalDamageMultiplier;
     }
-    public int GetUpgradeDamageBonus()
+    //public int GetDamageBonus()
+    //{
+    //    return tempDamageBonus;
+    //}
+    public int GetCritBonus()
     {
-        return 0;
+        return tempCritBonus;
     }
     public int GetUpgradeCritBonus()
     {
@@ -94,6 +104,27 @@ public class CardInstance
 
         onComplete.Invoke();
     }
+    public void BecomeFacelessThisTurn()
+    {
+        IsFacelessThisTurn = true;
+        //if (CardGO != null)
+        //{
+        //    // Optional: visual cue
+        //    LeanTween.scale(CardGO.gameObject, Vector3.one * 1.15f, 0.3f).setEasePunch();
+        //}
+    }
+    public void TurnEnded(System.Action onComplete)
+    {
+        tempCritBonus = 0;
+        tempDamageBonus = 0;
+        IsFacelessThisTurn = false;
+        if(WillExplodeAfterAttack)
+        {
+            // Destroy
+            currentRank = 0;
+            appliedUpgrades.Clear();
+        }
+        onComplete?.Invoke();
+    }
 
 }
-

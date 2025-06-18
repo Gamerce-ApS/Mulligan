@@ -1,0 +1,79 @@
+[
+    {
+        "name": "Precise",
+        "effectType": "CritBonus",
+        "description": "Chosen unit gets <color=#EAAF3B>+3</color> Crit this turn",
+        "value": 1,
+        "color": "Red"
+    },
+    {
+        "name": "BloodBrew",
+        "effectType": "DamageBonus",
+        "description": "Chosen unit gets <color=#EAAF3B>+30</color> Damage this turn",
+        "value": 1,
+        "color": "Red"
+    },
+    {
+        "name": "Frenzy",
+        "effectType": "RandomDamage",
+        "description": "<color=#EAAF3B>3</color> random units get <color=#EAAF3B>+15</color> Damage this turn",
+        "value": 1,
+        "color": "Orange"
+    },
+    {
+        "name": "Faceless",
+        "effectType": "FacelessSingle",
+        "description": "Chosen unit becomes Faceless this turn",
+        "value": 1,
+        "color": "Purple"
+    },
+    {
+        "name": "Masked",
+        "effectType": "FacelessMultiple",
+        "description": "<color=#EAAF3B>2</color> random units become Faceless this turn",
+        "value": 1,
+        "color": "Purple"
+    },
+    {
+        "name": "Clarity",
+        "effectType": "DrawExtra",
+        "description": "Draw <color=#EAAF3B>2</color> extra units this turn",
+        "value": 1,
+        "color": "Blue"
+    },
+    {
+        "name": "OverBrew",
+        "effectType": "SuicideBoost",
+        "description": "Chosen unit gets <color=#EAAF3B>4</color> Ranks but explodes after attack",
+        "value": 1,
+        "color": "Gold"
+    },
+    {
+        "name": "Astral",
+        "effectType": "DisableDebuff",
+        "description": "Disable Boss Debuff this turn",
+        "value": 1,
+        "color": "Silver"
+    },
+    {
+        "name": "Remedy",
+        "effectType": "HealHero",
+        "description": "Heal your Hero for <color=#EAAF3B>20%</color> of Max HP",
+        "value": 1,
+        "color": "Green"
+    },
+    {
+        "name": "ElixirX",
+        "effectType": "BoostAndLoseHP",
+        "description": "Boost all damage <color=#EAAF3B>x5</color> this turn but lose <color=#EAAF3B>10%</color> max Hero HP",
+        "value": 1,
+        "color": "Red"
+    },
+    {
+        "name": "EchoElix",
+        "effectType": "RetriggerUpgrades",
+        "description": "Retrigger chosen unit\u2019s Enchantments and Charms",
+        "value": 1,
+        "color": "Purple"
+    }
+]

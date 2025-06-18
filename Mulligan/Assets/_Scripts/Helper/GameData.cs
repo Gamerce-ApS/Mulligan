@@ -35,6 +35,15 @@ public class GameData
         get { return PlayerPrefs.GetInt("CurrentArmySize", 0); }
         set { PlayerPrefs.SetInt("CurrentArmySize", value); UIManager.Instance.UpdateLabels(); }
     }
+    public static int BossDebuffDisabledThisTurn
+    {
+        get { return PlayerPrefs.GetInt("BossDebuffDisabledThisTurn", 0); }
+        set { PlayerPrefs.SetInt("BossDebuffDisabledThisTurn", value); UIManager.Instance.UpdateLabels(); }
+    }
+    public static int GlobalDamageMultiplier
+    {
+        get { return PlayerPrefs.GetInt("GlobalDamageMultiplier", 1); }
+        set { PlayerPrefs.SetInt("GlobalDamageMultiplier", value); UIManager.Instance.UpdateLabels(); }
+    }
     
-
 }

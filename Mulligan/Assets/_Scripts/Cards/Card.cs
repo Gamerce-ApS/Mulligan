@@ -28,6 +28,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private bool isHolding = false;
     public CardInstance cardInstance;
 
+
     public System.Action<Card> OnClick = null;
 
     public CardTypeEnum myType;
@@ -69,7 +70,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         NameLabel.text = splitName[0] + "\n" + splitName[1];
 
         DamageLabel.text = aData.damage.ToString();
-        DamageLabel.text = cardInstance.GetDamage().ToString();
+        DamageLabel.text = (cardInstance.GetDamage()).ToString();
 
         Portrait.sprite = cardInstance.data.portrait;
         RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aData.race);
@@ -90,8 +91,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             RankLabel.transform.parent.gameObject.SetActive(true);
         }
 
-        DamageLabel.text = cardInstance.GetDamage().ToString();
 
+        DamageLabel.text = (cardInstance.GetDamage()).ToString();
     }
     void Update()
     {
@@ -305,15 +306,56 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         UIManager.Instance.HideCardInfoPopup();
 
     }
+    public int GetCurrentDamageLabelNumber()
+    {
+        if (DmgNumber == null)
+            return 0;
 
+        string amount = DmgNumber.GetComponent<TMPro.TMP_Text>().text;
+
+
+        amount = amount.Replace("</color>", "");
+        amount = amount.Replace("<color=#FFD700>+", "");
+        amount = amount.Replace("Critical", "");
+        amount = amount.Replace("Gold", "");
+        amount = amount.Replace("+", "");
+        amount = amount.Replace(" ", "");
+        return int.Parse(amount);
+
+    }
     public GameObject DmgNumber = null;
-    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false)
+    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false,bool isTotal = false)
     {
         if(damageAmount==0)
         {
             onComplete?.Invoke();
             return;
         }
+        if(isTotal)
+        { 
+            if(isCrit)
+            {
+                if (GetTotalCrit() == GetCurrentDamageLabelNumber())
+                {
+                    onComplete?.Invoke();
+                    return;
+                }
+            }
+            else if(isGold)
+            {
+
+            }
+            else
+            {
+                if (GetTotalDamage() == GetCurrentDamageLabelNumber())
+                {
+                    onComplete?.Invoke();
+                    return;
+                }
+            }
+        }
+
+
         // Pulse
         LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.5f)
         .setEasePunch();
@@ -334,17 +376,31 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         TMPro.TMP_Text dmgText = DmgNumber.GetComponent<TMPro.TMP_Text>();
 
 
-        totalD = int.Parse(dmgText.text.Replace("+", "")) + damageAmount;
+        //totalD = int.Parse(dmgText.text.Replace("+", "")) + damageAmount;
+        totalD = damageAmount;
 
         if (isCrit)
         {
-            dmgText.text = "+" + totalD + " Critical";
+            if (isTotal)
+            {
+                dmgText.text = "<color=#FFD700>+" + totalD + " Critical</color>"; // gold/yellow + label
+            }
+            else
+                dmgText.text = "+" + totalD + " Critical";
         }else if(isGold)
         {
             dmgText.text = "+" + totalD + " Gold";
         }
         else
+        {
+            if (isTotal)
+            {
+                dmgText.text = "<color=#FFD700>+" + totalD + "</color>"; // gold/yellow + label
+            }
+            else
             dmgText.text = "+" + totalD;
+        }
+ 
 
         dmgRT.anchoredPosition += new Vector2(0, 250f);
 
@@ -360,6 +416,19 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
 
 
+    public int GetTotalDamage()
+    {
+        int TotalDamage = 0;
+        TotalDamage = cardInstance.GetDamage();
+        int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand);
+        TotalDamage += synergyBonus;
+
+        return TotalDamage;
+    }
+    public int GetTotalCrit()
+    {
+        return cardInstance.GetUpgradeCritBonus() + cardInstance.GetCritBonus();
+    }
     
     public void AddToTotalDamage(System.Action onComplete, bool isCrit = false, bool isGold = false)
     {
@@ -380,6 +449,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                     Destroy(DmgNumber);
                     DmgNumber = null;
 
+                    amount = amount.Replace("</color>", "");
+                    amount = amount.Replace("<color=#FFD700>+", "");
                     // After animation add to the total
                     if (isCrit)
                         UIManager.Instance.AddCritical(int.Parse(amount.Replace(" Critical", "")));
@@ -426,5 +497,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             });
         });
     }
+
 
 }

@@ -201,7 +201,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 52.8, y: -145.5}
-  m_SizeDelta: {x: 80.911, y: 76.059}
+  m_SizeDelta: {x: 145.1025, y: 76.059}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6690527504631365377
 CanvasRenderer:
@@ -733,6 +733,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754aa056eb0cb4796a6a4ce9ae7d7b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  originalAnchoredPos: {x: 0, y: 0}
   isSelected: 0
   NameLabel: {fileID: 8492830652863207956}
   DamageLabel: {fileID: 4585508146197194292}
@@ -741,6 +743,9 @@ MonoBehaviour:
   Portrait: {fileID: 1619369419340454984}
   RaceIcon: {fileID: 6887941060861415395}
   ClassIcon: {fileID: 3938036204793778167}
+  myType: 0
+  allowDrag: 1
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
   DmgNumber: {fileID: 0}
 --- !u!225 &2610365843196542869
 CanvasGroup:

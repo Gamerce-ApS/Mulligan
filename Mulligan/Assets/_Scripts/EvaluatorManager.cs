@@ -30,6 +30,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             {
                 HandManager.Instance.DiscardHand();
                 UIManager.Instance.ClearSynergies();
+                GameData.GlobalDamageMultiplier = 1;
+                HandManager.Instance.ResetTempDamage();
             });
         });
     }
@@ -132,31 +134,41 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
     public void EvaluateCard(CardInstance aCard, System.Action onComplete)
     {
+
         Queue<System.Action<System.Action>> steps = new();
 
         // Step 1: Base Damage
         steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamage(), next));
 
-
         // Step 2.5: Card Bonuses damage
-        steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeDamageBonus(), next));
+        //steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamageBonus(), next));
 
         // Step 3: Synergy Damage Bonuses
         steps.Enqueue(next => {
             int synergyBonus = GetSynergyDamage(aCard,HandManager.Instance.PlayedHand);
             aCard.CardGO.AddDamage(synergyBonus, next);
+
         });
 
         // Step 4: Artifact Bonuses (currently 0)
         steps.Enqueue(next => EvaluateArtifactsForCard(aCard, next));
 
-        // Step 5: Total Damage
+
+        steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.CardGO.GetTotalDamage(), next,false,false,true));
+
+        // Step 5: Total Damage move
         steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next));
 
+
         // Step 6: Add crit from upgrades
-        if(aCard.GetUpgradeCritBonus() > 0)
+        if(aCard.GetUpgradeCritBonus()+ aCard.GetCritBonus() > 0  )
         {
             steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeCritBonus(), next, true));
+            steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetCritBonus(), next, true));
+
+
+                steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.CardGO.GetTotalCrit(), next, true, false, true));
+
             steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next, true));
         }
 
@@ -167,9 +179,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         }
         steps.Enqueue(next => aCard.EvaluateUpgrades(next));
 
+        steps.Enqueue(next => aCard.TurnEnded(next));
+
+        
 
         // Step 7: Done
         steps.Enqueue(_ => onComplete.Invoke());
+
 
         RunNextStep(steps);
 
@@ -281,7 +297,10 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         return bonus;
     }
-
+    public void ApplyGlobalDamageMultiplier(int multiplier)
+    {
+        GameData.GlobalDamageMultiplier = multiplier;
+    }
     public int GetGlobalCritMultiplier(List<CardInstance> aHand)
     {
         Dictionary<CardRace, int> raceCounts = new();

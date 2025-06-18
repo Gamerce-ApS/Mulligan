@@ -26,10 +26,15 @@ public class ShopManager : Singleton<ShopManager>
         go.GetComponent< ShopCard>().Init( ArtifactManager.Instance.GetRandom() );
         go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
-        go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
-        go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
-        go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
-        go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
+        //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+        //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
+        //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+        //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
+        go = GameObject.Instantiate(PotionPrefab, ArtifactParent);
+        go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+        go = GameObject.Instantiate(PotionPrefab, ArtifactParent);
+        go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+
 
         go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
         go.GetComponent<ShopCard>().Init(3);

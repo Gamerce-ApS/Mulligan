@@ -206,5 +206,12 @@ public class HandManager : Singleton<HandManager>
         }
         return count;
     }
-
+    public void ResetTempDamage()
+    {
+        foreach (var card in CurrentHand)
+        {
+            if (card.CardGO != null)
+                card.TurnEnded(() => { card.CardGO.UpdateCardUI(); });
+        }
+    }
 }

@@ -893,7 +893,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7745127997898145103}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 178f9faebb0ff484e97f4af5b63ac24b, type: 3}
   m_Name: 
@@ -904,8 +904,15 @@ MonoBehaviour:
     icon: {fileID: 0}
     effect: 0
     value: 0
+  PotionData:
+    name: 
+    effectType: 0
+    description: 
+    icon: {fileID: 0}
+    value: 0
   Price: 30
   isSelected: 0
+  PriceLabel: {fileID: 8702622813873198616}
 --- !u!1 &8277535123224831766
 GameObject:
   m_ObjectHideFlags: 0

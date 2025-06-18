@@ -26,6 +26,11 @@ public class UIManager : Singleton<UIManager>
     public GameObject ArtifactSlotTemplate; // prefab with icon image
     public Transform ArtifactSlotParent; // grid/horizontal layout holder
 
+
+    public GameObject PotionSlotTemplate; // prefab with icon image
+    public Transform PotionSlotParent; // grid/horizontal layout holder
+
+
     public RectTransform BuyItemArea;
 
     // Start is called before the first frame update
@@ -330,6 +335,25 @@ public class UIManager : Singleton<UIManager>
             slot.gameObject.SetActive(true);
             slot.ArtifactData = artifact;
             slot.Init(artifact);
+            //slot.transform.Find("Icon").GetComponent<Image>().sprite = artifact.icon;
+            // Optionally add tooltip or highlight here
+        }
+        UpdatePotionsSlotsUI();
+    }
+    public void UpdatePotionsSlotsUI()
+    {
+        foreach (Transform child in PotionSlotParent)
+        {
+            if (child != PotionSlotTemplate.transform)
+                Destroy(child.gameObject);
+        }
+
+        foreach (var pot in PotionManager.Instance.ActivePotions)
+        {
+            Potion slot = Instantiate(PotionSlotTemplate, PotionSlotParent).GetComponent<Potion>();
+            slot.gameObject.SetActive(true);
+            slot.PotionData = pot;
+            slot.Init(pot);
             //slot.transform.Find("Icon").GetComponent<Image>().sprite = artifact.icon;
             // Optionally add tooltip or highlight here
         }

@@ -39,17 +39,31 @@ public enum ArtifactEffectType
     AddMaxHP, // Done
     DoubleSynergies
 }
+public enum PotionEffectType
+{
+    CritBonus, // Done
+    DamageBonus, // Done
+    RandomDamage, // Done
+    FacelessSingle, // <-- TODO
+    FacelessMultiple, // <-- TODO
+    DrawExtra, // <-- SKIP
+    SuicideBoost, // Done
+    DisableDebuff,  // <-- TODO
+    HealHero, // Done
+    BoostAndLoseHP, // Done
+    RetriggerUpgrades // <-- TODO
+}
 public enum UpgradeEffect
 {
-    Enchantment_Crit,
+    Enchantment_Crit, // Done
     Enchantment_PlusOneClass,
     Enchantment_Changeling,
-    Enchantment_Retrigger,
-    Enchantment_LifeSteal,
-    Charms_Gold,
+    Enchantment_Retrigger,// Done
+    Enchantment_LifeSteal,// Done
+    Charms_Gold,// Done
     Charms_Potion,
     Charms_Heal,
-    RankUpgrade_Normal
+    RankUpgrade_Normal // Done
 }
 public enum UpgradeType
 {
@@ -100,6 +114,15 @@ public class ArtifactData
     public Sprite icon;
 
     public ArtifactEffectType effect;
+    public int value; // if needed (e.g. +2 crit, +20 dmg)
+}
+[System.Serializable]
+public class PotionCardData
+{
+    public string name;
+    public PotionEffectType effectType;
+    [TextArea] public string description;
+    public Sprite icon;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
 }
 [System.Serializable]

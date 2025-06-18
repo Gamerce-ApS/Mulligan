@@ -233,6 +233,60 @@ MonoBehaviour:
     icon: {fileID: 0}
     effect: 16
     value: 1
+  allPotions:
+  - name: Precise
+    effectType: 0
+    description: Chosen unit gets <color=#EAAF3B>+3</color> Crit this turn
+    icon: {fileID: 0}
+    value: 3
+  - name: BloodBrew
+    effectType: 1
+    description: Chosen unit gets <color=#EAAF3B>+30</color> Damage this turn
+    icon: {fileID: 0}
+    value: 30
+  - name: Frenzy
+    effectType: 2
+    description: <color=#EAAF3B>3</color> random units get <color=#EAAF3B>+15</color>
+      Damage this turn
+    icon: {fileID: 0}
+    value: 15
+  - name: Faceless
+    effectType: 3
+    description: Chosen unit becomes Faceless this turn
+    icon: {fileID: 0}
+    value: 1
+  - name: Masked
+    effectType: 4
+    description: <color=#EAAF3B>2</color> random units become Faceless this turn
+    icon: {fileID: 0}
+    value: 2
+  - name: OverBrew
+    effectType: 6
+    description: Chosen unit gets <color=#EAAF3B>4</color> Ranks but explodes after
+      attack
+    icon: {fileID: 0}
+    value: 4
+  - name: Astral
+    effectType: 7
+    description: Disable Boss Debuff this turn
+    icon: {fileID: 0}
+    value: 1
+  - name: Remedy
+    effectType: 8
+    description: Heal your Hero for <color=#EAAF3B>20%</color> of Max HP
+    icon: {fileID: 0}
+    value: 1
+  - name: ElixirX
+    effectType: 9
+    description: Boost all damage <color=#EAAF3B>x5</color> this turn but lose <color=#EAAF3B>10%</color>
+      max Hero HP
+    icon: {fileID: 0}
+    value: 5
+  - name: EchoElix
+    effectType: 10
+    description: "Retrigger chosen unit\u2019s Enchantments and Charms"
+    icon: {fileID: 0}
+    value: 1
   allUpgradeCards:
   - name: Crit
     description: ' Adds a permanent multiplier boost'

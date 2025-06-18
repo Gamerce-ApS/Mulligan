@@ -9,6 +9,7 @@ using UnityEngine;
         public RaceData[] raceData;
         public ClassData[] classData;
         public ArtifactData[] allArtifacts;
+        public PotionCardData[] allPotions;
         public UpgradeCardData[] allUpgradeCards;
 }
 

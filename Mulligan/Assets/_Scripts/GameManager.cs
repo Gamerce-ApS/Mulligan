@@ -12,14 +12,14 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-
+        Application.targetFrameRate = 60;
         CardContainer.Instance.Init();
         HandManager.Instance.Init();
         UIManager.Instance.Init();
 
 
 
-
+        TheHero.Init(250);
             StartGame();
 
     }
@@ -91,10 +91,13 @@ public class GameManager : Singleton<GameManager>
 
 
     }
+
     public void FinishRound()
     {
         GameData.CurrentAttacks--;
         EvaluatorManager.Instance.FinisLevel();
+
+        
 
         if ( TheEnemy.Health < 0)
         {
@@ -103,6 +106,13 @@ public class GameManager : Singleton<GameManager>
         else if(GameData.CurrentAttacks <=0)
         {
             LostGame();
+        }else
+        {
+            TheEnemy.Attack(15);
+            if (TheHero.Health < 0)
+            {
+                LostGame();
+            }
         }
     }
 
@@ -125,6 +135,10 @@ public class GameManager : Singleton<GameManager>
         {
             TheHero.Attack(500);
         }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            TheEnemy.Attack(25);
+        }
         if (Input.GetKeyUp(KeyCode.G))
         {
             GameData.CurrentGold += 100;
@@ -145,7 +159,10 @@ public class GameManager : Singleton<GameManager>
         {
             UnitUpgradeManager.Instance.ShowWindow();
         }
-        
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            PotionManager.Instance.AddRandomPotion();
+        }
 
     }
 
@@ -153,5 +170,9 @@ public class GameManager : Singleton<GameManager>
     public void AddGold(int aValue)
     {
         GameData.CurrentGold += aValue;
+    }
+    public void DisableBossDebuffForTurn()
+    {
+        GameData.BossDebuffDisabledThisTurn = 1;
     }
 }

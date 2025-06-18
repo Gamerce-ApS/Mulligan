@@ -6,6 +6,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 {
 
     public ArtifactData ArtifactData;
+    public PotionCardData PotionData;
     public int Price = 30;
 
     private Transform originalParent;
@@ -26,6 +27,15 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         //NameLabel.text = aData.name;
         ArtifactData = aData;
         Price = 6;
+        PotionData = null;
+        PriceLabel.text = Price.ToString();
+    }
+    public void Init(PotionCardData aData)
+    {
+        ArtifactData = null;
+        //NameLabel.text = aData.name;
+        PotionData = aData;
+        Price = 6;
 
         PriceLabel.text = Price.ToString();
     }
@@ -33,6 +43,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         //NameLabel.text = aData.name;
         ArtifactData = null;
+        PotionData = null;
         Price = aCost;
 
         PriceLabel.text = Price.ToString();
@@ -93,6 +104,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                 if(ArtifactData != null)
                     ArtifactManager.Instance.AddArtifact(ArtifactData); // Add logic here
+                else if (PotionData != null)
+                    PotionManager.Instance.AddPotion(PotionData); // Add logic here
                 else
                 {
                     UnitUpgradeManager.Instance.ShowWindow();
@@ -140,23 +153,32 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (!isSelected)
         {
-            if(ArtifactData ==null)
+            if(ArtifactData !=null)
+            {
+                    UIManager.Instance.ShowCardInfoPopup(
+                   ArtifactData.name,
+                   ArtifactData.description,
+                   "",
+                   transform
+               );
+            }
+            else if (PotionData != null)
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                             "Unit Upgrade Pack",
-                             "Allows you to upgrade your units with Charms, Enchantments or Rank up",
-                             "",
-                             transform
-                         );
+                   PotionData.name,
+                   PotionData.description,
+                   "",
+                   transform
+                          );
             }
             else
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                  ArtifactData.name,
-                  ArtifactData.description,
-                  "",
-                  transform
-              );
+                           "Unit Upgrade Pack",
+                           "Allows you to upgrade your units with Charms, Enchantments or Rank up",
+                           "",
+                           transform
+                       );
             }
 
             isSelected = true;
