@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
             BossData d = CardContainer.Instance.GetRandomBoss();
             SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
             image.sprite = d.theSprite;
+
+            UIManager.Instance.ShowBossIntroScreen(d,null);
         }
         else
         {
@@ -126,6 +128,13 @@ public class Enemy : MonoBehaviour
         ShowFloatingDamage(aDamage);
         // make text float in red showing how much damage was done instead of the float 
 
+        if (Health < 0)
+        {
+            LeanTween.delayedCall(gameObject, 0.5f, () =>
+            {
+                PlayDeathAnimation(() => { });
+            });
+        }
     }
     private void ShowFloatingDamage(int damageAmount)
     {
@@ -159,4 +168,30 @@ public class Enemy : MonoBehaviour
     {
         
     }
+    public void PlayDeathAnimation(System.Action onComplete = null)
+    {
+        RectTransform rt = GetComponent<RectTransform>();
+        CanvasGroup cg = GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = gameObject.AddComponent<CanvasGroup>();
+
+        // 1. Rotate to lay flat (like it toppled over)
+        LeanTween.rotateZ(gameObject, -90f, 0.3f).setEaseInBack();
+
+        // 2. After short delay, fly out sideways and fade out
+        LeanTween.delayedCall(gameObject, 0.35f, () =>
+        {
+            // Move to right (or left: use negative X)
+            Vector3 target = rt.anchoredPosition + new Vector2(1000f, 0f);
+            LeanTween.move(rt, target, 0.6f).setEaseInBack();
+
+            LeanTween.alphaCanvas(cg, 0f, 0.5f).setOnComplete(() =>
+            {
+                gameObject.SetActive(false); // or Destroy(gameObject)
+                onComplete?.Invoke();
+            });
+        });
+    }
+
+
 }

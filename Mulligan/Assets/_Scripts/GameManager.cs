@@ -38,29 +38,32 @@ public class GameManager : Singleton<GameManager>
     }
     public void WinGame()
     {
-        GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation));
+        GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
         GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound++;
-        LeanTween.delayedCall(gameObject, 1f, () =>
+        LeanTween.delayedCall(gameObject, 0.5f, () =>
         {
+
             UIManager.Instance.ShowVictoryScreen(() => {
-                ArmoryManager.Instance.ShowWindow(() => {
+                ArmoryManager.Instance.ShowWindow(() =>
+                {
                     TheEnemy.gameObject.SetActive(false);
                     ArcCardLayout.Instance.transform.gameObject.SetActive(false);
-                    ShopManager.Instance.ShowShopWindow(() => {
-                        LevelSelectionManager.Instance.ShowWindow(() => {
+                    ShopManager.Instance.ShowShopWindow(() =>
+                    {
+                        LevelSelectionManager.Instance.ShowWindow(() =>
+                        {
                             ArcCardLayout.Instance.transform.gameObject.SetActive(true);
                             TheEnemy.gameObject.SetActive(true);
                             TheEnemy.Init(GameData.CurrentRound);
                             EvaluatorManager.Instance.StartLevel();
                         });
 
-                    });
-
-  
                 });
+
+            });
      
              });
         });
@@ -108,7 +111,7 @@ public class GameManager : Singleton<GameManager>
             LostGame();
         }else
         {
-            TheEnemy.Attack();
+            TheEnemy.Attack(CardContainer.Instance.EnemyBaseDamage);
             if (TheHero.Health < 0)
             {
                 LostGame();
@@ -134,6 +137,10 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.A))
         {
             TheHero.Attack(500);
+        }
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            TheHero.Attack(TheEnemy.Health-1);
         }
         if (Input.GetKeyUp(KeyCode.Q))
         {

@@ -439,7 +439,7 @@ public class UIManager : Singleton<UIManager>
         LeanTween.alphaCanvas(VictoryParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
         {
             // Animate children
-            StartCoroutine(AnimateChildrenIn(onComplete));
+            StartCoroutine(AnimateChildrenIn(onComplete, VictoryParent.transform));
         });
         foreach (Transform child in VictoryParent.transform)
         {
@@ -447,26 +447,60 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
-    private IEnumerator AnimateChildrenIn(System.Action onComplete)
+    private IEnumerator AnimateChildrenIn(System.Action onComplete, Transform parent, float FadeOutAfterTime = 2.5f)
     {
         int i = 0;
-        foreach (Transform child in VictoryParent.transform)
+        foreach (Transform child in parent )
         {
-            child.gameObject.SetActive(true);
-            Vector3 targetScale = child.localScale;
-            child.localScale = Vector3.zero;
-            LeanTween.scale(child.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(i * 0.1f);
+            if (child.name == "ignore")
+            {
+                child.gameObject.SetActive(true);
+            }else
+            { 
+                child.gameObject.SetActive(true);
+                Vector3 targetScale = child.localScale;
+                child.localScale = Vector3.zero;
+                LeanTween.scale(child.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(i * 0.1f);
+            }
+    
             i++;
         }
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(FadeOutAfterTime);
 
         onComplete?.Invoke();
-        LeanTween.alphaCanvas(VictoryParent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        LeanTween.alphaCanvas(parent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
         {
 
-            VictoryParent.SetActive(false);
+            parent.gameObject.SetActive(false);
         });
+
+    }
+
+    public TMP_Text BossNameText;
+    public TMP_Text BossAbilityText;
+    public Image BossImage;
+    public GameObject BossParent;
+    public void ShowBossIntroScreen(BossData boss, System.Action onComplete)
+    {
+        BossParent.GetComponent<CanvasGroup>().alpha = 0f;
+        BossParent.SetActive(true);
+
+        // Pick a fun message
+        BossNameText.text = boss.name;
+        BossAbilityText.text = boss.description;
+        BossImage.sprite = boss.theSprite;
+
+        // Fade in
+        LeanTween.alphaCanvas(BossParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        {
+            // Animate children
+            StartCoroutine(AnimateChildrenIn(onComplete, BossParent.transform,4));
+        });
+        foreach (Transform child in BossParent.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
 
     }
 
