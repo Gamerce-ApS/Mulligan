@@ -14,9 +14,25 @@ public class Enemy : MonoBehaviour
     private Color originalColor;
     public Image bar;
     public float Damage=0;
+
+    private Vector2 originalAnchoredPosition;
+    private Quaternion originalRotation;
+    private bool initialized = false;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!initialized)
+        {
+            RectTransform rt = GetComponent<RectTransform>();
+            originalAnchoredPosition = rt.anchoredPosition;
+            originalRotation = rt.localRotation;
+            initialized = true;
+        }
+
+
         image = GetComponent<Image>();
         originalColor = image.color;
 
@@ -39,9 +55,13 @@ public class Enemy : MonoBehaviour
             image.sprite = d.theSprite;
         }
 
-
+        gameObject.SetActive(true); // or Destroy(gameObject)
+        CanvasGroup cg = GetComponent<CanvasGroup>();
+        cg.alpha = 1;
         //Health = aHealth;
         //MaxHealth = aHealth;
+
+        PlayEnterAnimation();
     }
     // Example function to calculate scaled stats for a given enemy/boss at a certain level.
     public void SetupEnemyForLevel(int baseHp, int baseDmg, int level)
@@ -191,6 +211,24 @@ public class Enemy : MonoBehaviour
                 onComplete?.Invoke();
             });
         });
+    }
+
+    public void PlayEnterAnimation()
+    {
+        RectTransform rt = GetComponent<RectTransform>();
+        CanvasGroup cg = GetComponent<CanvasGroup>();
+        if (cg == null) cg = gameObject.AddComponent<CanvasGroup>();
+
+        // Reset position and rotation
+        rt.anchoredPosition = originalAnchoredPosition + new Vector2(800f, 0f); // enter from right
+        rt.localRotation = Quaternion.identity;
+        cg.alpha = 0f;
+
+        gameObject.SetActive(true);
+
+        // Animate
+        LeanTween.alphaCanvas(cg, 1f, 0.3f);
+        LeanTween.move(rt, originalAnchoredPosition, 0.5f).setEaseOutBack();
     }
 
 

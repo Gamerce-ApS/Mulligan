@@ -43,7 +43,7 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound++;
-        LeanTween.delayedCall(gameObject, 0.5f, () =>
+        LeanTween.delayedCall(gameObject, 1f, () =>
         {
 
             UIManager.Instance.ShowVictoryScreen(() => {
