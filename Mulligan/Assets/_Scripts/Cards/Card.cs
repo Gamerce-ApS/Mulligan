@@ -27,7 +27,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private float holdTimer = 0f;
     private bool isHolding = false;
     public CardInstance cardInstance;
-
+    public GameObject mutedGO;
 
     public System.Action<Card> OnClick = null;
 
@@ -144,7 +144,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 UIManager.Instance.ShowTooltip("Only 4 cards can be selected.");
                 return;
             }
-
+            if (cardInstance.isMuted)
+            {
+                LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.2f).setEasePunch();
+                UIManager.Instance.ShowTooltip("Card is muted.");
+                return;
+            }
             originalAnchoredPos = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition += new Vector2(0, 70f); // Lift
             isSelected = true;

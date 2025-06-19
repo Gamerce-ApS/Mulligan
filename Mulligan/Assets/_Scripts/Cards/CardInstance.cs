@@ -16,6 +16,8 @@ public class CardInstance
     public bool WillExplodeAfterAttack = false;
     public bool IsFacelessThisTurn = false;
 
+    public bool isMuted = false;
+
     public CardInstance(CardData data)
     {
         this.data = data;
@@ -25,6 +27,11 @@ public class CardInstance
     {
         this.upgradeData = data;
         this.currentRank = 0;
+    }
+    public void SetMuted(bool mute)
+    {
+        isMuted = mute;
+        CardGO.mutedGO.SetActive(isMuted);
     }
     public int GetDamage()
     {

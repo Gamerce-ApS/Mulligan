@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     private Quaternion originalRotation;
     private bool initialized = false;
 
-
+    public List<BossAbilityEnum> ActiveAbbilities = new List<BossAbilityEnum>();
 
     // Start is called before the first frame update
     void Start()
@@ -39,29 +39,36 @@ public class Enemy : MonoBehaviour
     }
     public void Init(int aRound)
     {
+        ActiveAbbilities.Clear();
 
-        if(aRound % 4 == 0)
+        GetComponent<CanvasGroup>().alpha = 0;
+        if (aRound % 4 == 0)
         {
             BossData d = CardContainer.Instance.GetRandomBoss();
             SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
             image.sprite = d.theSprite;
-
-            UIManager.Instance.ShowBossIntroScreen(d,null);
+            ActiveAbbilities.AddRange(d.abilities);
+            
+            UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
         }
         else
         {
             EnemyData d = CardContainer.Instance.GetRandomEnemy();
             SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
             image.sprite = d.theSprite;
+            PlayEnterAnimation();
+            CanvasGroup cg = GetComponent<CanvasGroup>();
+            cg.alpha = 1;
         }
 
         gameObject.SetActive(true); // or Destroy(gameObject)
-        CanvasGroup cg = GetComponent<CanvasGroup>();
-        cg.alpha = 1;
+
         //Health = aHealth;
         //MaxHealth = aHealth;
 
-        PlayEnterAnimation();
+        
+
+        HandManager.Instance.HandleMutedCards();
     }
     // Example function to calculate scaled stats for a given enemy/boss at a certain level.
     public void SetupEnemyForLevel(int baseHp, int baseDmg, int level)

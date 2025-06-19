@@ -182,11 +182,6 @@ MonoBehaviour:
     icon: {fileID: 0}
     effect: 6
     value: 1
-  - name: +1 Army
-    description: Increase army size by <color=#EAAF3B>+1</color> slot.
-    icon: {fileID: 0}
-    effect: 7
-    value: 1
   - name: Atk / Lvl
     description: Gain <color=#EAAF3B>+1</color> extra attack each level.
     icon: {fileID: 0}
@@ -346,19 +341,19 @@ MonoBehaviour:
   - name: Boss 1
     description: '- All Human cards disabled'
     theSprite: {fileID: 21300000, guid: ce4147f61344a4065a9ee498ec704fa9, type: 3}
-    abilities: 
+    abilities: 01000000
     baseHP: 1
     baseDamage: 1
   - name: Boss 2
     description: '- All Orc cards disabled'
     theSprite: {fileID: 21300000, guid: 8b8903a93152844869280227b9750e82, type: 3}
-    abilities: 
+    abilities: 04000000
     baseHP: 1
     baseDamage: 1
   - name: Boss 3
     description: '- All Undead cards disabled'
     theSprite: {fileID: 21300000, guid: 94d132e8f5d784071a4333a3080f7be5, type: 3}
-    abilities: 
+    abilities: 06000000
     baseHP: 1
     baseDamage: 1
   allEnemies:

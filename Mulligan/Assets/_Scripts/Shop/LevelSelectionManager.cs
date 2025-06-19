@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectionManager : Singleton<LevelSelectionManager>
 {
@@ -9,7 +10,12 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public GameObject buttonsParent;
     public GameObject ShopWindow;
 
+    public List<Sprite> NormalGameBG;
+    public List<Sprite> BossGameBG;
+    public Image BackgroundImage;
+    public TMPro.TMP_Text CurrentLevel;
 
+    public List<GameObject> Buttons;
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,6 +33,8 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowWindow(System.Action onComplete = null)
     {
+
+
 
         bgCanvasGroup.gameObject.SetActive(true);
         bgCanvasGroup.alpha = 0;
@@ -51,8 +59,25 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     }
     public void RefreshUI()
     {
-        buttonsParent.transform.position = LevelPositions[GameData.CurrentRound].transform.position;
+        //buttonsParent.transform.position = LevelPositions[GameData.CurrentRound].transform.position;
 
+        //Is boss level
+        if (GameData.CurrentRound % 4 != 0)
+        {
+            BackgroundImage.sprite = NormalGameBG.GetRandom();
+            CurrentLevel.text = "0" + GameData.CurrentRound.ToString();
+            Buttons[0].SetActive(true);
+            Buttons[1].SetActive(true);
+            Buttons[2].SetActive(false);
+        }
+        else
+        {
+            BackgroundImage.sprite = BossGameBG.GetRandom();
+            CurrentLevel.text = "";
+            Buttons[0].SetActive(false);
+            Buttons[1].SetActive(false);
+            Buttons[2].SetActive(true);
+        }
     }
     public void HideWindow()
     {

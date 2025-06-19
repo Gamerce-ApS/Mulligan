@@ -214,4 +214,79 @@ public class HandManager : Singleton<HandManager>
                 card.TurnEnded(() => { card.CardGO.UpdateCardUI(); });
         }
     }
+
+    public void HandleMutedCards()
+    {
+        foreach (var card in CurrentHand)
+        {
+            if (card.CardGO != null)
+            {
+                    card.SetMuted(false);
+            }
+        }
+        foreach (var card in PlayedHand)
+        {
+            if (card.CardGO != null)
+            {
+                card.SetMuted(false);
+            }
+        }
+        foreach (var card in CardContainer.Instance.CurrentDeck)
+        {
+            if (card.CardGO != null)
+            {
+                card.SetMuted(false);
+            }
+        }
+        foreach (var card in CardContainer.Instance.DiscardDeck)
+        {
+            if (card.CardGO != null)
+            {
+                card.SetMuted(false);
+            }
+        }
+
+        foreach (var abbility in GameManager.Instance.TheEnemy.ActiveAbbilities)
+        {
+            if(abbility == BossAbilityEnum.DisableHumanUnits)
+            {
+                MuteRace(CardRace.Human);
+            }
+            if (abbility == BossAbilityEnum.DisableOrcUnits)
+            {
+                MuteRace(CardRace.Orc);
+            }
+            if (abbility == BossAbilityEnum.DisableElfUnits)
+            {
+                MuteRace(CardRace.Elf);
+            }
+            if (abbility == BossAbilityEnum.DisableUndeadUnits)
+            {
+                MuteRace(CardRace.Undead);
+            }
+        }
+    }
+
+    public void MuteRace(CardRace aRace)
+    {
+        foreach (var card in CurrentHand)
+        {
+            if (card.CardGO != null)
+            {
+                if (card.data.race == aRace)
+                    card.SetMuted(true);
+            }
+        }
+    }
+    public void MuteClass(CardClass aClass)
+    {
+        foreach (var card in CurrentHand)
+        {
+            if (card.CardGO != null)
+            {
+                if (card.data.cardClass == aClass)
+                    card.SetMuted(true);
+            }
+        }
+    }
 }

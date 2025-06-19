@@ -97,6 +97,10 @@ public enum BossAbilityEnum
     DisableHumanUnits,
     DisableRerolls,
     DisablePotions,
+    DisableOrcUnits,
+    DisableElfUnits,
+    DisableUndeadUnits,
+
 }
 
 [System.Serializable]

@@ -35,8 +35,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ArtifactData = null;
         //NameLabel.text = aData.name;
         PotionData = aData;
-        Price = 6;
-
+        Price = 3;
         PriceLabel.text = Price.ToString();
     }
     public void Init(int aCost)

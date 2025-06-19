@@ -32,6 +32,14 @@ public static class UnityHelper
             list[randomIndex] = temp;
         }
     }
+    public static T GetRandom<T>(this IList<T> list)
+    {
+        if (list == null || list.Count == 0)
+            throw new InvalidOperationException("Cannot get a random element from an empty or null list.");
+
+        int index = UnityEngine.Random.Range(0, list.Count);
+        return list[index];
+    }
     public static List<T> ToList<T>(this T[] array)
     {
         return new List<T>(array);
