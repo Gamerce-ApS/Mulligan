@@ -12,15 +12,19 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60;
-        CardContainer.Instance.Init();
-        HandManager.Instance.Init();
-        UIManager.Instance.Init();
+        GameDataLoader.Instance.LoadGameData(()=>
+        {
+         
+                Application.targetFrameRate = 60;
+                CardContainer.Instance.Init();
+                HandManager.Instance.Init();
+                UIManager.Instance.Init();
+                UnitUpgradeManager.Instance.Init();
+                TheHero.Init(CardContainer.Instance.StatingHealth);
+                StartGame();
+        
+        });
 
-
-
-        TheHero.Init(CardContainer.Instance.StatingHealth);
-            StartGame();
 
     }
 

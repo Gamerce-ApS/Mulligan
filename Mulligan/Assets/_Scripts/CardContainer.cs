@@ -23,6 +23,7 @@ public class CardContainer : Singleton<CardContainer>
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
 
+
     public void Init()
     {
         CardsDataList = CardLoader.LoadAllCards().allCards;
@@ -48,6 +49,9 @@ public class CardContainer : Singleton<CardContainer>
         }
 
         CurrentDeck.Shuffle();
+
+        string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
+        GUIUtility.systemCopyBuffer = json;
     }
 
     // Update is called once per frame
@@ -107,7 +111,10 @@ public class CardContainer : Singleton<CardContainer>
         foreach(var r in RaceDataList)
         {
             if (r.theRace == aRace)
-                return r.theSprite;
+            {
+                return Resources.Load<Sprite>("" + r.sprite_theSprite);
+            }
+            //return r.theSprite;
         }
         return null;
     }
@@ -116,7 +123,10 @@ public class CardContainer : Singleton<CardContainer>
         foreach (var r in ClassDataList)
         {
             if (r.theClass == aClass)
-                return r.theSprite;
+            {
+                return Resources.Load<Sprite>("" + r.sprite_theSprite);
+            }
+            //return r.theSprite;
         }
         return null;
     }
@@ -134,6 +144,25 @@ public class CardContainer : Singleton<CardContainer>
         }
         return Color.white;
     }
+    //public void FetchLiveEnemies()
+    //{
+    //    StartCoroutine(GoogleSheetLoader.LoadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vSKJVabfOQukbUoDYA8NCMwUR3b-6jiWQ9TWL31DJc1MRxfHMQCtFyEkr_-NFPNlfsvDwgkQyKllT-q/pub?output=csv", ParseData, (list) =>
+    //    {
+    //        cardDataObject.name = list.ToArray();
+    //        Debug.Log("Live enemy data updated!");
+    //    }));
+    //}
+
+    //EnemyData ParseEnemy(string[] row)
+    //{
+    //    return new EnemyData
+    //    {
+    //        name = row[0],
+    //        baseHP = int.Parse(row[1]),
+    //        baseDamage = int.Parse(row[2]),
+    //        //theSprite = Resources.Load<Sprite>("Enemies/" + row[3])
+    //    };
+    //}
 
 
 }

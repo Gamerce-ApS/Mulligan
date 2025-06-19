@@ -88,7 +88,7 @@ public class CardData
     public int damage;
     public CardRace race;
     public CardClass cardClass;
-    public Sprite portrait;
+    public string sprite_portrait;
     public List<int> RankUpgrades;
 }
 public enum BossAbilityEnum
@@ -107,14 +107,14 @@ public enum BossAbilityEnum
 public class RaceData
 {
     public CardRace theRace;
-    public Sprite theSprite;
+    public string sprite_theSprite;
     public Color theColor;
 }
 [System.Serializable]
 public class ClassData
 {
     public CardClass theClass;
-    public Sprite theSprite;
+    public string sprite_theSprite;
     public Color theColor;
 }
 [System.Serializable]
@@ -122,7 +122,7 @@ public class ArtifactData
 {
     public string name;
     [TextArea] public string description;
-    public Sprite icon;
+    public string sprite_icon;
 
     public ArtifactEffectType effect;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
@@ -133,7 +133,8 @@ public class PotionCardData
     public string name;
     public PotionEffectType effectType;
     [TextArea] public string description;
-    public Sprite icon;
+    public string sprite_icon;
+
     public int value; // if needed (e.g. +2 crit, +20 dmg)
 }
 [System.Serializable]
@@ -141,7 +142,7 @@ public class UpgradeCardData
 {
     public string name;
     [TextArea] public string description;
-    public Sprite icon;
+    public string sprite_icon;
 
     public UpgradeEffect effect;
     public UpgradeType type;
@@ -152,7 +153,8 @@ public class BossData
 {
     public string name;
     public string description;
-    public Sprite theSprite;
+    public string sprite_theSprite;
+
     public List<BossAbilityEnum> abilities;
     public int baseHP;
     public int baseDamage;
@@ -161,7 +163,8 @@ public class BossData
 public class EnemyData
 {
     public string name;
-    public Sprite theSprite;
+    public string sprite_theSprite;
+
     public int baseHP;
     public int baseDamage;
 }

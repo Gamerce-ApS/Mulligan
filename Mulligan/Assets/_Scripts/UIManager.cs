@@ -489,7 +489,10 @@ public class UIManager : Singleton<UIManager>
         // Pick a fun message
         BossNameText.text = boss.name;
         BossAbilityText.text = boss.description;
-        BossImage.sprite = boss.theSprite;
+        //BossImage.sprite = boss.theSprite;
+        BossImage.sprite = Resources.Load<Sprite>("" + boss.sprite_theSprite);
+
+
 
         // Fade in
         LeanTween.alphaCanvas(BossParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>

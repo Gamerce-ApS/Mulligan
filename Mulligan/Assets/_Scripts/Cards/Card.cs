@@ -71,8 +71,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         DamageLabel.text = aData.damage.ToString();
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
+        Portrait.sprite = Resources.Load<Sprite>("" + cardInstance.data.sprite_portrait);
+        //Portrait.sprite = cardInstance.data.portrait;
 
-        Portrait.sprite = cardInstance.data.portrait;
         RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aData.race);
         ClassIcon.sprite = CardContainer.Instance.GetSpriteForClass(aData.cardClass);
         Portrait_BG.color = CardContainer.Instance.GetColorForRace(aData.race);

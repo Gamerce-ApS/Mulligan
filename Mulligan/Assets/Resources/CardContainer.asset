@@ -17,368 +17,368 @@ MonoBehaviour:
     damage: 10
     race: 0
     cardClass: 0
-    portrait: {fileID: 21300000, guid: 56651935f6c71449fa913a19a441760a, type: 3}
+    sprite_portrait: warrior_human
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: HUMAN ARCHER
     damage: 10
     race: 0
     cardClass: 3
-    portrait: {fileID: 21300000, guid: f91467bca34d549d492dbf3d332808fb, type: 3}
+    sprite_portrait: archer_human
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ORC ARCHER
     damage: 10
     race: 2
     cardClass: 3
-    portrait: {fileID: 21300000, guid: ccce7f7473653486e8f29602a6ae2afe, type: 3}
+    sprite_portrait: archer_orc
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ORC WARRIOR
     damage: 10
     race: 2
     cardClass: 0
-    portrait: {fileID: 21300000, guid: eaa201a1e9e934ad2af3bb19f177e943, type: 3}
+    sprite_portrait: warrior_orc
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: UNDEAD WARRIOR
     damage: 10
     race: 3
     cardClass: 0
-    portrait: {fileID: 21300000, guid: 55c29d5f129854664b46b8bad057be6e, type: 3}
+    sprite_portrait: warrior undead
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: UNDEAD ARCHER
     damage: 10
     race: 3
     cardClass: 3
-    portrait: {fileID: 21300000, guid: e84f7c3479b1b4e64b578db362fcaa60, type: 3}
+    sprite_portrait: archer_undead
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ELF WARRIOR
     damage: 10
     race: 1
     cardClass: 0
-    portrait: {fileID: 21300000, guid: 1300321f1761f4e9eaa06a110b07a120, type: 3}
+    sprite_portrait: warrior_elf
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ELF ARCHER
     damage: 10
     race: 1
     cardClass: 3
-    portrait: {fileID: 21300000, guid: 59e6fa8e18d13464cb51dcd10c8febc7, type: 3}
+    sprite_portrait: archer_elf
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: HUMAN MAGE
     damage: 10
     race: 0
     cardClass: 1
-    portrait: {fileID: 21300000, guid: 7ffcee41b226047709711d97143d8313, type: 3}
+    sprite_portrait: human_mage
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: HUMAN CLERIC
     damage: 10
     race: 0
     cardClass: 4
-    portrait: {fileID: 21300000, guid: dc3438890046e4a77ad587159e066f16, type: 3}
+    sprite_portrait: human_cleric
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: UNDEAD CLERIC
     damage: 10
     race: 3
     cardClass: 4
-    portrait: {fileID: 21300000, guid: 5a6a825e036264953941b98e4f6f9640, type: 3}
+    sprite_portrait: undead_cleric
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: UNDEAD MAGE
     damage: 10
     race: 3
     cardClass: 1
-    portrait: {fileID: 21300000, guid: 2a15cf9b248ac42518af647407959ee8, type: 3}
+    sprite_portrait: undead_mage
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ORC MAGE
     damage: 10
     race: 2
     cardClass: 1
-    portrait: {fileID: 21300000, guid: 8829ff2f3fefe4db6a4236ee68a2e52d, type: 3}
+    sprite_portrait: orc_mage
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ORC CLERIC
     damage: 10
     race: 2
     cardClass: 4
-    portrait: {fileID: 21300000, guid: 46bbb22d7037a423aa2422218b3b18c1, type: 3}
+    sprite_portrait: orc_cleric
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ElF CLERIC
     damage: 10
     race: 1
     cardClass: 4
-    portrait: {fileID: 21300000, guid: 0b21b803ce2e04af09794934f7031863, type: 3}
+    sprite_portrait: elve_cleric
     RankUpgrades: 0c0000000f000000110000001300000016000000
   - cardName: ELF MAGE
     damage: 10
     race: 1
     cardClass: 1
-    portrait: {fileID: 21300000, guid: c3802b69632da48ea8aec5c472bd04bc, type: 3}
+    sprite_portrait: elve_mage
     RankUpgrades: 0c0000000f000000110000001300000016000000
   raceData:
   - theRace: 0
-    theSprite: {fileID: 21300000, guid: e1ac7b88b5804412b835e13376e8eadb, type: 3}
+    sprite_theSprite: human_icon
     theColor: {r: 1, g: 1, b: 1, a: 0}
   - theRace: 1
-    theSprite: {fileID: 21300000, guid: e8161d9077c9445269e93569e2c58dff, type: 3}
+    sprite_theSprite: elf_icon
     theColor: {r: 0.32941177, g: 0.48235294, b: 0.30980393, a: 0}
   - theRace: 2
-    theSprite: {fileID: 21300000, guid: 959211d0b1cc94243ba576d96d330a7e, type: 3}
+    sprite_theSprite: orc_icon
     theColor: {r: 0.85882354, g: 0.7372549, b: 0.30588236, a: 0}
   - theRace: 3
-    theSprite: {fileID: 21300000, guid: 888dceb4535ce4e8f905ee3d379150b4, type: 3}
+    sprite_theSprite: undead_icon
     theColor: {r: 0.35686275, g: 0.44705883, b: 0.9254902, a: 0}
   classData:
   - theClass: 0
-    theSprite: {fileID: 21300000, guid: 6a73bf780e255481b8ae30e50c0fea97, type: 3}
+    sprite_theSprite: warrior_icon
     theColor: {r: 0, g: 0, b: 0, a: 0}
   - theClass: 1
-    theSprite: {fileID: 21300000, guid: e8ffc7c15982143bba44eaa1bab624ce, type: 3}
+    sprite_theSprite: mage_icon
     theColor: {r: 0, g: 0, b: 0, a: 0}
   - theClass: 3
-    theSprite: {fileID: 21300000, guid: 99e7fe04ef3e2452299a3a5bf59a8fdf, type: 3}
+    sprite_theSprite: arcer_icon
     theColor: {r: 0, g: 0, b: 0, a: 0}
   - theClass: 4
-    theSprite: {fileID: 21300000, guid: a22e32b865d01407ba0c6a02d78fac87, type: 3}
+    sprite_theSprite: cleric_icon
     theColor: {r: 0, g: 0, b: 0, a: 0}
   allArtifacts:
   - name: +2 Crit
     description: Adds <color=#EAAF3B>+2</color> flat Crit to your total each round.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 0
     value: 2
   - name: +4 Crit
     description: Adds <color=#EAAF3B>+4</color> flat Crit to your total each round.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 0
     value: 4
   - name: +20 Dmg
     description: Adds <color=#EAAF3B>+20</color> flat Damage to your total each round.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 1
     value: 20
   - name: +40 Dmg
     description: Adds <color=#EAAF3B>+40</color> flat Damage to your total each round.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 1
     value: 40
   - name: Crit / Upg
     description: 'Gain <color=#EAAF3B>+1</color> Crit for each upgraded unit in your
       army. '
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 2
     value: 1
   - name: Crit / Skip
     description: Gain <color=#EAAF3B>+1</color> Crit for each skipped level.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 3
     value: 1
   - name: Dmg / Gold
     description: Gain <color=#EAAF3B>+2</color> Damage per Gold you have.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 4
     value: 2
   - name: Crit / Potion
     description: Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 5
     value: 1
   - name: +1 Reroll
     description: Grants <color=#EAAF3B>+1</color> extra reroll.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 6
     value: 1
   - name: Atk / Lvl
     description: Gain <color=#EAAF3B>+1</color> extra attack each level.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 8
     value: 1
   - name: Rank Random
     description: Ranks up <color=#EAAF3B>1</color> random unit at the start of each
       level.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 9
     value: 1
   - name: Double Potions
     description: All potion effects are <color=#EAAF3B>doubled</color>.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 10
     value: 1
   - name: Copy Right
     description: Copies the ability of the artifact to its <color=#EAAF3B>right</color>.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 11
     value: 1
   - name: Retrigger
     description: Retriggers your attacking units <color=#EAAF3B>once</color>.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 12
     value: 1
   - name: +5 Gold / Loss
     description: Gain <color=#EAAF3B>+5</color> Gold when losing a level.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 13
     value: 5
   - name: Heal After
     description: Heal hero <color=#EAAF3B>10%</color> of max HP after each level.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 14
     value: 10
   - name: +20% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+20%</color>.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 15
     value: 20
   - name: Double Synergy
     description: Doubles all <color=#EAAF3B>race synergy</color> effects.
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 16
     value: 1
   allPotions:
   - name: Precise
     effectType: 0
     description: Chosen unit gets <color=#EAAF3B>+3</color> Crit this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 3
   - name: BloodBrew
     effectType: 1
     description: Chosen unit gets <color=#EAAF3B>+30</color> Damage this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 30
   - name: Frenzy
     effectType: 2
     description: <color=#EAAF3B>3</color> random units get <color=#EAAF3B>+15</color>
       Damage this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 15
   - name: Faceless
     effectType: 3
     description: Chosen unit becomes Faceless this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 1
   - name: Masked
     effectType: 4
     description: <color=#EAAF3B>2</color> random units become Faceless this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 2
   - name: OverBrew
     effectType: 6
     description: Chosen unit gets <color=#EAAF3B>4</color> Ranks but explodes after
       attack
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 4
   - name: Astral
     effectType: 7
     description: Disable Boss Debuff this turn
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 1
   - name: Remedy
     effectType: 8
     description: Heal your Hero for <color=#EAAF3B>20%</color> of Max HP
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 1
   - name: ElixirX
     effectType: 9
     description: Boost all damage <color=#EAAF3B>x5</color> this turn but lose <color=#EAAF3B>10%</color>
       max Hero HP
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 5
   - name: EchoElix
     effectType: 10
     description: "Retrigger chosen unit\u2019s Enchantments and Charms"
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 1
   allUpgradeCards:
   - name: Crit
     description: ' Adds a permanent multiplier boost'
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 0
     type: 0
     value: 2
   - name: Any Class
     description: Can act as any Class
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 1
     type: 0
     value: 0
   - name: Changeling
     description: Can act as any Race
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 2
     type: 0
     value: 0
   - name: Retrigger
     description: Retriggers unit Charm
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 3
     type: 0
     value: 0
   - name: Lifesteal
     description: Apply 10% lifesteal
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 4
     type: 0
     value: 0
   - name: Gold
     description: +3 Gold
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 5
     type: 1
     value: 3
   - name: Potion
     description: +1 Potion
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 6
     type: 1
     value: 1
   - name: Heal
     description: Heal 10% max HP
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 7
     type: 1
     value: 10
   - name: Rank Upgrade
     description: Increases the Units rank
-    icon: {fileID: 0}
+    sprite_icon: 
     effect: 8
     type: 2
     value: 1
   allBosses:
   - name: Boss 1
     description: '- All Human cards disabled'
-    theSprite: {fileID: 21300000, guid: ce4147f61344a4065a9ee498ec704fa9, type: 3}
+    sprite_theSprite: boss1
     abilities: 01000000
     baseHP: 1
     baseDamage: 1
   - name: Boss 2
     description: '- All Orc cards disabled'
-    theSprite: {fileID: 21300000, guid: 8b8903a93152844869280227b9750e82, type: 3}
+    sprite_theSprite: boss2
     abilities: 04000000
     baseHP: 1
     baseDamage: 1
   - name: Boss 3
     description: '- All Undead cards disabled'
-    theSprite: {fileID: 21300000, guid: 94d132e8f5d784071a4333a3080f7be5, type: 3}
+    sprite_theSprite: boss3
     abilities: 06000000
     baseHP: 1
     baseDamage: 1
   allEnemies:
   - name: Enemy 1
-    theSprite: {fileID: 21300000, guid: ac5cc3907503e4bc68d307ffc8739f0c, type: 3}
+    sprite_theSprite: enemy
     baseHP: 1
     baseDamage: 1
   - name: Enemy 2
-    theSprite: {fileID: 21300000, guid: 2f2d2d483395b40c09bba1105747a0c4, type: 3}
+    sprite_theSprite: enemy2
     baseHP: 1
     baseDamage: 1
   - name: Enemy 3
-    theSprite: {fileID: 21300000, guid: 076dd02092d644283a2d589da52f7289, type: 3}
+    sprite_theSprite: enemy3
     baseHP: 1
     baseDamage: 1
   - name: Enemy 4
-    theSprite: {fileID: 21300000, guid: 517b72074aba24a0fb7d880264952076, type: 3}
+    sprite_theSprite: enemy4
     baseHP: 1
     baseDamage: 1
   - name: Enemy 5
-    theSprite: {fileID: 21300000, guid: 750552c6dff5d4efda1bab0a1e527eba, type: 3}
+    sprite_theSprite: enemy5
     baseHP: 1
     baseDamage: 1
   - name: Enemy 6
-    theSprite: {fileID: 21300000, guid: 5e481cd17c8d943478223c36df579dfe, type: 3}
+    sprite_theSprite: enemy6
     baseHP: 1
     baseDamage: 1
   StatingGold: 0

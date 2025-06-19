@@ -46,7 +46,9 @@ public class Enemy : MonoBehaviour
         {
             BossData d = CardContainer.Instance.GetRandomBoss();
             SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
-            image.sprite = d.theSprite;
+            //image.sprite = d.theSprite;
+            image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
+
             ActiveAbbilities.AddRange(d.abilities);
             
             UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
@@ -55,7 +57,9 @@ public class Enemy : MonoBehaviour
         {
             EnemyData d = CardContainer.Instance.GetRandomEnemy();
             SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
-            image.sprite = d.theSprite;
+            //image.sprite = d.theSprite;
+            image.sprite = Resources.Load<Sprite>("" + d.sprite_theSprite);
+
             PlayEnterAnimation();
             CanvasGroup cg = GetComponent<CanvasGroup>();
             cg.alpha = 1;

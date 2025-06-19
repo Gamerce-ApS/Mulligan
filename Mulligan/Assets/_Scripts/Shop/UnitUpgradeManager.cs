@@ -56,7 +56,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
 
     CardDataObject DataList;
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         DataList = CardLoader.LoadAllCards();
 
