@@ -5,7 +5,6 @@ using System.Collections;
 public class GameDataLoader : Singleton<GameDataLoader>
 {
     public string jsonUrl = "http://gamerce.net/mulligan/data.json";
-    public CardDataExportWrapper cardDataObject;
 
     void Start()
     {

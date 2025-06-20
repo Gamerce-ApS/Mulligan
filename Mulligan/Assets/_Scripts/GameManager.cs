@@ -179,9 +179,12 @@ public class GameManager : Singleton<GameManager>
             TheEnemy.Init(GameData.CurrentRound);
             GameData.CurrentRound++;
         }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            RewardManager.Instance.ShowWindow();
+        }
 
 
- 
     }
 
     // Debug functions

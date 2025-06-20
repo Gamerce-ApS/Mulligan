@@ -102,6 +102,11 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     {
         GameData.CurrentRound++;
         RefreshUI();
+        HideWindow();
+        LeanTween.delayedCall(gameObject, 0.3f, () =>
+        {
+            RewardManager.Instance.ShowWindow(()=> { ShowWindow(); });
+        });
     }
     public void ClickPlay()
     {
