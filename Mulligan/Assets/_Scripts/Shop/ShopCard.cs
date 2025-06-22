@@ -28,6 +28,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ArtifactData = aData;
         Price = 6;
         PotionData = null;
+        if (ShopManager.Instance.SetEverythingFreeNextRound)
+            Price = 0;
         PriceLabel.text = Price.ToString();
     }
     public void Init(PotionCardData aData)
@@ -36,6 +38,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         //NameLabel.text = aData.name;
         PotionData = aData;
         Price = 3;
+        if (ShopManager.Instance.SetEverythingFreeNextRound)
+            Price = 0;
         PriceLabel.text = Price.ToString();
     }
     public void Init(int aCost)
@@ -44,7 +48,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ArtifactData = null;
         PotionData = null;
         Price = aCost;
-
+        if (ShopManager.Instance.SetEverythingFreeNextRound)
+            Price = 0;
         PriceLabel.text = Price.ToString();
     }
     void Start()

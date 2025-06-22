@@ -14,6 +14,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public List<Sprite> BossGameBG;
     public Image BackgroundImage;
     public TMPro.TMP_Text CurrentLevel;
+    public TMPro.TMP_Text RewardText;
 
     public List<GameObject> Buttons;
     // Start is called before the first frame update
@@ -31,9 +32,11 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public Vector3 startPosition;
     System.Action OnHideShop=null;
     public CanvasGroup bgCanvasGroup;
+    public SkipRewardData CurrentRewardData = null;
     public void ShowWindow(System.Action onComplete = null)
     {
-
+        CurrentRewardData = RewardManager.Instance.GetRandom();
+        RewardText.text = CurrentRewardData.title;
 
 
         bgCanvasGroup.gameObject.SetActive(true);

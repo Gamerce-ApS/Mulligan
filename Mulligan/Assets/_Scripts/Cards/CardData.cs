@@ -65,6 +65,20 @@ public enum UpgradeEffect
     Charms_Heal,
     RankUpgrade_Normal // Done
 }
+public enum SkipRewardType
+{
+    DoubleGold,
+    RandomPotions,
+    DisableBossDebuff,
+    UncommonArtifact,
+    RareArtifact,
+    ArmoryUpgrade,
+    IncreaseMaxHP,
+    FullHeal,
+    MarketFreeNextRound,
+    AddRuneToHero,
+    ExtraAttacksNextRound
+}
 public enum UpgradeType
 {
     Enchantment,
@@ -167,4 +181,11 @@ public class EnemyData
 
     public int baseHP;
     public int baseDamage;
+}
+[System.Serializable]
+public class SkipRewardData
+{
+    public SkipRewardType type;
+    public string title;
+    [TextArea] public string description;
 }

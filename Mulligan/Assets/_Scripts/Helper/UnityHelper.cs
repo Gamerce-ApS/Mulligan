@@ -9,7 +9,13 @@ public static class UnityHelper
     {
         owner.StartCoroutine(DelayedExecution(delay, action));
     }
-
+    public static void DestroyAllChildren(this Transform parent)
+    {
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            UnityEngine.Object.Destroy(parent.GetChild(i).gameObject);
+        }
+    }
     private static IEnumerator DelayedExecution(float delay, Action action)
     {
         float elapsed = 0f;

@@ -14,9 +14,13 @@ public class ShopManager : Singleton<ShopManager>
     public Transform UnitPackParent;
 
     public GameObject ShopWindow;
+    public bool SetEverythingFreeNextRound = false;
 
     public void PopulateShop()
     {
+
+        Clear();
+
         GameObject.Instantiate(RunePrefab, RuneParent);
         GameObject.Instantiate(RunePrefab, RuneParent);
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
@@ -42,6 +46,14 @@ public class ShopManager : Singleton<ShopManager>
         go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
         go.GetComponent<ShopCard>().Init(3);
 
+
+
+    }
+    public void Clear()
+    {
+        UnitPackParent.DestroyAllChildren();
+        ArtifactParent.DestroyAllChildren();
+        RuneParent.DestroyAllChildren();
     }
     // Start is called before the first frame update
     void Start()
@@ -61,6 +73,9 @@ public class ShopManager : Singleton<ShopManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowShopWindow(System.Action onComplete = null)
     {
+
+        PopulateShop();
+
         bgCanvasGroup.gameObject.SetActive(true);
         bgCanvasGroup.alpha = 0;
         LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();
@@ -94,5 +109,6 @@ public class ShopManager : Singleton<ShopManager>
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
                 bgCanvasGroup.gameObject.SetActive(false);
             });
+        SetEverythingFreeNextRound = false;
     }
 }

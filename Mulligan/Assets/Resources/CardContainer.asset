@@ -381,6 +381,40 @@ MonoBehaviour:
     sprite_theSprite: enemy6
     baseHP: 1
     baseDamage: 1
+  allSkipeRewards:
+  - type: 0
+    title: 'Double your Gold '
+    description: 
+  - type: 1
+    title: 'Get 2 random potions '
+    description: 
+  - type: 2
+    title: 'Disable buss debuff '
+    description: 
+  - type: 3
+    title: 'Get random uncommon Artifact '
+    description: 
+  - type: 4
+    title: 'Get random rare Artifact '
+    description: 
+  - type: 5
+    title: 'Get Armory upgrade '
+    description: 
+  - type: 6
+    title: 'Increase your Hero max HP by 50% next round '
+    description: 
+  - type: 7
+    title: 'Restore your Hero HP 100% '
+    description: 
+  - type: 8
+    title: 'All items in the Market costs 0 Gold '
+    description: 
+  - type: 9
+    title: 'Add random Rune to your Hero '
+    description: 
+  - type: 10
+    title: '+2 attacks next round '
+    description: 
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2

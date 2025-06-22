@@ -205,6 +205,11 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     }
     public void StartLevel()
     {
+        if(GameManager.Instance.BonusAttacksNextRound)
+        {
+            GameData.CurrentAttacks += 2;
+            GameManager.Instance.BonusAttacksNextRound = false;
+        }
         // Called when level Start
             GameData.CurrentArmySize = 0;
             foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)

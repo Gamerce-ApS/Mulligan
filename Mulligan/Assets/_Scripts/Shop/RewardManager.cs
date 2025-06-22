@@ -9,6 +9,9 @@ public class RewardManager : Singleton<RewardManager>
     public GameObject Window;
     public Image bg;
 
+    public TMPro.TMP_Text Title;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -24,32 +27,22 @@ public class RewardManager : Singleton<RewardManager>
     public Vector3 startPosition;
     System.Action OnHideShop=null;
     public CanvasGroup bgCanvasGroup;
+
+
     public void ShowWindow(System.Action onComplete = null)
     {
+        if (LevelSelectionManager.Instance.CurrentRewardData == null)
+            LevelSelectionManager.Instance.CurrentRewardData = GetRandom();
+
+        Title.text = LevelSelectionManager.Instance.CurrentRewardData.title;
+
         OnHideShop = onComplete;
 
         bgCanvasGroup.alpha = 0;
         bgCanvasGroup.gameObject.SetActive(true);
-        //bgCanvasGroup.alpha = 0;
-        //LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();
-
-        //OnHideShop = onComplete;
-        //Window.SetActive(true);
-        //// Store the target position
-        //Vector2 targetPos = startPosition;
-
-        //// Start below the screen
-        //Window.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height*2);
-
-        //// Animate to its original position
-        //LeanTween.move(Window.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
-
 
 
         bg.GetComponent<CanvasGroup>().alpha = 1f;
-
-
-        // Pick a fun message
 
         // Fade in
         LeanTween.alphaCanvas(bgCanvasGroup.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setDelay(0.1f).setOnComplete(() =>
@@ -86,6 +79,9 @@ public class RewardManager : Singleton<RewardManager>
 
     public void HideWindow()
     {
+        if(LevelSelectionManager.Instance.CurrentRewardData != null)
+            ApplyReward(LevelSelectionManager.Instance.CurrentRewardData.type);
+
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
 
@@ -111,5 +107,74 @@ public class RewardManager : Singleton<RewardManager>
     {
         HideWindow();
     }
+    public SkipRewardData GetRandom()
+    {
 
+        var all = CardContainer.Instance.SkipDataList;
+        if (all == null || all.Length == 0)
+        {
+            Debug.LogWarning("No artifacts available to choose from.");
+            return null;
+        }
+
+        // Pick random one
+        SkipRewardData selected = all[Random.Range(0, all.Length)];
+
+        return selected;
+    }
+    public void ApplyReward(SkipRewardType type)
+    {
+        switch (type)
+        {
+            case SkipRewardType.DoubleGold:
+                GameManager.Instance.AddGold(GameData.CurrentGold);
+                break;
+
+            case SkipRewardType.RandomPotions:
+                PotionManager.Instance.AddRandomPotion();
+                PotionManager.Instance.AddRandomPotion();
+
+                break;
+
+            case SkipRewardType.DisableBossDebuff:
+                GameManager.Instance.DisableBossDebuffNextRound = true;
+                break;
+
+            case SkipRewardType.UncommonArtifact:
+                ArtifactManager.Instance.AddRandomArtifact();
+                break;
+
+            case SkipRewardType.RareArtifact:
+                ArtifactManager.Instance.AddRandomArtifact();
+                break;
+
+            case SkipRewardType.ArmoryUpgrade:
+                HandManager.Instance.RankUpRandom();
+                break;
+
+            case SkipRewardType.IncreaseMaxHP:
+                GameManager.Instance.TheHero.AddMaxHPPercent(1.25f);
+                break;
+
+            case SkipRewardType.FullHeal:
+                GameManager.Instance.TheHero.Health = GameManager.Instance.TheHero.MaxHealth;
+                break;
+
+            case SkipRewardType.MarketFreeNextRound:
+                ShopManager.Instance.SetEverythingFreeNextRound=true;
+                break;
+
+            case SkipRewardType.AddRuneToHero:
+                //Hero.Instance.AddRandomRune();
+                break;
+
+            case SkipRewardType.ExtraAttacksNextRound:
+                GameManager.Instance.BonusAttacksNextRound=true;
+                break;
+
+            default:
+                Debug.LogWarning("Skip reward not implemented: " + type);
+                break;
+        }
+    }
 }

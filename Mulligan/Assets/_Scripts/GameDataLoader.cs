@@ -5,13 +5,19 @@ using System.Collections;
 public class GameDataLoader : Singleton<GameDataLoader>
 {
     public string jsonUrl = "http://gamerce.net/mulligan/data.json";
-
+    public bool useLocalData = false;
     void Start()
     {
 
     }
     public void LoadGameData(System.Action onComplete)
     {
+        if(useLocalData)
+        {
+            PlayerPrefs.DeleteKey("GameData");
+            onComplete.Invoke();
+            return;
+        }
         StartCoroutine(LoadJsonFromServer(onComplete));
     }
     IEnumerator LoadJsonFromServer(System.Action onComplete)

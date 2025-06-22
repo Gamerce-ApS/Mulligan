@@ -9,6 +9,7 @@ public class CardContainer : Singleton<CardContainer>
     private ClassData[] ClassDataList = null;
     public EnemyData[] EnemyDataList = null;
     public BossData[] BossDataList = null;
+    public SkipRewardData[] SkipDataList = null;
 
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
@@ -39,7 +40,7 @@ public class CardContainer : Singleton<CardContainer>
         EnemyBaseHealth = CardLoader.LoadAllCards().EnemyBaseHealth;
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
-
+        SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         CurrentDeck.Clear();
         foreach (var data in CardsDataList)
         {

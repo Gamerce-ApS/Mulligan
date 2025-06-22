@@ -7,8 +7,8 @@ public class GameManager : Singleton<GameManager>
 {
     public Enemy TheEnemy;
     public Hero TheHero;
-
-
+    public bool DisableBossDebuffNextRound = false;
+    public bool BonusAttacksNextRound = false;
     // Start is called before the first frame update
     void Start()
     {
