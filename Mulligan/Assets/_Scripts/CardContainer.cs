@@ -10,7 +10,10 @@ public class CardContainer : Singleton<CardContainer>
     public EnemyData[] EnemyDataList = null;
     public BossData[] BossDataList = null;
     public SkipRewardData[] SkipDataList = null;
+    public RuneData[] RuneDataList = null;
+    public PotionCardData[] PotionDataList = null;
 
+    
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
     public float GoldInflation = 1.2f;
@@ -32,6 +35,7 @@ public class CardContainer : Singleton<CardContainer>
         ClassDataList = CardLoader.LoadAllCards().classData;
         EnemyDataList = CardLoader.LoadAllCards().allEnemies;
         BossDataList = CardLoader.LoadAllCards().allBosses;
+        PotionDataList = CardLoader.LoadAllCards().allPotions;
 
         StatingGold = CardLoader.LoadAllCards().StatingGold;
         GoldGainPerLevel = CardLoader.LoadAllCards().GoldGainPerLevel;
@@ -41,6 +45,7 @@ public class CardContainer : Singleton<CardContainer>
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
+        RuneDataList = CardLoader.LoadAllCards().allRunes;
         CurrentDeck.Clear();
         foreach (var data in CardsDataList)
         {

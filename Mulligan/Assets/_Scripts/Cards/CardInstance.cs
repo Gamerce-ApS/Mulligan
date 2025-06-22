@@ -28,6 +28,13 @@ public class CardInstance
         this.upgradeData = data;
         this.currentRank = 0;
     }
+    public bool IsSpecial()
+    {
+        if(tempDamageBonus>0 || tempCritBonus>0 || WillExplodeAfterAttack || IsFacelessThisTurn || appliedUpgrades.Count>0)
+    return true;
+
+        return false;
+    }
     public void SetMuted(bool mute)
     {
         isMuted = mute;

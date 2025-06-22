@@ -7,6 +7,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public ArtifactData ArtifactData;
     public PotionCardData PotionData;
+    public RuneData RuneData;
+
     public int Price = 30;
 
     private Transform originalParent;
@@ -28,6 +30,20 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ArtifactData = aData;
         Price = 6;
         PotionData = null;
+        RuneData = null;
+
+        if (ShopManager.Instance.SetEverythingFreeNextRound)
+            Price = 0;
+        PriceLabel.text = Price.ToString();
+    }
+    public void Init(RuneData aData)
+    {
+        //NameLabel.text = aData.name;
+        RuneData = aData;
+        Price = 12;
+        PotionData = null;
+        ArtifactData = null;
+
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
         PriceLabel.text = Price.ToString();
@@ -35,6 +51,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void Init(PotionCardData aData)
     {
         ArtifactData = null;
+        RuneData = null;
         //NameLabel.text = aData.name;
         PotionData = aData;
         Price = 3;
@@ -47,6 +64,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         //NameLabel.text = aData.name;
         ArtifactData = null;
         PotionData = null;
+        RuneData = null;
         Price = aCost;
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
@@ -110,6 +128,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     ArtifactManager.Instance.AddArtifact(ArtifactData); // Add logic here
                 else if (PotionData != null)
                     PotionManager.Instance.AddPotion(PotionData); // Add logic here
+                else if (RuneData != null)
+                    RuneManager.Instance.AddRune(RuneData); // Add logic here
                 else
                 {
                     UnitUpgradeManager.Instance.ShowWindow();
@@ -171,6 +191,15 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 UIManager.Instance.ShowCardInfoPopup(
                    PotionData.name,
                    PotionData.description,
+                   "",
+                   transform
+                          );
+            }
+            else if (RuneData != null)
+            {
+                UIManager.Instance.ShowCardInfoPopup(
+                   RuneData.name,
+                   RuneData.description,
                    "",
                    transform
                           );

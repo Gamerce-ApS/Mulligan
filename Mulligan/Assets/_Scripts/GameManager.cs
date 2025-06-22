@@ -9,6 +9,17 @@ public class GameManager : Singleton<GameManager>
     public Hero TheHero;
     public bool DisableBossDebuffNextRound = false;
     public bool BonusAttacksNextRound = false;
+
+    //Runes Effects
+    public int BonusRerolls = 0;
+    public bool ReviveFullHP = false;
+    public bool ReviveWith1HP = false;
+    public float MarketDiscountModifier = 1;
+    public float BossGoldMultiplier = 1;
+    public float PotionRetriggerChance = 0;
+    public bool HasFreeReroll = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +31,7 @@ public class GameManager : Singleton<GameManager>
                 HandManager.Instance.Init();
                 UIManager.Instance.Init();
                 UnitUpgradeManager.Instance.Init();
+                ShopManager.Instance.PopulateShop();
                 TheHero.Init(CardContainer.Instance.StatingHealth);
                 StartGame();
         

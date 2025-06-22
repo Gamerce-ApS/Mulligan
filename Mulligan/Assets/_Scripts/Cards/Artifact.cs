@@ -106,8 +106,10 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isHolding = false;
         holdTimer = 0f;
         UIManager.Instance.HideCardInfoPopup();
+        UIManager.Instance.UpdateArtifactSlotsUI();
+
     }
-    
+
 
     public GameObject DmgNumber = null;
     bool isCriticalBonus = false;

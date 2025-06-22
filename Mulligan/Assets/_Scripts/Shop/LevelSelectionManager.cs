@@ -68,7 +68,11 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         if (GameData.CurrentRound % 4 != 0)
         {
             BackgroundImage.sprite = NormalGameBG.GetRandom();
+            if(GameData.CurrentRound<9)
             CurrentLevel.text = "0" + GameData.CurrentRound.ToString();
+            else
+                CurrentLevel.text = GameData.CurrentRound.ToString();
+
             Buttons[0].SetActive(true);
             Buttons[1].SetActive(true);
             Buttons[2].SetActive(false);

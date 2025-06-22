@@ -30,7 +30,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public GameObject mutedGO;
 
     public System.Action<Card> OnClick = null;
-
+    public GameObject enhancedGO;
     public CardTypeEnum myType;
     public bool allowDrag = true;
     private void Awake()
@@ -58,6 +58,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             RankLabel.transform.parent.gameObject.SetActive(true);
         }
+
+        if(enhancedGO !=null)
+        {
+            if (aCardInstance.appliedUpgrades.Count > 0 || aCardInstance.IsSpecial())
+                enhancedGO.SetActive(true);
+            else
+                enhancedGO.SetActive(false);
+
+        }
+
 
 
     }
@@ -91,7 +101,10 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             RankLabel.text = cardInstance.currentRank.ToString();
             RankLabel.transform.parent.gameObject.SetActive(true);
         }
-
+        if (cardInstance.appliedUpgrades.Count > 0 || cardInstance.IsSpecial())
+            enhancedGO.SetActive(true);
+        else
+            enhancedGO.SetActive(false);
 
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
     }

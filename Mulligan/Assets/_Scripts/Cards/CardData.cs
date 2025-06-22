@@ -85,6 +85,24 @@ public enum UpgradeType
     Charms,
     RankUpgrade
 }
+public enum RuneRarity { Normal, Rare }
+[System.Serializable]
+public class RuneData
+{
+    public string name;
+    public RuneType type;
+    public RuneRarity rarity;
+    public string description;
+}
+public enum RuneType
+{
+    RerollBonus,            // +1 or +2 reroll per turn
+    HeroAegis,              // Resurrect with 1 HP or full HP
+    MarketDiscount,         // 25% or 50% discount in Market
+    BossDoubleGold,         // Double gold from boss rewards
+    PotionRetriggerChance,  // 10% or 20% chance to retrigger potion effects
+    FreeMarketReroll        // First reroll is free each turn
+}
 public enum CardTypeEnum
 {
     UnitCard,

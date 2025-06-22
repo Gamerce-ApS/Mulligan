@@ -415,6 +415,31 @@ MonoBehaviour:
   - type: 10
     title: '+2 attacks next round '
     description: 
+  allRunes:
+  - name: Rune of Reroll
+    type: 0
+    rarity: 0
+    description: +1 Reroll per round
+  - name: Rune of Aegis
+    type: 1
+    rarity: 0
+    description: Gain 1 Aegis (revive with 1 HP)
+  - name: Rune of Bargain
+    type: 2
+    rarity: 0
+    description: 25% discount in the Market
+  - name: Boss Bounty Rune
+    type: 3
+    rarity: 0
+    description: Bosses drop double Gold
+  - name: Rune of Echoes
+    type: 4
+    rarity: 0
+    description: 10% chance to retrigger Potion effects
+  - name: Rune of Reset
+    type: 5
+    rarity: 0
+    description: First Market reroll is free each turn
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2

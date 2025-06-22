@@ -33,15 +33,24 @@ public class UIManager : Singleton<UIManager>
 
     public RectTransform BuyItemArea;
 
+    private Vector3 DamageLabelOriginalScale;
+    private Vector3 CriticalLabelOriginalScale;
+
+
     // Start is called before the first frame update
     public void Init()
     {
+        DamageLabelOriginalScale = DamageLabel.transform.localScale;
+        CriticalLabelOriginalScale = CriticalLabel.transform.localScale;
         DamageReset();
     }
     public void DamageReset()
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "0";
+        DamageLabel.transform.localScale = DamageLabelOriginalScale;
+        CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
+
     }
     // Update is called once per frame
     void Update()
@@ -53,7 +62,9 @@ public class UIManager : Singleton<UIManager>
         AttackLabel.text = GameData.CurrentAttacks.ToString();
         ReRollLabel.text = GameData.CurrentReRolls.ToString();
         RoundsLabel.text = "Round "+GameData.CurrentRound.ToString();
-        WorldLabel.text = "1/8";
+        int totalWorlds = 8; // or however many worlds you have
+        int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
+        WorldLabel.text = $"{currentWorld}/{totalWorlds}";
         GoldLabel.text = GameData.CurrentGold.ToString();
 
     }
@@ -76,12 +87,16 @@ public class UIManager : Singleton<UIManager>
     public void AddDamage(float aDamage)
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(DamageLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
-        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(()=> {
+            DamageLabel.transform.localScale = DamageLabelOriginalScale;
+        });
     }
     public void AddCritical(float aDamage)
     {
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(CriticalLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
-        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() => {
+            CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
+        });
     }
 
 

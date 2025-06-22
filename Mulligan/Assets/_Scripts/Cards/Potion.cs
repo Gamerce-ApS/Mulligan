@@ -158,7 +158,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             ApplyPotionToCard(PotionData, hoveredCard);
         }
         UIManager.Instance.HideCardInfoPopup();
-
+        UIManager.Instance.UpdateArtifactSlotsUI();
     }
 
     private void ApplyPotionToCard(PotionCardData potion, Card target)
@@ -189,9 +189,10 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             hoveredCard.transform.rotation = Quaternion.identity;
             shakeCoroutine = null;
         }
+        //UIManager.Instance.UpdateArtifactSlotsUI();
 
     }
-    
+
 
 
 }

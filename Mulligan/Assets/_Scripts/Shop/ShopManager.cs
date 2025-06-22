@@ -21,12 +21,15 @@ public class ShopManager : Singleton<ShopManager>
 
         Clear();
 
-        GameObject.Instantiate(RunePrefab, RuneParent);
-        GameObject.Instantiate(RunePrefab, RuneParent);
+        GameObject go = GameObject.Instantiate(RunePrefab, RuneParent);
+        go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+        go = GameObject.Instantiate(RunePrefab, RuneParent);
+        go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
-        
-        GameObject go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+
+        go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         go.GetComponent< ShopCard>().Init( ArtifactManager.Instance.GetRandom() );
         go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
@@ -60,7 +63,7 @@ public class ShopManager : Singleton<ShopManager>
     {
         startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
 
-        PopulateShop();
+        //PopulateShop();
     }
 
     // Update is called once per frame

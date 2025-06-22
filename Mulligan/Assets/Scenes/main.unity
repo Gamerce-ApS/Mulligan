@@ -3318,6 +3318,11 @@ MonoBehaviour:
     description: 
     sprite_icon: 
     value: 0
+  RuneData:
+    name: 
+    type: 0
+    rarity: 0
+    description: 
   Price: 30
   isSelected: 0
   PriceLabel: {fileID: 0}
@@ -5097,6 +5102,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -6161,6 +6167,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -7014,6 +7021,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405999894}
   m_CullTransparentMesh: 1
+--- !u!1 &410811876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 410811878}
+  - component: {fileID: 410811877}
+  m_Layer: 0
+  m_Name: RuneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &410811877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410811876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64097c5f334054a5882a8903aade6b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActiveRunes: []
+--- !u!4 &410811878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410811876}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -42.62402, y: 38.14221, z: 67.74057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &414241516
 GameObject:
   m_ObjectHideFlags: 0
@@ -8832,6 +8884,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -10207,6 +10260,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -10437,6 +10491,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -10512,6 +10567,13 @@ MonoBehaviour:
   TheHero: {fileID: 256949436}
   DisableBossDebuffNextRound: 0
   BonusAttacksNextRound: 0
+  BonusRerolls: 0
+  ReviveFullHP: 0
+  ReviveWith1HP: 0
+  MarketDiscountModifier: 1
+  BossGoldMultiplier: 1
+  PotionRetriggerChance: 0
+  HasFreeReroll: 0
 --- !u!4 &661135960
 Transform:
   m_ObjectHideFlags: 0
@@ -15827,6 +15889,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -16068,6 +16131,8 @@ MonoBehaviour:
   EnemyDataList: []
   BossDataList: []
   SkipDataList: []
+  RuneDataList: []
+  PotionDataList: []
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2
@@ -25644,6 +25709,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -28559,6 +28625,11 @@ MonoBehaviour:
     description: 
     sprite_icon: 
     value: 0
+  RuneData:
+    name: 
+    type: 0
+    rarity: 0
+    description: 
   Price: 30
   isSelected: 0
   PriceLabel: {fileID: 0}
@@ -28708,6 +28779,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -28780,7 +28852,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivePotions: []
-  cardDataObject: {fileID: 11400000, guid: 92e23a3bc84444f68a722b3693967552, type: 2}
 --- !u!4 &1779375735
 Transform:
   m_ObjectHideFlags: 0
@@ -29295,6 +29366,11 @@ MonoBehaviour:
     description: 
     sprite_icon: 
     value: 0
+  RuneData:
+    name: 
+    type: 0
+    rarity: 0
+    description: 
   Price: 30
   isSelected: 0
   PriceLabel: {fileID: 0}
@@ -30682,6 +30758,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 998640448}
   ClassIcon: {fileID: 1328034135}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -31141,6 +31218,11 @@ MonoBehaviour:
     description: 
     sprite_icon: 
     value: 0
+  RuneData:
+    name: 
+    type: 0
+    rarity: 0
+    description: 
   Price: 30
   isSelected: 0
   PriceLabel: {fileID: 0}
@@ -31552,6 +31634,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 1853611591}
   ClassIcon: {fileID: 734821643}
   mutedGO: {fileID: 0}
+  enhancedGO: {fileID: 0}
   myType: 0
   allowDrag: 1
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -34047,6 +34130,7 @@ SceneRoots:
   - {fileID: 39725621}
   - {fileID: 1264652088}
   - {fileID: 1779375735}
+  - {fileID: 410811878}
   - {fileID: 724669545}
   - {fileID: 4530917}
   - {fileID: 2017304554}

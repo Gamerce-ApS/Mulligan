@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6754602931673922613}
   - component: {fileID: 7914169050508925914}
   - component: {fileID: 3975818356005011134}
-  - component: {fileID: 3066483084836089822}
   - component: {fileID: -2911529327742608290}
   m_Layer: 5
   m_Name: Potiontemplate
@@ -91,27 +90,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3066483084836089822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2420767907018489139}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d31c10dede114846aa4254a3418b16a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelected: 0
-  ArtifactData:
-    name: 
-    description: 
-    icon: {fileID: 0}
-    effect: 0
-    value: 0
-  NameLabel: {fileID: 2480812778422282611}
-  DmgNumber: {fileID: 0}
 --- !u!114 &-2911529327742608290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,10 +107,9 @@ MonoBehaviour:
     name: 
     effectType: 0
     description: 
-    icon: {fileID: 0}
+    sprite_icon: 
     value: 0
   NameLabel: {fileID: 2480812778422282611}
-  DmgNumber: {fileID: 0}
 --- !u!1 &3861735430569032171
 GameObject:
   m_ObjectHideFlags: 0

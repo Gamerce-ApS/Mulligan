@@ -14,6 +14,7 @@ using UnityEngine;
         public BossData[] allBosses;
         public EnemyData[] allEnemies;
         public SkipRewardData[] allSkipeRewards;
+        public RuneData[] allRunes;
         public int StatingGold = 0;
         public int GoldGainPerLevel = 5;
         public float GoldInflation = 1.2f;
@@ -40,7 +41,7 @@ using UnityEngine;
         EnemyBaseDamage = aData.EnemyBaseDamage;
         GrowthRate= aData.GrowthRate;
         allSkipeRewards = aData.allSkipeRewards;
-
+        allRunes = aData.allRunes;
     }
 }
 [System.Serializable]
@@ -62,5 +63,6 @@ public class CardDataExportWrapper
     public int EnemyBaseDamage = 0;
     public float GrowthRate;
     public SkipRewardData[] allSkipeRewards;
+    public RuneData[] allRunes;
 
 }
