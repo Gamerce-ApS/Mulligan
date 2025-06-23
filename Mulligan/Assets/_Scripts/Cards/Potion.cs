@@ -182,7 +182,6 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         isHolding = false;
         holdTimer = 0f;
-        UIManager.Instance.HideCardInfoPopup();
         if (shakeCoroutine != null)
         {
             StopCoroutine(shakeCoroutine);
@@ -190,6 +189,32 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             shakeCoroutine = null;
         }
         //UIManager.Instance.UpdateArtifactSlotsUI();
+
+
+
+        if (isDragging == false)
+        {
+            if (UIManager.Instance.currentTransform == transform)
+            {
+                UIManager.Instance.HideCardInfoPopup();
+            }
+            else
+            {
+                UIManager.Instance.ShowCardInfoPopup(
+                         PotionData.name,
+                         PotionData.description,
+                         "",
+                         transform
+                     );
+            }
+        }
+        else
+        {
+
+            UIManager.Instance.HideCardInfoPopup();
+
+        }
+
 
     }
 

@@ -74,7 +74,7 @@ public class HandManager : Singleton<HandManager>
 
 
         UIManager.Instance.DamageReset();
-
+        GameManager.Instance.myGameStates = GameManager.GameStates.Evaluation;
         //Delay so lifting works
         UnityHelper.RunAfterDelay(this, 0.6f, () =>
         {

@@ -42,6 +42,9 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             //rectTransform.anchoredPosition = originalAnchoredPos;
             isSelected = false;
         }
+  
+   
+
 
     }
 
@@ -105,8 +108,29 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         isHolding = false;
         holdTimer = 0f;
-        UIManager.Instance.HideCardInfoPopup();
-        UIManager.Instance.UpdateArtifactSlotsUI();
+   
+
+        if(isDragging == false)
+        {
+            if (UIManager.Instance.currentTransform == transform)
+            {
+                UIManager.Instance.HideCardInfoPopup();
+            }
+            else
+            {
+                UIManager.Instance.ShowCardInfoPopup(
+                     ArtifactData.name,
+                     ArtifactData.description,
+                     "",
+                     transform);
+            }
+        }
+        else
+        {
+            UIManager.Instance.HideCardInfoPopup();
+            UIManager.Instance.UpdateArtifactSlotsUI();
+
+        }
 
     }
 

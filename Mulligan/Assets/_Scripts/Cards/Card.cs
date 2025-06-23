@@ -139,8 +139,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnPointerClick(PointerEventData eventData)
     {
 
-
-        if(OnClick != null)
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game)
+            return;
+        if (OnClick != null)
         {
             OnClick.Invoke(this);
 
@@ -182,6 +183,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (!allowDrag)
             return;
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game)
+            return;
 
         if(isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
@@ -221,6 +224,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (!allowDrag)
             return;
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game)
+            return;
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -252,6 +257,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (!allowDrag)
             return;
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game)
+            return;
+
         {
             isDragging = false;
  

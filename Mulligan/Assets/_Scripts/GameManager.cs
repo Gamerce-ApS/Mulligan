@@ -5,6 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    public enum GameStates
+    {
+        Loading,
+        Pre_Game,
+        Game,
+        Evaluation,
+        Post_Game
+    };
+    public GameStates myGameStates;
+
     public Enemy TheEnemy;
     public Hero TheHero;
     public bool DisableBossDebuffNextRound = false;
@@ -23,6 +33,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        myGameStates = GameStates.Loading;
         GameDataLoader.Instance.LoadGameData(()=>
         {
          
@@ -47,11 +58,12 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
         HeroSelectionManager.Instance.ShowWindow(() => {
-
+            myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
             LevelSelectionManager.Instance.ShowWindow(() => {
-            TheEnemy.Init(GameData.CurrentRound);
-             });
+                TheEnemy.Init(GameData.CurrentRound);
+                GameManager.Instance.myGameStates = GameManager.GameStates.Game;
+            });
         });
     }
     public void WinGame()
@@ -63,7 +75,7 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentRound++;
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
-
+            myGameStates = GameStates.Post_Game;
             UIManager.Instance.ShowVictoryScreen(() => {
                 ArmoryManager.Instance.ShowWindow(() =>
                 {
@@ -77,6 +89,8 @@ public class GameManager : Singleton<GameManager>
                             TheEnemy.gameObject.SetActive(true);
                             TheEnemy.Init(GameData.CurrentRound);
                             EvaluatorManager.Instance.StartLevel();
+                            GameManager.Instance.myGameStates = GameManager.GameStates.Game;
+
                         });
 
                 });
@@ -117,8 +131,8 @@ public class GameManager : Singleton<GameManager>
     {
         GameData.CurrentAttacks--;
         EvaluatorManager.Instance.FinisLevel();
+        myGameStates = GameStates.Game;
 
-        
 
         if ( TheEnemy.Health < 0)
         {
