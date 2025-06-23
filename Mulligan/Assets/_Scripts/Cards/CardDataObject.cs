@@ -15,10 +15,10 @@ using UnityEngine;
         public EnemyData[] allEnemies;
         public SkipRewardData[] allSkipeRewards;
         public RuneData[] allRunes;
+        public HeroData[] allHeroes;
         public int StatingGold = 0;
         public int GoldGainPerLevel = 5;
         public float GoldInflation = 1.2f;
-        public int StatingHealth = 0;
         public int EnemyBaseHealth = 0;
         public int EnemyBaseDamage = 0;
         public float GrowthRate;
@@ -36,12 +36,12 @@ using UnityEngine;
         StatingGold = aData.StatingGold;
         GoldGainPerLevel = aData.GoldGainPerLevel;
         GoldInflation = aData.GoldInflation;
-        StatingHealth = aData.StatingHealth;
         EnemyBaseHealth = aData.EnemyBaseHealth;
         EnemyBaseDamage = aData.EnemyBaseDamage;
         GrowthRate= aData.GrowthRate;
         allSkipeRewards = aData.allSkipeRewards;
         allRunes = aData.allRunes;
+        allHeroes = aData.allHeroes;
     }
 }
 [System.Serializable]
@@ -58,11 +58,13 @@ public class CardDataExportWrapper
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
     public float GoldInflation = 1.2f;
-    public int StatingHealth = 0;
     public int EnemyBaseHealth = 0;
     public int EnemyBaseDamage = 0;
     public float GrowthRate;
     public SkipRewardData[] allSkipeRewards;
     public RuneData[] allRunes;
+    public HeroData[] allHeroes;
+
+    
 
 }

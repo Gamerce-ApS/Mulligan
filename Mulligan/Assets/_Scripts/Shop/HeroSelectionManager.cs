@@ -1,0 +1,145 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HeroSelectionManager : Singleton<HeroSelectionManager>
+{
+
+    public GameObject ShopWindow;
+
+
+
+    public List<GameObject> HeroNormal;
+    public List<GameObject> HeroSelected;
+    public int selectedHero = -1;
+    public Vector3 OriginalScale;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
+        OriginalScale = HeroNormal[0].transform.localScale;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    public Vector3 startPosition;
+    System.Action OnHideShop=null;
+    public CanvasGroup bgCanvasGroup;
+    public void ShowWindow(System.Action onComplete = null)
+    {
+
+        bgCanvasGroup.gameObject.SetActive(true);
+        bgCanvasGroup.alpha = 0;
+        LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();
+
+        OnHideShop = onComplete;
+        ShopWindow.SetActive(true);
+        // Store the target position
+        Vector2 targetPos = startPosition;
+
+        // Start below the screen
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height*2);
+
+        // Animate to its original position
+        LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
+
+        RefreshUI();
+
+
+
+
+    }
+    public void RefreshUI()
+    {
+  
+    }
+    public void HideWindow()
+    {
+        bgCanvasGroup.alpha = 1;
+        LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
+
+        // Move downward off the screen
+        Vector2 hidePos = new Vector2(ShopWindow.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // Animate down
+        LeanTween.move(ShopWindow.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                OnHideShop?.Invoke();
+                ShopWindow.SetActive(false);
+                ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
+                bgCanvasGroup.gameObject.SetActive(false);
+            });
+    }
+    public void ClickHero(int id)
+    {
+        if (selectedHero == id)
+            return; // Don't reselect the same hero
+
+        for (int i = 0; i < HeroNormal.Count; i++)
+        {
+            if (i == id)
+            {
+                GameObject selected = HeroSelected[i];
+                HeroNormal[i].SetActive(false);
+                HeroSelected[i].SetActive(true);
+
+                // Reset scale before animating
+                HeroSelected[i].transform.localScale = OriginalScale * 0.9f;
+
+                // Animate pop-in effect
+                LeanTween.scale(selected, OriginalScale * 1.05f, 0.15f)
+                    .setEaseOutBack()
+                    .setOnComplete(() =>
+                    {
+                        LeanTween.scale(selected, OriginalScale, 0.1f).setEaseInOutSine();
+                    });
+
+                // Optional: flash glow (if you have a glow GameObject as child)
+                var glow = HeroSelected[i].transform.Find("Glow");
+                if (glow != null)
+                {
+                    glow.gameObject.SetActive(true);
+                    glow.GetComponent<CanvasGroup>().alpha = 1f;
+                    LeanTween.alphaCanvas(glow.GetComponent<CanvasGroup>(), 0f, 0.5f)
+                        .setOnComplete(() => glow.gameObject.SetActive(false));
+                }
+                HeroSelected[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
+                HeroSelected[i].transform.Find("description").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].description;
+            }
+            else
+            {
+                HeroNormal[i].SetActive(true);
+                HeroNormal[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
+
+                HeroSelected[i].SetActive(false);
+            }
+        }
+
+        selectedHero = id;
+        GameData.HeroSelected = id;
+    }
+
+    public void ClickPlay()
+    {
+        if(selectedHero == -1)
+        {
+            UIManager.Instance.ShowTooltip("You need to selected a hero!");
+            return;
+        }
+
+
+        HideWindow();
+    }
+    public void ClickLocked()
+    {
+        UIManager.Instance.ShowTooltip("Locked heroes");
+
+    }
+  
+}

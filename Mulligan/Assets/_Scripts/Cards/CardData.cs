@@ -207,3 +207,30 @@ public class SkipRewardData
     public string title;
     [TextArea] public string description;
 }
+
+[System.Serializable]
+public class HeroData
+{
+    public string heroName;
+    public int startingHP;
+
+    public HeroTrait startingTrait;        // e.g. +1 Attack or +1 Reroll
+    public StartingItemType startingItem;  // e.g. Random Artifact or Potion
+
+    public string description;             // For UI display
+    public string portrait;                // Optional
+}
+public enum HeroTrait
+{
+    BonusAttack,
+    BonusReroll,
+    ExtraGold,
+    None
+}
+
+public enum StartingItemType
+{
+    RandomArtifact,
+    RandomPotion,
+    None
+}

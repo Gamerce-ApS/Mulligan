@@ -13,6 +13,7 @@ public class Hero : MonoBehaviour
     private Color originalColor;
     public Image bar;
 
+    HeroData myHeroData;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,46 @@ public class Hero : MonoBehaviour
         Health = aHealth;
         healthLabel.text = Health.ToString();
         MaxHealth = Health;
+    }
+    public void Init(HeroData aData)
+    {
+        myHeroData = aData;
+
+        Health = aData.startingHP;
+        healthLabel.text = Health.ToString();
+        MaxHealth = Health;
+
+        if( aData.startingItem == StartingItemType.RandomArtifact)
+        {
+            ArtifactManager.Instance.AddRandomArtifact();
+        }
+        else if (aData.startingItem == StartingItemType.RandomPotion)
+        {
+            PotionManager.Instance.AddRandomPotion();
+        }
+
+        GameData.CurrentAttacks += GetAttackModifier();
+        GameData.CurrentReRolls += GetRollsModifier();
+
+        image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
+
+
+    }
+    public int GetAttackModifier()
+    {
+        if (myHeroData.startingTrait == HeroTrait.BonusAttack)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    public int GetRollsModifier()
+    {
+        if (myHeroData.startingTrait == HeroTrait.BonusReroll)
+        {
+            return 1;
+        }
+        return 0;
     }
     public void DoDamage(int aDamage)
     {

@@ -32,7 +32,6 @@ public class GameManager : Singleton<GameManager>
                 UIManager.Instance.Init();
                 UnitUpgradeManager.Instance.Init();
                 ShopManager.Instance.PopulateShop();
-                TheHero.Init(CardContainer.Instance.StatingHealth);
                 StartGame();
         
         });
@@ -42,22 +41,25 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
+        TheHero.Init(100);
         GameData.CurrentGold = CardContainer.Instance.StatingGold;
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
-        LevelSelectionManager.Instance.ShowWindow(() => {
+        HeroSelectionManager.Instance.ShowWindow(() => {
+
+            TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
+            LevelSelectionManager.Instance.ShowWindow(() => {
             TheEnemy.Init(GameData.CurrentRound);
-
+             });
         });
-
     }
     public void WinGame()
     {
         GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
         GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
-        GameData.CurrentAttacks = 4;
-        GameData.CurrentReRolls = 2;
+        GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
+        GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
         LeanTween.delayedCall(gameObject, 1f, () =>
         {

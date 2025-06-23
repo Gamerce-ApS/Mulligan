@@ -45,7 +45,11 @@ public class GameData
         get { return PlayerPrefs.GetInt("GlobalDamageMultiplier", 1); }
         set { PlayerPrefs.SetInt("GlobalDamageMultiplier", value); UIManager.Instance.UpdateLabels(); }
     }
-
+    public static int HeroSelected
+    {
+        get { return PlayerPrefs.GetInt("HeroSelected", 1); }
+        set { PlayerPrefs.SetInt("HeroSelected", value); UIManager.Instance.UpdateLabels(); }
+    }
 
 
 

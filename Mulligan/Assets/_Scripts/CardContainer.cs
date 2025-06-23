@@ -12,12 +12,11 @@ public class CardContainer : Singleton<CardContainer>
     public SkipRewardData[] SkipDataList = null;
     public RuneData[] RuneDataList = null;
     public PotionCardData[] PotionDataList = null;
+    public HeroData[] HeroDataList = null;
 
-    
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
     public float GoldInflation = 1.2f;
-    public int StatingHealth = 0;
     public int EnemyBaseHealth = 0;
     public int EnemyBaseDamage = 0;
     public float GrowthRate = 0.1f;
@@ -36,11 +35,10 @@ public class CardContainer : Singleton<CardContainer>
         EnemyDataList = CardLoader.LoadAllCards().allEnemies;
         BossDataList = CardLoader.LoadAllCards().allBosses;
         PotionDataList = CardLoader.LoadAllCards().allPotions;
-
+        HeroDataList = CardLoader.LoadAllCards().allHeroes;
         StatingGold = CardLoader.LoadAllCards().StatingGold;
         GoldGainPerLevel = CardLoader.LoadAllCards().GoldGainPerLevel;
         GoldInflation = CardLoader.LoadAllCards().GoldInflation;
-        StatingHealth = CardLoader.LoadAllCards().StatingHealth;
         EnemyBaseHealth = CardLoader.LoadAllCards().EnemyBaseHealth;
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;

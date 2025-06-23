@@ -440,6 +440,19 @@ MonoBehaviour:
     type: 5
     rarity: 0
     description: First Market reroll is free each turn
+  allHeroes:
+  - heroName: WARRIOR
+    startingHP: 100
+    startingTrait: 1
+    startingItem: 1
+    description: "    100 HP      +1 Reroll \\n\u2022 Starts with  Potion"
+    portrait: hero
+  - heroName: RANGER
+    startingHP: 75
+    startingTrait: 0
+    startingItem: 0
+    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    portrait: hero2
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2
