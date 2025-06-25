@@ -33,6 +33,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public GameObject enhancedGO;
     public CardTypeEnum myType;
     public bool allowDrag = true;
+
+    public GameObject AnyRace;
+    public GameObject AnyClass;
+
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -107,6 +112,21 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             enhancedGO.SetActive(false);
 
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
+
+
+
+        foreach(var u in cardInstance.appliedUpgrades)
+        {
+            if(u.effect == UpgradeEffect.Enchantment_Changeling)
+            {
+                AnyRace.SetActive(true);
+            }
+            if (u.effect == UpgradeEffect.Enchantment_PlusOneClass)
+            {
+                AnyClass.SetActive(true);
+            }
+        }
+
     }
     void Update()
     {
@@ -139,7 +159,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game)
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game && ArmoryManager.Instance.ShopWindow.activeSelf == false)
             return;
         if (OnClick != null)
         {
@@ -159,12 +179,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 UIManager.Instance.ShowTooltip("Only 4 cards can be selected.");
                 return;
             }
-            if (cardInstance.isMuted)
-            {
-                LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.2f).setEasePunch();
-                UIManager.Instance.ShowTooltip("Card is muted.");
-                return;
-            }
+            //if (cardInstance.isMuted)
+            //{
+            //    LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.2f).setEasePunch();
+            //    UIManager.Instance.ShowTooltip("Card is muted.");
+            //    return;
+            //}
             originalAnchoredPos = rectTransform.anchoredPosition;
             rectTransform.anchoredPosition += new Vector2(0, 70f); // Lift
             isSelected = true;
@@ -347,11 +367,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         amount = amount.Replace("Gold", "");
         amount = amount.Replace("+", "");
         amount = amount.Replace(" ", "");
+        amount = amount.Replace("<voffset=-26>", "");
+        amount = amount.Replace("</voffset>", "");
+        amount = amount.Replace("<sprite=0>", "");
+
+
         return int.Parse(amount);
 
     }
     public GameObject DmgNumber = null;
-    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false,bool isTotal = false)
+    public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false,bool isTotal = false,string SynergySpriteName = "")
     {
         if(damageAmount==0)
         {
@@ -429,7 +454,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
  
 
-        dmgRT.anchoredPosition += new Vector2(0, 250f);
+        dmgRT.anchoredPosition += new Vector2(0, 185f);
 
         // 4. Animate punch scale in
         dmgRT.localScale = Vector3.zero;
@@ -439,6 +464,15 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             onComplete?.Invoke();
         });
+
+        dmgText.text = "<voffset=-26>" + dmgText.text + "</voffset>";
+
+        if (SynergySpriteName != "")
+        {
+            dmgText.spriteAsset = GameManager.Instance.GetTextSpriteForSprite(SynergySpriteName);
+
+            dmgText.text += "    <sprite=0>";
+        }
     }
 
 
@@ -447,7 +481,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         int TotalDamage = 0;
         TotalDamage = cardInstance.GetDamage();
-        int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand);
+        int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand,false,false);
         TotalDamage += synergyBonus;
 
         return TotalDamage;
@@ -478,6 +512,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
                     amount = amount.Replace("</color>", "");
                     amount = amount.Replace("<color=#FFD700>+", "");
+                    amount = amount.Replace("<voffset=-26>", "");
+                    amount = amount.Replace("</voffset>", "");
+                    amount = amount.Replace("<sprite=0>", "");
                     // After animation add to the total
                     if (isCrit)
                         UIManager.Instance.AddCritical(int.Parse(amount.Replace(" Critical", "")));

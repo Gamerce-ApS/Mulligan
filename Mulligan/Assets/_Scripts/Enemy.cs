@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public float MaxHealth = 100;
 
     public TMPro.TMP_Text healthLabel;
-
+    public TMPro.TMP_Text dmgLabel;
     private Image image;
     private Color originalColor;
     public Image bar;
@@ -84,14 +84,14 @@ public class Enemy : MonoBehaviour
         float statMultiplier = 1f + (level - 1) * growthRate;
 
         int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth*baseHp * statMultiplier);
-        int scaledDamage = Mathf.RoundToInt(baseDmg * statMultiplier);
+        int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage * statMultiplier);
 
         // Apply these values to the enemy instance (for example, to its health component)
         Health = scaledHP;
         MaxHealth = Health;
         Damage = scaledDamage;
         healthLabel.text = Health.ToString();
-
+        dmgLabel.text = Damage.ToString();
     }
 
     public void Attack(int aDamage=0)

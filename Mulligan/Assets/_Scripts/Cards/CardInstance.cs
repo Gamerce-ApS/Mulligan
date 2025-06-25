@@ -98,10 +98,16 @@ public class CardInstance
             UpgradeRank();
             return;
         }
+       
         if (!appliedUpgrades.Contains(upgrade))
         {
             appliedUpgrades.Add(upgrade);
         }
+
+        if (CardGO != null)
+            CardGO.UpdateCardUI();
+
+  
     }
 
     public void EvaluateUpgrades(System.Action onComplete)
@@ -118,26 +124,55 @@ public class CardInstance
 
         onComplete.Invoke();
     }
+    public bool GetIsAnyClass()
+    {
+        if (IsFacelessThisTurn)
+            return true;
+
+        foreach (var upgrade in appliedUpgrades)
+        {
+            if (upgrade.effect == UpgradeEffect.Enchantment_PlusOneClass)
+                return true;
+        }
+
+
+        return false;
+    }
+    public bool GetIsAnyRace()
+    {
+        foreach (var upgrade in appliedUpgrades)
+        {
+            if (upgrade.effect == UpgradeEffect.Enchantment_Changeling)
+                return true;
+        }
+        return false;
+    }
     public void BecomeFacelessThisTurn()
     {
         IsFacelessThisTurn = true;
-        //if (CardGO != null)
-        //{
-        //    // Optional: visual cue
-        //    LeanTween.scale(CardGO.gameObject, Vector3.one * 1.15f, 0.3f).setEasePunch();
-        //}
+        if (CardGO != null)
+        {
+            // Optional: visual cue
+            LeanTween.scale(CardGO.gameObject, Vector3.one * 1.15f, 0.3f).setEasePunch();
+        }
+        CardGO.AnyClass.SetActive(true);
     }
     public void TurnEnded(System.Action onComplete)
     {
         tempCritBonus = 0;
         tempDamageBonus = 0;
-        IsFacelessThisTurn = false;
-        if(WillExplodeAfterAttack)
+        if(IsFacelessThisTurn)
+        {
+            CardGO.AnyClass.SetActive(false);
+            IsFacelessThisTurn = false;
+        }
+        if (WillExplodeAfterAttack)
         {
             // Destroy
             currentRank = 0;
             appliedUpgrades.Clear();
         }
+        CardGO.UpdateCardUI();
         onComplete?.Invoke();
     }
 

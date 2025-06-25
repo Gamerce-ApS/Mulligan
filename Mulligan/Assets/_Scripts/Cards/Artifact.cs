@@ -145,7 +145,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             return;
         }
         // Pulse
-        LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.5f)
+        LeanTween.scale(gameObject, Vector3.one * 1.7f, 0.6f)
         .setEasePunch();
         isCriticalBonus = isCrit;
         int totalD = damageAmount;
@@ -164,18 +164,19 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         TMPro.TMP_Text dmgText = DmgNumber.GetComponent<TMPro.TMP_Text>();
 
 
+
         totalD = int.Parse(dmgText.text.Replace("+", "")) + damageAmount;
 
         if (isCrit)
         {
             dmgText.text = "+" + totalD + " Critical";
             DmgNumber.GetComponent<TMPro.TMP_Text>().fontSize = 50;
-            dmgRT.anchoredPosition -= new Vector2(0, 165f);
+            dmgRT.anchoredPosition -= new Vector2(0, 165f+120f);
 
         }
         else
         {
-            dmgRT.anchoredPosition -= new Vector2(0, 175f);
+            dmgRT.anchoredPosition -= new Vector2(0, 165f+120f);
             dmgText.text = "+" + totalD;
         }
 
@@ -184,7 +185,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         // 4. Animate punch scale in
         dmgRT.localScale = Vector3.zero;
-        LeanTween.scale(DmgNumber, Vector3.one * 1.2f, 0.3f).setEaseOutBack();
+        LeanTween.scale(DmgNumber, Vector3.one * 1.3f, 0.3f).setEaseOutBack();
 
         LeanTween.delayedCall(DmgNumber, 1.0f, () =>
         {

@@ -201,6 +201,8 @@ public class PotionManager : Singleton<PotionManager>
         if (ActivePotions.Count >= 2)
         {
             Debug.Log("potion slots are full.");
+            UIManager.Instance.ShowTooltip("potion slots are full.");
+
             return;
         }
 
@@ -236,7 +238,12 @@ public class PotionManager : Singleton<PotionManager>
     }
     public void AddPotion(PotionCardData artifact)
     {
-        if (ActivePotions.Count >= 5) return;
+        if (ActivePotions.Count >= 2)
+        {
+            UIManager.Instance.ShowTooltip("potion slots are full.");
+            return;
+        }
+
 
         ActivePotions.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals

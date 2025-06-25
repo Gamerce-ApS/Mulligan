@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,8 @@ public class UIManager : Singleton<UIManager>
         DamageLabelOriginalScale = DamageLabel.transform.localScale;
         CriticalLabelOriginalScale = CriticalLabel.transform.localScale;
         DamageReset();
+
+        OriginalsynergyTextGO = synergyTextGO.transform.localScale;
     }
     public void DamageReset()
     {
@@ -77,6 +80,9 @@ public class UIManager : Singleton<UIManager>
     {
         if(GameData.CurrentReRolls >0)
         {
+            HandManager.Instance.ReRollHand();
+            UIManager.Instance.HideCardInfoPopup();
+
             GameData.CurrentReRolls--;
         }
     }
@@ -183,13 +189,50 @@ public class UIManager : Singleton<UIManager>
             if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected) continue;
 
             var data = cardInstance.data;
+            if (cardInstance.GetIsAnyClass())
+            {
 
-            if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
-            raceCounts[data.race]++;
+            }
+            else
+            {
+                if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
+                classCounts[data.cardClass]++;
+            }
 
-            if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
-            classCounts[data.cardClass]++;
+            if (cardInstance.GetIsAnyRace())
+            {
+
+            }
+            else
+            {
+                if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
+                raceCounts[data.race]++;
+            }
         }
+        foreach (var cardInstance in HandManager.Instance.CurrentHand)
+        {
+            if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected)
+                continue;
+
+            if (cardInstance.GetIsAnyRace())
+            {
+                // ✅ Safe: iterate over a copy of the keys
+                foreach (var key in raceCounts.Keys.ToList())
+                {
+                    raceCounts[key]++;
+                }
+            }
+
+            if (cardInstance.GetIsAnyClass())
+            {
+                foreach (var key in classCounts.Keys.ToList())
+                {
+                    classCounts[key]++;
+                }
+            }
+        }
+
+
 
         // 3. Create UI items for each synergy
         foreach (var kvp in raceCounts)
@@ -201,6 +244,8 @@ public class UIManager : Singleton<UIManager>
         {
             CreateSynergyItem($"Class: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForClass(kvp.Key),false);
         }
+
+        synergyTextGO.transform.localScale = OriginalsynergyTextGO;
     }
 
     private void CreateSynergyItem(string key, int count, int max, Sprite iconSprite, bool isRace)
@@ -277,7 +322,9 @@ public class UIManager : Singleton<UIManager>
 
  
     }
-    public void PulseSynergyItem(string keyName)
+    public GameObject synergyTextGO;
+    public Vector3 OriginalsynergyTextGO;
+    public void PulseSynergyItem(string keyName,bool combat=false)
     {
         Transform parent = SynergiTemplate.transform.parent;
 
@@ -288,7 +335,19 @@ public class UIManager : Singleton<UIManager>
 
             if (child.name.Contains(keyName)) // match based on synergy key
             {
-                LeanTween.scale(child, child.transform.localScale * 1.3f, 0.5f).setEasePunch();
+                if(combat == false)
+                    LeanTween.scale(child, child.transform.localScale * 1.4f, 0.5f).setEasePunch();
+                else
+                {
+                    Transform ch = child.transform;
+                    Vector3 orignialScale = child.transform.localScale;
+                    LeanTween.scale(child, child.transform.localScale * 2.6f, 0.7f).setEasePunch().setOnComplete(() => { ch.transform.localScale = orignialScale; }); ;
+                    LeanTween.scale(synergyTextGO, synergyTextGO.transform.localScale * 2.6f, 0.7f).setEasePunch().setOnComplete(()=> {
+                        synergyTextGO.transform.localScale = OriginalsynergyTextGO;
+                    });
+
+                }
+
             }
         }
     }

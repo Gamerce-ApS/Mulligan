@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EvaluatorManager  : Singleton<EvaluatorManager>
@@ -145,8 +146,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         // Step 3: Synergy Damage Bonuses
         steps.Enqueue(next => {
-            int synergyBonus = GetSynergyDamage(aCard,HandManager.Instance.PlayedHand);
-            aCard.CardGO.AddDamage(synergyBonus, next);
+            int synergyBonus = GetSynergyDamage(aCard,HandManager.Instance.PlayedHand,true);
+            aCard.CardGO.AddDamage(synergyBonus, next,false,false,false, GetSynergyIconForCard(aCard, HandManager.Instance.PlayedHand) );
 
         });
 
@@ -253,11 +254,35 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             var data = card.data;
 
             if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
+
+            if(card.GetIsAnyRace() == false && card.isMuted == false)
             raceCounts[data.race]++;
 
             if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
-            classCounts[data.cardClass]++;
+
+            if (card.GetIsAnyClass() == false && card.isMuted == false)
+                classCounts[data.cardClass]++;
+
         }
+        foreach (var cardInstance in playedCards)
+        {
+            if (cardInstance.GetIsAnyRace() && cardInstance.isMuted == false)
+            {
+                // ✅ Safe: iterate over a copy of the keys
+                foreach (var key in raceCounts.Keys.ToList())
+                {
+                    raceCounts[key]++;
+                }
+            }
+            if (cardInstance.GetIsAnyClass() && cardInstance.isMuted == false)
+            {
+                foreach (var key in classCounts.Keys.ToList())
+                {
+                    classCounts[key]++;
+                }
+            }
+        }
+
 
         foreach (var card in playedCards)
         {
@@ -265,7 +290,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
             bool isBoosted = raceCounts[data.race] >= 2 || classCounts[data.cardClass] >= 2;
 
-            if (isBoosted)
+            if (isBoosted && card.isMuted == false)
             {
                 boosted.Add(card);
                 totalDamage += card.GetDamage(); // include ranks, bonuses, etc.
@@ -274,7 +299,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         return boosted;
     }
-    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand)
+    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand, bool isCombat = false,bool popUI = true)
     {
         // Count synergies in current PlayedHand
         int raceCount = 0;
@@ -282,8 +307,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         foreach (var c in aHand)
         {
-            if (c.data.race == card.data.race) raceCount++;
-            if (c.data.cardClass == card.data.cardClass) classCount++;
+            if (c.data.race == card.data.race || c.GetIsAnyRace()) raceCount++;
+            if (c.data.cardClass == card.data.cardClass || c.GetIsAnyClass()) classCount++;
         }
 
         int bonus = 0;
@@ -291,16 +316,43 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         if (raceCount == 2 || raceCount == 3 )
         {
             bonus += card.GetDamage(); // Double race damage
-            UIManager.Instance.PulseSynergyItem(card.data.race.ToString());
+            if(popUI)
+            UIManager.Instance.PulseSynergyItem(card.data.race.ToString(), isCombat);
         }
 
         if (classCount == 2 || classCount == 3)
         {
             bonus += card.GetDamage(); // Double class damage
-            UIManager.Instance.PulseSynergyItem(card.data.cardClass.ToString());
+            if(popUI)
+            UIManager.Instance.PulseSynergyItem(card.data.cardClass.ToString(), isCombat);
         }
 
         return bonus;
+    }
+    public string GetSynergyIconForCard(CardInstance card, List<CardInstance> aHand)
+    {
+        // Count synergies in current PlayedHand
+        int raceCount = 0;
+        int classCount = 0;
+
+        foreach (var c in aHand)
+        {
+            if (c.data.race == card.data.race || c.GetIsAnyRace()) raceCount++;
+            if (c.data.cardClass == card.data.cardClass || c.GetIsAnyClass()) classCount++;
+        }
+
+
+        if (raceCount == 2 || raceCount == 3)
+        {
+            return CardContainer.Instance.GetSpriteForRace(card.data.race).name;
+        }
+
+        if (classCount == 2 || classCount == 3)
+        {
+            return CardContainer.Instance.GetSpriteForClass(card.data.cardClass).name;
+        }
+
+        return "";
     }
     public void ApplyGlobalDamageMultiplier(int multiplier)
     {
@@ -315,11 +367,31 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         {
             if (!raceCounts.ContainsKey(card.data.race))
                 raceCounts[card.data.race] = 0;
-            raceCounts[card.data.race]++;
+            if (card.GetIsAnyRace() == false)
+                raceCounts[card.data.race]++;
 
             if (!classCounts.ContainsKey(card.data.cardClass))
                 classCounts[card.data.cardClass] = 0;
-            classCounts[card.data.cardClass]++;
+            if (card.GetIsAnyClass() == false)
+                classCounts[card.data.cardClass]++;
+        }
+        foreach (var cardInstance in aHand)
+        {
+            if (cardInstance.GetIsAnyRace())
+            {
+                // ✅ Safe: iterate over a copy of the keys
+                foreach (var key in raceCounts.Keys.ToList())
+                {
+                    raceCounts[key]++;
+                }
+            }
+            if (cardInstance.GetIsAnyClass())
+            {
+                foreach (var key in classCounts.Keys.ToList())
+                {
+                    classCounts[key]++;
+                }
+            }
         }
 
         int critTriggered = 0;

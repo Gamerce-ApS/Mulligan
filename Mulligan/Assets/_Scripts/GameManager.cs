@@ -29,6 +29,8 @@ public class GameManager : Singleton<GameManager>
     public float PotionRetriggerChance = 0;
     public bool HasFreeReroll = false;
 
+    public List<TMPro.TMP_SpriteAsset> TextSprites = new List<TMPro.TMP_SpriteAsset>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +51,14 @@ public class GameManager : Singleton<GameManager>
 
 
     }
-
+    public TMPro.TMP_SpriteAsset GetTextSpriteForSprite(string aSpriteName)
+    {
+        foreach(var e in TextSprites)
+        {
+            if (e.name == aSpriteName) return e;
+        }
+        return null;
+    }
     public void StartGame()
     {
         TheHero.Init(100);

@@ -100,6 +100,36 @@ public class HandManager : Singleton<HandManager>
         //UIManager.Instance.ShowDamage(totalDmg);
 
     }
+    public void ReRollHand()
+    {
+        for (int i = CurrentHand.Count - 1; i >= 0; i--)
+        {
+            var cardInstance = CurrentHand[i];
+            Card cardGO = cardInstance.CardGO;
+
+            if (cardGO.isSelected)
+            {
+                PlayedHand.Add(cardInstance);
+                CurrentHand.RemoveAt(i); // remove from hand list
+            }
+        }
+
+        Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen
+
+        for (int i = 0; i < PlayedHand.Count; i++)
+        {
+            PlayedHand[i].CardGO.FlyAwayAndDiscard(discardTarget, i * 0.1f, PlayedHand[i]); // staggered delay
+        }
+        ArcCardLayout.Instance.FillEmpty();
+
+        UnityHelper.RunAfterDelay(this, 1.0f, () =>
+        {
+            PlayedHand.Clear();
+            RefillHand();
+
+        });
+
+    }
     public void DiscardHand()
     {
         Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen

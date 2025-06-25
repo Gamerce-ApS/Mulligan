@@ -85,7 +85,16 @@ public class ArmoryManager : Singleton<ArmoryManager>
     }
     public void ClickReRoll()
     {
-        PopulateShop();
+        if (GameData.CurrentGold >= 5)
+        {
+            GameData.CurrentGold -= 5;
+            PopulateShop();
+        }
+        else
+        {
+            UIManager.Instance.ShowTooltip("Not enough gold!");
+
+        }
     }
     public void ClickSkip()
     {
