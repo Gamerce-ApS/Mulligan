@@ -92,6 +92,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         originalAnchoredPos = rectTransform.anchoredPosition;
         UIManager.Instance.HideCardInfoPopup();
+        UIManager.Instance.BuyItemArea.gameObject.SetActive(true);
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -106,6 +108,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+
+        UIManager.Instance.BuyItemArea.gameObject.SetActive(false);
         {
             isDragging = false;
 
@@ -117,7 +121,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         canvasGroup.blocksRaycasts = true;
 
-        if (IsOverArtifactSlot())
+        if (IsOverSellSlot())
         {
             if (GameData.CurrentGold >= Price)
             {
@@ -151,7 +155,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    private bool IsOverArtifactSlot()
+    private bool IsOverSellSlot()
     {
             if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.BuyItemArea, Input.mousePosition,Camera.main))
             {

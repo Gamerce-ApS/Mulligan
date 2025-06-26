@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -36,7 +37,7 @@ public class UIManager : Singleton<UIManager>
 
     private Vector3 DamageLabelOriginalScale;
     private Vector3 CriticalLabelOriginalScale;
-
+    public Transform SynergiButtonInfo;
 
     // Start is called before the first frame update
     public void Init()
@@ -89,6 +90,11 @@ public class UIManager : Singleton<UIManager>
     public void ClickContinueFromShop()
     {
         ShopManager.Instance.HideShopWindow();
+    }
+    public void ClickContinueFromDefeate()
+    {
+        GameManager.Instance.StartGame();
+        SceneManager.LoadScene(0);
     }
     public void AddDamage(float aDamage)
     {
@@ -521,6 +527,26 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
+    public GameObject LoseParent;
+    public void ShowLoseScreen(System.Action onComplete)
+    {
+        LoseParent.GetComponent<CanvasGroup>().alpha = 0f;
+        LoseParent.SetActive(true);
+
+
+
+        // Fade in
+        LeanTween.alphaCanvas(LoseParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        {
+            // Animate children
+            StartCoroutine(AnimateChildrenIn(onComplete, LoseParent.transform,-1));
+        });
+        foreach (Transform child in LoseParent.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+    }
     private IEnumerator AnimateChildrenIn(System.Action onComplete, Transform parent, float FadeOutAfterTime = 2.5f)
     {
         int i = 0;
@@ -543,11 +569,14 @@ public class UIManager : Singleton<UIManager>
         yield return new WaitForSeconds(FadeOutAfterTime);
 
         onComplete?.Invoke();
-        LeanTween.alphaCanvas(parent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        if(FadeOutAfterTime != -1)
         {
-
-            parent.gameObject.SetActive(false);
-        });
+            LeanTween.alphaCanvas(parent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+            {
+                parent.gameObject.SetActive(false);
+            });
+        }
+ 
 
     }
 
@@ -577,6 +606,22 @@ public class UIManager : Singleton<UIManager>
         foreach (Transform child in BossParent.transform)
         {
             child.gameObject.SetActive(false);
+        }
+
+    }
+
+    public void ClickShowSynergiTooltip()
+    {
+        if (currentTransform == SynergiButtonInfo)
+            HideCardInfoPopup();
+        else
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                "Synergies",
+                "2 units: 2X damage \n\n4 units: 3X Critical",
+                "",
+                SynergiButtonInfo
+            );
         }
 
     }

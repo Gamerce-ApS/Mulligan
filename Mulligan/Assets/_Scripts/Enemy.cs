@@ -127,7 +127,10 @@ public class Enemy : MonoBehaviour
             LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
                         .setEasePunch();
             GameManager.Instance.TheHero.DoDamage(aDamage);
-
+            if (GameManager.Instance.TheHero.Health <= 0)
+            {
+                GameManager.Instance.LostGame();
+            }
         });
 
     }

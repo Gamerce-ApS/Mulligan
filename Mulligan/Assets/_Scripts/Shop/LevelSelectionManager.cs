@@ -17,6 +17,10 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public TMPro.TMP_Text RewardText;
 
     public List<GameObject> Buttons;
+
+    public List<GameObject> LevelParent;
+    public List<GameObject> BossParent;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,7 +40,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public void ShowWindow(System.Action onComplete = null)
     {
         CurrentRewardData = RewardManager.Instance.GetRandom();
-        RewardText.text = CurrentRewardData.title;
+        //RewardText.text = CurrentRewardData.title;
 
 
         bgCanvasGroup.gameObject.SetActive(true);
@@ -60,30 +64,39 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
 
 
     }
+
     public void RefreshUI()
     {
         //buttonsParent.transform.position = LevelPositions[GameData.CurrentRound].transform.position;
-
+        foreach (var a in LevelParent)
+            a.SetActive(false);
+        foreach (var a in BossParent)
+            a.SetActive(false);
         //Is boss level
         if (GameData.CurrentRound % 4 != 0)
         {
-            BackgroundImage.sprite = NormalGameBG.GetRandom();
-            if(GameData.CurrentRound<9)
-            CurrentLevel.text = "0" + GameData.CurrentRound.ToString();
-            else
-                CurrentLevel.text = GameData.CurrentRound.ToString();
+            int index = (GameData.CurrentRound - 1) % LevelParent.Count;
+            GameObject parent = LevelParent[index];
 
-            Buttons[0].SetActive(true);
-            Buttons[1].SetActive(true);
-            Buttons[2].SetActive(false);
+            parent.SetActive(true);
+            //BackgroundImage.sprite = NormalGameBG.GetRandom();
+
+            TMPro.TMP_Text rewardT = parent.transform.Find("reward").GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>();
+            rewardT.text = CurrentRewardData.title;
+            TMPro.TMP_Text levleT = parent.transform.Find("PlayButton").GetChild(1).GetComponent<TMPro.TMP_Text>();
+
+            if (GameData.CurrentRound<9)
+                levleT.text = "0" + GameData.CurrentRound.ToString();
+            else
+                levleT.text = GameData.CurrentRound.ToString();
         }
         else
         {
-            BackgroundImage.sprite = BossGameBG.GetRandom();
-            CurrentLevel.text = "";
-            Buttons[0].SetActive(false);
-            Buttons[1].SetActive(false);
-            Buttons[2].SetActive(true);
+            BossParent.GetRandom().SetActive(true);
+
+            //BackgroundImage.sprite = BossGameBG.GetRandom();
+            //CurrentLevel.text = "";
+
         }
     }
     public void HideWindow()
@@ -108,12 +121,13 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public void ClickSkip()
     {
         GameData.CurrentRound++;
-        RefreshUI();
+        //RefreshUI();
         HideWindow();
         LeanTween.delayedCall(gameObject, 0.3f, () =>
         {
             RewardManager.Instance.ShowWindow(()=> { ShowWindow(); });
         });
+
     }
     public void ClickPlay()
     {

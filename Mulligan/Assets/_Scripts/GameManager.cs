@@ -126,10 +126,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        LeanTween.delayedCall(gameObject, 1f, () =>
+        LeanTween.delayedCall(gameObject, 0.5f, () =>
         {
-            StartGame();
-            SceneManager.LoadScene(0);
+            UIManager.Instance.ShowLoseScreen(()=> { });
+
         });
 
 
@@ -153,10 +153,7 @@ public class GameManager : Singleton<GameManager>
         }else
         {
             TheEnemy.Attack(CardContainer.Instance.EnemyBaseDamage);
-            if (TheHero.Health < 0)
-            {
-                LostGame();
-            }
+           
         }
     }
 
