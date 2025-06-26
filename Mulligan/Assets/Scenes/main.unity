@@ -39571,7 +39571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonUrl: http://gamerce.net/mulligan/data.json
-  useLocalData: 1
+  useLocalData: 0
 --- !u!4 &2017678128
 Transform:
   m_ObjectHideFlags: 0
