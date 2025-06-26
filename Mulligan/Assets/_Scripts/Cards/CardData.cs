@@ -188,8 +188,8 @@ public class BossData
     public string sprite_theSprite;
 
     public List<BossAbilityEnum> abilities;
-    public int baseHP;
-    public int baseDamage;
+    public float baseHP;
+    public float baseDamage;
 }
 [System.Serializable]
 public class EnemyData
@@ -197,8 +197,8 @@ public class EnemyData
     public string name;
     public string sprite_theSprite;
 
-    public int baseHP;
-    public int baseDamage;
+    public float baseHP;
+    public float baseDamage;
 }
 [System.Serializable]
 public class SkipRewardData

@@ -19677,6 +19677,7 @@ MonoBehaviour:
   RuneDataList: []
   PotionDataList: []
   HeroDataList: []
+  ArtifactDataList: []
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2
@@ -25550,7 +25551,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveArtifacts: []
-  cardDataObject: {fileID: 11400000, guid: 92e23a3bc84444f68a722b3693967552, type: 2}
 --- !u!4 &1264652088
 Transform:
   m_ObjectHideFlags: 0

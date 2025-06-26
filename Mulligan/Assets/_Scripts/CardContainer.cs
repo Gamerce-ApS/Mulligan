@@ -13,6 +13,7 @@ public class CardContainer : Singleton<CardContainer>
     public RuneData[] RuneDataList = null;
     public PotionCardData[] PotionDataList = null;
     public HeroData[] HeroDataList = null;
+    public ArtifactData[] ArtifactDataList = null;
 
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
@@ -44,6 +45,7 @@ public class CardContainer : Singleton<CardContainer>
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
+        ArtifactDataList = CardLoader.LoadAllCards().allArtifacts;
         CurrentDeck.Clear();
         foreach (var data in CardsDataList)
         {

@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
         if (aRound % 4 == 0)
         {
             BossData d = CardContainer.Instance.GetRandomBoss();
-            SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
+            SetupEnemyForLevel(d.baseHP , d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
 
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         else
         {
             EnemyData d = CardContainer.Instance.GetRandomEnemy();
-            SetupEnemyForLevel(d.baseDamage, d.baseHP, aRound);
+            SetupEnemyForLevel(d.baseHP, d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" + d.sprite_theSprite);
 
@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
         HandManager.Instance.HandleMutedCards();
     }
     // Example function to calculate scaled stats for a given enemy/boss at a certain level.
-    public void SetupEnemyForLevel(int baseHp, int baseDmg, int level)
+    public void SetupEnemyForLevel(float baseHp, float baseDmg, int level)
     {
         // Example scaling: 10% increase in stats per level (adjust factor as needed)
         float growthRate = CardContainer.Instance.GrowthRate;  // 10% per level
@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
         float statMultiplier = 1f + (level - 1) * growthRate;
 
         int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth*baseHp * statMultiplier);
-        int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage * statMultiplier);
+        int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage* baseDmg * statMultiplier);
 
         // Apply these values to the enemy instance (for example, to its health component)
         Health = scaledHP;

@@ -8,7 +8,6 @@ using System.Linq;
 public class ArtifactManager : Singleton<ArtifactManager>
 {
     public List<ArtifactData> ActiveArtifacts = new List<ArtifactData>(5);
-    public CardDataObject cardDataObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +27,8 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
         }
 
-        var all = cardDataObject.allArtifacts;
+        var all = CardContainer.Instance.ArtifactDataList;
+
         if (all == null || all.Length == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
@@ -64,7 +64,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     public ArtifactData GetRandom()
     {
 
-        var all = cardDataObject.allArtifacts;
+        var all = CardContainer.Instance.ArtifactDataList;
         if (all == null || all.Length == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
@@ -100,7 +100,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
         }
 
-        var all = cardDataObject.allArtifacts;
+        var all = CardContainer.Instance.ArtifactDataList;
         if (all == null || all.Length == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
@@ -157,34 +157,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         return total;
     }
 
-    [ContextMenu("Load Artifacts from JSON")]
-    public void LoadArtifactsFromJsonFile()
-    {
-        string path = Path.Combine(Application.streamingAssetsPath, "artifacts_colored.json");
 
-        if (!File.Exists(path))
-        {
-            Debug.LogError("Artifact JSON not found at: " + path);
-            return;
-        }
-
-        string json = File.ReadAllText(path);
-
-        try
-        {
-            var loaded = JsonConvert.DeserializeObject<List<ArtifactData>>(json);
-
-            if (cardDataObject != null)
-            {
-                cardDataObject.allArtifacts = loaded.ToArray();
-                Debug.Log($"Loaded {loaded.Count} artifacts into CardDataObject.");
-            }
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("Failed to parse artifacts: " + ex.Message);
-        }
-    }
 
     [System.Serializable]
     public class ArtifactJsonData
