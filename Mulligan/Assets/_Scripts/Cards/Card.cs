@@ -159,7 +159,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game && ArmoryManager.Instance.ShopWindow.activeSelf == false)
+        if (GameManager.Instance.myGameStates != GameManager.GameStates.Game && ArmoryManager.Instance.ShopWindow.activeSelf == false&& UnitUpgradeManager.Instance.ShopWindow.activeSelf == false)
             return;
         if (OnClick != null)
         {

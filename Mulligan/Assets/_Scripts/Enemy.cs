@@ -96,6 +96,11 @@ public class Enemy : MonoBehaviour
 
     public void Attack(int aDamage=0)
     {
+        int dmg = (int)(Damage);
+
+        if (aDamage > 0)
+            dmg = aDamage;
+
         float attackDuration = 0.4f;
 
         Vector3 originalPos = transform.position;
@@ -126,7 +131,7 @@ public class Enemy : MonoBehaviour
             // 2. Optional: impact punch
             LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
                         .setEasePunch();
-            GameManager.Instance.TheHero.DoDamage(aDamage);
+            GameManager.Instance.TheHero.DoDamage(dmg);
             if (GameManager.Instance.TheHero.Health <= 0)
             {
                 GameManager.Instance.LostGame();

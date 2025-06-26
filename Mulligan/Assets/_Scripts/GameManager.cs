@@ -152,7 +152,7 @@ public class GameManager : Singleton<GameManager>
             LostGame();
         }else
         {
-            TheEnemy.Attack(CardContainer.Instance.EnemyBaseDamage);
+            TheEnemy.Attack(0);
            
         }
     }
