@@ -51,7 +51,7 @@ public class Hero : MonoBehaviour
 
         image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
         Experience = 0;
-        Level = 0;
+        Level = 1;
         RefreshBar();
     }
     public int GetAttackModifier()

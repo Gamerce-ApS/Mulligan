@@ -152,7 +152,15 @@ public class RuneManager : Singleton<RuneManager>
 
         TriggerRunes(artifact);
     }
-
+    public string GetActiveRunesInfo()
+    {
+        string tot = "";
+        foreach(var r in ActiveRunes)
+        {
+            tot += r.name+ "\n";
+        }
+        return tot;
+    }
 
 
 

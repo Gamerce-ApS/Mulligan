@@ -46,6 +46,7 @@ public class UIManager : Singleton<UIManager>
     private Vector3 DamageLabelOriginalScale;
     private Vector3 CriticalLabelOriginalScale;
     public Transform SynergiButtonInfo;
+    public Transform HeroButtonInfo;
 
     // Start is called before the first frame update
     public void Init()
@@ -669,5 +670,19 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
+    public void ClickShowRunes()
+    {
+        if (currentTransform == HeroButtonInfo)
+            HideCardInfoPopup();
+        else
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                "Hero Runes",
+                RuneManager.Instance.GetActiveRunesInfo(),
+                "",
+                HeroButtonInfo
+            );
+        }
 
+    }
 }

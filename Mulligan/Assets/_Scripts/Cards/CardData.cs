@@ -167,7 +167,7 @@ public class PotionCardData
     [TextArea] public string description;
     public string sprite_icon;
 
-    public int value; // if needed (e.g. +2 crit, +20 dmg)
+    public float value; // if needed (e.g. +2 crit, +20 dmg)
 }
 [System.Serializable]
 public class UpgradeCardData

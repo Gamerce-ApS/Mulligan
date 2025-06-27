@@ -26,7 +26,7 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.CritBonus:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.tempCritBonus += potion.value;
+                    targetCard.cardInstance.tempCritBonus += (int)potion.value;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"+{potion.value} Crit to {targetCard.cardInstance.data.cardName}");
                 }
@@ -35,7 +35,7 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.DamageBonus:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.tempDamageBonus += potion.value;
+                    targetCard.cardInstance.tempDamageBonus += (int)potion.value;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"+{potion.value} Damage to {targetCard.cardInstance.data.cardName}");
                 }
@@ -46,7 +46,7 @@ public class PotionManager : Singleton<PotionManager>
                 allUnits.Shuffle();
                 foreach (var unit in allUnits.Take(3))
                 {
-                    unit.tempDamageBonus += potion.value;
+                    unit.tempDamageBonus += (int)potion.value;
                     unit.CardGO.UpdateCardUI();
                     //unit.CardGO?.PlayBoostAnimation(potion.value, UIManager.Instance.DamageLabel.transform);
                 }
@@ -73,7 +73,7 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.SuicideBoost:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.currentRank += potion.value;
+                    targetCard.cardInstance.currentRank += (int)potion.value;
                     targetCard.cardInstance.WillExplodeAfterAttack = true;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} gains {potion.value} Ranks but will explode");
@@ -86,8 +86,8 @@ public class PotionManager : Singleton<PotionManager>
                 break;
 
             case PotionEffectType.HealHero:
-                GameManager.Instance.TheHero.HealPercent(0.2f);
-                UIManager.Instance.ShowTooltip("Hero healed 20% HP");
+                GameManager.Instance.TheHero.HealPercent(potion.value);
+                UIManager.Instance.ShowTooltip("Hero healed "+ potion.value+ "% HP");
                 break;
 
             case PotionEffectType.BoostAndLoseHP:
@@ -96,7 +96,7 @@ public class PotionManager : Singleton<PotionManager>
                 var allUnits2 = HandManager.Instance.CurrentHand.Where(ci => ci.CardGO != null).ToList();
                 foreach (var unit in allUnits2)
                 {
-                    unit.tempDamageBonus = (unit.GetDamage())* potion.value;
+                    unit.tempDamageBonus = (unit.GetDamage())* (int)potion.value;
                     unit.CardGO.UpdateCardUI();
                 }
 
@@ -262,9 +262,9 @@ public class PotionManager : Singleton<PotionManager>
         return ActivePotions.Exists(a => a.effectType == effectType);
     }
 
-    public int GetArtifactValue(PotionEffectType effectType)
+    public float GetArtifactValue(PotionEffectType effectType)
     {
-        int total = 0;
+        float total = 0;
         foreach (var artifact in ActivePotions)
         {
             if (artifact.effectType == effectType)

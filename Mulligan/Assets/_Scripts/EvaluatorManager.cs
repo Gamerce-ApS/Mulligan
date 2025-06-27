@@ -472,6 +472,30 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         });
                     });
                 }
+                if (upgrade.effect == UpgradeEffect.Charms_Potion)
+                {
+                    steps.Enqueue(next =>
+                    {
+                        UIManager.Instance.ShowTooltip($"Added potion: {card.data.cardName}");
+                        PotionManager.Instance.AddRandomPotion();
+                        UnityHelper.RunAfterDelay(this, 0.5f, () =>
+                        {
+                            next();
+                        });
+                    });
+                }
+                if (upgrade.effect == UpgradeEffect.Charms_Heal)
+                {
+                    steps.Enqueue(next =>
+                    {
+                        UIManager.Instance.ShowTooltip($"Healed 10% of max health!");
+                        GameManager.Instance.TheHero.HealPercent(0.1f);
+                        UnityHelper.RunAfterDelay(this, 0.5f, () =>
+                        {
+                            next();
+                        });
+                    });
+                }
             }
         }
 
