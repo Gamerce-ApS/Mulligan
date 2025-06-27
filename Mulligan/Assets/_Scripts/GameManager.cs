@@ -66,6 +66,9 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
+        GameData.SkippedLevels = 0;
+        GameData.PotionsUsed = 0;
+        GameData.UpgradedUnits = 0;
         HeroSelectionManager.Instance.ShowWindow(() => {
             myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
@@ -160,7 +163,12 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.Y))
+        {
+            PotionManager.Instance.AddPotion(PotionEffectType.HealHero);
+        }
+
+        if (Input.GetKeyUp(KeyCode.S))
         {
             ArtifactManager.Instance.AddRandomArtifact();
         }
@@ -175,6 +183,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.A))
         {
             TheHero.Attack(500);
+            GameManager.Instance.FinishRound();
         }
         if (Input.GetKeyUp(KeyCode.I))
         {

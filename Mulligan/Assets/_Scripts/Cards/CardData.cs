@@ -220,6 +220,7 @@ public class HeroData
     public string description;             // For UI display
     public string portrait;                // Optional
 }
+
 public enum HeroTrait
 {
     BonusAttack,

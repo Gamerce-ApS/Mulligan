@@ -29,7 +29,17 @@ public class GameData
         get { return PlayerPrefs.GetInt("PotionsUsed", 0); }
         set { PlayerPrefs.SetInt("PotionsUsed", value); UIManager.Instance.UpdateLabels(); }
     }
-
+    public static int SkippedLevels
+    {
+        get { return PlayerPrefs.GetInt("SkippedLevels", 0); }
+        set { PlayerPrefs.SetInt("SkippedLevels", value); UIManager.Instance.UpdateLabels(); }
+    }
+    public static int UpgradedUnits
+    {
+        get { return PlayerPrefs.GetInt("UpgradedUnits", 0); }
+        set { PlayerPrefs.SetInt("UpgradedUnits", value); UIManager.Instance.UpdateLabels(); }
+    }
+    
     public static int CurrentArmySize
     {
         get { return PlayerPrefs.GetInt("CurrentArmySize", 0); }

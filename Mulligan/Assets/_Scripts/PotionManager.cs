@@ -117,6 +117,7 @@ public class PotionManager : Singleton<PotionManager>
                 Debug.LogWarning("Unhandled potion type: " + potion.effectType);
                 break;
         }
+        GameData.PotionsUsed++;
 
         // Remove used potion
         ActivePotions.Remove(potion);
@@ -124,19 +125,19 @@ public class PotionManager : Singleton<PotionManager>
     }
 
 
-    public void AddRandomPotion()
+    public PotionCardData AddRandomPotion()
     {
-        if (ActivePotions.Count >= 6)
+        if (ActivePotions.Count >= 2)
         {
-            Debug.Log("Artifact slots are full.");
-            return;
+            Debug.Log("Potions slots are full.");
+            return null;
         }
 
         var all = CardContainer.Instance.PotionDataList;
         if (all == null || all.Length == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
-            return;
+            return null;
         }
 
         // Filter out already equipped ones
@@ -152,7 +153,7 @@ public class PotionManager : Singleton<PotionManager>
         if (available.Count == 0)
         {
             Debug.Log("All artifacts are already equipped.");
-            return;
+            return null;
         }
 
         // Pick random one
@@ -164,6 +165,8 @@ public class PotionManager : Singleton<PotionManager>
         UIManager.Instance.UpdateArtifactSlotsUI();
 
         Debug.Log("Added artifact: " + selected.name);
+
+        return selected;
     }
     public PotionCardData GetRandom()
     {

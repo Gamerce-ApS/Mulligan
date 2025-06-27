@@ -11,6 +11,11 @@ public class RewardManager : Singleton<RewardManager>
 
     public TMPro.TMP_Text Title;
 
+    public Artifact ArtifactReward;
+    public Potion Potion1;
+    public Potion Potion2;
+
+
 
     // Start is called before the first frame update
     void Awake()
@@ -53,7 +58,7 @@ public class RewardManager : Singleton<RewardManager>
             {
                 if (child.name == "ignore" || child == bg.transform)
                 {
-                    child.gameObject.SetActive(true);
+                    //child.gameObject.SetActive(true);
 
                 }
                 else
@@ -74,9 +79,45 @@ public class RewardManager : Singleton<RewardManager>
                 child.gameObject.SetActive(false);
         }
 
+ 
 
+        if(LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.RareArtifact || LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.UncommonArtifact)
+        {
+            a1 = ArtifactManager.Instance.GetRandom();
+            ArtifactReward.Init(a1);
+            ArtifactReward.ArtifactData = a1;
+            ArtifactReward.gameObject.SetActive(true);
+
+            Vector3 targetScale = ArtifactReward.transform.localScale;
+            ArtifactReward.transform.localScale = Vector3.zero;
+            LeanTween.scale(ArtifactReward.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+
+        }
+        if (LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.RandomPotions)
+        {
+            p1 = PotionManager.Instance.GetRandom();
+            p2 = PotionManager.Instance.GetRandom();
+            
+            Potion1.Init(p1);
+            Potion1.PotionData = p1;
+            Potion2.Init(p2);
+            Potion2.PotionData = p2;
+            Potion1.gameObject.SetActive(true);
+            Potion2.gameObject.SetActive(true);
+
+            Vector3 targetScale = Potion1.transform.localScale;
+            Potion1.transform.localScale = Vector3.zero;
+            LeanTween.scale(Potion1.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+
+            targetScale = Potion2.transform.localScale;
+            Potion2.transform.localScale = Vector3.zero;
+            LeanTween.scale(Potion2.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+
+        }
     }
-
+    public PotionCardData p1;
+    public PotionCardData p2;
+    public ArtifactData a1;
     public void HideWindow()
     {
         if(LevelSelectionManager.Instance.CurrentRewardData != null)
@@ -131,8 +172,8 @@ public class RewardManager : Singleton<RewardManager>
                 break;
 
             case SkipRewardType.RandomPotions:
-                PotionManager.Instance.AddRandomPotion();
-                PotionManager.Instance.AddRandomPotion();
+                PotionManager.Instance.AddPotion(p1);
+                PotionManager.Instance.AddPotion(p2);
 
                 break;
 
@@ -141,15 +182,16 @@ public class RewardManager : Singleton<RewardManager>
                 break;
 
             case SkipRewardType.UncommonArtifact:
-                ArtifactManager.Instance.AddRandomArtifact();
+                ArtifactManager.Instance.AddArtifact(a1);
+                //ArtifactManager.Instance.AddRandomArtifact();
                 break;
 
             case SkipRewardType.RareArtifact:
-                ArtifactManager.Instance.AddRandomArtifact();
+                ArtifactManager.Instance.AddArtifact(a1);
                 break;
 
             case SkipRewardType.ArmoryUpgrade:
-                HandManager.Instance.RankUpRandom();
+                UnitUpgradeManager.Instance.ShowWindow();
                 break;
 
             case SkipRewardType.IncreaseMaxHP:
@@ -158,6 +200,7 @@ public class RewardManager : Singleton<RewardManager>
 
             case SkipRewardType.FullHeal:
                 GameManager.Instance.TheHero.Health = GameManager.Instance.TheHero.MaxHealth;
+                GameManager.Instance.TheHero.RefreshBar();
                 break;
 
             case SkipRewardType.MarketFreeNextRound:

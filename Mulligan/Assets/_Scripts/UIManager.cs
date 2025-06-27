@@ -23,6 +23,14 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text WorldLabel;
     public TMPro.TMP_Text GoldLabel;
 
+
+
+    //Hero info
+    public TMPro.TMP_Text GoldGainedText;
+    public TMPro.TMP_Text HealthGainedText;
+    public TMPro.TMP_Text LevelText;
+    public Image XpBar;
+
     public Canvas thCanvas;
 
     public GameObject ArtifactSlotTemplate; // prefab with icon image
@@ -526,6 +534,42 @@ public class UIManager : Singleton<UIManager>
             child.gameObject.SetActive(false);
         }
 
+        // 1. Add EXP
+        var hero = GameManager.Instance.TheHero;
+        hero.Experience += CardContainer.Instance.ExperiencePerKill;
+
+        // 2. Check for level-up
+        while (hero.Experience >= CardContainer.Instance.ExperienceToLevelUp)
+        {
+            hero.Experience -= CardContainer.Instance.ExperienceToLevelUp;
+            hero.Level++;
+
+            // 3. Increase max HP
+            hero.MaxHealth += CardContainer.Instance.HealthGainPerLevel;
+            hero.RefreshBar();
+            HealthGainedText.text = "+ "+CardContainer.Instance.HealthGainPerLevel.ToString();
+
+            LeanTween.delayedCall(gameObject, 1.5f, () =>
+            {
+                ShowTooltip($"Level Up! Max HP increased to {hero.MaxHealth}");
+            });
+            // 4. Show level-up tooltip
+
+
+
+        }
+        LevelText.text = "Level "+hero.Level.ToString();
+        XpBar.fillAmount = (float)hero.Experience / (float)CardContainer.Instance.ExperienceToLevelUp;
+        GoldGainedText.text = "+ "+CardContainer.Instance.GoldGainPerLevel.ToString();
+
+
+
+        //        public TMPro.TMP_Text GoldGainedText;
+        //public TMPro.TMP_Text HealthGainedText;
+        //public TMPro.TMP_Text LevelText;
+        //public Image XpBar;
+
+
     }
     public GameObject LoseParent;
     public void ShowLoseScreen(System.Action onComplete)
@@ -547,7 +591,7 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
-    private IEnumerator AnimateChildrenIn(System.Action onComplete, Transform parent, float FadeOutAfterTime = 2.5f)
+    private IEnumerator AnimateChildrenIn(System.Action onComplete, Transform parent, float FadeOutAfterTime = 3.5f)
     {
         int i = 0;
         foreach (Transform child in parent )

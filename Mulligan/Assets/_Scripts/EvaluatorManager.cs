@@ -535,10 +535,46 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
                     case ArtifactEffectType.CritPerPotionUsed:
                         int crit = GameData.PotionsUsed * artifactData.value;
-                        UIManager.Instance.AddCritical(crit);
+
+                        visual.AddDamage(crit, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        }, true);
+
+                        //UIManager.Instance.AddCritical(crit);
                         next();
                         break;
+                    case ArtifactEffectType.CritPerSkippedLevel:
+                        int crit2 = GameData.SkippedLevels * artifactData.value;
 
+                        visual.AddDamage(crit2, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        }, true);
+
+                        //UIManager.Instance.AddCritical(crit);
+                        next();
+                        break;
+                    case ArtifactEffectType.CritPerUpgradedUnit:
+                        int crit3 = GameData.UpgradedUnits * artifactData.value;
+
+                        visual.AddDamage(crit3, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        }, true);
+
+                        //UIManager.Instance.AddCritical(crit);
+                        next();
+                        break;
                     case ArtifactEffectType.RetriggerAttacks:
                         // logic handled elsewhere
                         next();

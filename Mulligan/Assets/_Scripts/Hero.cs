@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Hero : MonoBehaviour
 {
     public float Health = 100;
+    public int Experience = 0;
+    public int Level = 0;
     public float MaxHealth = 100;
     public float CurrentLifeStealProc = 0;
     public TMPro.TMP_Text healthLabel;
@@ -25,6 +27,7 @@ public class Hero : MonoBehaviour
         Health = aHealth;
         healthLabel.text = Health.ToString();
         MaxHealth = Health;
+        RefreshBar();
     }
     public void Init(HeroData aData)
     {
@@ -47,8 +50,9 @@ public class Hero : MonoBehaviour
         GameData.CurrentReRolls += GetRollsModifier();
 
         image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
-
-
+        Experience = 0;
+        Level = 0;
+        RefreshBar();
     }
     public int GetAttackModifier()
     {
@@ -66,12 +70,19 @@ public class Hero : MonoBehaviour
         }
         return 0;
     }
+    public void RefreshBar()
+    {
+        bar.fillAmount = Health / MaxHealth;
+        healthLabel.text = Health.ToString();
+    }
     public void DoDamage(int aDamage)
     {
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;
-
         healthLabel.text = Health.ToString();
+
+        RefreshBar();
+
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
         LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setEasePunch();
@@ -104,11 +115,13 @@ public class Hero : MonoBehaviour
     {
         int healAmount = Mathf.RoundToInt(MaxHealth * percent);
         Health += healAmount; // assuming you have a Heal(int) method
+        RefreshBar();
     }
     public void ReduceMaxHPPercent(float percent)
     {
         MaxHealth = Mathf.Max(1, MaxHealth - Mathf.RoundToInt(MaxHealth * percent));
         Health = Mathf.Min(Health, MaxHealth);
+        RefreshBar();
     }
     public void Attack(int aDamage)
     {
@@ -144,7 +157,9 @@ public class Hero : MonoBehaviour
                         .setEasePunch();
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
             Health += aDamage * (CurrentLifeStealProc);
+            RefreshBar();
             CurrentLifeStealProc = 0;
+            GameData.PotionsUsed = 0;
         });
 
     }

@@ -193,7 +193,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         {
             targetUnitCard.cardInstance.ApplyUpgrade(upgradeCard.cardInstance.upgradeData);
         }
-
+        GameData.UpgradedUnits++;
     }
     public void ClickSkip()
     {

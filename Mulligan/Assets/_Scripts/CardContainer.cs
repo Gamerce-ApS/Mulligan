@@ -21,8 +21,10 @@ public class CardContainer : Singleton<CardContainer>
     public int EnemyBaseHealth = 0;
     public int EnemyBaseDamage = 0;
     public float GrowthRate = 0.1f;
+    public int ExperiencePerKill;
+    public int ExperienceToLevelUp;
+    public int HealthGainPerLevel;
 
-    
 
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
@@ -46,6 +48,11 @@ public class CardContainer : Singleton<CardContainer>
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
         ArtifactDataList = CardLoader.LoadAllCards().allArtifacts;
+
+        ExperiencePerKill = CardLoader.LoadAllCards().ExperiencePerKill;
+        ExperienceToLevelUp = CardLoader.LoadAllCards().ExperienceToLevelUp;
+        HealthGainPerLevel = CardLoader.LoadAllCards().HealthGainPerLevel;
+
         CurrentDeck.Clear();
         foreach (var data in CardsDataList)
         {

@@ -127,7 +127,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         {
             RewardManager.Instance.ShowWindow(()=> { ShowWindow(); });
         });
-
+        GameData.SkippedLevels++;
     }
     public void ClickPlay()
     {

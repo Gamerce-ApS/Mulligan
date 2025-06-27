@@ -23,6 +23,11 @@ using UnityEngine;
         public int EnemyBaseDamage = 0;
         public float GrowthRate;
 
+        public int ExperiencePerKill;
+        public int ExperienceToLevelUp;
+        public int HealthGainPerLevel;
+
+
     public CardDataObject(CardDataExportWrapper aData)
     {
         allCards= aData.allCards;
@@ -42,6 +47,9 @@ using UnityEngine;
         allSkipeRewards = aData.allSkipeRewards;
         allRunes = aData.allRunes;
         allHeroes = aData.allHeroes;
+        ExperiencePerKill = aData.ExperiencePerKill;
+        ExperienceToLevelUp = aData.ExperienceToLevelUp;
+        HealthGainPerLevel = aData.HealthGainPerLevel;
     }
 }
 [System.Serializable]
@@ -64,7 +72,9 @@ public class CardDataExportWrapper
     public SkipRewardData[] allSkipeRewards;
     public RuneData[] allRunes;
     public HeroData[] allHeroes;
+    public int ExperiencePerKill;
+    public int ExperienceToLevelUp;
+    public int HealthGainPerLevel;
 
-    
 
 }

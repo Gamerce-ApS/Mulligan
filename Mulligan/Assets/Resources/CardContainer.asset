@@ -208,11 +208,6 @@ MonoBehaviour:
     sprite_icon: 
     effect: 12
     value: 1
-  - name: +5 Gold / Loss
-    description: Gain <color=#EAAF3B>+5</color> Gold when losing a level.
-    sprite_icon: 
-    effect: 13
-    value: 5
   - name: Heal After
     description: Heal hero <color=#EAAF3B>10%</color> of max HP after each level.
     sprite_icon: 
@@ -223,11 +218,6 @@ MonoBehaviour:
     sprite_icon: 
     effect: 15
     value: 20
-  - name: Double Synergy
-    description: Doubles all <color=#EAAF3B>race synergy</color> effects.
-    sprite_icon: 
-    effect: 16
-    value: 1
   allPotions:
   - name: Precise
     effectType: 0
@@ -388,9 +378,6 @@ MonoBehaviour:
   - type: 1
     title: 'Get 2 random potions '
     description: 
-  - type: 2
-    title: 'Disable buss debuff '
-    description: 
   - type: 3
     title: 'Get random uncommon Artifact '
     description: 
@@ -456,7 +443,9 @@ MonoBehaviour:
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2
-  StatingHealth: 250
   EnemyBaseHealth: 250
   EnemyBaseDamage: 15
   GrowthRate: 0.2
+  ExperiencePerKill: 25
+  ExperienceToLevelUp: 100
+  HealthGainPerLevel: 25
