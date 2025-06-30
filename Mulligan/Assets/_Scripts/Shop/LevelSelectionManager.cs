@@ -99,7 +99,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
 
         }
     }
-    public void HideWindow()
+    public void HideWindow(bool callback = true)
     {
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
@@ -112,6 +112,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             .setEaseInBack()
             .setOnComplete(() =>
             {
+                if(callback)
                 OnHideShop?.Invoke();
                 ShopWindow.SetActive(false);
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
@@ -122,10 +123,10 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     {
         GameData.CurrentRound++;
         //RefreshUI();
-        HideWindow();
+        HideWindow(false);
         LeanTween.delayedCall(gameObject, 0.3f, () =>
         {
-            RewardManager.Instance.ShowWindow(()=> { ShowWindow(); });
+            RewardManager.Instance.ShowWindow(()=> { ShowWindow(OnHideShop); });
         });
         GameData.SkippedLevels++;
     }

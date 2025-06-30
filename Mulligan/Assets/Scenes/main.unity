@@ -6625,7 +6625,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -7825,7 +7825,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -11863,7 +11863,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -13798,7 +13798,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -14031,7 +14031,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -15806,6 +15806,7 @@ MonoBehaviour:
   UnitPackParent: {fileID: 283947354}
   ShopWindow: {fileID: 1148307865}
   SetEverythingFreeNextRound: 0
+  hasRerolledForFree: 0
   startPosition: {x: 0, y: 0, z: 0}
   bgCanvasGroup: {fileID: 2115476051}
 --- !u!4 &724669545
@@ -20777,7 +20778,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -32867,7 +32868,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 724669544}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: PopulateShop
+        m_MethodName: ClickReRoll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33460,7 +33461,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -37524,7 +37525,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 0}
   ClassIcon: {fileID: 0}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -40605,7 +40606,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 998640448}
   ClassIcon: {fileID: 1328034135}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}
@@ -41615,7 +41616,7 @@ MonoBehaviour:
   RaceIcon: {fileID: 1853611591}
   ClassIcon: {fileID: 734821643}
   mutedGO: {fileID: 0}
-  enhancedGO: {fileID: 0}
+  enhancedGO: []
   myType: 0
   allowDrag: 1
   AnyRace: {fileID: 0}

@@ -296,4 +296,10 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     {
 
     }
+    public UpgradeCardData GetRandomUpgrade()
+    {
+        List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
+        list.Shuffle();
+        return list[0];
+    }
 }

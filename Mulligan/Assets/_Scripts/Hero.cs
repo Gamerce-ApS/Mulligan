@@ -64,11 +64,14 @@ public class Hero : MonoBehaviour
     }
     public int GetRollsModifier()
     {
+        int modifier = 0;
         if (myHeroData.startingTrait == HeroTrait.BonusReroll)
         {
-            return 1;
+            modifier = 1;
         }
-        return 0;
+        modifier+=GameManager.Instance.BonusRerolls;
+
+        return modifier;
     }
     public void RefreshBar()
     {
@@ -110,6 +113,7 @@ public class Hero : MonoBehaviour
     public void AddMaxHPPercent(float aValue)
     {
         MaxHealth *= aValue;
+        RefreshBar();
     }
     public void HealPercent(float percent)
     {

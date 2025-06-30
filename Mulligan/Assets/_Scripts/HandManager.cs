@@ -33,6 +33,16 @@ public class HandManager : Singleton<HandManager>
             UIManager.Instance.ShowTooltip("1 Unit Ranked Up!");
         }
     }
+    public void GiveRandomUpgrade()
+    {
+        if (CurrentHand.Count > 0)
+        {
+            var randomCard = CurrentHand[Random.Range(0, CurrentHand.Count)];
+
+            randomCard.ApplyUpgrade(UnitUpgradeManager.Instance.GetRandomUpgrade());
+            UIManager.Instance.ShowTooltip("1 Unit Ranked Up!");
+        }
+    }
     public void DrawHand()
     {
         for(int i = 0; i< 8;i++)

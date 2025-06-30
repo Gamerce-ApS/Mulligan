@@ -75,13 +75,30 @@ public class GameManager : Singleton<GameManager>
             LevelSelectionManager.Instance.ShowWindow(() => {
                 TheEnemy.Init(GameData.CurrentRound);
                 GameManager.Instance.myGameStates = GameManager.GameStates.Game;
+
+                if (GameManager.Instance.BonusAttacksNextRound)
+                {
+                    GameData.CurrentAttacks += 2;
+                    GameManager.Instance.BonusAttacksNextRound = false;
+                }
             });
         });
     }
     public void WinGame()
     {
         GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
-        GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
+
+        if (GameData.CurrentRound % 4 == 0)
+        {
+            GameData.CurrentGold += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
+        }
+        else
+        {
+            GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
+        }
+
+
+
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
@@ -178,7 +195,9 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            HandManager.Instance.RankUpRandom();
+            //HandManager.Instance.RankUpRandom();
+            HandManager.Instance.GiveRandomUpgrade();
+
         }
         if (Input.GetKeyUp(KeyCode.A))
         {
@@ -224,7 +243,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            RewardManager.Instance.ShowWindow();
+        //    RewardManager.Instance.ShowWindow();
         }
 
 

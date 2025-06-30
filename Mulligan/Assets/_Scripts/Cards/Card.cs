@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,7 +31,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public GameObject mutedGO;
 
     public System.Action<Card> OnClick = null;
-    public GameObject enhancedGO;
+    public List<GameObject> enhancedGO;
     public CardTypeEnum myType;
     public bool allowDrag = true;
 
@@ -66,11 +67,23 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if(enhancedGO !=null)
         {
-            if (aCardInstance.appliedUpgrades.Count > 0 || aCardInstance.IsSpecial())
-                enhancedGO.SetActive(true);
-            else
-                enhancedGO.SetActive(false);
+            if(enhancedGO.Count>0)
+            {
+                int upgradeAmount = aCardInstance.appliedUpgrades.Count;
+                if (upgradeAmount > 3)
+                    upgradeAmount = 3;
 
+                if (aCardInstance.IsSpecial() && upgradeAmount == 0)
+                    upgradeAmount = 1;
+
+                if (upgradeAmount > 0)
+                    enhancedGO[upgradeAmount - 1].SetActive(true);
+                else
+                {
+                    foreach (var u in enhancedGO)
+                        u.SetActive(false);
+                }
+            }
         }
 
 
@@ -106,10 +119,34 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             RankLabel.text = cardInstance.currentRank.ToString();
             RankLabel.transform.parent.gameObject.SetActive(true);
         }
-        if (cardInstance.appliedUpgrades.Count > 0 || cardInstance.IsSpecial())
-            enhancedGO.SetActive(true);
-        else
-            enhancedGO.SetActive(false);
+
+
+        if (enhancedGO != null)
+        {
+            if (enhancedGO.Count > 0)
+            {
+                int upgradeAmount = cardInstance.appliedUpgrades.Count;
+                if (upgradeAmount > 3)
+                    upgradeAmount = 3;
+
+                if (cardInstance.IsSpecial() && upgradeAmount == 0)
+                    upgradeAmount = 1;
+
+                if (upgradeAmount > 0)
+                    enhancedGO[upgradeAmount - 1].SetActive(true);
+                else
+                {
+                    foreach (var u in enhancedGO)
+                        u.SetActive(false);
+                }
+            }
+        }
+
+
+        //if (cardInstance.appliedUpgrades.Count > 0 || cardInstance.IsSpecial())
+        //    enhancedGO.SetActive(true);
+        //else
+        //    enhancedGO.SetActive(false);
 
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
 
@@ -148,11 +185,19 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public string GetDescription()
     {
         string upgradeString = "";
-        foreach( var upg in cardInstance.appliedUpgrades)
+        for(int i= 0; i < cardInstance.appliedUpgrades.Count;i++)
         {
-            return upg.description;
+            var upg = cardInstance.appliedUpgrades[i];
+            if (upg.description.Length >0)
+            {
+                if(i != 0)
+              upgradeString += "\n";
+              upgradeString += upg.description.Replace("\n", " ");
+
+            }
         }
 
+        //upgradeString = upgradeString.Replace(" ", "");
         return upgradeString;
     }
     public Quaternion originalRotation;

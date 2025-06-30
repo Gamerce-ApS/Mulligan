@@ -132,9 +132,23 @@ public class Enemy : MonoBehaviour
             LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
                         .setEasePunch();
             GameManager.Instance.TheHero.DoDamage(dmg);
+
             if (GameManager.Instance.TheHero.Health <= 0)
             {
-                GameManager.Instance.LostGame();
+                if(GameManager.Instance.ReviveFullHP )
+                {
+                    GameManager.Instance.ReviveFullHP = false;
+                    GameManager.Instance.TheHero.Health = GameManager.Instance.TheHero.MaxHealth;
+                }
+                else if(GameManager.Instance.ReviveWith1HP)
+                {
+                    GameManager.Instance.ReviveWith1HP = false;
+                    GameManager.Instance.TheHero.Health = 1;
+                }
+                else
+                {
+                    GameManager.Instance.LostGame();
+                }
             }
         });
 

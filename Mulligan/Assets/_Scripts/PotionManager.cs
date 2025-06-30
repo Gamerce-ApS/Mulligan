@@ -21,12 +21,17 @@ public class PotionManager : Singleton<PotionManager>
     }
     public void TriggerPotion(PotionCardData potion, Card targetCard = null)
     {
+        int EffectMultiplier = 1;
+        if(ArtifactManager.Instance.HasArtifact(ArtifactEffectType.DoublePotionEffects))
+            EffectMultiplier = 2;
+
+
         switch (potion.effectType)
         {
             case PotionEffectType.CritBonus:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.tempCritBonus += (int)potion.value;
+                    targetCard.cardInstance.tempCritBonus += (int)potion.value* EffectMultiplier;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"+{potion.value} Crit to {targetCard.cardInstance.data.cardName}");
                 }
@@ -35,7 +40,7 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.DamageBonus:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.tempDamageBonus += (int)potion.value;
+                    targetCard.cardInstance.tempDamageBonus += (int)potion.value * EffectMultiplier;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"+{potion.value} Damage to {targetCard.cardInstance.data.cardName}");
                 }
@@ -46,7 +51,7 @@ public class PotionManager : Singleton<PotionManager>
                 allUnits.Shuffle();
                 foreach (var unit in allUnits.Take(3))
                 {
-                    unit.tempDamageBonus += (int)potion.value;
+                    unit.tempDamageBonus += (int)potion.value * EffectMultiplier;
                     unit.CardGO.UpdateCardUI();
                     //unit.CardGO?.PlayBoostAnimation(potion.value, UIManager.Instance.DamageLabel.transform);
                 }
@@ -68,12 +73,21 @@ public class PotionManager : Singleton<PotionManager>
                     unit.BecomeFacelessThisTurn();
                     UIManager.Instance.ShowTooltip($"{unit.data.cardName} becomes Faceless");
                 }
+
+                if(EffectMultiplier==2)
+                {
+                    foreach (var unit in list.Take(2))
+                    {
+                        unit.BecomeFacelessThisTurn();
+                        UIManager.Instance.ShowTooltip($"{unit.data.cardName} becomes Faceless");
+                    }
+                }
                 break;
 
             case PotionEffectType.SuicideBoost:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.currentRank += (int)potion.value;
+                    targetCard.cardInstance.currentRank += (int)potion.value * EffectMultiplier;
                     targetCard.cardInstance.WillExplodeAfterAttack = true;
                     targetCard.UpdateCardUI();
                     UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} gains {potion.value} Ranks but will explode");
@@ -86,8 +100,8 @@ public class PotionManager : Singleton<PotionManager>
                 break;
 
             case PotionEffectType.HealHero:
-                GameManager.Instance.TheHero.HealPercent(potion.value);
-                UIManager.Instance.ShowTooltip("Hero healed "+ potion.value+ "% HP");
+                GameManager.Instance.TheHero.HealPercent(potion.value * EffectMultiplier);
+                UIManager.Instance.ShowTooltip("Hero healed "+ potion.value * EffectMultiplier+ "% HP");
                 break;
 
             case PotionEffectType.BoostAndLoseHP:
@@ -118,6 +132,24 @@ public class PotionManager : Singleton<PotionManager>
                 break;
         }
         GameData.PotionsUsed++;
+
+
+        if(GameManager.Instance.PotionRetriggerChance>0)
+        {
+            if(Random.Range(0,100) < GameManager.Instance.PotionRetriggerChance *100f)
+            {
+                LeanTween.delayedCall(gameObject, 0.5f, () =>
+                {
+                    UIManager.Instance.ShowTooltip($"Retriggered Potion!");
+                    LeanTween.delayedCall(gameObject, 0.5f, () =>
+                    {
+                        TriggerPotion(potion, targetCard);
+                    });
+                });
+
+                return;
+            }
+        }
 
         // Remove used potion
         ActivePotions.Remove(potion);

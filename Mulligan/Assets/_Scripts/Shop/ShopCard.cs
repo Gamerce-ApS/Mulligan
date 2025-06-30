@@ -34,6 +34,9 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
+
+        Price = (int)(Price * GameManager.Instance.MarketDiscountModifier);
+
         PriceLabel.text = Price.ToString();
     }
     public void Init(RuneData aData)
@@ -46,6 +49,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
+        Price = (int)(Price * GameManager.Instance.MarketDiscountModifier);
+
         PriceLabel.text = Price.ToString();
     }
     public void Init(PotionCardData aData)
@@ -57,6 +62,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         Price = 3;
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
+        Price = (int)(Price * GameManager.Instance.MarketDiscountModifier);
+
         PriceLabel.text = Price.ToString();
     }
     public void Init(int aCost)
@@ -66,6 +73,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         PotionData = null;
         RuneData = null;
         Price = aCost;
+        Price = (int)(Price * GameManager.Instance.MarketDiscountModifier);
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
         PriceLabel.text = Price.ToString();

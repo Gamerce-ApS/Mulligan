@@ -52,6 +52,25 @@ public class ShopManager : Singleton<ShopManager>
 
 
     }
+    public bool hasRerolledForFree = false;
+    public void ClickReRoll()
+    {
+        if(GameManager.Instance.HasFreeReroll && hasRerolledForFree == false)
+        {
+            PopulateShop();
+            hasRerolledForFree = true;
+        }
+        else if(GameData.CurrentGold>=5)
+        {
+            GameData.CurrentGold -= 5;
+            PopulateShop();
+        }
+        else
+        {
+            UIManager.Instance.ShowTooltip("Not enough gold!");
+        }
+    }
+
     public void Clear()
     {
         UnitPackParent.DestroyAllChildren();
@@ -93,6 +112,8 @@ public class ShopManager : Singleton<ShopManager>
 
         // Animate to its original position
         LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
+
+        hasRerolledForFree = false;
     }
     public void HideShopWindow()
     {
