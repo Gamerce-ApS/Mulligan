@@ -199,6 +199,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         UIManager.Instance.RefreshPreDamage();
     }
 
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!allowDrag)

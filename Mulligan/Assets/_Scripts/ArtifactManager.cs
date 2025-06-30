@@ -133,6 +133,16 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
 
     }
+    public void SellArtifact(Artifact aArtifact)
+    {
+        ActiveArtifacts.Remove(aArtifact.ArtifactData);
+        Destroy(aArtifact.gameObject);
+        UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
+        GameData.CurrentGold += 3;
+
+
+
+    }
     public void AddArtifact(ArtifactData artifact)
     {
         if (ActiveArtifacts.Count >= 5) return;

@@ -42,6 +42,8 @@ public class UIManager : Singleton<UIManager>
 
 
     public RectTransform BuyItemArea;
+    public RectTransform SellItemArea;
+
 
     private Vector3 DamageLabelOriginalScale;
     private Vector3 CriticalLabelOriginalScale;

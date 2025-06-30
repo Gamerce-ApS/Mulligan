@@ -60,8 +60,17 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         originalAnchoredPos = rectTransform.anchoredPosition;
 
+            UIManager.Instance.SellItemArea.gameObject.SetActive(true);
     }
+    private bool IsOverSellSlot()
+    {
+        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.SellItemArea, Input.mousePosition, Camera.main))
+        {
+            return true;
+        }
 
+        return false;
+    }
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 globalMousePos;
@@ -97,6 +106,10 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             rectTransform.anchoredPosition = originalAnchoredPos;
 
         }
+
+
+
+
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -130,7 +143,23 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             UIManager.Instance.HideCardInfoPopup();
             UIManager.Instance.UpdateArtifactSlotsUI();
 
+
+            if (IsOverSellSlot())
+            {
+                ArtifactManager.Instance.SellArtifact(this); // Add logic here
+
+                UIManager.Instance.ShowTooltip("Artifact sold!");
+
+            }
+            else
+            {
+
+            }
+
+            UIManager.Instance.SellItemArea.gameObject.SetActive(false);
         }
+
+
 
     }
 
