@@ -498,21 +498,21 @@ public class UIManager : Singleton<UIManager>
         LeanTween.alphaCanvas(cg, 1f, 0.2f);
 
 
-        if(target.GetComponent<Artifact>() != null)
-        {
-            activeInfoPopup.transform.Find("SellItemArea").gameObject.SetActive(true);
-            activeInfoPopup.transform.Find("SellItemArea").GetComponent<Button>().onClick.RemoveAllListeners();
-            Artifact art = target.GetComponent<Artifact>();
-            activeInfoPopup.transform.Find("SellItemArea").GetComponent<Button>().onClick.AddListener(() => {
-                ArtifactManager.Instance.SellArtifact(art);
-                UIManager.Instance.ShowTooltip("Artifact sold!");
-                HideCardInfoPopup();
-            });
+        // if(target.GetComponent<Artifact>() != null)
+        // {
+        //     activeInfoPopup.transform.Find("SellItemArea").gameObject.SetActive(true);
+        //     activeInfoPopup.transform.Find("SellItemArea").GetComponent<Button>().onClick.RemoveAllListeners();
+        //     Artifact art = target.GetComponent<Artifact>();
+        //     activeInfoPopup.transform.Find("SellItemArea").GetComponent<Button>().onClick.AddListener(() => {
+        //         ArtifactManager.Instance.SellArtifact(art);
+        //         UIManager.Instance.ShowTooltip("Artifact sold!");
+        //         HideCardInfoPopup();
+        //     });
 
 
-        }
-        else
-            activeInfoPopup.transform.Find("SellItemArea").gameObject.SetActive(false);
+        // }
+        // else
+        //     activeInfoPopup.transform.Find("SellItemArea").gameObject.SetActive(false);
     }
     public void HideCardInfoPopup()
     {
