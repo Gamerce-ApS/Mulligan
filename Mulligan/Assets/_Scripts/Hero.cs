@@ -88,7 +88,10 @@ public class Hero : MonoBehaviour
 
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
-        LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setEasePunch();
+        LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setOnComplete(() =>
+            {
+                gameObject.transform.localScale = Vector3.one;
+            }).setEasePunch();
 
 
 
@@ -157,8 +160,10 @@ public class Hero : MonoBehaviour
         UnityHelper.RunAfterDelay(this, 0.45f, () =>
         {
             // 2. Optional: impact punch
-            LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
-                        .setEasePunch();
+            LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f).setOnComplete(() =>
+            {
+                gameObject.transform.localScale = Vector3.one;
+            }).setEasePunch();
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
             Health += aDamage * (CurrentLifeStealProc);
             RefreshBar();
