@@ -23,10 +23,10 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private float holdTimer = 0f;
     private bool isHolding = false;
     public TMPro.TMP_Text PriceLabel;
-
+    public TMPro.TMP_Text NameLabel;
     public void Init(ArtifactData aData)
     {
-        //NameLabel.text = aData.name;
+        NameLabel.text = aData.name;
         ArtifactData = aData;
         Price = 6;
         PotionData = null;
@@ -41,7 +41,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(RuneData aData)
     {
-        //NameLabel.text = aData.name;
+        NameLabel.text = aData.name;
         RuneData = aData;
         Price = 12;
         PotionData = null;
@@ -57,7 +57,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         ArtifactData = null;
         RuneData = null;
-        //NameLabel.text = aData.name;
+        NameLabel.text = aData.name;
         PotionData = aData;
         Price = 3;
         if (ShopManager.Instance.SetEverythingFreeNextRound)
@@ -68,7 +68,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(int aCost)
     {
-        //NameLabel.text = aData.name;
+        // NameLabel.text = "Army Upgrade";
         ArtifactData = null;
         PotionData = null;
         RuneData = null;

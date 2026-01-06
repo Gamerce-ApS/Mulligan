@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     public TMPro.TMP_Text healthLabel;
     public TMPro.TMP_Text dmgLabel;
-    private Image image;
+    public Image image;
     private Color originalColor;
     public Image bar;
     public float Damage=0;
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
         }
 
 
-        image = GetComponent<Image>();
+        // image = GetComponent<Image>();
         originalColor = image.color;
 
     }

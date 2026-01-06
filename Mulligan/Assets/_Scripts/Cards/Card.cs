@@ -24,6 +24,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Image Portrait;
     public Image RaceIcon;
     public Image ClassIcon;
+    public Image bg;
+    public List<Sprite> myCardBG;
 
     private float holdTimer = 0f;
     private bool isHolding = false;
@@ -87,7 +89,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
 
 
-
     }
     public void Init(CardData aData)
     {
@@ -105,6 +106,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aData.race);
         ClassIcon.sprite = CardContainer.Instance.GetSpriteForClass(aData.cardClass);
         Portrait_BG.color = CardContainer.Instance.GetColorForRace(aData.race);
+
+        
+        bg.sprite = myCardBG[(int)aData.race];
     }
     public void Init(UpgradeCardData aData)
     {

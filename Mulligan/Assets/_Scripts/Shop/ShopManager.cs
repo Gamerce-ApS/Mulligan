@@ -11,6 +11,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public Transform RuneParent;
     public Transform ArtifactParent;
+    public Transform PotionParent;
     public Transform UnitPackParent;
 
     public GameObject ShopWindow;
@@ -23,31 +24,31 @@ public class ShopManager : Singleton<ShopManager>
 
         GameObject go = GameObject.Instantiate(RunePrefab, RuneParent);
         go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
-        go = GameObject.Instantiate(RunePrefab, RuneParent);
-        go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+        // go = GameObject.Instantiate(RunePrefab, RuneParent);
+        // go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
 
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
 
         go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         go.GetComponent< ShopCard>().Init( ArtifactManager.Instance.GetRandom() );
-        go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
-        go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
+        // go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+        // go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
-        go = GameObject.Instantiate(PotionPrefab, ArtifactParent);
+        go = GameObject.Instantiate(PotionPrefab, PotionParent);
         go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
-        go = GameObject.Instantiate(PotionPrefab, ArtifactParent);
+        go = GameObject.Instantiate(PotionPrefab, PotionParent);
         go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
 
 
         go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
         go.GetComponent<ShopCard>().Init(3);
 
-        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        go.GetComponent<ShopCard>().Init(3);
+        // go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+        // go.GetComponent<ShopCard>().Init(3);
 
 
 
@@ -76,6 +77,7 @@ public class ShopManager : Singleton<ShopManager>
         UnitPackParent.DestroyAllChildren();
         ArtifactParent.DestroyAllChildren();
         RuneParent.DestroyAllChildren();
+        PotionParent.DestroyAllChildren();
     }
     // Start is called before the first frame update
     void Start()
