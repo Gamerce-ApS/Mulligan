@@ -346,10 +346,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_and_Containers_10
+      name: gold
       rect:
         serializedVersion: 2
-        x: 467
+        x: 469
         y: 310
         width: 456
         height: 191
@@ -388,10 +388,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_and_Containers_12
+      name: skip
       rect:
         serializedVersion: 2
-        x: 6
+        x: 4
         y: 122
         width: 461
         height: 178
@@ -409,7 +409,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_and_Containers_13
+      name: bluebg
       rect:
         serializedVersion: 2
         x: 475
@@ -418,7 +418,7 @@ TextureImporter:
         height: 182
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 42, y: 62, z: 49, w: 40}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -463,19 +463,19 @@ TextureImporter:
     nameFileIdTable:
       Buttons_and_Containers_0: 163060517
       Buttons_and_Containers_1: -1723238359
-      Buttons_and_Containers_10: -1860655315
       Buttons_and_Containers_11: -300547010
-      Buttons_and_Containers_12: 1390513689
-      Buttons_and_Containers_13: -1041066842
       Buttons_and_Containers_4: -1391597627
       Buttons_and_Containers_5: -1348096062
       Buttons_and_Containers_6: 217366903
       Buttons_and_Containers_7: 94476886
       Buttons_and_Containers_8: -1937699022
       Buttons_and_Containers_9: 1481355332
+      bluebg: -1041066842
       card_bg: 572889776
       card_bg_pootion: 1394329119
+      gold: -1860655315
       line: 1778385879
+      skip: 1390513689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 1
   userData: 
