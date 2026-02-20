@@ -129,7 +129,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         canvasGroup.blocksRaycasts = true;
 
-        if (IsOverSellSlot())
+        if (IsOverSellSlot() && ArtifactManager.Instance.ActiveArtifacts.Count < 6)
         {
             if (GameData.CurrentGold >= Price)
             {
@@ -159,6 +159,10 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
+            if( ArtifactManager.Instance.ActiveArtifacts.Count >= 6)
+            UIManager.Instance.ShowTooltip("No slots!");
+
+
             ReturnToShop();
         }
     }

@@ -72,7 +72,7 @@ public class GameManager : Singleton<GameManager>
         HeroSelectionManager.Instance.ShowWindow(() => {
             myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
-            // LevelSelectionManager.Instance.ShowWindow(() => {
+             LevelSelectionManager.Instance.ShowWindow(() => {
                 TheEnemy.Init(GameData.CurrentRound);
                 GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
@@ -81,7 +81,7 @@ public class GameManager : Singleton<GameManager>
                     GameData.CurrentAttacks += 2;
                     GameManager.Instance.BonusAttacksNextRound = false;
                 }
-            // });
+             });
         });
     }
     public void WinGame()
@@ -102,6 +102,7 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
+        CardContainer.Instance.CompleteBoss();
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;
@@ -112,15 +113,15 @@ public class GameManager : Singleton<GameManager>
                     ArcCardLayout.Instance.transform.gameObject.SetActive(false);
                     ShopManager.Instance.ShowShopWindow(() =>
                     {
-                        // LevelSelectionManager.Instance.ShowWindow(() =>
-                        // {
+                        LevelSelectionManager.Instance.ShowWindow(() =>
+                        {
                             ArcCardLayout.Instance.transform.gameObject.SetActive(true);
                             TheEnemy.gameObject.SetActive(true);
                             TheEnemy.Init(GameData.CurrentRound);
                             EvaluatorManager.Instance.StartLevel();
                             GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
-                        // });
+                        });
 
                 });
 

@@ -44,18 +44,20 @@ public class Enemy : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0;
         if (aRound % 4 == 0)
         {
-            BossData d = CardContainer.Instance.GetRandomBoss();
+            BossData d = CardContainer.Instance.myBossList[0];
             SetupEnemyForLevel(d.baseHP , d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
 
             ActiveAbbilities.AddRange(d.abilities);
             
-            UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
+            // UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
+            PlayEnterAnimation();
         }
         else
         {
-            EnemyData d = CardContainer.Instance.GetRandomEnemy();
+            int loopedIndex = ((GameData.CurrentRound-1) % 4);
+            EnemyData d = CardContainer.Instance.myEnemiesList[loopedIndex];
             SetupEnemyForLevel(d.baseHP, d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" + d.sprite_theSprite);
@@ -92,6 +94,8 @@ public class Enemy : MonoBehaviour
         Damage = scaledDamage;
         healthLabel.text = Health.ToString();
         dmgLabel.text = Damage.ToString();
+        bar.fillAmount = Health / MaxHealth;
+
     }
 
     public void Attack(int aDamage=0)

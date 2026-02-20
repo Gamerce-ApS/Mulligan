@@ -21,6 +21,15 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public List<GameObject> LevelParent;
     public List<GameObject> BossParent;
 
+
+    public List<Image> EnemyPortraits;
+    public List<Image> EnemyDisabled;
+    public Image LevelFillBar;
+    public Material GreyScale;
+    public Image BossPortrait;
+    public Image HeroPortrait;
+    public GameObject BossInfoBox;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -61,43 +70,78 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         RefreshUI();
 
 
+        EnemyPortraits[0].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[0].sprite_theSprite);
+        EnemyPortraits[1].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[1].sprite_theSprite);
+        EnemyPortraits[2].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[2].sprite_theSprite);
+        EnemyPortraits[3].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myBossList[0].sprite_theSprite);
+        int loopedIndex = ((GameData.CurrentRound-1) % 4);
+        LevelFillBar.fillAmount =(33f*loopedIndex)/100f;
 
+        foreach(var d in EnemyDisabled)
+        {
+            d.gameObject.SetActive(true);  
+        }
+        foreach(var d in EnemyPortraits)
+        {
+            d.material =  GreyScale;
+        }
+        EnemyDisabled[loopedIndex].gameObject.SetActive(false);
+        EnemyPortraits[loopedIndex].material = null;
+
+        if(loopedIndex == 3)
+        {
+            BossInfoBox.SetActive(true);
+            BossPortrait.sprite = Resources.Load<Sprite>("" +CardContainer.Instance.myBossList[0].sprite_theSprite);
+            BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
+            BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+        }
+        else
+        {
+            BossInfoBox.SetActive(false);
+            BossPortrait.sprite =  EnemyPortraits[loopedIndex].sprite;
+        }
+        HeroPortrait.sprite = GameManager.Instance.TheHero.HeroPortraits[GameData.HeroSelected].GetComponent<Image>().sprite;
+
+        LeanTween.delayedCall(gameObject, 3.5f, () =>
+        {
+            ClickPlay();
+        });
 
     }
 
     public void RefreshUI()
     {
         //buttonsParent.transform.position = LevelPositions[GameData.CurrentRound].transform.position;
-        foreach (var a in LevelParent)
-            a.SetActive(false);
-        foreach (var a in BossParent)
-            a.SetActive(false);
+        // foreach (var a in LevelParent)
+        //     a.SetActive(false);
+        // foreach (var a in BossParent)
+        //     a.SetActive(false);
         //Is boss level
-        if (GameData.CurrentRound % 4 != 0)
-        {
-            int index = (GameData.CurrentRound - 1) % LevelParent.Count;
-            GameObject parent = LevelParent[index];
+        // if (GameData.CurrentRound % 4 != 0)
+        // {
+        //     int index = (GameData.CurrentRound - 1) % LevelParent.Count;
+        //     GameObject parent = LevelParent[index];
 
-            parent.SetActive(true);
-            //BackgroundImage.sprite = NormalGameBG.GetRandom();
+        //     parent.SetActive(true);
+        //     //BackgroundImage.sprite = NormalGameBG.GetRandom();
 
-            TMPro.TMP_Text rewardT = parent.transform.Find("reward").GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>();
-            rewardT.text = CurrentRewardData.title;
-            TMPro.TMP_Text levleT = parent.transform.Find("PlayButton").GetChild(1).GetComponent<TMPro.TMP_Text>();
+        //     TMPro.TMP_Text rewardT = parent.transform.Find("reward").GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>();
+        //     rewardT.text = CurrentRewardData.title;
+        //     TMPro.TMP_Text levleT = parent.transform.Find("PlayButton").GetChild(1).GetComponent<TMPro.TMP_Text>();
 
-            if (GameData.CurrentRound<9)
-                levleT.text = "0" + GameData.CurrentRound.ToString();
-            else
-                levleT.text = GameData.CurrentRound.ToString();
-        }
-        else
-        {
-            BossParent.GetRandom().SetActive(true);
+        //     if (GameData.CurrentRound<9)
+        //         levleT.text = "0" + GameData.CurrentRound.ToString();
+        //     else
+        //         levleT.text = GameData.CurrentRound.ToString();
+        // }
+        // else
+        // {
+        //     BossParent.GetRandom().SetActive(true);
 
-            //BackgroundImage.sprite = BossGameBG.GetRandom();
-            //CurrentLevel.text = "";
+        //     //BackgroundImage.sprite = BossGameBG.GetRandom();
+        //     //CurrentLevel.text = "";
 
-        }
+        // }
     }
     public void HideWindow(bool callback = true)
     {

@@ -440,6 +440,18 @@ MonoBehaviour:
     startingItem: 0
     description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
     portrait: hero2
+  - heroName: Warlock
+    startingHP: 75
+    startingTrait: 0
+    startingItem: 0
+    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    portrait: hero3
+  - heroName: Goblin
+    startingHP: 75
+    startingTrait: 0
+    startingItem: 0
+    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    portrait: hero4
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2

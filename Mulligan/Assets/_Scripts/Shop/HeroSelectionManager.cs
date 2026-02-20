@@ -11,9 +11,16 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
 
     public List<GameObject> HeroNormal;
+    public List<GameObject> HeroPortrait;
     public List<GameObject> HeroSelected;
     public int selectedHero = -1;
     public Vector3 OriginalScale;
+    public TMPro.TMP_Text NameLabel;
+    public TMPro.TMP_Text HPLabel;
+    public TMPro.TMP_Text ArtifactSlotsLabel;
+    public TMPro.TMP_Text PotionSlotsLabel;
+    public TMPro.TMP_Text GolfLabel;
+     public TMPro.TMP_Text RuneLabel;
     // Start is called before the first frame update
     void Awake()
     {
@@ -80,51 +87,100 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         if (selectedHero == id)
             return; // Don't reselect the same hero
+        if(LeanTween.isTweening())
+        return;
 
         for (int i = 0; i < HeroNormal.Count; i++)
         {
             if (i == id)
             {
-                GameObject selected = HeroSelected[i];
-                HeroNormal[i].SetActive(false);
-                HeroSelected[i].SetActive(true);
+                SetCharacterData(id);
+                // GameObject selected = HeroSelected[i];
+                HeroPortrait[i].SetActive(true);
+                HeroNormal[i].transform.GetChild(0).gameObject.SetActive(true);
+
+                // HeroNormal[i].SetActive(false);
+                // HeroSelected[i].SetActive(true);
 
                 // Reset scale before animating
-                HeroSelected[i].transform.localScale = OriginalScale * 0.9f;
-
+                OriginalScale = HeroPortrait[i].transform.localScale;
+                 HeroPortrait[i].transform.localScale = OriginalScale * 0.9f;
+            GameObject ports = HeroPortrait[i];
                 // Animate pop-in effect
-                LeanTween.scale(selected, OriginalScale * 1.05f, 0.15f)
+                LeanTween.scale(ports, OriginalScale * 1.05f, 0.15f)
                     .setEaseOutBack()
                     .setOnComplete(() =>
                     {
-                        LeanTween.scale(selected, OriginalScale, 0.1f).setEaseInOutSine();
+                        LeanTween.scale(ports, OriginalScale, 0.1f).setEaseInOutSine();
                     });
 
                 // Optional: flash glow (if you have a glow GameObject as child)
-                var glow = HeroSelected[i].transform.Find("Glow");
-                if (glow != null)
-                {
-                    glow.gameObject.SetActive(true);
-                    glow.GetComponent<CanvasGroup>().alpha = 1f;
-                    LeanTween.alphaCanvas(glow.GetComponent<CanvasGroup>(), 0f, 0.5f)
-                        .setOnComplete(() => glow.gameObject.SetActive(false));
-                }
-                HeroSelected[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
-                HeroSelected[i].transform.Find("description").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].description;
-            }
+            //     var glow = HeroSelected[i].transform.Find("Glow");
+            //     if (glow != null)
+            //     {
+            //         glow.gameObject.SetActive(true);
+            //         glow.GetComponent<CanvasGroup>().alpha = 1f;
+            //         LeanTween.alphaCanvas(glow.GetComponent<CanvasGroup>(), 0f, 0.5f)
+            //             .setOnComplete(() => glow.gameObject.SetActive(false));
+            //     }
+            //     HeroSelected[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
+            //     HeroSelected[i].transform.Find("description").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].description;
+             }
             else
             {
-                HeroNormal[i].SetActive(true);
-                HeroNormal[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
+                HeroPortrait[i].SetActive(false);
+                HeroNormal[i].transform.GetChild(0).gameObject.SetActive(false);
+                // HeroNormal[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
 
-                HeroSelected[i].SetActive(false);
+                // HeroSelected[i].SetActive(false);
             }
         }
 
         selectedHero = id;
         GameData.HeroSelected = id;
     }
-
+    public void SetCharacterData(int aID)
+    {
+        HeroData data= CardContainer.Instance.HeroDataList[aID];
+        if(aID == 0)
+        {
+            NameLabel.text=data.heroName.ToString();
+            HPLabel.text=data.startingHP.ToString();
+            ArtifactSlotsLabel.text="3";
+            PotionSlotsLabel.text="1";
+            GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
+            RuneLabel.text="None";
+        }
+         if(aID == 1)
+        {
+            NameLabel.text=data.heroName.ToString();
+            HPLabel.text=data.startingHP.ToString();
+            ArtifactSlotsLabel.text="4";
+            PotionSlotsLabel.text="1";
+            GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
+            RuneLabel.text="Double chance to get rare items";
+        }
+         if(aID == 2)
+        {
+            NameLabel.text=data.heroName.ToString();
+            HPLabel.text=data.startingHP.ToString();
+            ArtifactSlotsLabel.text="4";
+            PotionSlotsLabel.text="1";
+            GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
+            RuneLabel.text="+1 attack";
+        }
+         if(aID == 3)
+        {
+    
+            NameLabel.text=data.heroName.ToString();
+            HPLabel.text=data.startingHP.ToString();
+            ArtifactSlotsLabel.text="4";
+            PotionSlotsLabel.text="2";
+            GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
+            RuneLabel.text="10% chance to retrigger potions";
+        }
+   
+    }
     public void ClickPlay()
     {
         if(selectedHero == -1)

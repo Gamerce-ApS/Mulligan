@@ -29,6 +29,9 @@ public class CardContainer : Singleton<CardContainer>
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
 
+    public List<EnemyData> myEnemiesList;
+    public List<BossData> myBossList;
+    
 
     public void Init()
     {
@@ -65,8 +68,31 @@ public class CardContainer : Singleton<CardContainer>
 
         string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
         GUIUtility.systemCopyBuffer = json;
-    }
 
+    for(int i = 0; i < 20;i++)
+    {
+        List<EnemyData> d = EnemyDataList.ToList();
+        d.Shuffle();
+        myEnemiesList.AddRange(d);
+    }
+    for(int i = 0; i < 20;i++)
+    {
+        List<BossData> d = BossDataList.ToList();
+        d.Shuffle();
+        myBossList.AddRange(d);
+    }
+        // for(int i = 0; i < 100;i++)
+        //     myEnemiesList.Add(GetRandomEnemy());
+        // for(int i = 0; i < 100;i++)
+        //     myBossList.Add(GetRandomBoss());
+    }
+    public void CompleteBoss()
+    {
+        myEnemiesList.RemoveAt(0);
+        myEnemiesList.RemoveAt(0);
+        myEnemiesList.RemoveAt(0);
+        myBossList.RemoveAt(0);
+    }
     // Update is called once per frame
     void Update()
     {

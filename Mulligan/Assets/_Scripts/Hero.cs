@@ -11,15 +11,15 @@ public class Hero : MonoBehaviour
     public float MaxHealth = 100;
     public float CurrentLifeStealProc = 0;
     public TMPro.TMP_Text healthLabel;
-    private Image image;
+    public Image image;
     private Color originalColor;
     public Image bar;
-
+    public List<GameObject> HeroPortraits;
     HeroData myHeroData;
     // Start is called before the first frame update
     void Start()
     {
-        image = GetComponent<Image>();
+         image = GetComponent<Image>();
         originalColor = image.color;
     }
     public void Init(int aHealth)
@@ -48,8 +48,12 @@ public class Hero : MonoBehaviour
 
         GameData.CurrentAttacks += GetAttackModifier();
         GameData.CurrentReRolls += GetRollsModifier();
-
-        image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
+        
+        // image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
+        // image.sprite = HeroPortraits[GameData.HeroSelected];
+        foreach(var c in HeroPortraits)
+            c.SetActive(false);
+        HeroPortraits[GameData.HeroSelected].SetActive(true);
         Experience = 0;
         Level = 1;
         RefreshBar();

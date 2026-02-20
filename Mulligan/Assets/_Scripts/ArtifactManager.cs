@@ -145,7 +145,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void AddArtifact(ArtifactData artifact)
     {
-        if (ActiveArtifacts.Count >= 5) return;
+        if (ActiveArtifacts.Count >= 6) return;
 
         ActiveArtifacts.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
