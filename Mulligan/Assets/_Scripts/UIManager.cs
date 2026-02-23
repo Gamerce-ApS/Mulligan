@@ -704,4 +704,27 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
+    public int currentSpeed = 0;
+    public TMPro.TMP_Text SpeedLabel;
+    public void ClickSpeedButton()
+    {
+        currentSpeed++;
+        if(currentSpeed>2)
+            currentSpeed =0;
+        if(currentSpeed == 0)
+        {
+            Time.timeScale = 1;
+            SpeedLabel.text = "1X";
+        }else if(currentSpeed == 1)
+        {
+            Time.timeScale = 2;
+            SpeedLabel.text = "2X";
+
+        }else if(currentSpeed == 2)
+        {
+            Time.timeScale = 4;
+                        SpeedLabel.text = "4X";
+
+        }
+    }
 }
