@@ -82,8 +82,29 @@ public class Hero : MonoBehaviour
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
     }
+    public bool DodgeCheck()
+    {
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            if (artifact.effect == ArtifactEffectType.DodgeEnemyAttack)
+            {
+                if(artifact.value < Random.Range(0,100))
+                {
+                    UIManager.Instance.ShowTooltip($"Dodged Attack!");  
+                    return true; 
+                }
+            }
+        
+        }
+        return false;
+    }
     public void DoDamage(int aDamage)
     {
+        if(DodgeCheck())
+        {
+            return;
+        }
+
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();

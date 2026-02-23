@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EvaluatorManager  : Singleton<EvaluatorManager>
@@ -193,6 +194,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     }
     public void FinisLevel()
     {
+        if ( GameManager.Instance.TheEnemy.Health > 0)
+            return;
         // ❤️ Heal 10% HP After Level
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
@@ -202,6 +205,28 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 GameManager.Instance.TheHero.HealPercent(healPercent);
                 UIManager.Instance.ShowTooltip($"Healed {artifact.value}% HP from artifact");
             }
+            if(artifact.effect == ArtifactEffectType.DestroyUnitInHand)
+            {
+                if(artifact.value < Random.Range(0,100))
+                {
+                    Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen
+                    CardInstance ins = HandManager.Instance.CurrentHand.GetRandom();
+                    ins.CardGO.FlyAwayAndDiscard(discardTarget,0.1f,ins);
+
+                UIManager.Instance.ShowTooltip($"Destroyed Random Unit in hand");   
+                }
+            }
+            if(artifact.effect == ArtifactEffectType.GainGoldAfterLevel)
+            {
+                GameData.CurrentGold += artifact.value;
+                UIManager.Instance.ShowTooltip($"+ {artifact.value}% Gold from artifact");
+            }
+            if(artifact.effect == ArtifactEffectType.GetPotion)
+            {
+                UIManager.Instance.ShowTooltip($"Added random potion!");
+                PotionManager.Instance.AddRandomPotion(artifact.value);
+            }
+            
         }
     }
     public void StartLevel()
@@ -544,6 +569,16 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
                     case ArtifactEffectType.AddCritFlat:
                         visual.AddDamage(artifactData.value, () =>
+                        {
+                            visual.AddToTotalDamage(() =>
+                            {
+                                next();
+                            });
+                        },true);
+              
+                        break;
+                    case ArtifactEffectType.ProcHPinDamage:
+                        visual.AddDamage( (int)((artifactData.value/100f) * GameManager.Instance.TheHero.MaxHealth), () =>
                         {
                             visual.AddToTotalDamage(() =>
                             {

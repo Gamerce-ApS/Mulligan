@@ -157,7 +157,7 @@ public class PotionManager : Singleton<PotionManager>
     }
 
 
-    public PotionCardData AddRandomPotion()
+    public PotionCardData AddRandomPotion(int rarity = -1)
     {
         if (ActivePotions.Count >= 2)
         {
@@ -193,6 +193,11 @@ public class PotionManager : Singleton<PotionManager>
         // Pick random one
         // PotionCardData randomFromAll = available[Random.Range(0, available.Count)];
         PotionCardData selected = PickPotionWeightedByRarity(available);
+
+        if( rarity != -1)
+        {
+            selected = PickPotionByRarity(available,rarity);
+        }
         
         ActivePotions.Add(selected);
 
@@ -339,6 +344,10 @@ public class PotionManager : Singleton<PotionManager>
         // 4) Last fallback
         return available[Random.Range(0, available.Count)];
     }
-
+    private PotionCardData PickPotionByRarity(List<PotionCardData> available,int rarity)
+    {
+        var pool = available.Where(p => p.rarity == rarity).ToList();
+        return pool[Random.Range(0, pool.Count)];
+    }
 
 }

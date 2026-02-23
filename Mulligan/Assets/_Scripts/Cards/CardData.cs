@@ -38,7 +38,16 @@ public enum ArtifactEffectType
     GoldOnLose,
     HealAfterLevel, // Done
     AddMaxHP, // Done
-    DoubleSynergies
+    DoubleSynergies,
+
+    DestroyUnitInHand, // Done
+    DodgeEnemyAttack, // Done
+    RaceHasExtraDamage, 
+    GainGoldAfterLevel, // Done
+    GetPotion, // Done
+    AttackingMagesPlusDamage,
+    BardInHandAttackingUnitsPlusDamage,
+    ProcHPinDamage
 }
 public enum PotionEffectType
 {
