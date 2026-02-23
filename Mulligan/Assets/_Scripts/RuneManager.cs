@@ -24,28 +24,28 @@ public class RuneManager : Singleton<RuneManager>
         switch (aRune.type)
         {
             case RuneType.RerollBonus:
-                int rerolls = (aRune.rarity == RuneRarity.Rare) ? 2 : 1;
-                GameManager.Instance.BonusRerolls += rerolls;
-                UIManager.Instance.ShowTooltip($"+{rerolls} Reroll{(rerolls > 1 ? "s" : "")} per turn");
+                // int rerolls = (aRune.rarity == RuneRarity.Rare) ? 2 : 1;
+                GameManager.Instance.BonusRerolls += 1;
+                UIManager.Instance.ShowTooltip($"+{1} Reroll{(1 > 1 ? "s" : "")} per turn");
                 break;
 
             case RuneType.HeroAegis:
-                if (aRune.rarity == RuneRarity.Rare)
-                {
-                    GameManager.Instance.ReviveFullHP = true;
-                    UIManager.Instance.ShowTooltip("Revive once with full HP");
-                }
-                else
-                {
+                // if (aRune.rarity == RuneRarity.Rare)
+                // {
+                //     GameManager.Instance.ReviveFullHP = true;
+                //     UIManager.Instance.ShowTooltip("Revive once with full HP");
+                // }
+                // else
+                // {
                     GameManager.Instance.ReviveWith1HP = true;
                     UIManager.Instance.ShowTooltip("Revive once with 1 HP");
-                }
+                // }
                 break;
 
             case RuneType.MarketDiscount:
-                float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
-                GameManager.Instance.MarketDiscountModifier = discount;
-                UIManager.Instance.ShowTooltip($"{(int)(discount * 100)}% discount in the Market");
+                // float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
+                GameManager.Instance.MarketDiscountModifier = 0.25f;
+                UIManager.Instance.ShowTooltip($"{(int)(0.25f * 100)}% discount in the Market");
                 break;
 
             case RuneType.BossDoubleGold:
@@ -54,9 +54,9 @@ public class RuneManager : Singleton<RuneManager>
                 break;
 
             case RuneType.PotionRetriggerChance:
-                float retriggerChance = (aRune.rarity == RuneRarity.Rare) ? 0.20f : 0.10f;
-                GameManager.Instance.PotionRetriggerChance = retriggerChance;
-                UIManager.Instance.ShowTooltip($"{(int)(retriggerChance * 100)}% chance to retrigger Potions");
+                // float retriggerChance = (aRune.rarity == RuneRarity.Rare) ? 0.20f : 0.10f;
+                GameManager.Instance.PotionRetriggerChance = 0.1f;
+                UIManager.Instance.ShowTooltip($"{(int)(0.1f * 100)}% chance to retrigger Potions");
                 break;
 
             case RuneType.FreeMarketReroll:
@@ -139,8 +139,8 @@ public class RuneManager : Singleton<RuneManager>
         }
 
         // Pick random one
-        RuneData selected = available[Random.Range(0, available.Count)];
-
+        // RuneData selected = available[Random.Range(0, available.Count)];
+        RuneData selected =  PickRuneByRarity(available);
         return selected;
     }
 
@@ -160,6 +160,46 @@ public class RuneManager : Singleton<RuneManager>
             tot += r.name+ "\n";
         }
         return tot;
+    }
+     private RuneData PickRuneByRarity(List<RuneData> available)
+    {
+        if (available == null || available.Count == 0)
+            return null;
+
+        RarityType rolled = CardContainer.Instance.GetRandomRarity();
+
+        // Exact rarity first
+        var pool = available
+            .Where(a => (RarityType)a.rarity == rolled)
+            .ToList();
+
+        if (pool.Count > 0)
+            return pool[Random.Range(0, pool.Count)];
+
+        // Fallback downward
+        for (int r = (int)rolled - 1; r >= 0; r--)
+        {
+            pool = available
+                .Where(a => (int)a.rarity == r)
+                .ToList();
+
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // Fallback upward
+        for (int r = (int)rolled + 1; r <= 3; r++)
+        {
+            pool = available
+                .Where(a => (int)a.rarity == r)
+                .ToList();
+
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // Final fallback
+        return available[Random.Range(0, available.Count)];
     }
 
 

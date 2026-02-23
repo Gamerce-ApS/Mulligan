@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
@@ -298,8 +299,52 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     }
     public UpgradeCardData GetRandomUpgrade()
     {
+
+        UpgradeCardData selected = PickArtifactByRarity(DataList.allUpgradeCards.ToList());
+        return selected;
         List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
         list.Shuffle();
         return list[0];
     }
+     private UpgradeCardData PickArtifactByRarity(List<UpgradeCardData> available)
+    {
+        if (available == null || available.Count == 0)
+            return null;
+
+        RarityType rolled = CardContainer.Instance.GetRandomRarity();
+
+        // Exact rarity first
+        var pool = available
+            .Where(a => (RarityType)a.rarity == rolled)
+            .ToList();
+
+        if (pool.Count > 0)
+            return pool[Random.Range(0, pool.Count)];
+
+        // Fallback downward
+        for (int r = (int)rolled - 1; r >= 0; r--)
+        {
+            pool = available
+                .Where(a => a.rarity == r)
+                .ToList();
+
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // Fallback upward
+        for (int r = (int)rolled + 1; r <= 3; r++)
+        {
+            pool = available
+                .Where(a => a.rarity == r)
+                .ToList();
+
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // Final fallback
+        return available[Random.Range(0, available.Count)];
+    }
+
 }

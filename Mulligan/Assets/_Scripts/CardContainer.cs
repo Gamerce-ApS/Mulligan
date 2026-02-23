@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardContainer : Singleton<CardContainer>
@@ -24,7 +25,7 @@ public class CardContainer : Singleton<CardContainer>
     public int ExperiencePerKill;
     public int ExperienceToLevelUp;
     public int HealthGainPerLevel;
-
+    public int[] Rarity;
 
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
@@ -55,7 +56,7 @@ public class CardContainer : Singleton<CardContainer>
         ExperiencePerKill = CardLoader.LoadAllCards().ExperiencePerKill;
         ExperienceToLevelUp = CardLoader.LoadAllCards().ExperienceToLevelUp;
         HealthGainPerLevel = CardLoader.LoadAllCards().HealthGainPerLevel;
-
+        Rarity = CardLoader.LoadAllCards().Rarity;
         CurrentDeck.Clear();
         foreach (var data in CardsDataList)
         {
@@ -182,6 +183,26 @@ public class CardContainer : Singleton<CardContainer>
 
         }
         return Color.white;
+    }
+    public RarityType GetRandomRarity()
+    {
+        int totalWeight = 0;
+
+        for (int i = 0; i < Rarity.Length; i++)
+            totalWeight += Rarity[i];
+
+        int roll = Random.Range(0, totalWeight);
+        int cumulative = 0;
+
+        for (int i = 0; i < Rarity.Length; i++)
+        {
+            cumulative += Rarity[i];
+
+            if (roll < cumulative)
+                return (RarityType)i;
+        }
+
+        return RarityType.Common;
     }
     //public void FetchLiveEnemies()
     //{

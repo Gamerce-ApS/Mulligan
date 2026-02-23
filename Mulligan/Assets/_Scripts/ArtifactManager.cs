@@ -52,8 +52,8 @@ public class ArtifactManager : Singleton<ArtifactManager>
         }
 
         // Pick random one
-        ArtifactData selected = available[Random.Range(0, available.Count)];
-
+        // ArtifactData selected = available[Random.Range(0, available.Count)];
+        ArtifactData selected = PickArtifactByRarity(available);
         ActiveArtifacts.Add(selected);
 
         // Update UI
@@ -88,7 +88,8 @@ public class ArtifactManager : Singleton<ArtifactManager>
         }
 
         // Pick random one
-        ArtifactData selected = available[Random.Range(0, available.Count)];
+        // ArtifactData selected = available[Random.Range(0, available.Count)];
+        ArtifactData selected = PickArtifactByRarity(available);
 
         return selected;
     }
@@ -188,5 +189,45 @@ public class ArtifactManager : Singleton<ArtifactManager>
     {
         return "{ \"items\": " + rawJson + " }";
     }
+    private ArtifactData PickArtifactByRarity(List<ArtifactData> available)
+{
+    if (available == null || available.Count == 0)
+        return null;
+
+    RarityType rolled = CardContainer.Instance.GetRandomRarity();
+
+    // Exact rarity first
+    var pool = available
+        .Where(a => (RarityType)a.rarity == rolled)
+        .ToList();
+
+    if (pool.Count > 0)
+        return pool[Random.Range(0, pool.Count)];
+
+    // Fallback downward
+    for (int r = (int)rolled - 1; r >= 0; r--)
+    {
+        pool = available
+            .Where(a => a.rarity == r)
+            .ToList();
+
+        if (pool.Count > 0)
+            return pool[Random.Range(0, pool.Count)];
+    }
+
+    // Fallback upward
+    for (int r = (int)rolled + 1; r <= 3; r++)
+    {
+        pool = available
+            .Where(a => a.rarity == r)
+            .ToList();
+
+        if (pool.Count > 0)
+            return pool[Random.Range(0, pool.Count)];
+    }
+
+    // Final fallback
+    return available[Random.Range(0, available.Count)];
+}
 
 }

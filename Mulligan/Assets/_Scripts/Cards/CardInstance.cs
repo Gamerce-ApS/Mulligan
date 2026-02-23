@@ -95,6 +95,7 @@ public class CardInstance
     {
         if (upgrade.effect == UpgradeEffect.RankUpgrade_Normal)
         {
+            for(int i = 0; i < upgrade.value;i++)
             UpgradeRank();
             return;
         }

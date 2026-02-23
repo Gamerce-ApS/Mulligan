@@ -87,10 +87,10 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.SuicideBoost:
                 if (targetCard != null)
                 {
-                    targetCard.cardInstance.currentRank += (int)potion.value * EffectMultiplier;
+                    targetCard.cardInstance.tempDamageBonus += targetCard.cardInstance.GetDamage() * (int)potion.value * EffectMultiplier;
                     targetCard.cardInstance.WillExplodeAfterAttack = true;
                     targetCard.UpdateCardUI();
-                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} gains {potion.value} Ranks but will explode");
+                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} gains {potion.value} 4x Damage but will explode");
                 }
                 break;
 
@@ -188,9 +188,12 @@ public class PotionManager : Singleton<PotionManager>
             return null;
         }
 
-        // Pick random one
-        PotionCardData selected = available[Random.Range(0, available.Count)];
 
+
+        // Pick random one
+        // PotionCardData randomFromAll = available[Random.Range(0, available.Count)];
+        PotionCardData selected = PickPotionWeightedByRarity(available);
+        
         ActivePotions.Add(selected);
 
         // Update UI
@@ -226,10 +229,11 @@ public class PotionManager : Singleton<PotionManager>
             return null;
         }
 
-        // Pick random one
-        PotionCardData selected = available[Random.Range(0, available.Count)];
+        return PickPotionWeightedByRarity(available);
+        // // Pick random one
+        // PotionCardData selected = available[Random.Range(0, available.Count)];
 
-        return selected;
+        // return selected;
     }
     public void AddPotion(PotionEffectType aType)
     {
@@ -304,7 +308,37 @@ public class PotionManager : Singleton<PotionManager>
         }
         return total;
     }
+    private PotionCardData PickPotionWeightedByRarity(List<PotionCardData> available)
+    {
+        if (available == null || available.Count == 0)
+            return null;
 
+        int rolled = (int)CardContainer.Instance.GetRandomRarity();
+
+        // 1) Try exact rolled rarity
+        var pool = available.Where(p => p.rarity == rolled).ToList();
+        if (pool.Count > 0)
+            return pool[Random.Range(0, pool.Count)];
+
+        // 2) Fallback: go downwards first (feels fair)
+        for (int r = rolled - 1; r >= 0; r--)
+        {
+            pool = available.Where(p => p.rarity == r).ToList();
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // 3) Fallback: then upwards
+        for (int r = rolled + 1; r < 4; r++)
+        {
+            pool = available.Where(p => p.rarity == r).ToList();
+            if (pool.Count > 0)
+                return pool[Random.Range(0, pool.Count)];
+        }
+
+        // 4) Last fallback
+        return available[Random.Range(0, available.Count)];
+    }
 
 
 }

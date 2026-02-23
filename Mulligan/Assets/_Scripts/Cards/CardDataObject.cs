@@ -22,6 +22,7 @@ using UnityEngine;
         public int EnemyBaseHealth = 0;
         public int EnemyBaseDamage = 0;
         public float GrowthRate;
+        public int[] Rarity;
 
         public int ExperiencePerKill;
         public int ExperienceToLevelUp;
@@ -50,6 +51,7 @@ using UnityEngine;
         ExperiencePerKill = aData.ExperiencePerKill;
         ExperienceToLevelUp = aData.ExperienceToLevelUp;
         HealthGainPerLevel = aData.HealthGainPerLevel;
+        Rarity = aData.Rarity;
     }
 }
 [System.Serializable]
@@ -75,6 +77,7 @@ public class CardDataExportWrapper
     public int ExperiencePerKill;
     public int ExperienceToLevelUp;
     public int HealthGainPerLevel;
+    public int[] Rarity;
 
 
 }

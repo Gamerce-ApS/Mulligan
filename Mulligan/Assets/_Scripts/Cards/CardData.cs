@@ -85,13 +85,13 @@ public enum UpgradeType
     Charms,
     RankUpgrade
 }
-public enum RuneRarity { Normal, Rare }
+// public enum RuneRarity { Normal, Rare }
 [System.Serializable]
 public class RuneData
 {
     public string name;
     public RuneType type;
-    public RuneRarity rarity;
+    public RarityType rarity;
     public string description;
 }
 public enum RuneType
@@ -134,7 +134,13 @@ public enum BossAbilityEnum
     DisableUndeadUnits,
 
 }
-
+public enum RarityType
+{
+    Common = 0,
+    Rare = 1,
+    Epic = 2,
+    Legendary = 3
+}
 [System.Serializable]
 public class RaceData
 {
@@ -158,6 +164,7 @@ public class ArtifactData
 
     public ArtifactEffectType effect;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
+    public int rarity;
 }
 [System.Serializable]
 public class PotionCardData
@@ -168,6 +175,7 @@ public class PotionCardData
     public string sprite_icon;
 
     public float value; // if needed (e.g. +2 crit, +20 dmg)
+    public int rarity;
 }
 [System.Serializable]
 public class UpgradeCardData
@@ -179,6 +187,7 @@ public class UpgradeCardData
     public UpgradeEffect effect;
     public UpgradeType type;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
+    public int rarity;
 }
 [System.Serializable]
 public class BossData
