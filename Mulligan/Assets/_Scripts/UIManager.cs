@@ -49,6 +49,7 @@ public class UIManager : Singleton<UIManager>
     private Vector3 CriticalLabelOriginalScale;
     public Transform SynergiButtonInfo;
     public Transform HeroButtonInfo;
+    public List<Color> myRarityColors;
 
     // Start is called before the first frame update
     public void Init()
@@ -726,5 +727,9 @@ public class UIManager : Singleton<UIManager>
                         SpeedLabel.text = "4X";
 
         }
+    }
+    public Color GetTextColor(int aRarity)
+    {
+        return myRarityColors[aRarity];
     }
 }

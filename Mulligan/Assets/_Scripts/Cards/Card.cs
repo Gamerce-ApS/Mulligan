@@ -113,6 +113,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void Init(UpgradeCardData aData)
     {
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void UpdateCardUI()
     {

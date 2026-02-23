@@ -29,6 +29,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public void Init(PotionCardData aData)
     {
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -130,7 +131,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
                     PotionData.name,
-                    PotionData.description,
+                    PotionData.description+ PotionData.GetRarityText(),
                     "",
                     transform
                 );
@@ -202,7 +203,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             {
                 UIManager.Instance.ShowCardInfoPopup(
                          PotionData.name,
-                         PotionData.description,
+                         PotionData.description+ PotionData.GetRarityText(),
                          "",
                          transform
                      );

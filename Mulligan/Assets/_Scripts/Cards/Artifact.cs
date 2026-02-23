@@ -26,6 +26,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void Init(ArtifactData aData)
     {
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -89,7 +90,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
                     ArtifactData.name,
-                    ArtifactData.description,
+                    ArtifactData.description+ ArtifactData.GetRarityText(),
                     "",
                     transform
                 );
@@ -133,7 +134,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 UIManager.Instance.ShowCardInfoPopup(
                      ArtifactData.name,
-                     ArtifactData.description,
+                     ArtifactData.description + ArtifactData.GetRarityText(),
                      "",
                      transform);
             }

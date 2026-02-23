@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CardRace
@@ -93,6 +94,11 @@ public class RuneData
     public RuneType type;
     public RarityType rarity;
     public string description;
+    public string GetRarityText()
+    {
+       RarityType r =  (RarityType)rarity;
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor((int)rarity).ToHexString()+">"+r.ToString()+"</color>";
+    }
 }
 public enum RuneType
 {
@@ -165,6 +171,12 @@ public class ArtifactData
     public ArtifactEffectType effect;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
     public int rarity;
+
+    public string GetRarityText()
+    {
+       RarityType r =  (RarityType)rarity;
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+    }
 }
 [System.Serializable]
 public class PotionCardData
@@ -176,6 +188,11 @@ public class PotionCardData
 
     public float value; // if needed (e.g. +2 crit, +20 dmg)
     public int rarity;
+    public string GetRarityText()
+    {
+       RarityType r =  (RarityType)rarity;
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+    }
 }
 [System.Serializable]
 public class UpgradeCardData
@@ -188,6 +205,11 @@ public class UpgradeCardData
     public UpgradeType type;
     public int value; // if needed (e.g. +2 crit, +20 dmg)
     public int rarity;
+    public string GetRarityText()
+    {
+       RarityType r =  (RarityType)rarity;
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+    }
 }
 [System.Serializable]
 public class BossData

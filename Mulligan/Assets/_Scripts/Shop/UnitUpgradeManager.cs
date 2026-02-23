@@ -275,7 +275,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             {
                 UIManager.Instance.ShowCardInfoPopup(
               aCard.cardInstance.upgradeData.name,
-              aCard.cardInstance.upgradeData.description,
+              aCard.cardInstance.upgradeData.description+ aCard.cardInstance.upgradeData.GetRarityText(),
               aCard.cardInstance.upgradeData.type.ToString(),
               InfoBoxPopup.transform);
             }

@@ -27,6 +27,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void Init(ArtifactData aData)
     {
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
+
         ArtifactData = aData;
         Price = 6;
         PotionData = null;
@@ -42,6 +44,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void Init(RuneData aData)
     {
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
+
         RuneData = aData;
         Price = 12;
         PotionData = null;
@@ -58,6 +62,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         ArtifactData = null;
         RuneData = null;
         NameLabel.text = aData.name;
+        NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
+
         PotionData = aData;
         Price = 3;
         if (ShopManager.Instance.SetEverythingFreeNextRound)
@@ -197,7 +203,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                     UIManager.Instance.ShowCardInfoPopup(
                    ArtifactData.name,
-                   ArtifactData.description,
+                   ArtifactData.description+ ArtifactData.GetRarityText(),
                    "",
                    transform
                );
@@ -206,7 +212,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 UIManager.Instance.ShowCardInfoPopup(
                    PotionData.name,
-                   PotionData.description,
+                   PotionData.description+ PotionData.GetRarityText(),
                    "",
                    transform
                           );
@@ -215,7 +221,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 UIManager.Instance.ShowCardInfoPopup(
                    RuneData.name,
-                   RuneData.description,
+                   RuneData.description+ RuneData.GetRarityText(),
                    "",
                    transform
                           );
