@@ -169,9 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Cinzel-Bold SDF_SYNERGI
   m_EditorClassIdentifier: 
-  hashCode: 1980161663
+  hashCode: -995981076
   material: {fileID: -7367546365679106110}
-  materialHashCode: 1523834239
+  materialHashCode: 729404108
   m_Version: 1.1.0
   m_SourceFontFileGUID: 3280d8b6e8a484597ace7ad0090e69ed
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 3280d8b6e8a484597ace7ad0090e69ed, type: 3}
