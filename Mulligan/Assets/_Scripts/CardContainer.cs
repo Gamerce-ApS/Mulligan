@@ -66,6 +66,10 @@ public class CardContainer : Singleton<CardContainer>
         }
 
         CurrentDeck.Shuffle();
+        foreach(var a in ArtifactDataList)
+        {
+            a.RandomRace = (CardRace)Random.Range(0,(int)CardRace.END);
+        }
 
         string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
         GUIUtility.systemCopyBuffer = json;

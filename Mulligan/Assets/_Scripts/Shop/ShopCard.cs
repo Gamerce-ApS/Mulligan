@@ -26,7 +26,12 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public TMPro.TMP_Text NameLabel;
     public void Init(ArtifactData aData)
     {
-        NameLabel.text = aData.name;
+        string artifactName = aData.name;
+        if( artifactName.Contains("RandomRace"))
+        {
+            artifactName = artifactName.Replace("RandomRace",aData.RandomRace.ToString());
+        }
+        NameLabel.text = artifactName;
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
 
         ArtifactData = aData;
@@ -202,7 +207,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             if(ArtifactData !=null)
             {
                     UIManager.Instance.ShowCardInfoPopup(
-                   ArtifactData.name,
+                   NameLabel.text,
                    ArtifactData.description+ ArtifactData.GetRarityText(),
                    "",
                    transform

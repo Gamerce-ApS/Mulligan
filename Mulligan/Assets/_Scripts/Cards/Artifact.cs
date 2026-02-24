@@ -25,7 +25,12 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(ArtifactData aData)
     {
-        NameLabel.text = aData.name;
+        string artifactName = aData.name;
+        if( artifactName.Contains("RandomRace"))
+        {
+            artifactName = artifactName.Replace("RandomRace",aData.RandomRace.ToString());
+        }
+        NameLabel.text = artifactName;
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void OnPointerClick(PointerEventData eventData)
@@ -117,7 +122,15 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isHolding = true;
         holdTimer = 0f;
     }
-
+    public string GetArtifactName()
+    {
+        string artifactName = ArtifactData.name;
+        if( artifactName.Contains("RandomRace"))
+        {
+            artifactName = artifactName.Replace("RandomRace",ArtifactData.RandomRace.ToString());
+        }
+        return artifactName;
+    }
     public void OnPointerUp(PointerEventData eventData)
     {
         isHolding = false;
@@ -133,7 +146,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             else
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                     ArtifactData.name,
+                     GetArtifactName(),
                      ArtifactData.description + ArtifactData.GetRarityText(),
                      "",
                      transform);
@@ -222,7 +235,13 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             onComplete?.Invoke();
         });
     }
-
+    public void Shake()
+    {
+        // Pulse
+        LeanTween.scale(gameObject, Vector3.one * 1.7f, 0.6f)
+        .setEasePunch();
+  
+    }
 
 
 
@@ -254,5 +273,10 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     onComplete?.Invoke();
                 });
         });
+    }
+    public void DestroyDamageNumber()
+    {
+        Destroy(DmgNumber);
+        DmgNumber = null;
     }
 }

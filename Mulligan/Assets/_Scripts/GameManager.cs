@@ -164,7 +164,7 @@ public class GameManager : Singleton<GameManager>
         myGameStates = GameStates.Game;
 
 
-        if ( TheEnemy.Health < 0)
+        if ( TheEnemy.Health <= 0)
         {
             WinGame();
         }
@@ -193,6 +193,10 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.D))
         {
             ArtifactManager.Instance.AddArtifact(ArtifactEffectType.AddCritFlat);
+        }
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            ArtifactManager.Instance.AddArtifact(ArtifactEffectType.RaceHasExtraDamage);
         }
         if (Input.GetKeyUp(KeyCode.R))
         {

@@ -8,6 +8,7 @@ public enum CardRace
     Elf,
     Orc,
     Undead,
+    END
     // Add more as needed
 }
 
@@ -47,7 +48,7 @@ public enum ArtifactEffectType
     GetPotion, // Done
     AttackingMagesPlusDamage,
     BardInHandAttackingUnitsPlusDamage,
-    ProcHPinDamage
+    ProcHPinDamage, // Done
 }
 public enum PotionEffectType
 {
@@ -186,6 +187,7 @@ public class ArtifactData
        RarityType r =  (RarityType)rarity;
         return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
     }
+    public CardRace RandomRace;
 }
 [System.Serializable]
 public class PotionCardData

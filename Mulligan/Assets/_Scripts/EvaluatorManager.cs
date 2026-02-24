@@ -320,6 +320,21 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         return boosted;
     }
+    public int GetArtifactBonusDamage(CardInstance card)
+    {
+        int bonusDmg = 0;
+        foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+        {
+            if(artifact.effect == ArtifactEffectType.RaceHasExtraDamage)
+            {
+                if(artifact.RandomRace == card.data.race)
+                {
+                    bonusDmg+=artifact.value;
+                }
+            }
+        }
+        return bonusDmg;
+    }
     public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand, bool isCombat = false,bool popUI = true)
     {
         // Count synergies in current PlayedHand
@@ -452,11 +467,39 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
+            
             steps.Enqueue(next =>
             {
+                 Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+                if (visual == null)
+                {
+                    next();
+                    return;
+                }
+                
                 switch (artifact.effect)
                 {
                     // No artifacts affecting individual cards yet
+                        case ArtifactEffectType.RaceHasExtraDamage:
+                        
+                    
+                            if( card.data.race == artifact.RandomRace)
+                            {
+                                CardInstance c = card;
+                                int dmg = artifact.value;
+                                visual.Shake();
+                                card.CardGO.AddDamage(dmg, () =>
+                                {
+                                    next();
+                                }); 
+                                
+                            }else
+                            {
+                                next();
+                            }
+                        
+                       
+                        break;
                     default:
                         next();
                         break;

@@ -534,6 +534,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         TotalDamage = cardInstance.GetDamage();
         int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand,false,false);
         TotalDamage += synergyBonus;
+        TotalDamage+=EvaluatorManager.Instance.GetArtifactBonusDamage(cardInstance);
+
 
         return TotalDamage;
     }
