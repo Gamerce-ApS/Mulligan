@@ -146,8 +146,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         {
             NameLabel.text=data.heroName.ToString();
             HPLabel.text=data.startingHP.ToString();
-            ArtifactSlotsLabel.text="3";
-            PotionSlotsLabel.text="1";
+            ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
+            PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
             RuneLabel.text="None";
         }
@@ -155,8 +155,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         {
             NameLabel.text=data.heroName.ToString();
             HPLabel.text=data.startingHP.ToString();
-            ArtifactSlotsLabel.text="4";
-            PotionSlotsLabel.text="1";
+            ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();;
+            PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
             RuneLabel.text="Double chance to get rare items";
         }
@@ -164,8 +164,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         {
             NameLabel.text=data.heroName.ToString();
             HPLabel.text=data.startingHP.ToString();
-            ArtifactSlotsLabel.text="4";
-            PotionSlotsLabel.text="1";
+            ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
+            PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
             RuneLabel.text="+1 attack";
         }
@@ -174,8 +174,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     
             NameLabel.text=data.heroName.ToString();
             HPLabel.text=data.startingHP.ToString();
-            ArtifactSlotsLabel.text="4";
-            PotionSlotsLabel.text="2";
+            ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
+            PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
             RuneLabel.text="10% chance to retrigger potions";
         }

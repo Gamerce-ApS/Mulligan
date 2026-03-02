@@ -261,6 +261,9 @@ public class HeroData
 
     public string description;             // For UI display
     public string portrait;                // Optional
+    public int PotionSlots;
+    public int ArtifactSlots;
+    
 }
 
 public enum HeroTrait
