@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -51,8 +52,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
-        if(isSelected)
+        Debug.Log("Potion BeginDrag");
+        if (isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
 
 
@@ -60,10 +61,13 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         isSelected = false;
 
         originalAnchoredPos = rectTransform.anchoredPosition;
- UIManager.Instance.SellItemArea.gameObject.SetActive(true);
+        if(ShopManager.Instance.ShopWindow.activeSelf)
+            UIManager.Instance.SellItemArea.gameObject.SetActive(true);
     }
- private bool IsOverSellSlot()
+    private bool IsOverSellSlot()
     {
+        if(ShopManager.Instance.ShopWindow.activeSelf == false)
+            return false;
         if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.SellItemArea, Input.mousePosition, Camera.main))
         {
             return true;
@@ -73,6 +77,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log("Potion Drag");
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -102,8 +107,12 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             if (shakeCoroutine != null)
             {
                 StopCoroutine(shakeCoroutine);
-                hoveredCard.transform.rotation = Quaternion.identity;
                 shakeCoroutine = null;
+            }
+
+            if (hoveredCard != null)
+            {
+                hoveredCard.transform.rotation = Quaternion.identity;
             }
 
             hoveredCard = detectedCard;
@@ -139,7 +148,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
                     PotionData.name,
-                    PotionData.description+ PotionData.GetRarityText(),
+                    PotionData.description + PotionData.GetRarityText(),
                     "",
                     transform
                 );
@@ -148,12 +157,12 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("Potion EndDrag");
+
+        isDragging = false;
 
 
-            isDragging = false;
- 
-
-            rectTransform.anchoredPosition = originalAnchoredPos;
+        rectTransform.anchoredPosition = originalAnchoredPos;
 
         if (shakeCoroutine != null && hoveredCard != null)
         {
@@ -173,7 +182,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private void ApplyPotionToCard(PotionCardData potion, Card target)
     {
         //PotionEffectEvaluator.ApplyPotion(potion, target); // or however you apply effects
-        PotionManager.Instance.TriggerPotion(potion,target);
+        PotionManager.Instance.TriggerPotion(potion, target);
         // Optional: play animation
         LeanTween.scale(gameObject, Vector3.zero, 0.5f)
             .setEaseInBack()
@@ -183,20 +192,27 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("Potion PointerDown");
         isHolding = true;
         holdTimer = 0f;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+
+        Debug.Log("Potion PointerUp");
         // OnEndDrag(eventData);
         isHolding = false;
         holdTimer = 0f;
         if (shakeCoroutine != null)
         {
             StopCoroutine(shakeCoroutine);
-            hoveredCard.transform.rotation = Quaternion.identity;
             shakeCoroutine = null;
+        }
+
+        if (hoveredCard != null)
+        {
+            hoveredCard.transform.rotation = Quaternion.identity;
         }
         //UIManager.Instance.UpdateArtifactSlotsUI();
 
@@ -212,7 +228,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             {
                 UIManager.Instance.ShowCardInfoPopup(
                          PotionData.name,
-                         PotionData.description+ PotionData.GetRarityText(),
+                         PotionData.description + PotionData.GetRarityText(),
                          "",
                          transform
                      );
@@ -221,7 +237,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         else
         {
             UIManager.Instance.HideCardInfoPopup();
-            UIManager.Instance.UpdateArtifactSlotsUI();
+            // UIManager.Instance.UpdateArtifactSlotsUI();
 
 
             if (IsOverSellSlot())

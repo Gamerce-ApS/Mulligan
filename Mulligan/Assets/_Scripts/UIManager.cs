@@ -450,7 +450,7 @@ public class UIManager : Singleton<UIManager>
             // Optionally add tooltip or highlight here
         }
         UpdatePotionsSlotsUI();
-        GameManager.Instance.TheHero.RefreshBar();
+        // GameManager.Instance.TheHero.RefreshBar();
     }
     public void UpdatePotionsSlotsUI()
     {
