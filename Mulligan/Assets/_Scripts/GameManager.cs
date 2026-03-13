@@ -70,11 +70,11 @@ public class GameManager : Singleton<GameManager>
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
       
-#if UNITY_EDITOR
-    UIManager.Instance.ClickTryForFree();
-    #else
+// #if UNITY_EDITOR
+//     UIManager.Instance.ClickTryForFree();
+//     #else
     UIManager.Instance.SplashScreen.SetActive(true);
-#endif
+// #endif
 
     }
     public void ShowHeroSelection()

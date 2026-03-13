@@ -3862,7 +3862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57226ac4e57e54ae8b3fa1cf047c3563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCurrentAction: 1
+  myCurrentAction: 0
   canvasRect: {fileID: 679112066}
   dialogueText: {fileID: 434351378}
   topOverlay: {fileID: 792418689}
