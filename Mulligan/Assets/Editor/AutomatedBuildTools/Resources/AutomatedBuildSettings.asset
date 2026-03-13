@@ -16,14 +16,14 @@ MonoBehaviour:
   iosGradleRootFolder: /Editor/AutomatedBuildTools/fastlane
   gitPath: https://github.com/Gamerce-ApS/Mulligan.git
   appName: EUKids
-  appSKU: com.gamerce.mulligan
+  appSKU: com.pax.mulligan
   motherappLinkName: kidsplatform
   appLinkName: kidsplatform
   jsonFile: {fileID: 4900000, guid: b9857e6b9439b462aadc983b679173ae, type: 3}
   jsonFile2: {fileID: 4900000, guid: 2c9f842e86e194beea03bc6852abc951, type: 3}
   offlienDataTest: {fileID: 4900000, guid: db314117ee9e64f0fa4d9b0103d819c6, type: 3}
   VariableTemplate: {fileID: 4900000, guid: 59ff81319bbf34ceab334c5ef2f30136, type: 3}
-  app_identifier: com.gamerce.mulligan
-  apple_id: info@gamerce.net
-  itc_team_id: 118780422
-  team_id: 8XR9A3B5C5
+  app_identifier: com.pax.mulligan
+  apple_id: patte_was_here@hotmail.com
+  itc_team_id: 117702132
+  team_id: CG4Y9LU6WS

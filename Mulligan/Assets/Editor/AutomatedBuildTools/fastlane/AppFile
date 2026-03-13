@@ -1,8 +1,8 @@
-app_identifier("com.gamerce.mulligan") # The bundle identifier of your app
-apple_id("info@gamerce.net") # Your Apple email address
+app_identifier("com.pax.mulligan") # The bundle identifier of your app
+apple_id("patte_was_here@hotmail.com") # Your Apple email address
 
-itc_team_id("118780422") # App Store Connect Team ID
-team_id("8XR9A3B5C5") # Developer Portal Team ID
+itc_team_id("117702132") # App Store Connect Team ID
+team_id("CG4Y9LU6WS") # Developer Portal Team ID
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile

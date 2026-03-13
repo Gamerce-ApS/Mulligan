@@ -16,7 +16,7 @@
 default_platform(:ios)
 before_all do
   ENV['ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD'] = 'false'
-  ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']= 'yxjw-kyla-xedi-cbgr'
+  ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']= 'kkih-ytec-rfln-lyts'
 end
 platform :ios do
   desc "Push a new beta build to TestFlight"
@@ -30,7 +30,7 @@ platform :ios do
   )
     build_app(scheme: "Unity-iPhone",xcargs: "-allowProvisioningUpdates")
     upload_to_testflight(
-      itc_provider: "8XR9A3B5C5"
+      itc_provider: "CG4Y9LU6WS"
     )
   end
 
