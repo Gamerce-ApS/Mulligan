@@ -83,11 +83,12 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
                 bgCanvasGroup.gameObject.SetActive(false);
             });
     }
-    public void ClickHero(int id, bool overide = false)
+    public void ClickHero(int id)
     {
         if (selectedHero == id)
             return; // Don't reselect the same hero
-        if(LeanTween.isTweening() && overide == false)
+            
+        if(LeanTween.isTweening())
         return;
 
         for (int i = 0; i < HeroNormal.Count; i++)

@@ -767,12 +767,16 @@ public class UIManager : Singleton<UIManager>
                 SplashScreen.SetActive(false);
                 if (TutorialController.Instance.HasRunTutorial() == false)
                 {
-                          GameManager.Instance.ShowHeroSelection();
-                    UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                    {
-                        HeroSelectionManager.Instance.ClickHero(0, true);
+                    GameManager.Instance.ShowHeroSelection();
+                    // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                    // {
+                        HeroSelectionManager.Instance.ClickHero(0);
+                        // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                        // {
+                            HeroSelectionManager.Instance.selectedHero = 0;
                         HeroSelectionManager.Instance.ClickPlay();
-                    });
+                        // });
+                    // });
      
                 }
                 else
@@ -780,7 +784,7 @@ public class UIManager : Singleton<UIManager>
                     GameManager.Instance.ShowHeroSelection();
                     UnityHelper.RunAfterDelay(this, 0.5f, () =>
                     {
-                        HeroSelectionManager.Instance.ClickHero(0, true);
+                        HeroSelectionManager.Instance.ClickHero(0);
                     });
                 }
 
@@ -799,19 +803,14 @@ public class UIManager : Singleton<UIManager>
             .setOnComplete(() =>
             {
                 SplashScreen.SetActive(false);
-                if (TutorialController.Instance.HasRunTutorial() == false)
-                {
-                    HeroSelectionManager.Instance.ClickHero(0, true);
-                    HeroSelectionManager.Instance.HideWindow();
-                }
-                else
-                {
+                
+                
                     GameManager.Instance.ShowHeroSelection();
-                    UnityHelper.RunAfterDelay(this, 0.3f, () =>
+                    UnityHelper.RunAfterDelay(this, 0.5f, () =>
                     {
-                        HeroSelectionManager.Instance.ClickHero(0, true);
+                        HeroSelectionManager.Instance.ClickHero(0);
                     });
-                }
+                
 
             });
 
@@ -828,7 +827,9 @@ public class UIManager : Singleton<UIManager>
             {
                 SplashScreen.SetActive(false);
                 GameManager.Instance.ShowHeroSelection();
-                UnityHelper.RunAfterDelay(this, 0.5f, () => { HeroSelectionManager.Instance.ClickHero(0); });
+                HeroSelectionManager.Instance.ClickHero(0);
+                HeroSelectionManager.Instance.selectedHero = 0;
+                HeroSelectionManager.Instance.ClickPlay();
             });
     }
 
