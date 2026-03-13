@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class ShopManager : Singleton<ShopManager>
@@ -13,6 +14,9 @@ public class ShopManager : Singleton<ShopManager>
     public Transform ArtifactParent;
     public Transform PotionParent;
     public Transform UnitPackParent;
+
+    public GameObject HeroRunePrefab;
+    public Transform HeroRuneParent;
 
     public GameObject ShopWindow;
     public bool SetEverythingFreeNextRound = false;
@@ -49,9 +53,20 @@ public class ShopManager : Singleton<ShopManager>
 
         // go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
         // go.GetComponent<ShopCard>().Init(3);
+    
+        RefreshHeroRunes();
 
-
-
+    }
+    public void RefreshHeroRunes()
+    {
+         HeroRuneParent.DestroyAllChildren();
+        for(int i = 0;i < RuneManager.Instance.ActiveRunes.Count;i++)
+        {
+            GameObject go2 = GameObject.Instantiate(HeroRunePrefab, HeroRuneParent);
+            go2.GetComponent<ShopCard>().Init(RuneManager.Instance.ActiveRunes[i]);
+            go2.GetComponent<ShopCard>().CanBeDraged = false;
+            go2.transform.localScale= new Vector3(0.6656631f,0.6656631f,0.6656631f);
+        }
     }
     public bool hasRerolledForFree = false;
     public void ClickReRoll()
@@ -78,6 +93,7 @@ public class ShopManager : Singleton<ShopManager>
         ArtifactParent.DestroyAllChildren();
         RuneParent.DestroyAllChildren();
         PotionParent.DestroyAllChildren();
+        HeroRuneParent.DestroyAllChildren();
     }
     // Start is called before the first frame update
     void Start()

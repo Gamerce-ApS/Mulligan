@@ -22,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text RoundsLabel;
     public TMPro.TMP_Text WorldLabel;
     public TMPro.TMP_Text GoldLabel;
+    public GameObject SplashScreen;
 
 
 
@@ -51,6 +52,10 @@ public class UIManager : Singleton<UIManager>
     public Transform HeroButtonInfo;
     public List<Color> myRarityColors;
 
+    public List<GameObject> PotionBackground;
+    public List<GameObject> ArtifactBackground;
+
+
     // Start is called before the first frame update
     public void Init()
     {
@@ -71,13 +76,13 @@ public class UIManager : Singleton<UIManager>
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void UpdateLabels()
     {
         AttackLabel.text = GameData.CurrentAttacks.ToString();
         ReRollLabel.text = GameData.CurrentReRolls.ToString();
-        RoundsLabel.text = "Round "+GameData.CurrentRound.ToString();
+        RoundsLabel.text = "Round " + GameData.CurrentRound.ToString();
         int totalWorlds = 8; // or however many worlds you have
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
         WorldLabel.text = $"{currentWorld}/{totalWorlds}";
@@ -88,15 +93,24 @@ public class UIManager : Singleton<UIManager>
     {
         HandManager.Instance.PlayHand();
         UIManager.Instance.HideCardInfoPopup();
+
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ATTACK)
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
     }
     public void ClickReRoll()
     {
-        if(GameData.CurrentReRolls >0)
+        if (GameData.CurrentReRolls > 0)
         {
             HandManager.Instance.ReRollHand();
             UIManager.Instance.HideCardInfoPopup();
 
             GameData.CurrentReRolls--;
+        }
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_REROLL)
+        {
+            TutorialController.Instance.ShowNextStep();
         }
     }
     public void ClickContinueFromShop()
@@ -111,21 +125,23 @@ public class UIManager : Singleton<UIManager>
     public void AddDamage(float aDamage)
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(DamageLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
-        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(()=> {
+        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
+        {
             DamageLabel.transform.localScale = DamageLabelOriginalScale;
         });
     }
     public void AddCritical(float aDamage)
     {
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(CriticalLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
-        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() => {
+        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
+        {
             CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
         });
     }
 
 
 
-    public void ShiftUI(float offsetY, System.Action onComplete=null)
+    public void ShiftUI(float offsetY, System.Action onComplete = null)
     {
         if (UIShiftGroup == null) return;
 
@@ -134,7 +150,8 @@ public class UIManager : Singleton<UIManager>
 
         LeanTween.value(gameObject, startPos, targetPos, 0.3f)
             .setEaseOutQuad()
-            .setOnUpdate((Vector2 val) => {
+            .setOnUpdate((Vector2 val) =>
+            {
                 UIShiftGroup.anchoredPosition = val;
             }).setOnComplete(onComplete);
     }
@@ -161,7 +178,7 @@ public class UIManager : Singleton<UIManager>
         int totalDmg;
         List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(selectedCards, out totalDmg);
 
-        foreach(var card in boostedCards)
+        foreach (var card in boostedCards)
         {
             int synergyDMG = EvaluatorManager.Instance.GetSynergyDamage(card, selectedCards);
             totalDmg += synergyDMG;
@@ -169,21 +186,22 @@ public class UIManager : Singleton<UIManager>
 
         TMPro.TMP_Text text = DamageLabel.GetComponent<TMPro.TMP_Text>();
         int prevValue = int.Parse(text.text);
-        if(totalDmg < prevValue)
+        if (totalDmg < prevValue)
             UnityHelper.AnimateTMPColorTransition(text, new Color(1f, 0.2f, 0.2f, 1f), new Color(0.866f, 0.757f, 0.573f, 1f), 0.5f);
-        else if(totalDmg > prevValue)
+        else if (totalDmg > prevValue)
             UnityHelper.AnimateTMPColorTransition(text, new Color(0.18f, 0.70f, 0.14f, 1f), new Color(0.866f, 0.757f, 0.573f, 1f), 0.5f);
 
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = (totalDmg).ToString();
-        if(totalDmg != 0)
-        LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+        if (totalDmg != 0)
+            LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
 
         int crit = EvaluatorManager.Instance.GetGlobalCritMultiplier(selectedCards);
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit).ToString();
-        if(crit != 0)
-        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+        if (crit != 0)
+            LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
     }
+
     public void ShowSynergies()
     {
         Transform parent = SynergiTemplate.transform.parent;
@@ -255,12 +273,12 @@ public class UIManager : Singleton<UIManager>
         // 3. Create UI items for each synergy
         foreach (var kvp in raceCounts)
         {
-            CreateSynergyItem($"Race: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForRace(kvp.Key),true);
+            CreateSynergyItem($"Race: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForRace(kvp.Key), true);
         }
 
         foreach (var kvp in classCounts)
         {
-            CreateSynergyItem($"Class: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForClass(kvp.Key),false);
+            CreateSynergyItem($"Class: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForClass(kvp.Key), false);
         }
 
         synergyTextGO.transform.localScale = OriginalsynergyTextGO;
@@ -338,11 +356,11 @@ public class UIManager : Singleton<UIManager>
             if (glow != null) glow.gameObject.SetActive(false);
         }
 
- 
+
     }
     public GameObject synergyTextGO;
     public Vector3 OriginalsynergyTextGO;
-    public void PulseSynergyItem(string keyName,bool combat=false)
+    public void PulseSynergyItem(string keyName, bool combat = false)
     {
         Transform parent = SynergiTemplate.transform.parent;
 
@@ -353,14 +371,15 @@ public class UIManager : Singleton<UIManager>
 
             if (child.name.Contains(keyName)) // match based on synergy key
             {
-                if(combat == false)
+                if (combat == false)
                     LeanTween.scale(child, child.transform.localScale * 1.4f, 0.5f).setEasePunch();
                 else
                 {
                     Transform ch = child.transform;
                     Vector3 orignialScale = child.transform.localScale;
                     LeanTween.scale(child, child.transform.localScale * 2.6f, 0.7f).setEasePunch().setOnComplete(() => { ch.transform.localScale = orignialScale; }); ;
-                    LeanTween.scale(synergyTextGO, synergyTextGO.transform.localScale * 2.6f, 0.7f).setEasePunch().setOnComplete(()=> {
+                    LeanTween.scale(synergyTextGO, synergyTextGO.transform.localScale * 2.6f, 0.7f).setEasePunch().setOnComplete(() =>
+                    {
                         synergyTextGO.transform.localScale = OriginalsynergyTextGO;
                     });
 
@@ -488,8 +507,8 @@ public class UIManager : Singleton<UIManager>
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
         popupRT.transform.position = target.transform.position;
 
-        if(screenPos.y < Screen.height * 0.5f)
-            popupRT.transform.position += new Vector3(0, 35,0);
+        if (screenPos.y < Screen.height * 0.5f)
+            popupRT.transform.position += new Vector3(0, 35, 0);
         else
             popupRT.transform.position += new Vector3(0, -30, 0);
 
@@ -568,7 +587,7 @@ public class UIManager : Singleton<UIManager>
             // 3. Increase max HP
             hero.MaxHealth += CardContainer.Instance.HealthGainPerLevel;
             hero.RefreshBar();
-            HealthGainedText.text = "+ "+CardContainer.Instance.HealthGainPerLevel.ToString();
+            HealthGainedText.text = "+ " + CardContainer.Instance.HealthGainPerLevel.ToString();
 
             LeanTween.delayedCall(gameObject, 1.5f, () =>
             {
@@ -579,9 +598,9 @@ public class UIManager : Singleton<UIManager>
 
 
         }
-        LevelText.text = "Level "+hero.Level.ToString();
+        LevelText.text = "Level " + hero.Level.ToString();
         XpBar.fillAmount = (float)hero.Experience / (float)CardContainer.Instance.ExperienceToLevelUp;
-        GoldGainedText.text = "+ "+CardContainer.Instance.GoldGainPerLevel.ToString();
+        GoldGainedText.text = "+ " + CardContainer.Instance.GoldGainPerLevel.ToString();
 
 
 
@@ -604,7 +623,7 @@ public class UIManager : Singleton<UIManager>
         LeanTween.alphaCanvas(LoseParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
         {
             // Animate children
-            StartCoroutine(AnimateChildrenIn(onComplete, LoseParent.transform,-1));
+            StartCoroutine(AnimateChildrenIn(onComplete, LoseParent.transform, -1));
         });
         foreach (Transform child in LoseParent.transform)
         {
@@ -615,33 +634,34 @@ public class UIManager : Singleton<UIManager>
     private IEnumerator AnimateChildrenIn(System.Action onComplete, Transform parent, float FadeOutAfterTime = 3.5f)
     {
         int i = 0;
-        foreach (Transform child in parent )
+        foreach (Transform child in parent)
         {
             if (child.name == "ignore")
             {
                 child.gameObject.SetActive(true);
-            }else
-            { 
+            }
+            else
+            {
                 child.gameObject.SetActive(true);
                 Vector3 targetScale = child.localScale;
                 child.localScale = Vector3.zero;
                 LeanTween.scale(child.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(i * 0.1f);
             }
-    
+
             i++;
         }
 
         yield return new WaitForSeconds(FadeOutAfterTime);
 
         onComplete?.Invoke();
-        if(FadeOutAfterTime != -1)
+        if (FadeOutAfterTime != -1)
         {
             LeanTween.alphaCanvas(parent.GetComponent<CanvasGroup>(), 0f, 0.3f).setEaseOutQuad().setOnComplete(() =>
             {
                 parent.gameObject.SetActive(false);
             });
         }
- 
+
 
     }
 
@@ -666,7 +686,7 @@ public class UIManager : Singleton<UIManager>
         LeanTween.alphaCanvas(BossParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
         {
             // Animate children
-            StartCoroutine(AnimateChildrenIn(onComplete, BossParent.transform,4));
+            StartCoroutine(AnimateChildrenIn(onComplete, BossParent.transform, 4));
         });
         foreach (Transform child in BossParent.transform)
         {
@@ -710,21 +730,23 @@ public class UIManager : Singleton<UIManager>
     public void ClickSpeedButton()
     {
         currentSpeed++;
-        if(currentSpeed>2)
-            currentSpeed =0;
-        if(currentSpeed == 0)
+        if (currentSpeed > 2)
+            currentSpeed = 0;
+        if (currentSpeed == 0)
         {
             Time.timeScale = 1;
             SpeedLabel.text = "1X";
-        }else if(currentSpeed == 1)
+        }
+        else if (currentSpeed == 1)
         {
             Time.timeScale = 2;
             SpeedLabel.text = "2X";
 
-        }else if(currentSpeed == 2)
+        }
+        else if (currentSpeed == 2)
         {
             Time.timeScale = 4;
-                        SpeedLabel.text = "4X";
+            SpeedLabel.text = "4X";
 
         }
     }
@@ -732,4 +754,82 @@ public class UIManager : Singleton<UIManager>
     {
         return myRarityColors[aRarity];
     }
+    public void ClickTryForFree()
+    {
+        // PlayerPrefs.SetInt("HasRunTutorial", 1);
+        Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // Animate down
+        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                SplashScreen.SetActive(false);
+                if (TutorialController.Instance.HasRunTutorial() == false)
+                {
+                          GameManager.Instance.ShowHeroSelection();
+                    UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                    {
+                        HeroSelectionManager.Instance.ClickHero(0, true);
+                        HeroSelectionManager.Instance.ClickPlay();
+                    });
+     
+                }
+                else
+                {
+                    GameManager.Instance.ShowHeroSelection();
+                    UnityHelper.RunAfterDelay(this, 0.5f, () =>
+                    {
+                        HeroSelectionManager.Instance.ClickHero(0, true);
+                    });
+                }
+
+            });
+
+
+    }
+    public void ClickBuy()
+    {
+        PlayerPrefs.SetInt("HasRunTutorial", 1);
+        Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // Animate down
+        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                SplashScreen.SetActive(false);
+                if (TutorialController.Instance.HasRunTutorial() == false)
+                {
+                    HeroSelectionManager.Instance.ClickHero(0, true);
+                    HeroSelectionManager.Instance.HideWindow();
+                }
+                else
+                {
+                    GameManager.Instance.ShowHeroSelection();
+                    UnityHelper.RunAfterDelay(this, 0.3f, () =>
+                    {
+                        HeroSelectionManager.Instance.ClickHero(0, true);
+                    });
+                }
+
+            });
+
+    }
+    public void ClickTutorial()
+    {
+        PlayerPrefs.SetInt("HasRunTutorial", 0);
+        Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // Animate down
+        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                SplashScreen.SetActive(false);
+                GameManager.Instance.ShowHeroSelection();
+                UnityHelper.RunAfterDelay(this, 0.5f, () => { HeroSelectionManager.Instance.ClickHero(0); });
+            });
+    }
+
 }

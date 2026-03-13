@@ -159,6 +159,15 @@ public class HandManager : Singleton<HandManager>
         int needed = 8 - CurrentHand.Count;
 
         StartCoroutine(AnimateRefillHand(needed));
+
+
+        if(TutorialController.Instance.LastStepPlayed == "Step1_Enemy")
+        {
+            UnityHelper.RunAfterDelay(this, 1.2f, () =>
+            {
+                TutorialController.Instance.ShowStepById("Step1_ReRoll");
+            });
+        }
     }
     private IEnumerator AnimateRefillHand(int numberToDraw)
     {

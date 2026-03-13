@@ -24,6 +24,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool isHolding = false;
     public TMPro.TMP_Text PriceLabel;
     public TMPro.TMP_Text NameLabel;
+    public bool CanBeDraged = true;
     public void Init(ArtifactData aData)
     {
         string artifactName = aData.name;
@@ -100,7 +101,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
+        if(CanBeDraged == false)
+        return;
 
         if (isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
@@ -117,6 +119,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(CanBeDraged == false)
+        return;
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -127,7 +131,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-
+       if(CanBeDraged == false)
+        return;
         UIManager.Instance.BuyItemArea.gameObject.SetActive(false);
         {
             isDragging = false;
@@ -140,7 +145,15 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         canvasGroup.blocksRaycasts = true;
 
-        if (IsOverSellSlot() && ArtifactManager.Instance.ActiveArtifacts.Count < 6)
+        bool slotFull = false;
+        if(ArtifactData != null && ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
+            slotFull = true;
+        if(PotionData != null && PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
+            slotFull = true;
+
+
+
+        if (IsOverSellSlot() && slotFull == false)
         {
             if (GameData.CurrentGold >= Price)
             {
@@ -170,9 +183,10 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
-            if( ArtifactManager.Instance.ActiveArtifacts.Count >= 6)
-            UIManager.Instance.ShowTooltip("No slots!");
-
+            if( ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
+                UIManager.Instance.ShowTooltip("No slots!");
+            else if( PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
+                UIManager.Instance.ShowTooltip("No slots!");
 
             ReturnToShop();
         }

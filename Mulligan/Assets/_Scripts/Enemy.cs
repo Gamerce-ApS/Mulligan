@@ -191,6 +191,15 @@ public class Enemy : MonoBehaviour
             {
                 PlayDeathAnimation(() => { });
             });
+
+            if(TutorialController.Instance.LastStepPlayed =="Step1_Synergies2")
+            {
+                LeanTween.delayedCall(gameObject, 0.75f, () =>
+                {
+                    TutorialController.Instance.ShowStepById("Step1_Gold");
+                });
+      
+            }
         }
     }
     private void ShowFloatingDamage(int damageAmount)

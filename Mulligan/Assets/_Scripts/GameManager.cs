@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     public bool HasFreeReroll = false;
 
     public List<TMPro.TMP_SpriteAsset> TextSprites = new List<TMPro.TMP_SpriteAsset>();
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +69,17 @@ public class GameManager : Singleton<GameManager>
         GameData.SkippedLevels = 0;
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
-        HeroSelectionManager.Instance.ShowWindow(() => {
+      
+#if UNITY_EDITOR
+    UIManager.Instance.ClickTryForFree();
+    #else
+    UIManager.Instance.SplashScreen.SetActive(true);
+#endif
+
+    }
+    public void ShowHeroSelection()
+    {
+         HeroSelectionManager.Instance.ShowWindow(() => {
             myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
              LevelSelectionManager.Instance.ShowWindow(() => {
@@ -81,8 +91,10 @@ public class GameManager : Singleton<GameManager>
                     GameData.CurrentAttacks += 2;
                     GameManager.Instance.BonusAttacksNextRound = false;
                 }
+                if(TutorialController.Instance.HasRunTutorial() == false)
+                        TutorialController.Instance.StartTutorial();
              });
-        });
+        }); 
     }
     public void WinGame()
     {

@@ -208,6 +208,47 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Quaternion originalRotation;
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
+        {
+            if( cardInstance.data.race != CardRace.Orc)
+            {
+                UIManager.Instance.ShowTooltip("Click on ORCs");
+                return;
+            }
+            if(HandManager.Instance.SelectedCardCount()>=3)
+            {
+                TutorialController.Instance.ShowNextStep();
+            }
+        }
+        if(TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ReRollCards)
+        {
+            if( HandManager.Instance.CurrentHand[0] == cardInstance ||  HandManager.Instance.CurrentHand[2] == cardInstance )
+            {
+                if(HandManager.Instance.SelectedCardCount()>=1)
+                {
+                    TutorialController.Instance.ShowNextStep();
+                }
+            }else
+            {
+                UIManager.Instance.ShowTooltip("Click on correct cards!");
+                return;
+            } 
+        }
+        if(TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_WARRIORS)
+        {
+            if( cardInstance.data.cardClass != CardClass.Warrior)
+            {
+                UIManager.Instance.ShowTooltip("Click on Warriors");
+                return;
+            }
+            if(HandManager.Instance.SelectedCardCount()>=3)
+            {
+                TutorialController.Instance.ShowNextStep();
+            }
+        }
+
+
+        
 
         if (GameManager.Instance.myGameStates != GameManager.GameStates.Game && ArmoryManager.Instance.ShopWindow.activeSelf == false&& UnitUpgradeManager.Instance.ShopWindow.activeSelf == false)
             return;

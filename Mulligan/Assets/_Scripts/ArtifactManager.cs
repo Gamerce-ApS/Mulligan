@@ -21,7 +21,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void AddRandomArtifact()
     {
-        if (ActiveArtifacts.Count >= 6)
+        if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
         {
             Debug.Log("Artifact slots are full.");
             return;
@@ -95,7 +95,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void AddArtifact(ArtifactEffectType aType)
     {
-        if (ActiveArtifacts.Count >= 6)
+        if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
         {
             Debug.Log("Artifact slots are full.");
             return;
@@ -146,7 +146,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void AddArtifact(ArtifactData artifact)
     {
-        if (ActiveArtifacts.Count >= 6) return;
+        if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
         ActiveArtifacts.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals

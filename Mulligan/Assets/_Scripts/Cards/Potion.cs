@@ -60,9 +60,17 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         isSelected = false;
 
         originalAnchoredPos = rectTransform.anchoredPosition;
-
+ UIManager.Instance.SellItemArea.gameObject.SetActive(true);
     }
+ private bool IsOverSellSlot()
+    {
+        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.SellItemArea, Input.mousePosition, Camera.main))
+        {
+            return true;
+        }
 
+        return false;
+    }
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 globalMousePos;
@@ -211,9 +219,23 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         }
         else
         {
-
             UIManager.Instance.HideCardInfoPopup();
+            UIManager.Instance.UpdateArtifactSlotsUI();
 
+
+            if (IsOverSellSlot())
+            {
+                PotionManager.Instance.SellPotion(this); // Add logic here
+
+                UIManager.Instance.ShowTooltip("Potion sold!");
+
+            }
+            else
+            {
+
+            }
+
+            UIManager.Instance.SellItemArea.gameObject.SetActive(false);
         }
 
 

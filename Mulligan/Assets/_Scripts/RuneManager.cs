@@ -149,7 +149,7 @@ public class RuneManager : Singleton<RuneManager>
 
         ActiveRunes.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
-
+        ShopManager.Instance.RefreshHeroRunes();
         TriggerRunes(artifact);
     }
     public string GetActiveRunesInfo()

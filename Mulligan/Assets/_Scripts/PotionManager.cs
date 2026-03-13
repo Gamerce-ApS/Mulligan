@@ -156,10 +156,19 @@ public class PotionManager : Singleton<PotionManager>
         UIManager.Instance.UpdateArtifactSlotsUI();
     }
 
+public void SellPotion(Potion aPotion)
+    {
+        ActivePotions.Remove(aPotion.PotionData);
+        Destroy(aPotion.gameObject);
+        UIManager.Instance.UpdatePotionsSlotsUI(); // updates visuals
+        GameData.CurrentGold += 1;
 
+
+
+    }
     public PotionCardData AddRandomPotion(int rarity = -1)
     {
-        if (ActivePotions.Count >= 2)
+        if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
             Debug.Log("Potions slots are full.");
             return null;
@@ -242,7 +251,7 @@ public class PotionManager : Singleton<PotionManager>
     }
     public void AddPotion(PotionEffectType aType)
     {
-        if (ActivePotions.Count >= 2)
+        if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
             Debug.Log("potion slots are full.");
             UIManager.Instance.ShowTooltip("potion slots are full.");
@@ -282,7 +291,7 @@ public class PotionManager : Singleton<PotionManager>
     }
     public void AddPotion(PotionCardData artifact)
     {
-        if (ActivePotions.Count >= 2)
+        if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
             UIManager.Instance.ShowTooltip("potion slots are full.");
             return;

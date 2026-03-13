@@ -15,11 +15,11 @@ public class Hero : MonoBehaviour
     private Color originalColor;
     public Image bar;
     public List<GameObject> HeroPortraits;
-    HeroData myHeroData;
+    public HeroData myHeroData;
     // Start is called before the first frame update
     void Start()
     {
-         image = GetComponent<Image>();
+        image = GetComponent<Image>();
         originalColor = image.color;
     }
     public void Init(int aHealth)
@@ -37,7 +37,7 @@ public class Hero : MonoBehaviour
         healthLabel.text = Health.ToString();
         MaxHealth = Health;
 
-        if( aData.startingItem == StartingItemType.RandomArtifact)
+        if (aData.startingItem == StartingItemType.RandomArtifact)
         {
             ArtifactManager.Instance.AddRandomArtifact();
         }
@@ -48,15 +48,30 @@ public class Hero : MonoBehaviour
 
         GameData.CurrentAttacks += GetAttackModifier();
         GameData.CurrentReRolls += GetRollsModifier();
-        
+
         // image.sprite =  Resources.Load<Sprite>("" + aData.portrait);
         // image.sprite = HeroPortraits[GameData.HeroSelected];
-        foreach(var c in HeroPortraits)
+        foreach (var c in HeroPortraits)
             c.SetActive(false);
         HeroPortraits[GameData.HeroSelected].SetActive(true);
         Experience = 0;
         Level = 1;
         RefreshBar();
+        for (int i = 0; i < UIManager.Instance.PotionBackground.Count; i++)
+        {
+            if (i < aData.PotionSlots)
+                UIManager.Instance.PotionBackground[i].SetActive(true);
+            else
+                UIManager.Instance.PotionBackground[i].SetActive(false);
+        }
+        for (int i = 0; i < UIManager.Instance.ArtifactBackground.Count; i++)
+        {
+            if (i < aData.ArtifactSlots)
+                UIManager.Instance.ArtifactBackground[i].SetActive(true);
+            else
+                UIManager.Instance.ArtifactBackground[i].SetActive(false);
+        }
+
     }
     public int GetAttackModifier()
     {
@@ -73,7 +88,7 @@ public class Hero : MonoBehaviour
         {
             modifier = 1;
         }
-        modifier+=GameManager.Instance.BonusRerolls;
+        modifier += GameManager.Instance.BonusRerolls;
 
         return modifier;
     }
@@ -88,19 +103,19 @@ public class Hero : MonoBehaviour
         {
             if (artifact.effect == ArtifactEffectType.DodgeEnemyAttack)
             {
-                if(artifact.value < Random.Range(0,100))
+                if (artifact.value < Random.Range(0, 100))
                 {
-                    UIManager.Instance.ShowTooltip($"Dodged Attack!");  
-                    return true; 
+                    UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                    return true;
                 }
             }
-        
+
         }
         return false;
     }
     public void DoDamage(int aDamage)
     {
-        if(DodgeCheck())
+        if (DodgeCheck())
         {
             return;
         }
@@ -157,30 +172,40 @@ public class Hero : MonoBehaviour
     }
     public void Attack(int aDamage)
     {
+        UnityHelper.RunAfterDelay(this, 1.25f, () =>
+                  {
+                      if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ATTACK)
+                      {
+                          TutorialController.Instance.ShowStepById("Step1_Enemy");
+                          Time.timeScale = 0;
+                      }
+                  });
+
+
         float attackDuration = 0.4f;
 
-            Vector3 originalPos = transform.position;
-            Vector3 targetPos = GameManager.Instance.TheEnemy.transform.position;
+        Vector3 originalPos = transform.position;
+        Vector3 targetPos = GameManager.Instance.TheEnemy.transform.position;
 
-            float overshoot = 17.5f; // how far past the enemy it flies (optional)
+        float overshoot = 17.5f; // how far past the enemy it flies (optional)
 
-            // Optional: slight offset to go "through" the target
-            Vector3 direction = (targetPos - originalPos).normalized;
-            Vector3 attackTargetPos = targetPos - direction * overshoot;
+        // Optional: slight offset to go "through" the target
+        Vector3 direction = (targetPos - originalPos).normalized;
+        Vector3 attackTargetPos = targetPos - direction * overshoot;
 
-            // 1. Fly to target
-            LeanTween.move(gameObject, attackTargetPos, attackDuration)
-                .setEaseOutCubic()
-                .setOnComplete(() =>
-                {
-
-
-            // 3. Return to start
-            LeanTween.move(gameObject, originalPos, attackDuration)
-                        .setEaseInCubic();
+        // 1. Fly to target
+        LeanTween.move(gameObject, attackTargetPos, attackDuration)
+            .setEaseOutCubic()
+            .setOnComplete(() =>
+            {
 
 
-                });
+                // 3. Return to start
+                LeanTween.move(gameObject, originalPos, attackDuration)
+                                .setEaseInCubic();
+
+
+            });
 
         UnityHelper.RunAfterDelay(this, 0.45f, () =>
         {
@@ -194,6 +219,11 @@ public class Hero : MonoBehaviour
             RefreshBar();
             CurrentLifeStealProc = 0;
             GameData.PotionsUsed = 0;
+
+            // UnityHelper.RunAfterDelay(this, 0.0f, () =>
+            // {
+
+            // });
         });
 
     }
@@ -227,6 +257,6 @@ public class Hero : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+
     }
 }

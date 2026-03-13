@@ -5,10 +5,16 @@ using System.Collections.Generic;
 
 public static class UnityHelper
 {
-    public static void RunAfterDelay(MonoBehaviour owner, float delay, Action action)
+    public static void RunAfterDelay(MonoBehaviour owner, float delay, Action action,bool unscaledTime = false)
     {
-        owner.StartCoroutine(DelayedExecution(delay, action));
+        if(unscaledTime)
+            owner.StartCoroutine(DelayedExecutionUnscaled(delay, action));
+        else
+            owner.StartCoroutine(DelayedExecution(delay, action));
+     
+
     }
+    
     public static void DestroyAllChildren(this Transform parent)
     {
         for (int i = parent.childCount - 1; i >= 0; i--)
@@ -24,6 +30,11 @@ public static class UnityHelper
             elapsed += Time.deltaTime; // Scaled time
             yield return null;
         }
+        action?.Invoke();
+    }
+    private static IEnumerator DelayedExecutionUnscaled(float delay, Action action)
+    {
+        yield return new WaitForSecondsRealtime(delay);
         action?.Invoke();
     }
     // Shuffles the list in-place
@@ -66,6 +77,23 @@ public static class UnityHelper
             {
                 if (destroyAfter && label != null)
                     GameObject.Destroy(label.gameObject);
+            });
+    }
+      public static void Fade(this CanvasGroup cg, float startAlpha,float targetAlpha, float duration, Action onComplete = null)
+    {
+        if (cg == null) return;
+        cg.alpha = startAlpha;
+        float start = cg.alpha;
+
+        LeanTween.value(cg.gameObject, start, targetAlpha, duration)
+            .setOnUpdate((float a) =>
+            {
+                if (cg != null)
+                    cg.alpha = a;
+            })
+            .setOnComplete(() =>
+            {
+                onComplete?.Invoke();
             });
     }
 }

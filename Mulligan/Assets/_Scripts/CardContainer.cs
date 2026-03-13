@@ -29,10 +29,11 @@ public class CardContainer : Singleton<CardContainer>
 
     public List<CardInstance> CurrentDeck = new List<CardInstance>();
     public List<CardInstance> DiscardDeck = new List<CardInstance>();
+    public List<CardInstance> TutorialDeck = new List<CardInstance>();
 
     public List<EnemyData> myEnemiesList;
     public List<BossData> myBossList;
-    
+
 
     public void Init()
     {
@@ -66,30 +67,66 @@ public class CardContainer : Singleton<CardContainer>
         }
 
         CurrentDeck.Shuffle();
-        foreach(var a in ArtifactDataList)
+        foreach (var a in ArtifactDataList)
         {
-            a.RandomRace = (CardRace)Random.Range(0,(int)CardRace.END);
+            a.RandomRace = (CardRace)Random.Range(0, (int)CardRace.END);
         }
 
         string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
         GUIUtility.systemCopyBuffer = json;
 
-    for(int i = 0; i < 20;i++)
-    {
-        List<EnemyData> d = EnemyDataList.ToList();
-        d.Shuffle();
-        myEnemiesList.AddRange(d);
-    }
-    for(int i = 0; i < 20;i++)
-    {
-        List<BossData> d = BossDataList.ToList();
-        d.Shuffle();
-        myBossList.AddRange(d);
-    }
+        for (int i = 0; i < 20; i++)
+        {
+            List<EnemyData> d = EnemyDataList.ToList();
+            d.Shuffle();
+            myEnemiesList.AddRange(d);
+        }
+        for (int i = 0; i < 20; i++)
+        {
+            List<BossData> d = BossDataList.ToList();
+            d.Shuffle();
+            myBossList.AddRange(d);
+        }
         // for(int i = 0; i < 100;i++)
         //     myEnemiesList.Add(GetRandomEnemy());
         // for(int i = 0; i < 100;i++)
         //     myBossList.Add(GetRandomBoss());
+
+
+        TutorialDeck.Clear();
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Archer));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
+       
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Archer));
+
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
+                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
+        TutorialDeck.AddRange(CurrentDeck);
+
+    }
+    public CardInstance GetCardFromRace(CardRace aRace,CardClass aClass)
+    {
+        var candidates = CardsDataList
+        .Where(c => c.race == aRace && c.cardClass == aClass)
+        .ToList().GetRandom();
+        return new CardInstance(candidates);
     }
     public void CompleteBoss()
     {
@@ -101,7 +138,7 @@ public class CardContainer : Singleton<CardContainer>
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public EnemyData GetRandomEnemy()
     {
@@ -109,11 +146,11 @@ public class CardContainer : Singleton<CardContainer>
     }
     public BossData GetRandomBoss()
     {
-        return BossDataList[Random.Range(0, BossDataList.Length )]; ;
+        return BossDataList[Random.Range(0, BossDataList.Length)]; ;
     }
     public CardData GetRandomCardData()
     {
-        return CardsDataList[Random.Range(0, CardsDataList.Length )]; ;
+        return CardsDataList[Random.Range(0, CardsDataList.Length)]; ;
     }
     public CardInstance GetRandomCardFromDecks()
     {
@@ -121,18 +158,35 @@ public class CardContainer : Singleton<CardContainer>
         allC.AddRange(CurrentDeck);
         allC.AddRange(DiscardDeck);
         allC.AddRange(HandManager.Instance.CurrentHand);
-        return allC[Random.Range(0, allC.Count )];
+        return allC[Random.Range(0, allC.Count)];
 
     }
     public CardInstance DrawCard()
     {
-        if(CurrentDeck.Count<=0)
+
+
+        if (TutorialController.Instance.HasRunTutorial())
         {
-            Shuffel();
+            if (CurrentDeck.Count <= 0)
+            {
+                Shuffel();
+            }
+            CardInstance ins = CurrentDeck[0];
+            CurrentDeck.RemoveAt(0);
+            return ins;
+
         }
-        CardInstance ins = CurrentDeck[0];
-        CurrentDeck.RemoveAt(0);
-        return ins;
+        else
+        {
+            if (TutorialDeck.Count <= 0)
+            {
+                Shuffel();
+            }
+            CardInstance ins = TutorialDeck[0];
+            TutorialDeck.RemoveAt(0);
+            return ins;
+        }
+
     }
     public void DiscardCard(CardInstance aCard)
     {
@@ -152,7 +206,7 @@ public class CardContainer : Singleton<CardContainer>
     }
     public Sprite GetSpriteForRace(CardRace aRace)
     {
-        foreach(var r in RaceDataList)
+        foreach (var r in RaceDataList)
         {
             if (r.theRace == aRace)
             {
