@@ -189,6 +189,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        OnEndDrag(eventData);
         isHolding = false;
         holdTimer = 0f;
         if (shakeCoroutine != null)

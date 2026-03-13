@@ -140,7 +140,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         Destroy(aArtifact.gameObject);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
         GameData.CurrentGold += 3;
-
+        GameManager.Instance.TheHero.RefreshBar();
 
 
     }

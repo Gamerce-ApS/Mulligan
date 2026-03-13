@@ -8,7 +8,26 @@ public class Hero : MonoBehaviour
     public float Health = 100;
     public int Experience = 0;
     public int Level = 0;
-    public float MaxHealth = 100;
+    public float MaxHealth
+    {
+        get
+        {
+            float v=1;
+            foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
+            {
+                if (artifact.effect == ArtifactEffectType.AddMaxHP)
+                {
+                    v+=artifact.value/100f;
+                }
+            }
+            return MaxHealthV*v;
+        }
+        set
+        {
+            MaxHealthV= value;
+        }
+    }
+    public float MaxHealthV = 100;
     public float CurrentLifeStealProc = 0;
     public TMPro.TMP_Text healthLabel;
     public Image image;
@@ -94,6 +113,9 @@ public class Hero : MonoBehaviour
     }
     public void RefreshBar()
     {
+        if(Health>MaxHealth)
+        Health=MaxHealth;
+        
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
     }

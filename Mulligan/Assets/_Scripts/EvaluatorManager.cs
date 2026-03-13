@@ -120,10 +120,10 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         {
             foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
             {
-                if (artifact.effect == ArtifactEffectType.AddMaxHP)
-                {
-                    GameManager.Instance.TheHero.AddMaxHPPercent(artifact.value);
-                }
+                // if (artifact.effect == ArtifactEffectType.AddMaxHP)
+                // {
+                //     GameManager.Instance.TheHero.AddMaxHPPercent(artifact.value);
+                // }
             }
             next(); // ✅ properly proceed to the next step
         });
