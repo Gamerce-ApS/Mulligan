@@ -45,6 +45,10 @@ public class Enemy : MonoBehaviour
         if (aRound % 4 == 0)
         {
             BossData d = CardContainer.Instance.myBossList[0];
+            if(TutorialController.Instance.HasRunTutorial() == false)
+            {
+                d = TutorialController.Instance.GetCurrentBoss();
+            }
             SetupEnemyForLevel(d.baseHP , d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
@@ -53,11 +57,21 @@ public class Enemy : MonoBehaviour
             
             // UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
             PlayEnterAnimation();
+
+            if(TutorialController.Instance.LastStepPlayed=="Step4_Shop3")
+            {
+                TutorialController.Instance.ShowStepById("Step5_boss1");
+            }
         }
         else
         {
-            int loopedIndex = ((GameData.CurrentRound-1) % 4);
+            int loopedIndex = (GameData.CurrentRound-1) % 4;
             EnemyData d = CardContainer.Instance.myEnemiesList[loopedIndex];
+            if(TutorialController.Instance.HasRunTutorial() == false)
+            {
+                d = TutorialController.Instance.GetCurrentEnemy();
+            }
+
             SetupEnemyForLevel(d.baseHP, d.baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" + d.sprite_theSprite);
@@ -154,13 +168,31 @@ public class Enemy : MonoBehaviour
                     GameManager.Instance.LostGame();
                 }
             }
+
+
+            if (TutorialController.Instance.LastStepPlayed == "Step3_Artifact")
+            {
+                UnityHelper.RunAfterDelay(this, 0.75f, () =>
+                {
+                TutorialController.Instance.ShowStepById("Step3_Potion"); 
+                 });
+            }
         });
 
     }
     public void DoDamage(int aDamage)
     {
-        Health -= aDamage;
+       
 
+        Health -= aDamage;
+        if(TutorialController.Instance.HasRunTutorial()== false)
+        {
+            if(TutorialController.Instance.LastStepPlayed=="Step3_Artifact")
+            {
+                if(Health<=0)
+                    Health = 1;
+            }
+        }
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();

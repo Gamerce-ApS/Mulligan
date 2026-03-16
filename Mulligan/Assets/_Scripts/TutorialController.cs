@@ -13,7 +13,13 @@ public class TutorialController : Singleton<TutorialController>
         CLICK_ATTACK,
         CLICK_ReRollCards,
         CLICK_REROLL,
-        SELECT_WARRIORS
+        SELECT_WARRIORS,
+        ARROW_Artifact,
+        ARROW_Potion,
+        ARROW_Battle,
+        ARTIFACT_Triggered,
+        ARROW_UnitUpgrade,
+        END_TUTORIAL,
         
     };
     private struct OverlayLayout
@@ -90,7 +96,11 @@ public class TutorialController : Singleton<TutorialController>
     [SerializeField] private GameObject clickToContinueObject;
     [SerializeField] private TMP_Text clickToContinueText;
     [SerializeField] private string clickToContinueString = "Click to continue";
-
+    public int EnemyIndex=0;
+    public int BossIndex=0;
+    public List<EnemyData> myEnemiesList;
+    public List<BossData> myBossList;
+    
     public string LastStepPlayed = "";
 
 
@@ -142,7 +152,14 @@ public class TutorialController : Singleton<TutorialController>
 
         ShowStep(nextIndex);
     }
-
+    public EnemyData GetCurrentEnemy()
+    {
+        return myEnemiesList[EnemyIndex];
+    }
+    public BossData GetCurrentBoss()
+    {
+        return myBossList[0];
+    }
     public void ShowPreviousStep()
     {
         int prevIndex = currentStepIndex - 1;
@@ -168,6 +185,15 @@ public class TutorialController : Singleton<TutorialController>
     }
     private void Update()
     {
+        if(Input.GetKeyUp(KeyCode.I))
+        {
+            HideTutorial();
+
+ 
+            TutorialController.Instance.LastStepPlayed = "Step3_Potion";
+            
+        }
+
         if (!Application.isPlaying)
             return;
 
@@ -263,6 +289,8 @@ public class TutorialController : Singleton<TutorialController>
         SetOverlayActive(false);
 
         Time.timeScale = 1;
+        ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+
     }
 
     private void UpdateOverlay(TutorialStep step)
@@ -383,6 +411,58 @@ public class TutorialController : Singleton<TutorialController>
             ArrowDownList[2].transform.position = warriorInHand[2].CardGO.transform.position + offset;
             ArrowDownList[3].transform.position = warriorInHand[3].CardGO.transform.position + offset;
         }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Artifact)
+        {
+            GameManager.Instance.AddGold(6);
+
+            ArrowDownList[0].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(10, 5, 0);
+
+            ArrowDownList[0].transform.position = ShopManager.Instance.ArtifactParent.GetChild(0).transform.position + offset;
+            ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
+            
+        }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Potion)
+        {
+            GameManager.Instance.AddGold(3);
+            
+            if(UIManager.Instance.PotionSlotParent.childCount>0)
+                PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
+
+            ArrowDownList[0].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(10, 5, 0);
+
+            ArrowDownList[0].transform.position = ShopManager.Instance.PotionParent.GetChild(0).transform.position + offset;
+            ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
+            
+        }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Battle)
+        {
+
+            ArrowDownList[2].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(0, 30, 0);
+
+            ArrowDownList[2].transform.position = ShopManager.Instance.BattleButton.transform.position + offset;
+            
+        }
+  if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
+        {
+            GameManager.Instance.AddGold(6);
+
+            ArrowDownList[0].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(10, 5, 0);
+
+            ArrowDownList[0].transform.position = ShopManager.Instance.UnitPackParent.GetChild(0).transform.position + offset;
+            ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
+            
+        }
+  if (myCurrentAction == TutorialActionsEnum.END_TUTORIAL)
+        {
+            PlayerPrefs.GetInt("HasRunTutorial", 1);
+            ResetAfterTutorialFinished();
+        }
+        
+        
     }
     public void HandleExitAction()
     {
@@ -398,6 +478,23 @@ public class TutorialController : Singleton<TutorialController>
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Artifact)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Potion)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+        if (myCurrentAction == TutorialActionsEnum.ARROW_Battle)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+       if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+        
     }
     private OverlayLayout GetCurrentOverlayLayout()
     {
@@ -613,4 +710,8 @@ private void SetupStepInput(TutorialStep step, int requestId)
         }
     }, true);
 }
+public void ResetAfterTutorialFinished()
+    {
+        
+    }
 }

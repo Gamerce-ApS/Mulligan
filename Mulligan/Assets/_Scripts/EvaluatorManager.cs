@@ -587,8 +587,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                     case ArtifactEffectType.AddDamageFlat:
                         visual.AddDamage(artifactData.value, () =>
                         {
+                            if(TutorialController.Instance.HasRunTutorial() == false && TutorialController.Instance.LastStepPlayed == "Step2_Shop4_ClickBattle")
+                                {
+                                    TutorialController.Instance.ShowStepById("Step3_Artifact");
+                                }
                             visual.AddToTotalDamage(() =>
                             {
+                                
                                 next();
                             });
                         });

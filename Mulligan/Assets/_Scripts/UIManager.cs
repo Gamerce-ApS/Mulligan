@@ -450,7 +450,7 @@ public class UIManager : Singleton<UIManager>
             // Optionally add tooltip or highlight here
         }
         UpdatePotionsSlotsUI();
-        // GameManager.Instance.TheHero.RefreshBar();
+        GameManager.Instance.TheHero.RefreshBar();
     }
     public void UpdatePotionsSlotsUI()
     {
@@ -774,8 +774,11 @@ public class UIManager : Singleton<UIManager>
                         HeroSelectionManager.Instance.ClickHero(0);
                         // UnityHelper.RunAfterDelay(this, 0.01f, () =>
                         // {
+                            HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
+                            HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
                             HeroSelectionManager.Instance.selectedHero = 0;
-                        HeroSelectionManager.Instance.ClickPlay();
+                            HeroSelectionManager.Instance.ClickPlay();
+                            
                         // });
                     // });
      
@@ -828,6 +831,8 @@ public class UIManager : Singleton<UIManager>
             {
                 SplashScreen.SetActive(false);
                 GameManager.Instance.ShowHeroSelection();
+                HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
+                HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
                 HeroSelectionManager.Instance.ClickHero(0);
                 HeroSelectionManager.Instance.selectedHero = 0;
                 HeroSelectionManager.Instance.ClickPlay();

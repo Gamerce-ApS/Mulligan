@@ -242,7 +242,10 @@ public void SellPotion(Potion aPotion)
             Debug.Log("All potions are already equipped.");
             return null;
         }
-
+     if (TutorialController.Instance.HasRunTutorial()== false)
+        {
+             return available.Find(c=> c.name == "Remedy");
+        }
         return PickPotionWeightedByRarity(available);
         // // Pick random one
         // PotionCardData selected = available[Random.Range(0, available.Count)];
@@ -291,6 +294,10 @@ public void SellPotion(Potion aPotion)
     }
     public void AddPotion(PotionCardData artifact)
     {
+        if(TutorialController.Instance.LastStepPlayed=="Step2_Shop4_Potion2")
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
         if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
             UIManager.Instance.ShowTooltip("potion slots are full.");

@@ -57,7 +57,10 @@ public class GameData
     }
     public static int HeroSelected
     {
-        get { return PlayerPrefs.GetInt("HeroSelected", 1); }
+        get { 
+            if(TutorialController.Instance.HasRunTutorial() ==false) return 0;
+            return PlayerPrefs.GetInt("HeroSelected", 1);
+             }
         set { PlayerPrefs.SetInt("HeroSelected", value); UIManager.Instance.UpdateLabels(); }
     }
 

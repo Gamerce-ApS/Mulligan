@@ -96,12 +96,9 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             if (i == id)
             {
                 SetCharacterData(id);
-                // GameObject selected = HeroSelected[i];
+                
                 HeroPortrait[i].SetActive(true);
                 HeroNormal[i].transform.GetChild(0).gameObject.SetActive(true);
-
-                // HeroNormal[i].SetActive(false);
-                // HeroSelected[i].SetActive(true);
 
                 // Reset scale before animating
                 OriginalScale = HeroPortrait[i].transform.localScale;
@@ -114,26 +111,12 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
                     {
                         LeanTween.scale(ports, OriginalScale, 0.1f).setEaseInOutSine();
                     });
-
-                // Optional: flash glow (if you have a glow GameObject as child)
-            //     var glow = HeroSelected[i].transform.Find("Glow");
-            //     if (glow != null)
-            //     {
-            //         glow.gameObject.SetActive(true);
-            //         glow.GetComponent<CanvasGroup>().alpha = 1f;
-            //         LeanTween.alphaCanvas(glow.GetComponent<CanvasGroup>(), 0f, 0.5f)
-            //             .setOnComplete(() => glow.gameObject.SetActive(false));
-            //     }
-            //     HeroSelected[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
-            //     HeroSelected[i].transform.Find("description").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].description;
              }
             else
             {
                 HeroPortrait[i].SetActive(false);
                 HeroNormal[i].transform.GetChild(0).gameObject.SetActive(false);
-                // HeroNormal[i].transform.Find("name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.HeroDataList[i].heroName;
-
-                // HeroSelected[i].SetActive(false);
+ 
             }
         }
 
@@ -189,7 +172,11 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             UIManager.Instance.ShowTooltip("You need to selected a hero!");
             return;
         }
-
+        if(TutorialController.Instance.HasRunTutorial() == false)
+        {
+            if(UIManager.Instance.PotionSlotParent.childCount>0)
+                PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
+        }
 
         HideWindow();
     }

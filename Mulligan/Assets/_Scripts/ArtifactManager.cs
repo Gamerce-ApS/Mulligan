@@ -91,6 +91,11 @@ public class ArtifactManager : Singleton<ArtifactManager>
         // ArtifactData selected = available[Random.Range(0, available.Count)];
         ArtifactData selected = PickArtifactByRarity(available);
 
+        if (TutorialController.Instance.HasRunTutorial()== false && TutorialController.Instance.LastStepPlayed == "Step1_Gold")
+        {
+             selected = available.Find(c=> c.name == "+20 Dmg");
+        }
+
         return selected;
     }
     public void AddArtifact(ArtifactEffectType aType)
@@ -150,6 +155,11 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
         ActiveArtifacts.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
+
+        if(TutorialController.Instance.LastStepPlayed=="Step2_Shop3")
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
     }
 
     public bool HasArtifact(ArtifactEffectType effectType)

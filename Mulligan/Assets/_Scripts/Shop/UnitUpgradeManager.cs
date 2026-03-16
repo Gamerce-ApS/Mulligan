@@ -81,7 +81,10 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowWindow(System.Action onComplete = null)
     {
-
+        if(TutorialController.Instance.LastStepPlayed=="Step4_Shop3")
+        {
+            TutorialController.Instance.HideTutorial();
+        }
         PopulateShop();
 
         bgCanvasGroup.gameObject.SetActive(true);

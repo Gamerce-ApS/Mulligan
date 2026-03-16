@@ -78,12 +78,14 @@ public class CardContainer : Singleton<CardContainer>
         for (int i = 0; i < 20; i++)
         {
             List<EnemyData> d = EnemyDataList.ToList();
+            TutorialController.Instance.myEnemiesList.AddRange(d);
             d.Shuffle();
             myEnemiesList.AddRange(d);
         }
         for (int i = 0; i < 20; i++)
         {
             List<BossData> d = BossDataList.ToList();
+            TutorialController.Instance.myBossList.AddRange(d);
             d.Shuffle();
             myBossList.AddRange(d);
         }
@@ -93,7 +95,12 @@ public class CardContainer : Singleton<CardContainer>
         //     myBossList.Add(GetRandomBoss());
 
 
-        TutorialDeck.Clear();
+AddTutorialDeck();
+
+    }
+    public void AddTutorialDeck()
+    {
+               TutorialDeck.Clear();
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Cleric));
@@ -111,15 +118,14 @@ public class CardContainer : Singleton<CardContainer>
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
 
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
-                TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
-        TutorialDeck.AddRange(CurrentDeck);
-
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
+        TutorialDeck.AddRange(CurrentDeck); 
     }
     public CardInstance GetCardFromRace(CardRace aRace,CardClass aClass)
     {
@@ -180,6 +186,7 @@ public class CardContainer : Singleton<CardContainer>
         {
             if (TutorialDeck.Count <= 0)
             {
+                AddTutorialDeck();
                 Shuffel();
             }
             CardInstance ins = TutorialDeck[0];

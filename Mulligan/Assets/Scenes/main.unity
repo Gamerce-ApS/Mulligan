@@ -4074,6 +4074,271 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 1
     blockInput: 1
+  - Id: Step2_Shop
+    Dialogue: 'Ah, welcome young hero!
+
+
+      Step inside - my wares might just
+      keep you alive for another battle'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 482.2, y: 9.4}
+    FocusPosition: {x: 0, y: 0}
+    Width: 1
+    Height: 1
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step2_Shop2
+    Dialogue: Artifacts give passive bonus that will improve your deck
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -38.6, y: 27}
+    FocusPosition: {x: -566.9, y: -126.1}
+    Width: 289.1
+    Height: 484.2
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step2_Shop3
+    Dialogue: 'Let''s buy this one!
+
+
+      It gives you +30 damage everytime you
+      attack
+
+
+      Drag to buy!'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -97.9, y: -170}
+    FocusPosition: {x: 16.1, y: 90.3}
+    Width: 1566
+    Height: 972.2
+    OverlayAlpha: 0.927
+    WaitTime: 0
+    myAction: 6
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 0
+  - Id: Step2_Shop4_Potion
+    Dialogue: Potions are consumables that give units one-time bonues during battle
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 248.6, y: -177.8}
+    FocusPosition: {x: -273.4, y: -123.2}
+    Width: 263.4
+    Height: 488
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step2_Shop4_Potion2
+    Dialogue: 'Just what you need!
+
+
+      This potion will heal your Hero for 20%
+      max health during battle
+
+
+      Drag to buy'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 197.6, y: -206.6}
+    FocusPosition: {x: 13.79, y: 28.7}
+    Width: 1595
+    Height: 1127.8
+    OverlayAlpha: 0.927
+    WaitTime: 0
+    myAction: 7
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 0
+  - Id: Step2_Shop4_Potion3
+    Dialogue: 'Just what you need!
+
+
+      This potion will heal your Hero for 20%
+      max health during battle.'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -26.8, y: 112.4}
+    FocusPosition: {x: 481.7, y: 436.2}
+    Width: 184.9
+    Height: 257.1
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step2_Shop4_ClickBattle
+    Dialogue: Click to go to battle!
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -353.4, y: -255.6}
+    FocusPosition: {x: -977.3, y: -476.4}
+    Width: 446.1
+    Height: 123.5
+    OverlayAlpha: 0.927
+    WaitTime: 0
+    myAction: 8
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0.2
+    closeAfter: 1
+    blockInput: 0
+  - Id: Step3_Artifact
+    Dialogue: Your artifact just added +30 bonus damage!
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -196.7, y: 130.9}
+    FocusPosition: {x: -641.5, y: 394.5}
+    Width: 205
+    Height: 362.6
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 9
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0
+    closeAfter: 1
+    blockInput: 1
+  - Id: Step3_Potion
+    Dialogue: Drag potion on units or hero to use potions.
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -25.42, y: 211.3}
+    FocusPosition: {x: 481, y: 429.7}
+    Width: 184.2
+    Height: 248.5
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 1
+    blockInput: 1
+  - Id: Step4_Shop1
+    Dialogue: 'Back in one piece, I see!
+
+
+      Care to upgrade your chance of staying
+      that way?'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -25.42, y: 211.3}
+    FocusPosition: {x: 481, y: 429.7}
+    Width: 0
+    Height: 0
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step4_Shop2
+    Dialogue: Armory upgrades modify individual units in your deck to make them stronger
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -277.2, y: -187.3}
+    FocusPosition: {x: 305.8, y: -134.8}
+    Width: 333.5
+    Height: 498.5
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0.2
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step4_Shop3
+    Dialogue: 'This is a Rank Up token.
+
+
+      It will rank up a target unit to
+      increase its base damage'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -216.7, y: -47.4}
+    FocusPosition: {x: 12.8, y: 12.23}
+    Width: 1554
+    Height: 1125
+    OverlayAlpha: 0.927
+    WaitTime: 0
+    myAction: 10
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0
+    closeAfter: 1
+    blockInput: 0
+  - Id: Step5_boss1
+    Dialogue: 'Boss fight ahead!
+
+
+      This trouble-maker has a special ability'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 351.8, y: 223.5}
+    FocusPosition: {x: 997.7, y: 313}
+    Width: 467.8
+    Height: 516.6
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step5_boss2
+    Dialogue: All Human and Elf units are disabled for this fight
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 120, y: 240}
+    FocusPosition: {x: 119.9, y: -149.1}
+    Width: 1679
+    Height: 357
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0
+    closeAfter: 1
+    blockInput: 1
+  - Id: Step6_shop1
+    Dialogue: 'Back in one piiece, I see!
+
+
+      Care to upgrade your chances of
+      staying that way?'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: -216.7, y: -47.4}
+    FocusPosition: {x: 12, y: 12}
+    Width: 0
+    Height: 0
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 0
+    freezeTimeDelta: 0
+    freezeTimeDelay: 0
+    closeAfter: 0
+    blockInput: 1
+  - Id: Step6_shop2
+    Dialogue: 'Your first Rune!
+
+
+      Runes have passive bonus effects that will
+      last for your entire run'
+    DialogueParent: {fileID: 1842657160}
+    DialoguePosition: {x: 61.3, y: 10.7}
+    FocusPosition: {x: 592.9, y: -135.9}
+    Width: 278.2
+    Height: 512.4
+    OverlayAlpha: 0.927
+    WaitTime: 3
+    myAction: 11
+    freezeTimeDelta: 1
+    freezeTimeDelay: 0
+    closeAfter: 0
+    blockInput: 1
   transitionDuration: 0.35
   transitionCurve:
     serializedVersion: 2
@@ -4103,6 +4368,10 @@ MonoBehaviour:
   clickToContinueObject: {fileID: 1513624522}
   clickToContinueText: {fileID: 1513624524}
   clickToContinueString: Click To Continue
+  EnemyIndex: 0
+  BossIndex: 0
+  myEnemiesList: []
+  myBossList: []
   LastStepPlayed: 
   currentStepIndex: -1
   updateLiveInEditor: 1
@@ -9222,7 +9491,7 @@ MonoBehaviour:
   Health: 100
   Experience: 0
   Level: 0
-  MaxHealth: 100
+  MaxHealthV: 100
   CurrentLifeStealProc: 0
   healthLabel: {fileID: 1246247493}
   image: {fileID: 0}
@@ -26813,6 +27082,7 @@ MonoBehaviour:
   HeroRuneParent: {fileID: 1024068468}
   ShopWindow: {fileID: 1148307865}
   SetEverythingFreeNextRound: 0
+  BattleButton: {fileID: 1431005633}
   hasRerolledForFree: 0
   startPosition: {x: 0, y: 0, z: 0}
   bgCanvasGroup: {fileID: 2115476051}

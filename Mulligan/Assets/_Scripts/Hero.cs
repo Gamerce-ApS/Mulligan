@@ -62,7 +62,8 @@ public class Hero : MonoBehaviour
         }
         else if (aData.startingItem == StartingItemType.RandomPotion)
         {
-            PotionManager.Instance.AddRandomPotion();
+            if(TutorialController.Instance.HasRunTutorial() == true)
+                PotionManager.Instance.AddRandomPotion();
         }
 
         GameData.CurrentAttacks += GetAttackModifier();
@@ -141,7 +142,10 @@ public class Hero : MonoBehaviour
         {
             return;
         }
-
+        if (TutorialController.Instance.HasRunTutorial() == false)
+        {
+            aDamage=aDamage/10;
+        }
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();

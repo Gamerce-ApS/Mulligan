@@ -19,22 +19,22 @@ public class ShopManager : Singleton<ShopManager>
 
     public GameObject ShopWindow;
     public bool SetEverythingFreeNextRound = false;
+    public GameObject BattleButton;
 
     public void PopulateShop()
     {
 
         Clear();
 
-        GameObject go = GameObject.Instantiate(RunePrefab, RuneParent);
-        go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+
         // go = GameObject.Instantiate(RunePrefab, RuneParent);
         // go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
 
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
 
-        go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
-        go.GetComponent< ShopCard>().Init( ArtifactManager.Instance.GetRandom() );
+        GameObject go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+        go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         // go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         // go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
@@ -43,39 +43,68 @@ public class ShopManager : Singleton<ShopManager>
         //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         go = GameObject.Instantiate(PotionPrefab, PotionParent);
         go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
-        go = GameObject.Instantiate(PotionPrefab, PotionParent);
-        go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
 
+        if (TutorialController.Instance.HasRunTutorial())
+        {
+            go = GameObject.Instantiate(RunePrefab, RuneParent);
+            go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
 
-        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        go.GetComponent<ShopCard>().Init(3);
+            go = GameObject.Instantiate(PotionPrefab, PotionParent);
+            go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+            go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+            go.GetComponent<ShopCard>().Init(3);
+        }
+
 
         // go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
         // go.GetComponent<ShopCard>().Init(3);
-    
-        RefreshHeroRunes();
+
+
+
+        if (TutorialController.Instance.HasRunTutorial() == false)
+        {
+          if (UIManager.Instance.PotionSlotParent.childCount > 0)
+                PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
+
+            if(TutorialController.Instance.LastStepPlayed == "Step3_Potion")
+            {
+                go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+                go.GetComponent<ShopCard>().Init(3);
+                TutorialController.Instance.ShowStepById("Step4_Shop1");
+            }
+            if(TutorialController.Instance.LastStepPlayed == "Step5_boss2")
+            {
+                go = GameObject.Instantiate(RunePrefab, RuneParent);
+                go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+                TutorialController.Instance.ShowStepById("Step6_shop1");
+            }
+
+            
+            
+        }
+                RefreshHeroRunes();
 
     }
     public void RefreshHeroRunes()
     {
-         HeroRuneParent.DestroyAllChildren();
-        for(int i = 0;i < RuneManager.Instance.ActiveRunes.Count;i++)
+        HeroRuneParent.DestroyAllChildren();
+        for (int i = 0; i < RuneManager.Instance.ActiveRunes.Count; i++)
         {
             GameObject go2 = GameObject.Instantiate(HeroRunePrefab, HeroRuneParent);
             go2.GetComponent<ShopCard>().Init(RuneManager.Instance.ActiveRunes[i]);
             go2.GetComponent<ShopCard>().CanBeDraged = false;
-            go2.transform.localScale= new Vector3(0.6656631f,0.6656631f,0.6656631f);
+            go2.transform.localScale = new Vector3(0.6656631f, 0.6656631f, 0.6656631f);
         }
     }
     public bool hasRerolledForFree = false;
     public void ClickReRoll()
     {
-        if(GameManager.Instance.HasFreeReroll && hasRerolledForFree == false)
+        if (GameManager.Instance.HasFreeReroll && hasRerolledForFree == false)
         {
             PopulateShop();
             hasRerolledForFree = true;
         }
-        else if(GameData.CurrentGold>=5)
+        else if (GameData.CurrentGold >= 5)
         {
             GameData.CurrentGold -= 5;
             PopulateShop();
@@ -105,10 +134,10 @@ public class ShopManager : Singleton<ShopManager>
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public Vector3 startPosition;
-    System.Action OnHideShop=null;
+    System.Action OnHideShop = null;
     public CanvasGroup bgCanvasGroup;
     public void ShowShopWindow(System.Action onComplete = null)
     {
@@ -131,9 +160,18 @@ public class ShopManager : Singleton<ShopManager>
         LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
 
         hasRerolledForFree = false;
+
+        if (TutorialController.Instance.HasRunTutorial() == false)
+            if (TutorialController.Instance.LastStepPlayed == "Step1_Gold")
+            {  
+                TutorialController.Instance.ShowStepById("Step2_Shop");   
+            }
     }
     public void HideShopWindow()
     {
+        if (TutorialController.Instance.LastStepPlayed == "Step2_Shop4_ClickBattle")
+            TutorialController.Instance.HideTutorial();
+
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
 

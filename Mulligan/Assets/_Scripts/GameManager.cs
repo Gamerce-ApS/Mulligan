@@ -221,10 +221,10 @@ public class GameManager : Singleton<GameManager>
             TheHero.Attack(500);
             GameManager.Instance.FinishRound();
         }
-        if (Input.GetKeyUp(KeyCode.I))
-        {
-            TheHero.Attack(TheEnemy.Health-1);
-        }
+        // if (Input.GetKeyUp(KeyCode.I))
+        // {
+        //     TheHero.Attack(TheEnemy.Health-1);
+        // }
         if (Input.GetKeyUp(KeyCode.Q))
         {
             TheEnemy.Attack(25);
