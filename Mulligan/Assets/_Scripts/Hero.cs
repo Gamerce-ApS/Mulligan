@@ -12,19 +12,19 @@ public class Hero : MonoBehaviour
     {
         get
         {
-            float v=1;
+            float v = 1;
             foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
             {
                 if (artifact.effect == ArtifactEffectType.AddMaxHP)
                 {
-                    v+=artifact.value/100f;
+                    v += artifact.value / 100f;
                 }
             }
-            return MaxHealthV*v;
+            return MaxHealthV * v;
         }
         set
         {
-            MaxHealthV= value;
+            MaxHealthV = value;
         }
     }
     public float MaxHealthV = 100;
@@ -62,7 +62,7 @@ public class Hero : MonoBehaviour
         }
         else if (aData.startingItem == StartingItemType.RandomPotion)
         {
-            if(TutorialController.Instance.HasRunTutorial() == true)
+            if (TutorialController.Instance.HasRunTutorial() == true)
                 PotionManager.Instance.AddRandomPotion();
         }
 
@@ -80,14 +80,21 @@ public class Hero : MonoBehaviour
         for (int i = 0; i < UIManager.Instance.PotionBackground.Count; i++)
         {
             if (i < aData.PotionSlots)
+            {
                 UIManager.Instance.PotionBackground[i].SetActive(true);
+                UIManager.Instance.PotionBackground[i].transform.GetChild(0).gameObject.SetActive(false);
+
+            }
             else
                 UIManager.Instance.PotionBackground[i].SetActive(false);
         }
         for (int i = 0; i < UIManager.Instance.ArtifactBackground.Count; i++)
         {
             if (i < aData.ArtifactSlots)
+            {
                 UIManager.Instance.ArtifactBackground[i].SetActive(true);
+                UIManager.Instance.ArtifactBackground[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
             else
                 UIManager.Instance.ArtifactBackground[i].SetActive(false);
         }
@@ -114,9 +121,9 @@ public class Hero : MonoBehaviour
     }
     public void RefreshBar()
     {
-        if(Health>MaxHealth)
-        Health=MaxHealth;
-        
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
     }
@@ -144,7 +151,7 @@ public class Hero : MonoBehaviour
         }
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
-            aDamage=aDamage/10;
+            aDamage = aDamage / 10;
         }
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;
@@ -188,8 +195,8 @@ public class Hero : MonoBehaviour
     {
         int healAmount = Mathf.RoundToInt(MaxHealth * percent);
         Health += healAmount; // assuming you have a Heal(int) method
-        if(Health>MaxHealth)
-            Health=MaxHealth;
+        if (Health > MaxHealth)
+            Health = MaxHealth;
         RefreshBar();
     }
     public void ReduceMaxHPPercent(float percent)

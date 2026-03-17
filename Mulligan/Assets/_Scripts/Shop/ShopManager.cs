@@ -63,27 +63,64 @@ public class ShopManager : Singleton<ShopManager>
 
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
-          if (UIManager.Instance.PotionSlotParent.childCount > 0)
+            if (UIManager.Instance.PotionSlotParent.childCount > 0)
                 PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
 
-            if(TutorialController.Instance.LastStepPlayed == "Step3_Potion")
+            if (TutorialController.Instance.LastStepPlayed == "Step3_Potion")
             {
                 go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
                 go.GetComponent<ShopCard>().Init(3);
                 TutorialController.Instance.ShowStepById("Step4_Shop1");
             }
-            if(TutorialController.Instance.LastStepPlayed == "Step5_boss2")
+            if (TutorialController.Instance.LastStepPlayed == "Step5_boss2")
             {
                 go = GameObject.Instantiate(RunePrefab, RuneParent);
                 go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
                 TutorialController.Instance.ShowStepById("Step6_shop1");
             }
 
-            
-            
-        }
-                RefreshHeroRunes();
 
+
+        }
+        RefreshHeroRunes();
+        RefreshArtifactSlots();
+RefreshPotionSlots();
+
+
+    }
+    public void RefreshArtifactSlots()
+    {
+        for (int i = 0; i < UIManager.Instance.ArtifactBackground.Count; i++)
+        {
+            UIManager.Instance.ArtifactBackground[i].transform.GetChild(0).gameObject.SetActive(false);
+            if (i < GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
+                UIManager.Instance.ArtifactBackground[i].SetActive(true);
+            else
+                UIManager.Instance.ArtifactBackground[i].SetActive(false);
+        }
+        //Activate the last slot in shop
+        if (GameManager.Instance.TheHero.myHeroData.ArtifactSlots < UIManager.Instance.ArtifactBackground.Count && TutorialController.Instance.HasRunTutorial() == true)
+        {
+            UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].gameObject.SetActive(true);
+            UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+    public void RefreshPotionSlots()
+    {
+        for (int i = 0; i < UIManager.Instance.PotionBackground.Count; i++)
+        {
+            UIManager.Instance.PotionBackground[i].transform.GetChild(0).gameObject.SetActive(false);
+            if (i < GameManager.Instance.TheHero.myHeroData.PotionSlots)
+                UIManager.Instance.PotionBackground[i].SetActive(true);
+            else
+                UIManager.Instance.PotionBackground[i].SetActive(false);
+        }
+        //Activate the last slot in shop
+        if (GameManager.Instance.TheHero.myHeroData.PotionSlots < UIManager.Instance.PotionBackground.Count&& TutorialController.Instance.HasRunTutorial() == true)
+        {
+            UIManager.Instance.PotionBackground[GameManager.Instance.TheHero.myHeroData.PotionSlots].gameObject.SetActive(true);
+            UIManager.Instance.PotionBackground[GameManager.Instance.TheHero.myHeroData.PotionSlots].transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
     public void RefreshHeroRunes()
     {
@@ -114,7 +151,32 @@ public class ShopManager : Singleton<ShopManager>
             UIManager.Instance.ShowTooltip("Not enough gold!");
         }
     }
-
+    public void ClickUnlockSlot()
+    {
+        if (GameData.CurrentGold >= 10)
+        {
+            GameData.CurrentGold -= 10;
+            GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+            RefreshArtifactSlots();
+        }
+        else
+        {
+            UIManager.Instance.ShowTooltip("Not enough gold!");
+        }
+    }
+        public void ClickUnlockPotionSlot()
+    {
+        if (GameData.CurrentGold >= 10)
+        {
+            GameData.CurrentGold -= 10;
+            GameManager.Instance.TheHero.myHeroData.PotionSlots++;
+            RefreshPotionSlots();
+        }
+        else
+        {
+            UIManager.Instance.ShowTooltip("Not enough gold!");
+        }
+    }
     public void Clear()
     {
         UnitPackParent.DestroyAllChildren();
@@ -163,8 +225,8 @@ public class ShopManager : Singleton<ShopManager>
 
         if (TutorialController.Instance.HasRunTutorial() == false)
             if (TutorialController.Instance.LastStepPlayed == "Step1_Gold")
-            {  
-                TutorialController.Instance.ShowStepById("Step2_Shop");   
+            {
+                TutorialController.Instance.ShowStepById("Step2_Shop");
             }
     }
     public void HideShopWindow()
@@ -189,5 +251,18 @@ public class ShopManager : Singleton<ShopManager>
                 bgCanvasGroup.gameObject.SetActive(false);
             });
         SetEverythingFreeNextRound = false;
+
+        if (GameManager.Instance.TheHero.myHeroData.ArtifactSlots < UIManager.Instance.ArtifactBackground.Count&& TutorialController.Instance.HasRunTutorial() == true)
+        {
+            UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].gameObject.SetActive(false);
+            UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        if (GameManager.Instance.TheHero.myHeroData.PotionSlots < UIManager.Instance.PotionBackground.Count&& TutorialController.Instance.HasRunTutorial() == true)
+        {
+            UIManager.Instance.PotionBackground[GameManager.Instance.TheHero.myHeroData.PotionSlots].gameObject.SetActive(false);
+            UIManager.Instance.PotionBackground[GameManager.Instance.TheHero.myHeroData.PotionSlots].transform.GetChild(0).gameObject.SetActive(false);
+        }
+
     }
 }
