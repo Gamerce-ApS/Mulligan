@@ -4,21 +4,26 @@ using UnityEngine;
 
 public enum CardRace
 {
-    Human,
-    Elf,
-    Orc,
-    Undead,
-    END
+    Human,//0
+    Elf,//1
+    Orc,//2
+    Undead,//3
+    Dwarf,//4
+    Troll,//5
+    END//6
     // Add more as needed
 }
 
 public enum CardClass
 {
-    Warrior,
-    Mage,
-    Rogue,
-    Archer,
-    Cleric,
+    Warrior,//0
+    Mage,//1
+    Rogue,//2
+    Archer,//3
+    Cleric,//4
+    Warlock,//5
+    Peasant,//6
+    Bard//7
     // Add more as needed
 }
 public enum ArtifactEffectType

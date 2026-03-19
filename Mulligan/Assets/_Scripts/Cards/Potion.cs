@@ -52,7 +52,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Potion BeginDrag");
+        // Debug.Log("Potion BeginDrag");
         if (isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
 
@@ -77,7 +77,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Potion Drag");
+        // Debug.Log("Potion Drag");
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -157,9 +157,13 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("Potion EndDrag");
+        // Debug.Log("Potion EndDrag");
 
         isDragging = false;
+
+
+    Vector2 myScreenPos = RectTransformUtility.WorldToScreenPoint(null, rectTransform.position);
+    Vector2 heroScreenPos = RectTransformUtility.WorldToScreenPoint(null, GameManager.Instance.TheHero.GetComponent<RectTransform>().position);
 
 
         rectTransform.anchoredPosition = originalAnchoredPos;
@@ -174,6 +178,17 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (hoveredCard != null)
         {
             ApplyPotionToCard(PotionData, hoveredCard);
+        }else if(PotionData.effectType == PotionEffectType.HealHero)
+        {
+            float dist = Vector2.Distance( myScreenPos, heroScreenPos);
+            Debug.Log("Dist:" + dist);
+            if(dist< 10)
+            {
+                ApplyPotionToCard(PotionData, null);
+   
+                
+
+            }
         }
         UIManager.Instance.HideCardInfoPopup();
         UIManager.Instance.UpdateArtifactSlotsUI();
@@ -188,11 +203,12 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             .setEaseInBack()
             .setOnComplete(() => Destroy(gameObject));
 
-        PotionManager.Instance.RemovePotion(PotionData);
+        // PotionManager.Instance.RemovePotion(PotionData);
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Potion PointerDown");
+        // Debug.Log("Potion PointerDown");
         isHolding = true;
         holdTimer = 0f;
     }
@@ -200,7 +216,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public void OnPointerUp(PointerEventData eventData)
     {
 
-        Debug.Log("Potion PointerUp");
+        // Debug.Log("Potion PointerUp");
         // OnEndDrag(eventData);
         isHolding = false;
         holdTimer = 0f;

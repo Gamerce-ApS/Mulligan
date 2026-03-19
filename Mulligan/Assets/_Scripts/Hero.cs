@@ -35,6 +35,7 @@ public class Hero : MonoBehaviour
     public Image bar;
     public List<GameObject> HeroPortraits;
     public HeroData myHeroData;
+    public GameObject HealEffect;
     // Start is called before the first frame update
     void Start()
     {

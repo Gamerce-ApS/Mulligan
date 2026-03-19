@@ -102,6 +102,9 @@ public class PotionManager : Singleton<PotionManager>
             case PotionEffectType.HealHero:
                 GameManager.Instance.TheHero.HealPercent(potion.value * EffectMultiplier);
                 UIManager.Instance.ShowTooltip("Hero healed "+ potion.value * EffectMultiplier+ "% HP");
+
+                GameManager.Instance.TheHero.HealEffect.SetActive(false);
+                GameManager.Instance.TheHero.HealEffect.SetActive(true);
                 break;
 
             case PotionEffectType.BoostAndLoseHP:
