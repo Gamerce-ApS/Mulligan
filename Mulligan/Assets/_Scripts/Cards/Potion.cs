@@ -20,12 +20,19 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public TMPro.TMP_Text NameLabel;
     private Card hoveredCard = null;
     private Coroutine shakeCoroutine = null;
+    public GameObject mutedGO;
+    public bool isMuted = false;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
+    }
+    public void SetMuted(bool mute)
+    {
+        isMuted = mute;
+        mutedGO.SetActive(isMuted);
     }
     public void Init(PotionCardData aData)
     {
@@ -52,6 +59,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(isMuted)
+        return;
         // Debug.Log("Potion BeginDrag");
         if (isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
@@ -77,6 +86,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnDrag(PointerEventData eventData)
     {
+             if(isMuted)
+        return;
         // Debug.Log("Potion Drag");
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
@@ -157,6 +168,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+             if(isMuted)
+        return;
         // Debug.Log("Potion EndDrag");
 
         isDragging = false;
@@ -164,7 +177,9 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     Vector2 myScreenPos = RectTransformUtility.WorldToScreenPoint(null, rectTransform.position);
     Vector2 heroScreenPos = RectTransformUtility.WorldToScreenPoint(null, GameManager.Instance.TheHero.GetComponent<RectTransform>().position);
-
+float baseThreshold = 75f; // what feels good in editor
+float scaleFactor = Screen.height / 1792f; // reference resolution
+float threshold = baseThreshold * scaleFactor;
 
         rectTransform.anchoredPosition = originalAnchoredPos;
 
@@ -182,7 +197,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             float dist = Vector2.Distance( myScreenPos, heroScreenPos);
             Debug.Log("Dist:" + dist);
-            if(dist< 10)
+            if(dist< threshold)
             {
                 ApplyPotionToCard(PotionData, null);
    

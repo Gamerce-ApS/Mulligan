@@ -147,13 +147,27 @@ public class CardData
 public enum BossAbilityEnum
 {
     None,
-    DisableHumanUnits,
-    DisableRerolls,
-    DisablePotions,
-    DisableOrcUnits,
-    DisableElfUnits,
-    DisableUndeadUnits,
-
+    DisableHumanUnits,//1 <--
+    DisableRerolls,//2
+    DisablePotions,//3
+    DisableOrcUnits,//4 <--
+    DisableElfUnits,//5
+    DisableUndeadUnits,//6 <--
+    DisableTrollUnits,
+    DisableDwarfesUnits,
+    DisablePeassantUnits,
+    DisableBardUnits,
+    DisableClericUnits,
+    DisableWarriorUnits,
+    DisableMageUnits,
+    DisableArcherUnits,
+    DisableWarlockUnits,
+    Disable2Artifacts,
+    Steal10GoldAttacking,
+    DeRankUnits,
+    Evasion,
+    Disable2RandomRace,
+    Disable2RandomClass
 }
 public enum RarityType
 {

@@ -102,6 +102,12 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickReRoll()
     {
+        if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.DisableRerolls))
+        {
+            UIManager.Instance.ShowTooltip("ReRolls disabled!");
+            return;
+        }
+
         if (GameData.CurrentReRolls > 0)
         {
             HandManager.Instance.ReRollHand();
@@ -471,6 +477,29 @@ public class UIManager : Singleton<UIManager>
             // Optionally add tooltip or highlight here
         }
     }
+    public void MutePotions(bool aValue)
+    {
+        foreach (Transform child in PotionSlotParent)
+        {
+            if (child != PotionSlotTemplate.transform)
+            {
+                child.GetComponent<Potion>().SetMuted(aValue);
+            }
+        }
+    }
+    public void MuteArtifacts(bool aValue)
+    {
+        int count = 0;
+        foreach (Transform child in ArtifactSlotParent)
+        {
+            if (count <= 1)
+                if (child != ArtifactSlotTemplate.transform)
+                {
+                    child.GetComponent<Artifact>().SetMuted(aValue);
+                    count++;
+                }
+        }
+    }
     public Artifact GetVisualArtifact(ArtifactData aArtifactData)
     {
         foreach (Transform child in ArtifactSlotParent)
@@ -773,17 +802,17 @@ public class UIManager : Singleton<UIManager>
                     GameManager.Instance.ShowHeroSelection();
                     // UnityHelper.RunAfterDelay(this, 0.01f, () =>
                     // {
-                        HeroSelectionManager.Instance.ClickHero(0);
-                        // UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                        // {
-                            HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
-                            HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
-                            HeroSelectionManager.Instance.selectedHero = 0;
-                            HeroSelectionManager.Instance.ClickPlay();
-                            
-                        // });
+                    HeroSelectionManager.Instance.ClickHero(0);
+                    // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                    // {
+                    HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
+                    HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
+                    HeroSelectionManager.Instance.selectedHero = 0;
+                    HeroSelectionManager.Instance.ClickPlay();
+
                     // });
-     
+                    // });
+
                 }
                 else
                 {
@@ -810,14 +839,14 @@ public class UIManager : Singleton<UIManager>
             .setOnComplete(() =>
             {
                 SplashScreen.SetActive(false);
-                
-                
-                    GameManager.Instance.ShowHeroSelection();
-                    UnityHelper.RunAfterDelay(this, 0.5f, () =>
-                    {
-                        HeroSelectionManager.Instance.ClickHero(0);
-                    });
-                
+
+
+                GameManager.Instance.ShowHeroSelection();
+                UnityHelper.RunAfterDelay(this, 0.5f, () =>
+                {
+                    HeroSelectionManager.Instance.ClickHero(0);
+                });
+
 
             });
 

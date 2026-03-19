@@ -15,13 +15,19 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool isHolding = false;
     public ArtifactData ArtifactData;
     public TMPro.TMP_Text NameLabel;
-
+    public GameObject mutedGO;
+    public bool isMuted = false;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
+    }
+    public void SetMuted(bool mute)
+    {
+        isMuted = mute;
+        mutedGO.SetActive(isMuted);
     }
     public void Init(ArtifactData aData)
     {
@@ -35,6 +41,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+         if(isMuted)
+        return;
         if (isDragging) return;
 
         if (!isSelected)
@@ -56,7 +64,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
+ if(isMuted)
+        return;
         if(isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
 
@@ -81,6 +90,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnDrag(PointerEventData eventData)
     {
+         if(isMuted)
+        return;
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
         {
@@ -106,7 +117,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-
+ if(isMuted)
+        return;
         {
             isDragging = false;
  

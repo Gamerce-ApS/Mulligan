@@ -313,6 +313,50 @@ public class HandManager : Singleton<HandManager>
             {
                 MuteRace(CardRace.Undead);
             }
+             if (abbility == BossAbilityEnum.DisableDwarfesUnits)
+            {
+                MuteRace(CardRace.Dwarf);
+            }
+             if (abbility == BossAbilityEnum.DisableTrollUnits)
+            {
+                MuteRace(CardRace.Troll);
+            }
+             if (abbility == BossAbilityEnum.DisablePeassantUnits)
+            {
+                MuteClass(CardClass.Peasant);
+            }
+             if (abbility == BossAbilityEnum.DisableBardUnits)
+            {
+                MuteClass(CardClass.Bard);
+            }
+             if (abbility == BossAbilityEnum.DisableClericUnits)
+            {
+                MuteClass(CardClass.Cleric);
+            }
+             if (abbility == BossAbilityEnum.DisableWarriorUnits)
+            {
+                MuteClass(CardClass.Warrior);
+            }
+             if (abbility == BossAbilityEnum.DisableMageUnits)
+            {
+                MuteClass(CardClass.Mage);
+            }
+             if (abbility == BossAbilityEnum.DisableArcherUnits)
+            {
+                MuteClass(CardClass.Archer);
+            }
+             if (abbility == BossAbilityEnum.DisableWarlockUnits)
+            {
+                MuteClass(CardClass.Warlock);
+            }
+            if (abbility == BossAbilityEnum.DisablePotions)
+            {
+                UIManager.Instance.MutePotions(true);
+            }
+            if (abbility == BossAbilityEnum.Disable2Artifacts)
+            {
+                UIManager.Instance.MuteArtifacts(true);
+            }
         }
     }
 

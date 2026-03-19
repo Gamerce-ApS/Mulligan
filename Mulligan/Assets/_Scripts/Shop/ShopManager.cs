@@ -206,6 +206,9 @@ RefreshPotionSlots();
 
         PopulateShop();
 
+        UIManager.Instance.MutePotions(false);
+        UIManager.Instance.MuteArtifacts(false);
+
         bgCanvasGroup.gameObject.SetActive(true);
         bgCanvasGroup.alpha = 0;
         LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();

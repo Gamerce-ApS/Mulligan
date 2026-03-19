@@ -581,6 +581,11 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                     next();
                     return;
                 }
+                if(visual.isMuted)
+                {
+                    next();
+                    return;
+                }
 
                 switch (artifactData.effect)
                 {

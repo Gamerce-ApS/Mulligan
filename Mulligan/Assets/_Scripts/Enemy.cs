@@ -40,7 +40,9 @@ public class Enemy : MonoBehaviour
     public void Init(int aRound)
     {
         ActiveAbbilities.Clear();
-
+        UIManager.Instance.MutePotions(false);
+        UIManager.Instance.MuteArtifacts(false);
+        
         GetComponent<CanvasGroup>().alpha = 0;
         if (aRound % 4 == 0)
         {
@@ -54,6 +56,35 @@ public class Enemy : MonoBehaviour
             image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
 
             ActiveAbbilities.AddRange(d.abilities);
+
+            if(ActiveAbbilities.Contains(BossAbilityEnum.Disable2RandomRace))
+            {
+                List<BossAbilityEnum> rList = new List<BossAbilityEnum>();
+                rList.Add(BossAbilityEnum.DisableHumanUnits);
+                rList.Add(BossAbilityEnum.DisableElfUnits);
+                rList.Add(BossAbilityEnum.DisableDwarfesUnits);
+                rList.Add(BossAbilityEnum.DisableOrcUnits);
+                rList.Add(BossAbilityEnum.DisableTrollUnits);
+                rList.Add(BossAbilityEnum.DisableUndeadUnits);
+                rList.Shuffle();
+                ActiveAbbilities.Add(rList[0]);
+                ActiveAbbilities.Add(rList[1]);
+                
+            }
+             if(ActiveAbbilities.Contains(BossAbilityEnum.Disable2RandomClass))
+            {
+                    List<BossAbilityEnum> rList = new List<BossAbilityEnum>();
+                rList.Add(BossAbilityEnum.DisablePeassantUnits);
+                rList.Add(BossAbilityEnum.DisableBardUnits);
+                rList.Add(BossAbilityEnum.DisableClericUnits);
+                rList.Add(BossAbilityEnum.DisableWarriorUnits);
+                rList.Add(BossAbilityEnum.DisableMageUnits);
+                rList.Add(BossAbilityEnum.DisableArcherUnits);
+                rList.Add(BossAbilityEnum.DisableWarlockUnits);
+                rList.Shuffle();
+                ActiveAbbilities.Add(rList[0]);
+                ActiveAbbilities.Add(rList[1]);
+            }
             
             // UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
             PlayEnterAnimation();
@@ -86,7 +117,7 @@ public class Enemy : MonoBehaviour
         //Health = aHealth;
         //MaxHealth = aHealth;
 
-        
+        //  ActiveAbbilities.Add(BossAbilityEnum.Evasion);
 
         HandManager.Instance.HandleMutedCards();
     }
@@ -177,12 +208,29 @@ public class Enemy : MonoBehaviour
                 TutorialController.Instance.ShowStepById("Step3_Potion"); 
                  });
             }
+
+             if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.Steal10GoldAttacking))
+            {
+                GameData.CurrentGold -= 10;
+                if(GameData.CurrentGold <0)
+                GameData.CurrentGold =0;
+                UIManager.Instance.ShowTooltip("Gold stolen!");
+            }
         });
 
     }
     public void DoDamage(int aDamage)
     {
-       
+       if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.Evasion))
+            {
+               
+                    if (50 < Random.Range(0, 100))
+                    {
+                        UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                        return;
+                    }
+                
+            }
 
         Health -= aDamage;
         if(TutorialController.Instance.HasRunTutorial()== false)
