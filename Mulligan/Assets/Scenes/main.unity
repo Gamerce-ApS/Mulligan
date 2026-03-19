@@ -9236,11 +9236,11 @@ MonoBehaviour:
   - {fileID: 1938209082}
   steps:
   - Id: Step1_Hero
-    Dialogue: 'Ah, welcome young hero!
+    Dialogue: 'AH, WELCOME YOUNG HERO!
 
 
-      Shape your deck, conquer deadly realms
-      and claim powerfil rewards'
+      LET''S GET YOU READY FOR YOUR FIRST
+      BATTLE'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -366.4, y: 38.8}
     FocusPosition: {x: -1045.3, y: 362.8}
@@ -9254,7 +9254,11 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 1
   - Id: Step1_Cards
-    Dialogue: You defeat your enemy by attacking with up to 4 units per turn
+    Dialogue: 'THIS IS YOUR ARMY!
+
+
+      YOU DEFEAT YOUR ENEMY BY ATTACKING WITH
+      UP TO 4 UNITS PER TURN'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: 284.2, y: 183}
     FocusPosition: {x: 119.9, y: -149.1}
@@ -9282,7 +9286,7 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 0
   - Id: Step1_Synergies
-    Dialogue: Combining 4 orc units increase your damage with 200%
+    Dialogue: COMBINING 4 ORC UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -411, y: -299.5}
     FocusPosition: {x: -974.4, y: -266}
@@ -9375,11 +9379,11 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 0
   - Id: Step1_ComboFriendly
-    Dialogue: 'Now that''s combo-friendly set of cards!
+    Dialogue: 'NOW THAT''S A COMBO-FRIENDLY SET OF UNITS!
 
 
-      Let''s pick 4 for
-      our next attack'
+      LET''S PICK 4 FOR
+      OUR NEXT ATTACK'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: 471, y: 263.3}
     FocusPosition: {x: 124.2, y: -149.8}
@@ -9407,7 +9411,7 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 0
   - Id: Step1_Synergies2
-    Dialogue: Combining 4 Warriors units increase your damage with 200%
+    Dialogue: COMBINING 4 WARRIOR UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -411, y: -299.5}
     FocusPosition: {x: -974.4, y: -266}
@@ -9421,7 +9425,10 @@ MonoBehaviour:
     closeAfter: 1
     blockInput: 1
   - Id: Step1_Gold
-    Dialogue: You earn gold by defeating enemies
+    Dialogue: 'WELL DONE!
+
+
+      YOU EARN GOLD BY DEFEATING ENEMIES'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -674.8, y: 231.5}
     FocusPosition: {x: -1160.1, y: 524.4}
@@ -9435,11 +9442,11 @@ MonoBehaviour:
     closeAfter: 1
     blockInput: 1
   - Id: Step2_Shop
-    Dialogue: 'Ah, welcome young hero!
+    Dialogue: 'WELCOME TO THE SHOP!
 
 
-      Step inside - my wares might just
-      keep you alive for another battle'
+      STEP INSIDE - MY WARES MIGHT JUST KEEP
+      YOU ALIVE FOR ANOTHER BATTLE'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: 482.2, y: 9.4}
     FocusPosition: {x: 0, y: 0}
@@ -9467,11 +9474,11 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 1
   - Id: Step2_Shop3
-    Dialogue: 'Let''s buy this one!
+    Dialogue: 'LET''S BUY THIS ONE!
 
 
-      It gives you +30 damage everytime you
-      attack
+      IT GIVES YOU +20 DAMAGE EVERY TIME YOU
+      ATTACK
 
 
       Drag to buy!'
@@ -9555,7 +9562,7 @@ MonoBehaviour:
     closeAfter: 1
     blockInput: 0
   - Id: Step3_Artifact
-    Dialogue: Your artifact just added +30 bonus damage!
+    Dialogue: YOUR ARTIFACT JUST ADDED +20 BONUS DAMAGE
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -196.7, y: 130.9}
     FocusPosition: {x: -641.5, y: 394.5}
@@ -9615,11 +9622,11 @@ MonoBehaviour:
     closeAfter: 0
     blockInput: 1
   - Id: Step4_Shop3
-    Dialogue: 'This is a Rank Up token.
+    Dialogue: 'THIS IS AN ARMORY UPGRADE.
 
 
-      It will rank up a target unit to
-      increase its base damage'
+      iT WILL UPGRADE A TARGET UNIT WITH
+      ADDITIONAL POWERS'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -216.7, y: -47.4}
     FocusPosition: {x: 12.8, y: 12.23}
@@ -9664,11 +9671,11 @@ MonoBehaviour:
     closeAfter: 1
     blockInput: 1
   - Id: Step6_shop1
-    Dialogue: 'Back in one piiece, I see!
+    Dialogue: 'CONGRATS - YOUR FIRST BOSS VICTORY!
 
 
-      Care to upgrade your chances of
-      staying that way?'
+      i HAVE SOMETHING SPECIAL
+      IN STORE TO CELEBRATE.'
     DialogueParent: {fileID: 1842657160}
     DialoguePosition: {x: -216.7, y: -47.4}
     FocusPosition: {x: 12, y: 12}
@@ -13524,6 +13531,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 728658121}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &218817573
 CanvasGroup:
@@ -17452,6 +17461,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 71505731}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &321580155
 CanvasGroup:
@@ -46481,6 +46492,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 2082045042}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &791942179
 CanvasGroup:
@@ -64390,6 +64403,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 538837070}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &1267930059
 CanvasGroup:
@@ -81291,6 +81306,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 1416515683}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &1687013565
 CanvasGroup:
@@ -84616,6 +84633,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 262257339}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &1778586703
 CanvasGroup:
@@ -86247,6 +86266,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 580948030}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &1810486485
 CanvasGroup:
@@ -91544,6 +91565,8 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 668889994}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!225 &1976675398
 CanvasGroup:
