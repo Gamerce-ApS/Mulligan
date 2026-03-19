@@ -11,13 +11,13 @@ public class RuneManager : Singleton<RuneManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void TriggerRunes(RuneData aRune, Card targetCard = null)
     {
@@ -28,6 +28,11 @@ public class RuneManager : Singleton<RuneManager>
                 GameManager.Instance.BonusRerolls += 1;
                 UIManager.Instance.ShowTooltip($"+{1} Reroll{(1 > 1 ? "s" : "")} per turn");
                 break;
+                            case RuneType.RerollBonus2X:
+                // int rerolls = (aRune.rarity == RuneRarity.Rare) ? 2 : 1;
+                GameManager.Instance.BonusRerolls += 2;
+                UIManager.Instance.ShowTooltip($"+{2} Reroll{(1 > 1 ? "s" : "")} per turn");
+                break;
 
             case RuneType.HeroAegis:
                 // if (aRune.rarity == RuneRarity.Rare)
@@ -37,8 +42,8 @@ public class RuneManager : Singleton<RuneManager>
                 // }
                 // else
                 // {
-                    GameManager.Instance.ReviveWith1HP = true;
-                    UIManager.Instance.ShowTooltip("Revive once with 1 HP");
+                GameManager.Instance.ReviveWith1HP = true;
+                UIManager.Instance.ShowTooltip("Revive once with 1 HP");
                 // }
                 break;
 
@@ -46,6 +51,11 @@ public class RuneManager : Singleton<RuneManager>
                 // float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
                 GameManager.Instance.MarketDiscountModifier = 0.25f;
                 UIManager.Instance.ShowTooltip($"{(int)(0.25f * 100)}% discount in the Market");
+                break;
+                            case RuneType.MarketDiscount2X:
+                // float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
+                GameManager.Instance.MarketDiscountModifier = 0.5f;
+                UIManager.Instance.ShowTooltip($"{(int)(0.5f * 100)}% discount in the Market");
                 break;
 
             case RuneType.BossDoubleGold:
@@ -63,13 +73,45 @@ public class RuneManager : Singleton<RuneManager>
                 GameManager.Instance.HasFreeReroll = true;
                 UIManager.Instance.ShowTooltip("First Market reroll each turn is free");
                 break;
+            case RuneType.RuneOfAttack:
+                GameManager.Instance.BonusAttacks += 1;
+                UIManager.Instance.ShowTooltip($"+{1} Attacks{(1 > 1 ? "s" : "")} per turn");
+                break;
+            case RuneType.RuneOfAttack2X:
+                GameManager.Instance.BonusAttacks += 2;
+                UIManager.Instance.ShowTooltip($"+{2} Attacks{(1 > 1 ? "s" : "")} per turn");
+                break;
 
+            case RuneType.RuneOfArtifact:
+                GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+                ShopManager.Instance.RefreshArtifactSlots();
+                UIManager.Instance.ShowTooltip("Artifact slot unlocked!");
+                break;
+            case RuneType.RuneOfArtifact2X:
+                GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+                GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+                ShopManager.Instance.RefreshArtifactSlots();
+                UIManager.Instance.ShowTooltip("Artifact slot unlocked!");
+                break;
+
+            case RuneType.RuneOfRareChance:
+                // CardContainer.Instance.Rarity[0] -= CardContainer.Instance.Rarity[1];
+                CardContainer.Instance.Rarity[1] *= 2;
+
+                break;
+            case RuneType.RuneOfEpicChance:
+                // CardContainer.Instance.Rarity[0] -= CardContainer.Instance.Rarity[2];
+                CardContainer.Instance.Rarity[2] *= 2;
+
+
+                break;
             default:
                 Debug.LogWarning("Unhandled rune type: " + aRune.type);
                 break;
         }
 
         UIManager.Instance.UpdateArtifactSlotsUI();
+
     }
 
 
@@ -140,7 +182,7 @@ public class RuneManager : Singleton<RuneManager>
 
         // Pick random one
         // RuneData selected = available[Random.Range(0, available.Count)];
-        RuneData selected =  PickRuneByRarity(available);
+        RuneData selected = PickRuneByRarity(available);
         return selected;
     }
 
@@ -155,13 +197,13 @@ public class RuneManager : Singleton<RuneManager>
     public string GetActiveRunesInfo()
     {
         string tot = "";
-        foreach(var r in ActiveRunes)
+        foreach (var r in ActiveRunes)
         {
-            tot += r.name+ "\n";
+            tot += r.name + "\n";
         }
         return tot;
     }
-     private RuneData PickRuneByRarity(List<RuneData> available)
+    private RuneData PickRuneByRarity(List<RuneData> available)
     {
         if (available == null || available.Count == 0)
             return null;
@@ -205,6 +247,6 @@ public class RuneManager : Singleton<RuneManager>
 
 
 
- 
+
 
 }

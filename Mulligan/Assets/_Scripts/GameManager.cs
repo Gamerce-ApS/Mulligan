@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
 
     //Runes Effects
     public int BonusRerolls = 0;
+    public int BonusAttacks = 0;
     public bool ReviveFullHP = false;
     public bool ReviveWith1HP = false;
     public float MarketDiscountModifier = 1;
@@ -31,31 +32,31 @@ public class GameManager : Singleton<GameManager>
     public bool HasFreeReroll = false;
 
     public List<TMPro.TMP_SpriteAsset> TextSprites = new List<TMPro.TMP_SpriteAsset>();
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
         myGameStates = GameStates.Loading;
-        GameDataLoader.Instance.LoadGameData(()=>
+        GameDataLoader.Instance.LoadGameData(() =>
         {
-         
-                Application.targetFrameRate = 60;
-                CardContainer.Instance.Init();
-                HandManager.Instance.Init();
-                UIManager.Instance.Init();
-                UnitUpgradeManager.Instance.Init();
-                ShopManager.Instance.PopulateShop();
-                StartGame();
-        
+
+            Application.targetFrameRate = 60;
+            CardContainer.Instance.Init();
+            HandManager.Instance.Init();
+            UIManager.Instance.Init();
+            UnitUpgradeManager.Instance.Init();
+            ShopManager.Instance.PopulateShop();
+            StartGame();
+
         });
-            SingularSDK.Event("StartEvent");
+        SingularSDK.Event("StartEvent");
 
 
     }
     public TMPro.TMP_SpriteAsset GetTextSpriteForSprite(string aSpriteName)
     {
-        foreach(var e in TextSprites)
+        foreach (var e in TextSprites)
         {
             if (e.name == aSpriteName) return e;
         }
@@ -71,20 +72,22 @@ public class GameManager : Singleton<GameManager>
         GameData.SkippedLevels = 0;
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
-      
-// #if UNITY_EDITOR
-//     UIManager.Instance.ClickTryForFree();
-//     #else
-    UIManager.Instance.SplashScreen.SetActive(true);
-// #endif
+
+        // #if UNITY_EDITOR
+        //     UIManager.Instance.ClickTryForFree();
+        //     #else
+        UIManager.Instance.SplashScreen.SetActive(true);
+        // #endif
 
     }
     public void ShowHeroSelection()
     {
-         HeroSelectionManager.Instance.ShowWindow(() => {
+        HeroSelectionManager.Instance.ShowWindow(() =>
+        {
             myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
-             LevelSelectionManager.Instance.ShowWindow(() => {
+            LevelSelectionManager.Instance.ShowWindow(() =>
+            {
                 TheEnemy.Init(GameData.CurrentRound);
                 GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
@@ -93,14 +96,14 @@ public class GameManager : Singleton<GameManager>
                     GameData.CurrentAttacks += 2;
                     GameManager.Instance.BonusAttacksNextRound = false;
                 }
-                if(TutorialController.Instance.HasRunTutorial() == false)
-                        TutorialController.Instance.StartTutorial();
-             });
-        }); 
+                if (TutorialController.Instance.HasRunTutorial() == false)
+                    TutorialController.Instance.StartTutorial();
+            });
+        });
     }
     public void WinGame()
     {
-        GameData.CurrentGold = Mathf.RoundToInt( ((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
+        GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
 
         if (GameData.CurrentRound % 4 == 0)
         {
@@ -110,8 +113,14 @@ public class GameManager : Singleton<GameManager>
         {
             GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
         }
-
-
+        if (RuneManager.Instance.ActiveRunes.Find(c => c.type == RuneType.RuneOfGold) != null)
+        {
+            GameData.CurrentGold += 2;
+        }
+        if (RuneManager.Instance.ActiveRunes.Find(c => c.type == RuneType.RuneOfGold2X) != null)
+        {
+            GameData.CurrentGold += 5;
+        }
 
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
@@ -120,7 +129,8 @@ public class GameManager : Singleton<GameManager>
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;
-            UIManager.Instance.ShowVictoryScreen(() => {
+            UIManager.Instance.ShowVictoryScreen(() =>
+            {
                 ArmoryManager.Instance.ShowWindow(() =>
                 {
                     TheEnemy.gameObject.SetActive(false);
@@ -137,11 +147,11 @@ public class GameManager : Singleton<GameManager>
 
                         });
 
+                    });
+
                 });
 
             });
-     
-             });
         });
 
 
@@ -163,7 +173,7 @@ public class GameManager : Singleton<GameManager>
 
         LeanTween.delayedCall(gameObject, 0.5f, () =>
         {
-            UIManager.Instance.ShowLoseScreen(()=> { });
+            UIManager.Instance.ShowLoseScreen(() => { });
 
         });
 
@@ -178,17 +188,18 @@ public class GameManager : Singleton<GameManager>
         myGameStates = GameStates.Game;
 
 
-        if ( TheEnemy.Health <= 0)
+        if (TheEnemy.Health <= 0)
         {
             WinGame();
         }
-        else if(GameData.CurrentAttacks <=0)
+        else if (GameData.CurrentAttacks <= 0)
         {
             LostGame();
-        }else
+        }
+        else
         {
             TheEnemy.Attack(0);
-           
+
         }
     }
 
@@ -262,7 +273,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-        //    RewardManager.Instance.ShowWindow();
+            //    RewardManager.Instance.ShowWindow();
         }
 
 

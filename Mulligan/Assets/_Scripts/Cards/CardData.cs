@@ -122,7 +122,19 @@ public enum RuneType
     MarketDiscount,         // 25% or 50% discount in Market
     BossDoubleGold,         // Double gold from boss rewards
     PotionRetriggerChance,  // 10% or 20% chance to retrigger potion effects
-    FreeMarketReroll        // First reroll is free each turn
+    FreeMarketReroll,        // First reroll is free each turn
+    RuneOfAttack,
+    RuneOfArtifact,
+    RuneOfRareChance,
+    RuneOfEpicChance,
+    RuneOfGold,
+    RuneOfAttack2X,
+    RuneOfArtifact2X,
+    RerollBonus2X,
+    MarketDiscount2X,
+    RuneOfGold2X
+
+
 }
 public enum CardTypeEnum
 {

@@ -261,6 +261,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
        
 
 
+
     }
     public List<CardInstance> EvaluateHand(List<CardInstance> playedCards, out int totalDamage)
     {
