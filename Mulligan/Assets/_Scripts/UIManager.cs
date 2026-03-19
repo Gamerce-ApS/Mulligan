@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Singular;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -757,6 +758,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickTryForFree()
     {
+        SingularSDK.Event("ClickTryForFree");
         // PlayerPrefs.SetInt("HasRunTutorial", 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
@@ -798,6 +800,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickBuy()
     {
+        SingularSDK.Event("ClickBuy");
         PlayerPrefs.SetInt("HasRunTutorial", 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 

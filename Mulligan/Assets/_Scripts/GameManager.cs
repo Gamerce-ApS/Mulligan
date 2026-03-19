@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Singular;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -48,6 +49,7 @@ public class GameManager : Singleton<GameManager>
                 StartGame();
         
         });
+            SingularSDK.Event("StartEvent");
 
 
     }

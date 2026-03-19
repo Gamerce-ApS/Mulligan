@@ -65,11 +65,13 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isSelected = false;
 
         originalAnchoredPos = rectTransform.anchoredPosition;
-
+        if(ShopManager.Instance.ShopWindow.activeSelf)
             UIManager.Instance.SellItemArea.gameObject.SetActive(true);
     }
     private bool IsOverSellSlot()
     {
+        if(ShopManager.Instance.ShopWindow.activeSelf == false)
+            return false;
         if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.SellItemArea, Input.mousePosition, Camera.main))
         {
             return true;
