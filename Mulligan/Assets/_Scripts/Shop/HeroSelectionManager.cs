@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     public List<GameObject> HeroNormal;
     public List<GameObject> HeroPortrait;
     public List<GameObject> HeroSelected;
+    public List<GameObject> HeroLock;
     public int selectedHero = -1;
     public Vector3 OriginalScale;
     public TMPro.TMP_Text NameLabel;
@@ -62,7 +64,25 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void RefreshUI()
     {
-  
+        if(IAPManager.Instance.IsFullGameUnlocked == false)
+        {
+            for(int i = 1; i < HeroLock.Count;i++)
+            {
+                HeroLock[i].SetActive(true);
+                HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f,1);
+            }
+            
+            
+        }else
+        {
+            for(int i = 0; i < HeroLock.Count;i++)
+            {
+                HeroLock[i].SetActive(false);
+                HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>().color = new Color(1,1,1,1);
+
+            }
+            
+        }
     }
     public void HideWindow()
     {
@@ -85,9 +105,14 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void ClickHero(int id)
     {
-        if (selectedHero == id)
-            return; // Don't reselect the same hero
-            
+        // if (selectedHero == id)
+        //     return; // Don't reselect the same hero
+        if(IAPManager.Instance.IsFullGameUnlocked == false&& id!= 0)
+        {
+            UIManager.Instance.ClickBuyPopupWindow();
+            return;  
+        }
+
         if(LeanTween.isTweening())
         return;
 

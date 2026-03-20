@@ -10,7 +10,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public static IAPManager Instance { get; private set; }
 
     public const string FullGameProductId = "full_game_unlock";
-    private const string FullGameUnlockedKey = "full_game_unlocked";
+    public const string FullGameUnlockedKey = "full_game_unlocked";
 
     private static IStoreController storeController;
     private static IExtensionProvider extensionProvider;

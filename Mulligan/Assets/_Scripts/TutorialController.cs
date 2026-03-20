@@ -458,7 +458,7 @@ public class TutorialController : Singleton<TutorialController>
         }
   if (myCurrentAction == TutorialActionsEnum.END_TUTORIAL)
         {
-            PlayerPrefs.GetInt("HasRunTutorial", 1);
+            PlayerPrefs.SetInt("HasRunTutorial", 1);
             ResetAfterTutorialFinished();
         }
         

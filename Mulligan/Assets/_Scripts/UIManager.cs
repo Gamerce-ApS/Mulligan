@@ -24,6 +24,7 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text WorldLabel;
     public TMPro.TMP_Text GoldLabel;
     public GameObject SplashScreen;
+    public GameObject BuyPopupWindow;
 
 
 
@@ -133,6 +134,14 @@ public class UIManager : Singleton<UIManager>
     {
         GameManager.Instance.StartGame();
         SceneManager.LoadScene(0);
+        if(IAPManager.Instance.IsFullGameUnlocked == false)
+        {
+            UnityHelper.RunAfterDelay(IAPManager.Instance,0.5f,() =>
+            {
+                UIManager.Instance.ClickBuyPopupWindow();
+            }); 
+        }
+       
     }
     public void AddDamage(float aDamage)
     {
@@ -816,24 +825,24 @@ public class UIManager : Singleton<UIManager>
             .setOnComplete(() =>
             {
                 SplashScreen.SetActive(false);
-                if (TutorialController.Instance.HasRunTutorial() == false)
-                {
-                    GameManager.Instance.ShowHeroSelection();
-                    // UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                    // {
-                    HeroSelectionManager.Instance.ClickHero(0);
-                    // UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                    // {
-                    HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
-                    HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
-                    HeroSelectionManager.Instance.selectedHero = 0;
-                    HeroSelectionManager.Instance.ClickPlay();
+                // if (TutorialController.Instance.HasRunTutorial() == false)
+                // {
+                    // GameManager.Instance.ShowHeroSelection();
+                    // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                    // // {
+                    // HeroSelectionManager.Instance.ClickHero(0);
+                    // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                    // // {
+                    // HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
+                    // HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
+                    // HeroSelectionManager.Instance.selectedHero = 0;
+                    // HeroSelectionManager.Instance.ClickPlay();
 
                     // });
                     // });
 
-                }
-                else
+                // }
+                // else
                 {
                     GameManager.Instance.ShowHeroSelection();
                     UnityHelper.RunAfterDelay(this, 0.5f, () =>
@@ -846,6 +855,42 @@ public class UIManager : Singleton<UIManager>
 
 
     }
+    public void ClickBuyPopupWindow()
+    {
+        BuyPopupWindow.SetActive(true);
+        BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 0;
+        LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
+
+        GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
+        // Store the target position
+        Vector2 targetPos = g.GetComponent<RectTransform>().anchoredPosition;
+        // Start below the screen
+        g.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
+        // Animate to its original position
+        LeanTween.move(g.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
+    }
+    
+    public void ClickClosePopupWindow()
+    {
+        BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
+        LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 0f, 0.25f).setEaseInQuad();
+        GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
+
+        // Move downward off the screen
+        Vector2 hidePos = new Vector2(g.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+        Vector3 startPos = g.GetComponent<RectTransform>().anchoredPosition;
+
+        // Animate down
+        LeanTween.move(g.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+  BuyPopupWindow.SetActive(false);
+                // g.SetActive(false);
+                g.GetComponent<RectTransform>().anchoredPosition = startPos;
+            });
+        
+    }
     public void ClickBuy()
     {
         SingularSDK.Event("ClickBuy");
@@ -855,6 +900,8 @@ public class UIManager : Singleton<UIManager>
             UIManager.Instance.SplashScreenButtons[0].SetActive(true);
             UIManager.Instance.SplashScreenButtons[1].SetActive(false);
             UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
+            HeroSelectionManager.Instance.RefreshUI();
+            ClickClosePopupWindow();
         });
 
         // PlayerPrefs.SetInt("HasRunTutorial", 1);
@@ -881,6 +928,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickTutorial()
     {
         PlayerPrefs.SetInt("HasRunTutorial", 0);
+        
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
         // Animate down
@@ -900,6 +948,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickPlayFullGame()
     {
         PlayerPrefs.SetInt("HasRunTutorial", 1);
+        // PlayerPrefs.SetInt(IAPManager.FullGameUnlockedKey, 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
         // Animate down

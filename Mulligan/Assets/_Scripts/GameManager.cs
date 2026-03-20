@@ -73,9 +73,10 @@ public class GameManager : Singleton<GameManager>
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
 
-         #if UNITY_EDITOR
-             UIManager.Instance.ClickPlayFullGame();
-             #else
+        //  #if UNITY_EDITOR
+        //      UIManager.Instance.ClickPlayFullGame();
+        //      PlayerPrefs.SetInt(IAPManager.FullGameUnlockedKey, 1);
+        //      #else
         UIManager.Instance.SplashScreen.SetActive(true);
 
         if(IAPManager.Instance.IsFullGameUnlocked)// owns game
@@ -89,7 +90,7 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.SplashScreenButtons[1].SetActive(true);
             UIManager.Instance.SplashScreenButtons[2].SetActive(true); 
         }
-         #endif
+        //   #endif
 
     }
     public void ShowHeroSelection()
@@ -204,7 +205,7 @@ public class GameManager : Singleton<GameManager>
         {
             WinGame();
         }
-        else if (GameData.CurrentAttacks <= 0)
+        else if (GameData.CurrentAttacks <= 0 && TutorialController.Instance.HasRunTutorial() == false)
         {
             LostGame();
         }
