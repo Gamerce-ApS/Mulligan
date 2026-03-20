@@ -67,6 +67,8 @@ public class UIManager : Singleton<UIManager>
         DamageReset();
 
         OriginalsynergyTextGO = synergyTextGO.transform.localScale;
+
+        SpeedLabel.text = PlayerPrefs.GetString("GameSpeed","1X");
     }
     public void DamageReset()
     {
@@ -94,6 +96,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickPlayHand()
     {
+        
         HandManager.Instance.PlayHand();
         UIManager.Instance.HideCardInfoPopup();
 
@@ -767,21 +770,35 @@ public class UIManager : Singleton<UIManager>
             currentSpeed = 0;
         if (currentSpeed == 0)
         {
-            Time.timeScale = 1;
             SpeedLabel.text = "1X";
         }
         else if (currentSpeed == 1)
         {
-            Time.timeScale = 2;
             SpeedLabel.text = "2X";
 
         }
         else if (currentSpeed == 2)
         {
-            Time.timeScale = 4;
-            SpeedLabel.text = "4X";
-
+            SpeedLabel.text = "3X";
         }
+        PlayerPrefs.SetString("GameSpeed",SpeedLabel.text);
+        LoadSpeed();
+    }
+    public void LoadSpeed()
+    {
+        string speed = PlayerPrefs.GetString("GameSpeed","1X");
+
+        if(speed == "1X")
+        {
+            Time.timeScale = 1; 
+        } else if(speed == "2X")
+        {
+            Time.timeScale = 2f; 
+        } else if(speed == "3X")
+        {
+            Time.timeScale = 3f; 
+        } 
+        SpeedLabel.text = speed;
     }
     public Color GetTextColor(int aRarity)
     {

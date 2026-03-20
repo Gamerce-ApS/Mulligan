@@ -136,7 +136,7 @@ public class Hero : MonoBehaviour
         {
             if (artifact.effect == ArtifactEffectType.DodgeEnemyAttack)
             {
-                if (artifact.value < Random.Range(0, 100))
+                if (Random.Range(0, 100) < artifact.value)
                 {
                     UIManager.Instance.ShowTooltip($"Dodged Attack!");
                     return true;
@@ -148,6 +148,7 @@ public class Hero : MonoBehaviour
     }
     public void DoDamage(int aDamage)
     {
+        
         if (DodgeCheck())
         {
             return;
@@ -253,10 +254,10 @@ public class Hero : MonoBehaviour
                 gameObject.transform.localScale = Vector3.one;
             }).setEasePunch();
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
-            Health += aDamage * (CurrentLifeStealProc);
+            Health += Mathf.RoundToInt( aDamage * (CurrentLifeStealProc/100));
             RefreshBar();
             CurrentLifeStealProc = 0;
-            GameData.PotionsUsed = 0;
+            // GameData.PotionsUsed = 0;
 
             // UnityHelper.RunAfterDelay(this, 0.0f, () =>
             // {

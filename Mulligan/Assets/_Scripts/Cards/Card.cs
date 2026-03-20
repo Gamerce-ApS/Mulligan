@@ -201,6 +201,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
             }
         }
+        if(cardInstance.tempCritBonus>0)
+        upgradeString+= "<color=\"red\">"+"\n +"+cardInstance.tempCritBonus+" Crit </color>";
+        if(cardInstance.tempDamageBonus>0)
+        upgradeString+= "<color=\"red\">"+"\n +"+cardInstance.tempDamageBonus+" Damage</color>";
+
 
         //upgradeString = upgradeString.Replace(" ", "");
         return upgradeString;

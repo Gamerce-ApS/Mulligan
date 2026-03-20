@@ -101,7 +101,7 @@ public class HandManager : Singleton<HandManager>
                     EvaluatorManager.Instance.PlayBoostedCardsSequentially(boostedCards,-1);
                 else
                     DiscardHand(); // nothing boosted, skip straight to discard
-
+                UIManager.Instance.LoadSpeed();
             });
         });
 

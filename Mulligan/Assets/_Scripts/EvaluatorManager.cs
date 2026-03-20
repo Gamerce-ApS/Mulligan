@@ -19,6 +19,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     }
     public void LastCardEvaluatedDoDamgge()
     {
+        Time.timeScale = 1; 
         UnityHelper.RunAfterDelay(this, 0.75f, () =>
         {
             string totalDamage = UIManager.Instance.DamageLabel.GetComponent<TMPro.TMP_Text>().text;
@@ -638,7 +639,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                             {
                                 next();
                             });
-                        },true);
+                        },false);
               
                         break;
 
