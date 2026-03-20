@@ -75,20 +75,31 @@ public class CardContainer : Singleton<CardContainer>
         string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
         GUIUtility.systemCopyBuffer = json;
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 30; i++)
         {
             List<EnemyData> d = EnemyDataList.ToList();
             TutorialController.Instance.myEnemiesList.AddRange(d);
             d.Shuffle();
             myEnemiesList.AddRange(d);
         }
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 30; i++)
         {
             List<BossData> d = BossDataList.ToList();
             TutorialController.Instance.myBossList.AddRange(d);
             d.Shuffle();
+
+
             myBossList.AddRange(d);
         }
+        for (int i = 0; i < 5; i++)
+        {
+            if( myBossList[0].abilities.Contains(BossAbilityEnum.Evasion) || myBossList[0].baseDamage <= 999)
+            {
+                myBossList.RemoveAt(0);
+            }
+          
+        }
+        
         // for(int i = 0; i < 100;i++)
         //     myEnemiesList.Add(GetRandomEnemy());
         // for(int i = 0; i < 100;i++)

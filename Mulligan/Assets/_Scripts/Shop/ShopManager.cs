@@ -20,7 +20,7 @@ public class ShopManager : Singleton<ShopManager>
     public GameObject ShopWindow;
     public bool SetEverythingFreeNextRound = false;
     public GameObject BattleButton;
-
+    public TMPro.TMP_Text ReRollCostLabel;
     public void PopulateShop()
     {
 
@@ -140,6 +140,8 @@ RefreshPotionSlots();
         {
             PopulateShop();
             hasRerolledForFree = true;
+            ReRollCostLabel.text ="5";
+
         }
         else if (GameData.CurrentGold >= 5)
         {
@@ -231,6 +233,16 @@ RefreshPotionSlots();
             {
                 TutorialController.Instance.ShowStepById("Step2_Shop");
             }
+
+
+        if (GameManager.Instance.HasFreeReroll && hasRerolledForFree == false)
+        {
+            ReRollCostLabel.text = "";
+        }else
+        {
+            ReRollCostLabel.text="5";
+        }
+
     }
     public void HideShopWindow()
     {

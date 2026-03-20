@@ -24,6 +24,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
 
     public List<Image> EnemyPortraits;
     public List<Image> EnemyDisabled;
+    public List<Image> EnemyGoldenFrame;
     public Image LevelFillBar;
     public Material GreyScale;
     public Image BossPortrait;
@@ -81,6 +82,11 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         {
             d.gameObject.SetActive(true);  
         }
+        foreach(var d in EnemyGoldenFrame)
+        {
+            d.gameObject.SetActive(false);  
+        }
+        
         foreach(var d in EnemyPortraits)
         {
             d.material =  GreyScale;
@@ -88,6 +94,8 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         EnemyDisabled[loopedIndex].gameObject.SetActive(false);
         EnemyPortraits[loopedIndex].material = null;
 
+            EnemyGoldenFrame[loopedIndex].gameObject.SetActive(true);
+    
         if(loopedIndex == 3)
         {
             BossInfoBox.SetActive(true);

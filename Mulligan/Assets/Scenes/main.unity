@@ -39996,9 +39996,10 @@ MonoBehaviour:
   DisableBossDebuffNextRound: 0
   BonusAttacksNextRound: 0
   BonusRerolls: 0
+  BonusAttacks: 0
   ReviveFullHP: 0
   ReviveWith1HP: 0
-  MarketDiscountModifier: 1
+  MarketDiscountModifier: 0
   BossGoldMultiplier: 1
   PotionRetriggerChance: 0
   HasFreeReroll: 0
@@ -43151,6 +43152,7 @@ MonoBehaviour:
   ShopWindow: {fileID: 1148307865}
   SetEverythingFreeNextRound: 0
   BattleButton: {fileID: 1431005633}
+  ReRollCostLabel: {fileID: 712586399}
   hasRerolledForFree: 0
   startPosition: {x: 0, y: 0, z: 0}
   bgCanvasGroup: {fileID: 2115476051}
@@ -97688,6 +97690,11 @@ MonoBehaviour:
   - {fileID: 979619455}
   - {fileID: 1855523377}
   - {fileID: 1504618733}
+  EnemyGoldenFrame:
+  - {fileID: 1995464171}
+  - {fileID: 2093341757}
+  - {fileID: 1332511702}
+  - {fileID: 1444318546}
   LevelFillBar: {fileID: 1815648486}
   GreyScale: {fileID: 2100000, guid: 56c7a7550f526493796073ba85f8b682, type: 2}
   BossPortrait: {fileID: 792413675}
