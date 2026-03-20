@@ -56,6 +56,8 @@ public class UIManager : Singleton<UIManager>
     public List<GameObject> PotionBackground;
     public List<GameObject> ArtifactBackground;
 
+    public List<GameObject> SplashScreenButtons;
+
 
     // Start is called before the first frame update
     public void Init()
@@ -830,25 +832,33 @@ public class UIManager : Singleton<UIManager>
     public void ClickBuy()
     {
         SingularSDK.Event("ClickBuy");
-        PlayerPrefs.SetInt("HasRunTutorial", 1);
-        Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
-        // Animate down
-        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
-            .setEaseInBack()
-            .setOnComplete(() =>
-            {
-                SplashScreen.SetActive(false);
+        IAPManager.Instance.BuyFullGame(() =>
+        {
+            UIManager.Instance.SplashScreenButtons[0].SetActive(true);
+            UIManager.Instance.SplashScreenButtons[1].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
+        });
+
+        // PlayerPrefs.SetInt("HasRunTutorial", 1);
+        // Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // // Animate down
+        // LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
+        //     .setEaseInBack()
+        //     .setOnComplete(() =>
+        //     {
+        //         SplashScreen.SetActive(false);
 
 
-                GameManager.Instance.ShowHeroSelection();
-                UnityHelper.RunAfterDelay(this, 0.5f, () =>
-                {
-                    HeroSelectionManager.Instance.ClickHero(0);
-                });
+        //         GameManager.Instance.ShowHeroSelection();
+        //         UnityHelper.RunAfterDelay(this, 0.5f, () =>
+        //         {
+        //             HeroSelectionManager.Instance.ClickHero(0);
+        //         });
 
 
-            });
+        //     });
 
     }
     public void ClickTutorial()
@@ -869,6 +879,32 @@ public class UIManager : Singleton<UIManager>
                 HeroSelectionManager.Instance.selectedHero = 0;
                 HeroSelectionManager.Instance.ClickPlay();
             });
+    }
+    public void ClickPlayFullGame()
+    {
+        PlayerPrefs.SetInt("HasRunTutorial", 1);
+        Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        // Animate down
+        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                SplashScreen.SetActive(false);
+
+
+                GameManager.Instance.ShowHeroSelection();
+                UnityHelper.RunAfterDelay(this, 0.5f, () =>
+                {
+                    HeroSelectionManager.Instance.ClickHero(0);
+                });
+
+
+            });
+    }
+    public void ClickRestore()
+    {
+         IAPManager.Instance.RestorePurchases();
     }
 
 }

@@ -77,6 +77,18 @@ public class GameManager : Singleton<GameManager>
         //     UIManager.Instance.ClickTryForFree();
         //     #else
         UIManager.Instance.SplashScreen.SetActive(true);
+
+        if(IAPManager.Instance.IsFullGameUnlocked)// owns game
+        {
+            UIManager.Instance.SplashScreenButtons[0].SetActive(true);
+            UIManager.Instance.SplashScreenButtons[1].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
+        }else // trial
+        {
+            UIManager.Instance.SplashScreenButtons[0].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[1].SetActive(true);
+            UIManager.Instance.SplashScreenButtons[2].SetActive(true); 
+        }
         // #endif
 
     }
