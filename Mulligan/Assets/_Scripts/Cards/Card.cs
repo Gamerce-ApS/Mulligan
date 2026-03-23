@@ -657,6 +657,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             {
                 CardContainer.Instance.DiscardCard(cInstance);
                 Destroy(gameObject);
+
+                    if (cardInstance.WillExplodeAfterAttack)
+                    {
+                            CardContainer.Instance.DiscardDeck.Remove(cardInstance);
+                            CardContainer.Instance.CurrentDeck.Remove(cardInstance);
+                    }
             });
         });
     }

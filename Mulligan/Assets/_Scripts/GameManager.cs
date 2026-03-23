@@ -121,6 +121,8 @@ public class GameManager : Singleton<GameManager>
         if (GameData.CurrentRound % 4 == 0)
         {
             GameData.CurrentGold += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
+                    CardContainer.Instance.CompleteBoss();
+
         }
         else
         {
@@ -138,7 +140,6 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
-        CardContainer.Instance.CompleteBoss();
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;

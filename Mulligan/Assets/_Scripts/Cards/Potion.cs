@@ -42,7 +42,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public void OnPointerClick(PointerEventData eventData)
     {
         if (isDragging) return;
-
+        if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
+            return;
         if (!isSelected)
         {
             //originalAnchoredPos = rectTransform.anchoredPosition;
@@ -61,6 +62,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         if(isMuted)
         return;
+                if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
+            return;
         // Debug.Log("Potion BeginDrag");
         if (isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
@@ -88,6 +91,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
              if(isMuted)
         return;
+                if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
+            return;
         // Debug.Log("Potion Drag");
         Vector3 globalMousePos;
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out globalMousePos))
@@ -171,7 +176,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
              if(isMuted)
         return;
         // Debug.Log("Potion EndDrag");
-
+        if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
+            return;
         isDragging = false;
 
 

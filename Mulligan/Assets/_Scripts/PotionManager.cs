@@ -64,6 +64,13 @@ public class PotionManager : Singleton<PotionManager>
                     UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} becomes Faceless");
                 }
                 break;
+                case PotionEffectType.DestroyUnit:
+                if (targetCard != null)
+                {
+                    targetCard.cardInstance.Destroy();
+                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} Destroyed");
+                }
+                break;
 
             case PotionEffectType.FacelessMultiple:
                 var list = HandManager.Instance.CurrentHand.Where(ci => ci.CardGO != null).ToList();

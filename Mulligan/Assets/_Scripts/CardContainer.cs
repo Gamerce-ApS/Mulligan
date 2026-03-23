@@ -100,6 +100,7 @@ public class CardContainer : Singleton<CardContainer>
           
         }
         
+        //  myBossList[0] = BossDataList[3];
         // for(int i = 0; i < 100;i++)
         //     myEnemiesList.Add(GetRandomEnemy());
         // for(int i = 0; i < 100;i++)

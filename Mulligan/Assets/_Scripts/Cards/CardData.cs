@@ -67,7 +67,8 @@ public enum PotionEffectType
     DisableDebuff,  // <-- TODO
     HealHero, // Done
     BoostAndLoseHP, // Done
-    RetriggerUpgrades // <-- TODO
+    RetriggerUpgrades, // <-- TODO
+    DestroyUnit
 }
 public enum UpgradeEffect
 {

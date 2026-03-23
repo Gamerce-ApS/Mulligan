@@ -972,5 +972,11 @@ public class UIManager : Singleton<UIManager>
     {
          IAPManager.Instance.RestorePurchases();
     }
+    public void ClickDiscord()
+    {
+        string inviteUrl = "https://discord.gg/Bc8VJfdq";
+        Application.OpenURL(inviteUrl);
+        
+    }
 
 }

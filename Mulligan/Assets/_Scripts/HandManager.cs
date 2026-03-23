@@ -142,6 +142,7 @@ public class HandManager : Singleton<HandManager>
     }
     public void DiscardHand()
     {
+        Time.timeScale = 1; 
         Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen
 
         for (int i = 0; i < PlayedHand.Count; i++)

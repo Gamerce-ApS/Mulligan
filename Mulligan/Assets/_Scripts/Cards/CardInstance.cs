@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CardInstance
 {
     public CardData data=null;
@@ -158,6 +159,14 @@ public class CardInstance
         }
         CardGO.AnyClass.SetActive(true);
     }
+    public void Destroy()
+    {
+        HandManager.Instance.CurrentHand.Remove(this);
+        HandManager.Instance.PlayedHand.Remove(this);   
+        CardContainer.Instance.DiscardDeck.Remove(this);
+        CardContainer.Instance.CurrentDeck.Remove(this);
+        GameObject.Destroy(CardGO.gameObject);
+    }
     public void TurnEnded(System.Action onComplete)
     {
         tempCritBonus = 0;
@@ -167,14 +176,27 @@ public class CardInstance
             CardGO.AnyClass.SetActive(false);
             IsFacelessThisTurn = false;
         }
-        if (WillExplodeAfterAttack)
-        {
-            // Destroy
-            currentRank = 0;
-            appliedUpgrades.Clear();
-        }
+  
         CardGO.UpdateCardUI();
         onComplete?.Invoke();
+
+        // if (WillExplodeAfterAttack)
+        // {
+        //     // Destroy
+        //     currentRank = 0;
+        //     appliedUpgrades.Clear();
+        //     if(CardGO != null)
+        //     UnityHelper.RunAfterDelay(CardGO, 1.5f, () =>
+        //     {
+        //         GameObject.Destroy(CardGO);
+        //         CardContainer.Instance.DiscardDeck.Remove(this);
+        //         CardContainer.Instance.CurrentDeck.Remove(this);
+                
+
+        //     });
+     
+
+        // }
     }
 
 }
