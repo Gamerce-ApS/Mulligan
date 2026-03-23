@@ -43,7 +43,7 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 0
-    m_Scale: 1
+    m_Scale: 1.25
     m_Name: warrior_icon
     m_HashCode: 671818550
   m_SpriteGlyphTable:
@@ -59,7 +59,7 @@ MonoBehaviour:
       m_Y: 0
       m_Width: 196
       m_Height: 201
-    m_Scale: 1
+    m_Scale: 1.25
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: 21300000, guid: 6a73bf780e255481b8ae30e50c0fea97, type: 3}
