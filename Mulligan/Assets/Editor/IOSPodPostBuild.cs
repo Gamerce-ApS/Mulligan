@@ -35,23 +35,66 @@ public static class IOSPodPostBuild
         if (!File.Exists(podfilePath))
         {
             UnityEngine.Debug.LogError("[IOSPodPostBuild] No Podfile found at: " + podfilePath);
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] CocoaPods cannot run without a Podfile.");
             return;
         }
+
+        PatchPodfile(podfilePath);
 
         RunProcess("/bin/zsh", $"-lc 'cd \"{pathToBuiltProject}\" && \"{PodPath}\" install'", "pod install");
 
         string workspacePath = Path.Combine(pathToBuiltProject, "Unity-iPhone.xcworkspace");
         if (Directory.Exists(workspacePath))
-        {
             UnityEngine.Debug.Log("[IOSPodPostBuild] Workspace created: " + workspacePath);
-        }
         else
-        {
             UnityEngine.Debug.LogError("[IOSPodPostBuild] Workspace was not created: " + workspacePath);
-        }
 
         FixXcodeProject(pathToBuiltProject);
+    }
+
+    private static void PatchPodfile(string podfilePath)
+    {
+        string podfile = File.ReadAllText(podfilePath);
+
+        const string marker = "# IOSPODPOSTBUILD_SWIFT_FIX";
+
+        if (podfile.Contains(marker))
+        {
+            UnityEngine.Debug.Log("[IOSPodPostBuild] Podfile already patched");
+            return;
+        }
+
+        string postInstallBlock = @"
+
+" + marker + @"
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
+  end
+
+  installer.aggregate_targets.each do |aggregate_target|
+    user_project = aggregate_target.user_project
+
+    user_project.native_targets.each do |target|
+      target.build_configurations.each do |config|
+        if target.name == 'UnityFramework'
+          config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'NO'
+        elsif target.name == 'Unity-iPhone'
+          config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
+        end
+      end
+    end
+
+    user_project.save
+  end
+end
+";
+
+        podfile += postInstallBlock;
+        File.WriteAllText(podfilePath, podfile);
+
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Podfile patched with Swift embed fix");
     }
 
     private static void FixXcodeProject(string pathToBuiltProject)
@@ -72,16 +115,13 @@ public static class IOSPodPostBuild
 
         UnityEngine.Debug.Log("[IOSPodPostBuild] Fixing Xcode build settings");
 
-        // Main app target can embed Swift libs if needed by pods/plugins
         pbxProject.SetBuildProperty(mainTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
-
-        // UnityFramework must not embed frameworks inside itself
         pbxProject.SetBuildProperty(frameworkTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
 
         pbxProject.WriteToFile(pbxProjectPath);
 
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES for main target");
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO for UnityFramework target");
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES for Unity-iPhone");
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO for UnityFramework");
     }
 
     private static void RunProcess(string fileName, string arguments, string label)
