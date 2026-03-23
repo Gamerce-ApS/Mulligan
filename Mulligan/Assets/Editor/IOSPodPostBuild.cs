@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 public static class IOSPodPostBuild
@@ -49,6 +50,38 @@ public static class IOSPodPostBuild
         {
             UnityEngine.Debug.LogError("[IOSPodPostBuild] Workspace was not created: " + workspacePath);
         }
+
+        FixXcodeProject(pathToBuiltProject);
+    }
+
+    private static void FixXcodeProject(string pathToBuiltProject)
+    {
+        string pbxProjectPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
+
+        if (!File.Exists(pbxProjectPath))
+        {
+            UnityEngine.Debug.LogError("[IOSPodPostBuild] PBX project not found at: " + pbxProjectPath);
+            return;
+        }
+
+        var pbxProject = new PBXProject();
+        pbxProject.ReadFromFile(pbxProjectPath);
+
+        string mainTargetGuid = pbxProject.GetUnityMainTargetGuid();
+        string frameworkTargetGuid = pbxProject.GetUnityFrameworkTargetGuid();
+
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Fixing Xcode build settings");
+
+        // Main app target can embed Swift libs if needed by pods/plugins
+        pbxProject.SetBuildProperty(mainTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
+
+        // UnityFramework must not embed frameworks inside itself
+        pbxProject.SetBuildProperty(frameworkTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
+
+        pbxProject.WriteToFile(pbxProjectPath);
+
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES for main target");
+        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO for UnityFramework target");
     }
 
     private static void RunProcess(string fileName, string arguments, string label)
