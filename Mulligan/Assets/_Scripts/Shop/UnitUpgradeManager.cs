@@ -38,8 +38,14 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         {
             DestroyImmediate(UnitUpgradeParent.GetChild(i).gameObject);
         }
-
-        List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
+        
+        // List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
+        List<UpgradeCardData> list = new List<UpgradeCardData>();
+        list.Add(GetRandomUpgrade());
+        list.Add(GetRandomUpgrade());
+        list.Add(GetRandomUpgrade());
+        list.Add(GetRandomUpgrade());
+        
         list.Shuffle();
 
         for (int i = 0; i < 3; i++)

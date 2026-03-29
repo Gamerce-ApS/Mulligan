@@ -203,6 +203,13 @@ public class Hero : MonoBehaviour
             Health = MaxHealth;
         RefreshBar();
     }
+    public void HealHPPoints(float aValue)
+    {
+        Health += aValue; // assuming you have a Heal(int) method
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+        RefreshBar(); 
+    }
     public void ReduceMaxHPPercent(float percent)
     {
         MaxHealth = Mathf.Max(1, MaxHealth - Mathf.RoundToInt(MaxHealth * percent));

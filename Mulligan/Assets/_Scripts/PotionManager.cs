@@ -254,7 +254,7 @@ public void SellPotion(Potion aPotion)
         }
      if (TutorialController.Instance.HasRunTutorial()== false)
         {
-             return available.Find(c=> c.name == "Remedy");
+             return available.Find(c=> c.name == "Healing");
         }
         return PickPotionWeightedByRarity(available);
         // // Pick random one

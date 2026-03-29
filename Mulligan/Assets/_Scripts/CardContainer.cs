@@ -91,15 +91,18 @@ public class CardContainer : Singleton<CardContainer>
 
             myBossList.AddRange(d);
         }
+                 
+       
         for (int i = 0; i < 5; i++)
         {
-            if( myBossList[0].abilities.Contains(BossAbilityEnum.Evasion) || myBossList[0].baseDamage <= 999)
+            if( myBossList[0].abilities.Contains(BossAbilityEnum.Evasion) || myBossList[0].baseDamage >= 999)
             {
                 myBossList.RemoveAt(0);
             }
-          
         }
-        
+
+
+
         //  myBossList[0] = BossDataList[3];
         // for(int i = 0; i < 100;i++)
         //     myEnemiesList.Add(GetRandomEnemy());

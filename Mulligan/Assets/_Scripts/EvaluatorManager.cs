@@ -25,7 +25,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             string totalDamage = UIManager.Instance.DamageLabel.GetComponent<TMPro.TMP_Text>().text;
             string totalCritical = UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text;
             UIManager.Instance.DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
-            UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "0";
+            UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
             int crit = int.Parse(totalCritical);
             if (crit == 0) crit = 1;
             GameManager.Instance.TheHero.Attack(int.Parse(totalDamage) * crit);
@@ -452,7 +452,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             }
         }
 
-        return critTriggered * 3;
+        return (critTriggered * 3);
     }
 
     private void RunNextStep(Queue<System.Action<System.Action>> steps)

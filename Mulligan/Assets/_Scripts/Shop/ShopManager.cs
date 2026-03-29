@@ -156,9 +156,9 @@ RefreshPotionSlots();
     }
     public void ClickUnlockSlot()
     {
-        if (GameData.CurrentGold >= 10)
+        if (GameData.CurrentGold >= 20)
         {
-            GameData.CurrentGold -= 10;
+            GameData.CurrentGold -= 20;
             GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
             RefreshArtifactSlots();
         }
@@ -169,9 +169,9 @@ RefreshPotionSlots();
     }
         public void ClickUnlockPotionSlot()
     {
-        if (GameData.CurrentGold >= 10)
+        if (GameData.CurrentGold >= 20)
         {
-            GameData.CurrentGold -= 10;
+            GameData.CurrentGold -= 20;
             GameManager.Instance.TheHero.myHeroData.PotionSlots++;
             RefreshPotionSlots();
         }

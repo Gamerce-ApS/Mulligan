@@ -32,6 +32,8 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text GoldGainedText;
     public TMPro.TMP_Text HealthGainedText;
     public TMPro.TMP_Text LevelText;
+    public TMPro.TMP_Text LostText;
+
     public Image XpBar;
 
     public Canvas thCanvas;
@@ -70,11 +72,18 @@ public class UIManager : Singleton<UIManager>
         OriginalsynergyTextGO = synergyTextGO.transform.localScale;
 
         SpeedLabel.text = PlayerPrefs.GetString("GameSpeed","1X");
+
+        if(PlayerPrefs.HasKey("GameSpeed") == false)
+        {
+            PlayerPrefs.SetString("GameSpeed","2X");
+
+        }
+
     }
     public void DamageReset()
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "0";
+        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
         DamageLabel.transform.localScale = DamageLabelOriginalScale;
         CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
 
@@ -88,7 +97,7 @@ public class UIManager : Singleton<UIManager>
     {
         AttackLabel.text = GameData.CurrentAttacks.ToString();
         ReRollLabel.text = GameData.CurrentReRolls.ToString();
-        RoundsLabel.text = "Round " + GameData.CurrentRound.ToString();
+        RoundsLabel.text = "Level " + GameData.CurrentRound.ToString();
         int totalWorlds = 8; // or however many worlds you have
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
         WorldLabel.text = $"{currentWorld}/{totalWorlds}";
@@ -218,7 +227,7 @@ public class UIManager : Singleton<UIManager>
 
 
         int crit = EvaluatorManager.Instance.GetGlobalCritMultiplier(selectedCards);
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit).ToString();
+        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit+1).ToString();
         if (crit != 0)
             LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
     }
@@ -631,6 +640,7 @@ public class UIManager : Singleton<UIManager>
 
             // 3. Increase max HP
             hero.MaxHealth += CardContainer.Instance.HealthGainPerLevel;
+            hero.HealHPPoints(CardContainer.Instance.HealthGainPerLevel);
             hero.RefreshBar();
             HealthGainedText.text = "+ " + CardContainer.Instance.HealthGainPerLevel.ToString();
 
@@ -659,6 +669,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject LoseParent;
     public void ShowLoseScreen(System.Action onComplete)
     {
+         
+        int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
+        LostText.text ="You reached World "+currentWorld+", Level "+GameData.CurrentRound.ToString();
         LoseParent.GetComponent<CanvasGroup>().alpha = 0f;
         LoseParent.SetActive(true);
 
