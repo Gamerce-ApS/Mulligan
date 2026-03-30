@@ -69,6 +69,8 @@ public class TutorialController : Singleton<TutorialController>
         [Header("Input")]
         public bool blockInput = false;
 
+        public bool showGnome = true;
+
     }
     public TutorialActionsEnum myCurrentAction = TutorialActionsEnum.NONE;
     [Header("References")]
@@ -117,6 +119,9 @@ public class TutorialController : Singleton<TutorialController>
 
     private bool waitingForContinueClick = false;
     private int stepRequestId = 0;
+
+    public GameObject GnomeObject;
+    public GameObject ShopMerchant;
 
     void Awake()
     {
@@ -247,7 +252,13 @@ public class TutorialController : Singleton<TutorialController>
         OnStepShown?.Invoke(step.Id);
 
         SetupStepInput(step, stepRequestId);
+   
+        GnomeObject.SetActive(step.showGnome );
+        ShopMerchant.SetActive(!step.showGnome );
 
+
+
+        
         myCurrentAction = step.myAction;
 
         if (step.freezeTimeDelta)
@@ -270,6 +281,8 @@ public class TutorialController : Singleton<TutorialController>
         HandleStartAction();
 
         LastStepPlayed = step.Id;
+
+        
     }
 
     public void HideTutorial()
@@ -291,7 +304,7 @@ public class TutorialController : Singleton<TutorialController>
 
         Time.timeScale = 1;
         ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
-
+        ShopMerchant.SetActive(false );
     }
 
     private void UpdateOverlay(TutorialStep step)

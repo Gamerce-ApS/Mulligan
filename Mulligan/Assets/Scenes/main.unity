@@ -9564,12 +9564,13 @@ RectTransform:
   - {fileID: 1938209080}
   - {fileID: 1842657160}
   - {fileID: 445165770}
+  - {fileID: 1682831803}
   m_Father: {fileID: 679112066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.009765625, y: -2.904541}
-  m_SizeDelta: {x: 2614, y: 1210.5}
+  m_SizeDelta: {x: 0, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &128420977
 MonoBehaviour:
@@ -9614,6 +9615,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 1
   - Id: Step1_Cards
     Dialogue: 'THIS IS YOUR ARMY!
 
@@ -9632,6 +9634,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 1
   - Id: Step1_SelectOrcs
     Dialogue: Choose 4 Orcs
     DialogueParent: {fileID: 1842657160}
@@ -9646,6 +9649,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 1
   - Id: Step1_Synergies
     Dialogue: COMBINING 4 ORC UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
     DialogueParent: {fileID: 1842657160}
@@ -9660,6 +9664,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 1
   - Id: Step1_PreAttack
     Dialogue: Click Attack
     DialogueParent: {fileID: 1842657160}
@@ -9674,6 +9679,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 1
   - Id: Step1_Attack
     Dialogue: 'Run out of attacks,
 
@@ -9693,6 +9699,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step1_Enemy
     Dialogue: 'Enemies tend to strike back....
 
@@ -9710,6 +9717,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step1_ReRoll
     Dialogue: No strong combos here...  Try a reroll to find cards that share the
       same race or class
@@ -9725,6 +9733,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 0
     blockInput: 0
+    showGnome: 1
   - Id: Step1_ClickRoll
     Dialogue: Click REROLL
     DialogueParent: {fileID: 1842657160}
@@ -9739,6 +9748,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 1
   - Id: Step1_ComboFriendly
     Dialogue: 'NOW THAT''S A COMBO-FRIENDLY SET OF UNITS!
 
@@ -9757,6 +9767,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 1
   - Id: Step1_SelectWarriros
     Dialogue: Choose 4 Warriors
     DialogueParent: {fileID: 1842657160}
@@ -9771,6 +9782,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 1
   - Id: Step1_Synergies2
     Dialogue: COMBINING 4 WARRIOR UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
     DialogueParent: {fileID: 1842657160}
@@ -9785,6 +9797,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step1_Gold
     Dialogue: 'WELL DONE!
 
@@ -9802,6 +9815,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step2_Shop
     Dialogue: 'WELCOME TO THE SHOP!
 
@@ -9817,9 +9831,10 @@ MonoBehaviour:
     WaitTime: 3
     myAction: 0
     freezeTimeDelta: 1
-    freezeTimeDelay: 0.2
+    freezeTimeDelay: 0.5
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step2_Shop2
     Dialogue: Artifacts give passive bonus that will improve your deck
     DialogueParent: {fileID: 1842657160}
@@ -9834,6 +9849,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step2_Shop3
     Dialogue: 'LET''S BUY THIS ONE!
 
@@ -9855,6 +9871,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 0
   - Id: Step2_Shop4_Potion
     Dialogue: Potions are consumables that give units one-time bonues during battle
     DialogueParent: {fileID: 1842657160}
@@ -9869,6 +9886,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step2_Shop4_Potion2
     Dialogue: 'Just what you need!
 
@@ -9890,6 +9908,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 0
+    showGnome: 0
   - Id: Step2_Shop4_Potion3
     Dialogue: 'Just what you need!
 
@@ -9908,6 +9927,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step2_Shop4_ClickBattle
     Dialogue: Click to go to battle!
     DialogueParent: {fileID: 1842657160}
@@ -9922,6 +9942,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 1
     blockInput: 0
+    showGnome: 0
   - Id: Step3_Artifact
     Dialogue: YOUR ARTIFACT JUST ADDED +20 BONUS DAMAGE
     DialogueParent: {fileID: 1842657160}
@@ -9936,6 +9957,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step3_Potion
     Dialogue: Drag potion on units or hero to use potions.
     DialogueParent: {fileID: 1842657160}
@@ -9950,6 +9972,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step4_Shop1
     Dialogue: 'Back in one piece, I see!
 
@@ -9968,6 +9991,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step4_Shop2
     Dialogue: Armory upgrades modify individual units in your deck to make them stronger
     DialogueParent: {fileID: 1842657160}
@@ -9982,6 +10006,7 @@ MonoBehaviour:
     freezeTimeDelay: 0.2
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step4_Shop3
     Dialogue: 'THIS IS AN ARMORY UPGRADE.
 
@@ -10000,6 +10025,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 1
     blockInput: 0
+    showGnome: 0
   - Id: Step5_boss1
     Dialogue: 'Boss fight ahead!
 
@@ -10017,6 +10043,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 0
     blockInput: 1
+    showGnome: 1
   - Id: Step5_boss2
     Dialogue: All Human and Elf units are disabled for this fight
     DialogueParent: {fileID: 1842657160}
@@ -10031,6 +10058,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 1
     blockInput: 1
+    showGnome: 1
   - Id: Step6_shop1
     Dialogue: 'CONGRATS - YOUR FIRST BOSS VICTORY!
 
@@ -10049,6 +10077,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   - Id: Step6_shop2
     Dialogue: 'Your first Rune!
 
@@ -10067,6 +10096,7 @@ MonoBehaviour:
     freezeTimeDelay: 0
     closeAfter: 0
     blockInput: 1
+    showGnome: 0
   transitionDuration: 0.35
   transitionCurve:
     serializedVersion: 2
@@ -10103,6 +10133,8 @@ MonoBehaviour:
   LastStepPlayed: 
   currentStepIndex: -1
   updateLiveInEditor: 1
+  GnomeObject: {fileID: 1266845230}
+  ShopMerchant: {fileID: 1682831802}
 --- !u!114 &128420978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83081,6 +83113,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678070306}
+  m_CullTransparentMesh: 1
+--- !u!1 &1682831802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1682831803}
+  - component: {fileID: 1682831805}
+  - component: {fileID: 1682831804}
+  m_Layer: 5
+  m_Name: ShopMerchant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1682831803
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682831802}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.99996877, y: 0.99996877, z: 0.99996877}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 128420976}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -405.2505, y: 262.555}
+  m_SizeDelta: {x: 870.5249, y: 580.35}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1682831804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682831802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e9181a29ae1414a3fb4917422fee8bcc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1682831805
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682831802}
   m_CullTransparentMesh: 1
 --- !u!1 &1684289444
 GameObject:
