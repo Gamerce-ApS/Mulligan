@@ -655,7 +655,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         }, true);
 
                         //UIManager.Instance.AddCritical(crit);
-                        next();
+                        // next();
                         break;
                     case ArtifactEffectType.CritPerSkippedLevel:
                         int crit2 = GameData.SkippedLevels * artifactData.value;
@@ -669,7 +669,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         }, true);
 
                         //UIManager.Instance.AddCritical(crit);
-                        next();
+                        // next();
                         break;
                     case ArtifactEffectType.CritPerUpgradedUnit:
                         int crit3 = GameData.UpgradedUnits * artifactData.value;
@@ -683,7 +683,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         }, true);
 
                         //UIManager.Instance.AddCritical(crit);
-                        next();
+                        // next();
                         break;
                     case ArtifactEffectType.RetriggerAttacks:
                         // logic handled elsewhere

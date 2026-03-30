@@ -236,7 +236,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
-            ArtifactManager.Instance.AddArtifact(ArtifactEffectType.AddCritFlat);
+            ArtifactManager.Instance.AddArtifact(ArtifactEffectType.CritPerUpgradedUnit);
         }
         if (Input.GetKeyUp(KeyCode.O))
         {

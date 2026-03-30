@@ -261,7 +261,7 @@ public class Hero : MonoBehaviour
                 gameObject.transform.localScale = Vector3.one;
             }).setEasePunch();
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
-            Health += Mathf.RoundToInt( aDamage * (CurrentLifeStealProc/100));
+            Health += Mathf.RoundToInt( aDamage * (CurrentLifeStealProc/100f));
             RefreshBar();
             CurrentLifeStealProc = 0;
             // GameData.PotionsUsed = 0;
