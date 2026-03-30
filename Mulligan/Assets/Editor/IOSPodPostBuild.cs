@@ -4,51 +4,82 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public static class IOSPodPostBuild
 {
-    private const string PodPath = "/opt/homebrew/lib/ruby/gems/4.0.0/bin/pod";
-
     [PostProcessBuild(999)]
     public static void OnPostProcessBuild(BuildTarget target, string pathToBuiltProject)
     {
         if (target != BuildTarget.iOS)
             return;
 
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Post build started");
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Build path: " + pathToBuiltProject);
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Pod path: " + PodPath);
+        Debug.Log("[IOSPodPostBuild] Post build started");
+        Debug.Log("[IOSPodPostBuild] Build path: " + pathToBuiltProject);
 
         if (!Directory.Exists(pathToBuiltProject))
         {
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] Build folder does not exist: " + pathToBuiltProject);
-            return;
-        }
-
-        if (!File.Exists(PodPath))
-        {
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] CocoaPods not found at: " + PodPath);
+            Debug.LogError("[IOSPodPostBuild] Build folder does not exist: " + pathToBuiltProject);
             return;
         }
 
         string podfilePath = Path.Combine(pathToBuiltProject, "Podfile");
         if (!File.Exists(podfilePath))
         {
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] No Podfile found at: " + podfilePath);
+            Debug.LogError("[IOSPodPostBuild] No Podfile found at: " + podfilePath);
             return;
         }
 
+        string podCommand = FindPodCommand();
+
+        if (string.IsNullOrEmpty(podCommand))
+        {
+            Debug.LogError("[IOSPodPostBuild] CocoaPods was not found on this machine.");
+            Debug.LogError("[IOSPodPostBuild] Install CocoaPods on the build server or add it to PATH.");
+            return;
+        }
+
+        Debug.Log("[IOSPodPostBuild] Using pod command: " + podCommand);
+
         PatchPodfile(podfilePath);
 
-        RunProcess("/bin/zsh", $"-lc 'cd \"{pathToBuiltProject}\" && \"{PodPath}\" install'", "pod install");
+        RunProcess("/bin/zsh", $"-lc 'cd \"{pathToBuiltProject}\" && \"{podCommand}\" install'", "pod install");
 
         string workspacePath = Path.Combine(pathToBuiltProject, "Unity-iPhone.xcworkspace");
         if (Directory.Exists(workspacePath))
-            UnityEngine.Debug.Log("[IOSPodPostBuild] Workspace created: " + workspacePath);
+            Debug.Log("[IOSPodPostBuild] Workspace created: " + workspacePath);
         else
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] Workspace was not created: " + workspacePath);
+            Debug.LogError("[IOSPodPostBuild] Workspace was not created: " + workspacePath);
 
         FixXcodeProject(pathToBuiltProject);
+    }
+
+    private static string FindPodCommand()
+    {
+        string[] possiblePaths =
+        {
+            "/opt/homebrew/bin/pod",
+            "/usr/local/bin/pod",
+            "/usr/bin/pod",
+            "/opt/homebrew/lib/ruby/gems/4.0.0/bin/pod"
+        };
+
+        foreach (string path in possiblePaths)
+        {
+            if (File.Exists(path))
+                return path;
+        }
+
+        string whichResult = RunProcessAndGetOutput("/bin/zsh", "-lc 'which pod'");
+
+        if (!string.IsNullOrWhiteSpace(whichResult))
+        {
+            string foundPath = whichResult.Trim();
+            if (File.Exists(foundPath))
+                return foundPath;
+        }
+
+        return "pod";
     }
 
     private static void PatchPodfile(string podfilePath)
@@ -59,7 +90,7 @@ public static class IOSPodPostBuild
 
         if (podfile.Contains(marker))
         {
-            UnityEngine.Debug.Log("[IOSPodPostBuild] Podfile already patched");
+            Debug.Log("[IOSPodPostBuild] Podfile already patched");
             return;
         }
 
@@ -94,7 +125,7 @@ end
         podfile += postInstallBlock;
         File.WriteAllText(podfilePath, podfile);
 
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Podfile patched with Swift embed fix");
+        Debug.Log("[IOSPodPostBuild] Podfile patched with Swift embed fix");
     }
 
     private static void FixXcodeProject(string pathToBuiltProject)
@@ -103,7 +134,7 @@ end
 
         if (!File.Exists(pbxProjectPath))
         {
-            UnityEngine.Debug.LogError("[IOSPodPostBuild] PBX project not found at: " + pbxProjectPath);
+            Debug.LogError("[IOSPodPostBuild] PBX project not found at: " + pbxProjectPath);
             return;
         }
 
@@ -113,15 +144,15 @@ end
         string mainTargetGuid = pbxProject.GetUnityMainTargetGuid();
         string frameworkTargetGuid = pbxProject.GetUnityFrameworkTargetGuid();
 
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Fixing Xcode build settings");
+        Debug.Log("[IOSPodPostBuild] Fixing Xcode build settings");
 
         pbxProject.SetBuildProperty(mainTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
         pbxProject.SetBuildProperty(frameworkTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
 
         pbxProject.WriteToFile(pbxProjectPath);
 
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES for Unity-iPhone");
-        UnityEngine.Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO for UnityFramework");
+        Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES for Unity-iPhone");
+        Debug.Log("[IOSPodPostBuild] Set ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO for UnityFramework");
     }
 
     private static void RunProcess(string fileName, string arguments, string label)
@@ -135,8 +166,8 @@ end
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
 
-        UnityEngine.Debug.Log($"[IOSPodPostBuild] Running {label}");
-        UnityEngine.Debug.Log($"[IOSPodPostBuild] Command: {fileName} {arguments}");
+        Debug.Log($"[IOSPodPostBuild] Running {label}");
+        Debug.Log($"[IOSPodPostBuild] Command: {fileName} {arguments}");
 
         process.Start();
 
@@ -145,15 +176,33 @@ end
 
         process.WaitForExit();
 
-        UnityEngine.Debug.Log($"[IOSPodPostBuild] {label} exit code: {process.ExitCode}");
+        Debug.Log($"[IOSPodPostBuild] {label} exit code: {process.ExitCode}");
 
         if (!string.IsNullOrWhiteSpace(output))
-            UnityEngine.Debug.Log($"[IOSPodPostBuild] {label} stdout:\n{output}");
+            Debug.Log($"[IOSPodPostBuild] {label} stdout:\n{output}");
 
         if (!string.IsNullOrWhiteSpace(error))
-            UnityEngine.Debug.LogWarning($"[IOSPodPostBuild] {label} stderr:\n{error}");
+            Debug.LogWarning($"[IOSPodPostBuild] {label} stderr:\n{error}");
 
         if (process.ExitCode != 0)
-            UnityEngine.Debug.LogError($"[IOSPodPostBuild] {label} failed");
+            Debug.LogError($"[IOSPodPostBuild] {label} failed");
+    }
+
+    private static string RunProcessAndGetOutput(string fileName, string arguments)
+    {
+        var process = new Process();
+        process.StartInfo.FileName = fileName;
+        process.StartInfo.Arguments = arguments;
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+        process.StartInfo.CreateNoWindow = true;
+
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+
+        return output;
     }
 }
