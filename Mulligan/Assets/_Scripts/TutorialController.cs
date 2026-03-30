@@ -142,6 +142,7 @@ public class TutorialController : Singleton<TutorialController>
 
     public void ShowNextStep()
     {
+        ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         int nextIndex = currentStepIndex + 1;
 
         if (nextIndex >= steps.Count)
@@ -390,6 +391,18 @@ public class TutorialController : Singleton<TutorialController>
             ArrowDownList[2].transform.position = HandManager.Instance.CurrentHand[3].CardGO.transform.position + offset;
             ArrowDownList[3].transform.position = HandManager.Instance.CurrentHand[4].CardGO.transform.position + offset;
         }
+        if (myCurrentAction == TutorialActionsEnum.CLICK_ATTACK)
+        {
+            ArrowDownList[0].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(0, 25, 0);
+            ArrowDownList[0].transform.position = UIManager.Instance.AttackButton.transform.position + offset;
+        }
+         if (myCurrentAction == TutorialActionsEnum.CLICK_REROLL)
+        {
+            ArrowDownList[0].gameObject.SetActive(true);
+            Vector3 offset = new Vector3(0, 25, 0);
+            ArrowDownList[0].transform.position = UIManager.Instance.ReRollButton.transform.position + offset;
+        }
         if (myCurrentAction == TutorialActionsEnum.CLICK_ReRollCards)
         {
             ArrowDownList[0].gameObject.SetActive(true);
@@ -471,6 +484,14 @@ public class TutorialController : Singleton<TutorialController>
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
          if (myCurrentAction == TutorialActionsEnum.CLICK_ReRollCards)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+        if (myCurrentAction == TutorialActionsEnum.CLICK_ATTACK)
+        {
+            ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
+        }
+        if (myCurrentAction == TutorialActionsEnum.CLICK_REROLL)
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }

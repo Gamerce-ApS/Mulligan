@@ -25,6 +25,10 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text GoldLabel;
     public GameObject SplashScreen;
     public GameObject BuyPopupWindow;
+    public GameObject AttackButton;
+    public GameObject ReRollButton;
+
+    
 
 
 
