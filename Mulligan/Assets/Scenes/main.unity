@@ -94363,6 +94363,7 @@ MonoBehaviour:
   UnitUpgradeParent: {fileID: 297272827}
   ShopWindow: {fileID: 1151730033}
   InfoBoxPopup: {fileID: 1627989534}
+  DataList: {fileID: 0}
   startPosition: {x: 0, y: 0, z: 0}
   bgCanvasGroup: {fileID: 777662178}
 --- !u!4 &1981360918

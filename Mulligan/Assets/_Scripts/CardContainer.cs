@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class CardContainer : Singleton<CardContainer>
 {
     private CardData[] CardsDataList = null;
@@ -73,7 +75,15 @@ public class CardContainer : Singleton<CardContainer>
         }
 
         string json = JsonUtility.ToJson(CardLoader.LoadAllCards(), true);
-        GUIUtility.systemCopyBuffer = json;
+
+        // // Update Data from Online
+        // GUIUtility.systemCopyBuffer = json;
+        // CardDataObject asset = AssetDatabase.LoadAssetAtPath<CardDataObject>("Assets/Resources/CardContainer.asset");
+        // asset.LoadFromJson(json);
+        // #if UNITY_EDITOR
+        // EditorUtility.SetDirty(asset);
+        // AssetDatabase.SaveAssets();
+        // #endif
 
         for (int i = 0; i < 30; i++)
         {

@@ -53,6 +53,70 @@ using UnityEngine;
         HealthGainPerLevel = aData.HealthGainPerLevel;
         Rarity = aData.Rarity;
     }
+
+    public void LoadFromJson(string json)
+    {
+        if (string.IsNullOrEmpty(json))
+        {
+            Debug.LogError("LoadFromJson failed: json is null or empty.");
+            return;
+        }
+
+        CardDataExportWrapper data = JsonUtility.FromJson<CardDataExportWrapper>(json);
+
+        if (data == null)
+        {
+            Debug.LogError("LoadFromJson failed: could not parse json.");
+            return;
+        }
+
+        ApplyData(data);
+    }
+
+    public void ApplyData(CardDataExportWrapper data)
+    {
+        if (data == null)
+        {
+            Debug.LogError("ApplyData failed: data is null.");
+            return;
+        }
+
+        allCards = data.allCards;
+        raceData = data.raceData;
+        classData = data.classData;
+        allArtifacts = data.allArtifacts;
+        allPotions = data.allPotions;
+        allUpgradeCards = data.allUpgradeCards;
+        allBosses = data.allBosses;
+        allEnemies = data.allEnemies;
+        allSkipeRewards = data.allSkipeRewards;
+        allRunes = data.allRunes;
+        allHeroes = data.allHeroes;
+
+        StatingGold = data.StatingGold;
+        GoldGainPerLevel = data.GoldGainPerLevel;
+        GoldInflation = data.GoldInflation;
+        EnemyBaseHealth = data.EnemyBaseHealth;
+        EnemyBaseDamage = data.EnemyBaseDamage;
+        GrowthRate = data.GrowthRate;
+        ExperiencePerKill = data.ExperiencePerKill;
+        ExperienceToLevelUp = data.ExperienceToLevelUp;
+        HealthGainPerLevel = data.HealthGainPerLevel;
+        Rarity = data.Rarity;
+
+        Debug.Log("CardDataObject loaded from json.");
+    }
+
+    public static CardDataExportWrapper WrapperFromJson(string json)
+    {
+        if (string.IsNullOrEmpty(json))
+        {
+            Debug.LogError("WrapperFromJson failed: json is null or empty.");
+            return null;
+        }
+
+        return JsonUtility.FromJson<CardDataExportWrapper>(json);
+    }
 }
 [System.Serializable]
 public class CardDataExportWrapper

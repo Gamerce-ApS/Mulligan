@@ -61,7 +61,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         }
     }
 
-    CardDataObject DataList;
+    public CardDataObject DataList;
     // Start is called before the first frame update
     public void Init()
     {

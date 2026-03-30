@@ -14,101 +14,209 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardContainer
   allCards:
   - cardName: HUMAN WARRIOR
-    damage: 10
+    damage: 7
     race: 0
     cardClass: 0
     sprite_portrait: warrior_human
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0a0000000e000000130000001900000020000000
   - cardName: HUMAN ARCHER
-    damage: 10
+    damage: 6
     race: 0
     cardClass: 3
     sprite_portrait: archer_human
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0c000000130000001b000000240000002e000000
   - cardName: ORC ARCHER
-    damage: 10
+    damage: 6
     race: 2
     cardClass: 3
     sprite_portrait: archer_orc
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0c000000130000001b000000240000002e000000
   - cardName: ORC WARRIOR
-    damage: 10
+    damage: 7
     race: 2
     cardClass: 0
     sprite_portrait: warrior_orc
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0a0000000e000000130000001900000020000000
   - cardName: UNDEAD WARRIOR
-    damage: 10
+    damage: 7
     race: 3
     cardClass: 0
     sprite_portrait: warrior undead
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0a0000000e000000130000001900000020000000
   - cardName: UNDEAD ARCHER
-    damage: 10
+    damage: 6
     race: 3
     cardClass: 3
     sprite_portrait: archer_undead
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0c000000130000001b000000240000002e000000
   - cardName: ELF WARRIOR
-    damage: 10
+    damage: 7
     race: 1
     cardClass: 0
     sprite_portrait: warrior_elf
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0a0000000e000000130000001900000020000000
   - cardName: ELF ARCHER
-    damage: 10
+    damage: 6
     race: 1
     cardClass: 3
     sprite_portrait: archer_elf
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 0c000000130000001b000000240000002e000000
   - cardName: HUMAN MAGE
-    damage: 10
+    damage: 4
     race: 0
     cardClass: 1
     sprite_portrait: human_mage
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 080000000e0000001e000000320000005a000000
   - cardName: HUMAN CLERIC
-    damage: 10
+    damage: 3
     race: 0
     cardClass: 4
     sprite_portrait: human_cleric
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 06000000090000000c0000000f00000012000000
   - cardName: UNDEAD CLERIC
-    damage: 10
+    damage: 3
     race: 3
     cardClass: 4
     sprite_portrait: undead_cleric
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 06000000090000000c0000000f00000012000000
   - cardName: UNDEAD MAGE
-    damage: 10
+    damage: 4
     race: 3
     cardClass: 1
     sprite_portrait: undead_mage
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 080000000e0000001e000000320000005a000000
   - cardName: ORC MAGE
-    damage: 10
+    damage: 4
     race: 2
     cardClass: 1
     sprite_portrait: orc_mage
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 080000000e0000001e000000320000005a000000
   - cardName: ORC CLERIC
-    damage: 10
+    damage: 3
     race: 2
     cardClass: 4
     sprite_portrait: orc_cleric
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 06000000090000000c0000000f00000012000000
   - cardName: ElF CLERIC
-    damage: 10
+    damage: 3
     race: 1
     cardClass: 4
     sprite_portrait: elve_cleric
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 06000000090000000c0000000f00000012000000
   - cardName: ELF MAGE
-    damage: 10
+    damage: 4
     race: 1
     cardClass: 1
     sprite_portrait: elve_mage
-    RankUpgrades: 0c0000000f000000110000001300000016000000
+    RankUpgrades: 080000000e0000001e000000320000005a000000
+  - cardName: DWARF CLEARIC
+    damage: 3
+    race: 4
+    cardClass: 4
+    sprite_portrait: dwarf_cleric
+    RankUpgrades: 06000000090000000c0000000f00000012000000
+  - cardName: DWARF PEASANT
+    damage: 1
+    race: 4
+    cardClass: 6
+    sprite_portrait: dwarf_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: DWARF WARRIOR
+    damage: 7
+    race: 4
+    cardClass: 0
+    sprite_portrait: dwarf_warrior
+    RankUpgrades: 0a0000000e000000130000001900000020000000
+  - cardName: DWARF MAGE
+    damage: 4
+    race: 4
+    cardClass: 1
+    sprite_portrait: dwarf_mage
+    RankUpgrades: 080000000e0000001e000000320000005a000000
+  - cardName: TROLL CLEARIC
+    damage: 3
+    race: 5
+    cardClass: 4
+    sprite_portrait: troll_cleric
+    RankUpgrades: 06000000090000000c0000000f00000012000000
+  - cardName: TROLL HUNTER
+    damage: 6
+    race: 5
+    cardClass: 3
+    sprite_portrait: troll_hunter
+    RankUpgrades: 0c000000130000001b000000240000002e000000
+  - cardName: TROLL PEASANT
+    damage: 1
+    race: 5
+    cardClass: 6
+    sprite_portrait: troll_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: TROLL WARLOCK
+    damage: 5
+    race: 5
+    cardClass: 5
+    sprite_portrait: troll_warlock
+    RankUpgrades: 0a00000012000000200000003000000042000000
+  - cardName: TROLL WARRIOR
+    damage: 7
+    race: 5
+    cardClass: 0
+    sprite_portrait: troll_warrior
+    RankUpgrades: 0a0000000e000000130000001900000020000000
+  - cardName: ELF PEASANT
+    damage: 1
+    race: 1
+    cardClass: 6
+    sprite_portrait: elf_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: HUMAN PEASANT
+    damage: 1
+    race: 0
+    cardClass: 6
+    sprite_portrait: human_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: HUMAN WARLOCK
+    damage: 5
+    race: 0
+    cardClass: 5
+    sprite_portrait: human_warlock
+    RankUpgrades: 0a00000012000000200000003000000042000000
+  - cardName: HUMAN BARD
+    damage: 2
+    race: 0
+    cardClass: 7
+    sprite_portrait: human_bard
+    RankUpgrades: 0400000006000000080000000a0000000c000000
+  - cardName: ORC PEASANT
+    damage: 1
+    race: 2
+    cardClass: 6
+    sprite_portrait: orc_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: ORC WARLOCK
+    damage: 5
+    race: 2
+    cardClass: 5
+    sprite_portrait: orc_warlock
+    RankUpgrades: 0a00000012000000200000003000000042000000
+  - cardName: UNDEAD WARLOCK
+    damage: 5
+    race: 3
+    cardClass: 5
+    sprite_portrait: undead_warlock
+    RankUpgrades: 0a00000012000000200000003000000042000000
+  - cardName: UNDEAD PEASANT
+    damage: 1
+    race: 3
+    cardClass: 6
+    sprite_portrait: undead_peasant
+    RankUpgrades: 0200000003000000040000000500000006000000
+  - cardName: UNDEAD BARD
+    damage: 2
+    race: 3
+    cardClass: 7
+    sprite_portrait: undead_bard
+    RankUpgrades: 0400000006000000080000000a0000000c000000
   raceData:
   - theRace: 0
     sprite_theSprite: human_icon
@@ -121,6 +229,12 @@ MonoBehaviour:
     theColor: {r: 0.85882354, g: 0.7372549, b: 0.30588236, a: 0}
   - theRace: 3
     sprite_theSprite: undead_icon
+    theColor: {r: 0.35686275, g: 0.44705883, b: 0.9254902, a: 0}
+  - theRace: 4
+    sprite_theSprite: dwarf_icon
+    theColor: {r: 0.35686275, g: 0.44705883, b: 0.9254902, a: 0}
+  - theRace: 5
+    sprite_theSprite: troll_icon
     theColor: {r: 0.35686275, g: 0.44705883, b: 0.9254902, a: 0}
   classData:
   - theClass: 0
@@ -135,217 +249,471 @@ MonoBehaviour:
   - theClass: 4
     sprite_theSprite: cleric_icon
     theColor: {r: 0, g: 0, b: 0, a: 0}
+  - theClass: 5
+    sprite_theSprite: warlock_icon
+    theColor: {r: 0, g: 0, b: 0, a: 0}
+  - theClass: 6
+    sprite_theSprite: peasant_icon
+    theColor: {r: 0, g: 0, b: 0, a: 0}
+  - theClass: 7
+    sprite_theSprite: bard_icon
+    theColor: {r: 0, g: 0, b: 0, a: 0}
   allArtifacts:
   - name: +2 Crit
-    description: Adds <color=#EAAF3B>+2</color> flat Crit to your total each round.
+    description: Adds <color=#EAAF3B>+2</color> Crit to your total each round.
     sprite_icon: 
     effect: 0
     value: 2
+    rarity: 0
+    RandomRace: 0
   - name: +4 Crit
-    description: Adds <color=#EAAF3B>+4</color> flat Crit to your total each round.
+    description: Adds <color=#EAAF3B>+4</color> Crit to your total each round.
     sprite_icon: 
     effect: 0
     value: 4
+    rarity: 1
+    RandomRace: 3
+  - name: +6 Crit
+    description: Adds <color=#EAAF3B>+6</color> Crit to your total each round.
+    sprite_icon: 
+    effect: 0
+    value: 6
+    rarity: 2
+    RandomRace: 3
   - name: +20 Dmg
-    description: Adds <color=#EAAF3B>+20</color> flat Damage to your total each round.
+    description: Adds <color=#EAAF3B>+20</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
     value: 20
+    rarity: 0
+    RandomRace: 0
   - name: +40 Dmg
-    description: Adds <color=#EAAF3B>+40</color> flat Damage to your total each round.
+    description: Adds <color=#EAAF3B>+40</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
     value: 40
+    rarity: 1
+    RandomRace: 2
+  - name: +80 Dmg
+    description: Adds <color=#EAAF3B>+80</color> Damage to your total each round.
+    sprite_icon: 
+    effect: 1
+    value: 80
+    rarity: 2
+    RandomRace: 2
   - name: Crit / Upg
     description: 'Gain <color=#EAAF3B>+1</color> Crit for each upgraded unit in your
       army. '
     sprite_icon: 
     effect: 2
     value: 1
-  - name: Crit / Skip
-    description: Gain <color=#EAAF3B>+1</color> Crit for each skipped level.
-    sprite_icon: 
-    effect: 3
-    value: 1
+    rarity: 2
+    RandomRace: 0
   - name: Dmg / Gold
     description: Gain <color=#EAAF3B>+2</color> Damage per Gold you have.
     sprite_icon: 
     effect: 4
     value: 2
+    rarity: 2
+    RandomRace: 1
   - name: Crit / Potion
     description: Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.
     sprite_icon: 
     effect: 5
     value: 1
+    rarity: 2
+    RandomRace: 3
   - name: +1 Reroll
     description: Grants <color=#EAAF3B>+1</color> extra reroll.
     sprite_icon: 
     effect: 6
     value: 1
-  - name: Atk / Lvl
-    description: Gain <color=#EAAF3B>+1</color> extra attack each level.
+    rarity: 0
+    RandomRace: 4
+  - name: +1 Attack
+    description: Grants <color=#EAAF3B>+1</color> extra attack.
     sprite_icon: 
     effect: 8
     value: 1
+    rarity: 0
+    RandomRace: 2
   - name: Rank Random
     description: Ranks up <color=#EAAF3B>1</color> random unit at the start of each
       level.
     sprite_icon: 
     effect: 9
     value: 1
+    rarity: 1
+    RandomRace: 2
   - name: Double Potions
     description: All potion effects are <color=#EAAF3B>doubled</color>.
     sprite_icon: 
     effect: 10
     value: 1
-  - name: Copy Right
-    description: Copies the ability of the artifact to its <color=#EAAF3B>right</color>.
-    sprite_icon: 
-    effect: 11
-    value: 1
-  - name: Retrigger
-    description: Retriggers your attacking units <color=#EAAF3B>once</color>.
-    sprite_icon: 
-    effect: 12
-    value: 1
+    rarity: 2
+    RandomRace: 2
   - name: Heal After
-    description: Heal hero <color=#EAAF3B>10%</color> of max HP after each level.
+    description: Heal hero <color=#EAAF3B>15%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
-    value: 10
+    value: 15
+    rarity: 0
+    RandomRace: 5
+  - name: Heal After
+    description: Heal hero <color=#EAAF3B>25%</color> of max HP after each level.
+    sprite_icon: 
+    effect: 14
+    value: 25
+    rarity: 1
+    RandomRace: 3
+  - name: Heal After
+    description: Heal hero <color=#EAAF3B>35%</color> of max HP after each level.
+    sprite_icon: 
+    effect: 14
+    value: 35
+    rarity: 2
+    RandomRace: 0
   - name: +20% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+20%</color>.
     sprite_icon: 
     effect: 15
     value: 20
+    rarity: 0
+    RandomRace: 1
+  - name: +40% Max HP
+    description: Increases hero's max HP by <color=#EAAF3B>+40%</color>.
+    sprite_icon: 
+    effect: 15
+    value: 40
+    rarity: 1
+    RandomRace: 1
+  - name: +80% Max HP
+    description: Increases hero's max HP by <color=#EAAF3B>+80%</color>.
+    sprite_icon: 
+    effect: 15
+    value: 80
+    rarity: 2
+    RandomRace: 4
+  - name: Dodge
+    description: <color=#EAAF3B>+15%</color> chance to dodge enemy attack
+    sprite_icon: 
+    effect: 18
+    value: 15
+    rarity: 0
+    RandomRace: 3
+  - name: Dodge
+    description: <color=#EAAF3B>+20%</color> chance to dodge enemy attack
+    sprite_icon: 
+    effect: 18
+    value: 25
+    rarity: 1
+    RandomRace: 0
+  - name: Dodge
+    description: <color=#EAAF3B>+30%</color> chance to dodge enemy attack
+    sprite_icon: 
+    effect: 18
+    value: 35
+    rarity: 2
+    RandomRace: 0
+  - name: Dodge
+    description: <color=#EAAF3B>+40%</color> chance to dodge enemy attack
+    sprite_icon: 
+    effect: 18
+    value: 50
+    rarity: 3
+    RandomRace: 0
+  - name: +2 Gold
+    description: '<color=#EAAF3B>+2</color> after each level '
+    sprite_icon: 
+    effect: 20
+    value: 2
+    rarity: 0
+    RandomRace: 4
+  - name: +4 Gold
+    description: '<color=#EAAF3B>+4</color> after each level '
+    sprite_icon: 
+    effect: 20
+    value: 4
+    rarity: 1
+    RandomRace: 0
+  - name: +10 Gold
+    description: '<color=#EAAF3B>+10</color> after each level '
+    sprite_icon: 
+    effect: 20
+    value: 10
+    rarity: 3
+    RandomRace: 4
+  - name: +Random Potion
+    description: Get a random Common potion after each level
+    sprite_icon: 
+    effect: 21
+    value: 0
+    rarity: 0
+    RandomRace: 3
+  - name: +Random Potion
+    description: Get a random Rare potion after each level
+    sprite_icon: 
+    effect: 21
+    value: 1
+    rarity: 1
+    RandomRace: 1
+  - name: +Random Potion
+    description: Get a random Epic potion after each level
+    sprite_icon: 
+    effect: 21
+    value: 2
+    rarity: 2
+    RandomRace: 5
+  - name: HP as DMG
+    description: Deal 10% of your own Max HP in damage
+    sprite_icon: 
+    effect: 24
+    value: 10
+    rarity: 0
+    RandomRace: 4
+  - name: HP as DMG
+    description: Deal 20% of your own Max HP in damage
+    sprite_icon: 
+    effect: 24
+    value: 20
+    rarity: 2
+    RandomRace: 2
+  - name: RandomRace +10 DMG
+    description: +10 Damage to all race cards
+    sprite_icon: 
+    effect: 19
+    value: 10
+    rarity: 0
+    RandomRace: 4
+  - name: RandomRace +20 DMG
+    description: +20 Damage to all race cards
+    sprite_icon: 
+    effect: 19
+    value: 20
+    rarity: 1
+    RandomRace: 3
   allPotions:
-  - name: Precise
+  - name: Precision
+    effectType: 0
+    description: Chosen unit gets <color=#EAAF3B>+2</color> Crit this turn
+    sprite_icon: 
+    value: 2
+    rarity: 0
+  - name: Precision
     effectType: 0
     description: Chosen unit gets <color=#EAAF3B>+3</color> Crit this turn
     sprite_icon: 
     value: 3
+    rarity: 1
+  - name: Precision
+    effectType: 0
+    description: Chosen unit gets <color=#EAAF3B>+5</color> Crit this turn
+    sprite_icon: 
+    value: 5
+    rarity: 2
   - name: BloodBrew
     effectType: 1
     description: Chosen unit gets <color=#EAAF3B>+30</color> Damage this turn
     sprite_icon: 
     value: 30
+    rarity: 0
+  - name: BloodBrew
+    effectType: 1
+    description: Chosen unit gets <color=#EAAF3B>+60</color> Damage this turn
+    sprite_icon: 
+    value: 60
+    rarity: 1
+  - name: BloodBrew
+    effectType: 1
+    description: Chosen unit gets <color=#EAAF3B>+120</color> Damage this turn
+    sprite_icon: 
+    value: 120
+    rarity: 2
   - name: Frenzy
     effectType: 2
     description: <color=#EAAF3B>3</color> random units get <color=#EAAF3B>+15</color>
       Damage this turn
     sprite_icon: 
     value: 15
-  - name: Faceless
-    effectType: 3
-    description: Chosen unit becomes Faceless this turn
+    rarity: 0
+  - name: Frenzy
+    effectType: 2
+    description: <color=#EAAF3B>3</color> random units get <color=#EAAF3B>+40</color>
+      Damage this turn
     sprite_icon: 
-    value: 1
-  - name: Masked
-    effectType: 4
-    description: <color=#EAAF3B>2</color> random units become Faceless this turn
-    sprite_icon: 
-    value: 2
+    value: 40
+    rarity: 1
   - name: OverBrew
     effectType: 6
-    description: Chosen unit gets <color=#EAAF3B>4</color> Ranks but explodes after
+    description: Chosen unit gets <color=#EAAF3B>4x</color> Damage but explodes after
       attack
     sprite_icon: 
     value: 4
-  - name: Astral
-    effectType: 7
-    description: Disable Boss Debuff this turn
-    sprite_icon: 
-    value: 1
-  - name: Remedy
+    rarity: 1
+  - name: Healing
     effectType: 8
     description: Heal your Hero for <color=#EAAF3B>20%</color> of Max HP
     sprite_icon: 
-    value: 1
-  - name: ElixirX
+    value: 0.2
+    rarity: 0
+  - name: Healing
+    effectType: 8
+    description: Heal your Hero for <color=#EAAF3B>20%</color> of Max HP
+    sprite_icon: 
+    value: 0.2
+    rarity: 0
+  - name: Healing
+    effectType: 8
+    description: Heal your Hero for <color=#EAAF3B>30%</color> of Max HP
+    sprite_icon: 
+    value: 0.3
+    rarity: 1
+  - name: Healing
+    effectType: 8
+    description: Heal your Hero for <color=#EAAF3B>50%</color> of Max HP
+    sprite_icon: 
+    value: 0.5
+    rarity: 2
+  - name: Legion's rage
     effectType: 9
-    description: Boost all damage <color=#EAAF3B>x5</color> this turn but lose <color=#EAAF3B>10%</color>
+    description: Boost all damage <color=#EAAF3B>x2</color> this turn but lose <color=#EAAF3B>10%</color>
       max Hero HP
     sprite_icon: 
-    value: 5
-  - name: EchoElix
-    effectType: 10
-    description: "Retrigger chosen unit\u2019s Enchantments and Charms"
+    value: 2
+    rarity: 0
+  - name: Destroy
+    effectType: 11
+    description: Instantly destroyes targeted unit
     sprite_icon: 
     value: 1
+    rarity: 0
   allUpgradeCards:
-  - name: Crit
-    description: ' Adds a permanent multiplier boost'
+  - name: Crit +1
+    description: ' Adds 1+ permanent multiplier boost'
+    sprite_icon: 
+    effect: 0
+    type: 0
+    value: 1
+    rarity: 0
+  - name: Crit +2
+    description: ' Adds 2+ permanent multiplier boost'
     sprite_icon: 
     effect: 0
     type: 0
     value: 2
-  - name: Any Class
-    description: Can act as any Class
+    rarity: 1
+  - name: Crit +3
+    description: ' Adds 3+ permanent multiplier boost'
     sprite_icon: 
-    effect: 1
+    effect: 0
     type: 0
-    value: 0
-  - name: Changeling
-    description: Can act as any Race
-    sprite_icon: 
-    effect: 2
-    type: 0
-    value: 0
+    value: 3
+    rarity: 2
   - name: Retrigger
-    description: Retriggers unit Charm
+    description: Retriggers unit
     sprite_icon: 
     effect: 3
     type: 0
     value: 0
-  - name: Lifesteal
+    rarity: 1
+  - name: Lifesteal 5%
+    description: Apply 5% lifesteal
+    sprite_icon: 
+    effect: 4
+    type: 0
+    value: 5
+    rarity: 0
+  - name: Lifesteal 10%
     description: Apply 10% lifesteal
     sprite_icon: 
     effect: 4
     type: 0
-    value: 0
+    value: 10
+    rarity: 1
   - name: Gold
     description: +3 Gold
     sprite_icon: 
     effect: 5
     type: 1
     value: 3
+    rarity: 1
   - name: Potion
     description: +1 Potion
     sprite_icon: 
     effect: 6
     type: 1
     value: 1
+    rarity: 1
   - name: Heal
     description: Heal 10% max HP
     sprite_icon: 
     effect: 7
     type: 1
     value: 10
-  - name: Rank Upgrade
-    description: Increases the Units rank
+    rarity: 0
+  - name: Rank Upgrade +1
+    description: Units rank +1
     sprite_icon: 
     effect: 8
     type: 2
     value: 1
+    rarity: 0
+  - name: Rank Upgrade +2
+    description: Units rank +2
+    sprite_icon: 
+    effect: 8
+    type: 2
+    value: 2
+    rarity: 1
   allBosses:
   - name: Boss 1
-    description: '- All Human cards disabled'
+    description: '- 2 Races are disabled'
     sprite_theSprite: boss1
-    abilities: 01000000
-    baseHP: 1
-    baseDamage: 1
+    abilities: 14000000
+    baseHP: 1.2
+    baseDamage: 1.2
   - name: Boss 2
-    description: '- All Orc cards disabled'
+    description: '- 2 Classes are disabled'
     sprite_theSprite: boss2
-    abilities: 04000000
-    baseHP: 1
-    baseDamage: 1
+    abilities: 15000000
+    baseHP: 1.2
+    baseDamage: 1.2
   - name: Boss 3
-    description: '- All Undead cards disabled'
+    description: '- Potions are disabled'
     sprite_theSprite: boss3
-    abilities: 06000000
-    baseHP: 1
-    baseDamage: 1
+    abilities: 03000000
+    baseHP: 1.2
+    baseDamage: 1.2
+  - name: Boss 4
+    description: '- 2 Artifacts are disabled'
+    sprite_theSprite: boss4
+    abilities: 10000000
+    baseHP: 1.2
+    baseDamage: 1.2
+  - name: Boss 5
+    description: '- Rerolls are disabled'
+    sprite_theSprite: boss1
+    abilities: 02000000
+    baseHP: 1.2
+    baseDamage: 1.2
+  - name: Boss 6
+    description: '- Steal 10 gold on attack'
+    sprite_theSprite: boss2
+    abilities: 11000000
+    baseHP: 1.2
+    baseDamage: 1.2
+  - name: Boss 7
+    description: '- Kills in 1 hit'
+    sprite_theSprite: boss3
+    abilities: 00000000
+    baseHP: 0.5
+    baseDamage: 999
+  - name: Boss 8
+    description: '- Has 50% evasion'
+    sprite_theSprite: boss4
+    abilities: 13000000
+    baseHP: 1.2
+    baseDamage: 999
   allEnemies:
   - name: Enemy 1
     sprite_theSprite: enemy
@@ -353,20 +721,20 @@ MonoBehaviour:
     baseDamage: 1
   - name: Enemy 2
     sprite_theSprite: enemy2
-    baseHP: 1
-    baseDamage: 1
+    baseHP: 1.1
+    baseDamage: 0.9
   - name: Enemy 3
     sprite_theSprite: enemy3
-    baseHP: 1
-    baseDamage: 1
+    baseHP: 1.2
+    baseDamage: 0.8
   - name: Enemy 4
     sprite_theSprite: enemy4
-    baseHP: 1
-    baseDamage: 1
+    baseHP: 1.3
+    baseDamage: 0.7
   - name: Enemy 5
     sprite_theSprite: enemy5
-    baseHP: 1
-    baseDamage: 1
+    baseHP: 0.9
+    baseDamage: 1.1
   - name: Enemy 6
     sprite_theSprite: enemy6
     baseHP: 1
@@ -387,17 +755,11 @@ MonoBehaviour:
   - type: 5
     title: 'Get Armory upgrade '
     description: 
-  - type: 6
-    title: 'Increase your Hero max HP by 50% next round '
-    description: 
   - type: 7
     title: 'Restore your Hero HP 100% '
     description: 
   - type: 8
     title: 'All items in the Market costs 0 Gold '
-    description: 
-  - type: 9
-    title: 'Add random Rune to your Hero '
     description: 
   - type: 10
     title: '+2 attacks next round '
@@ -419,14 +781,30 @@ MonoBehaviour:
     type: 3
     rarity: 0
     description: Bosses drop double Gold
-  - name: Rune of Echoes
-    type: 4
-    rarity: 0
-    description: 10% chance to retrigger Potion effects
   - name: Rune of Reset
     type: 5
     rarity: 0
     description: First Market reroll is free each turn
+  - name: Rune of Attack
+    type: 6
+    rarity: 0
+    description: +1 Attack per round
+  - name: Rune of Rare Chance
+    type: 8
+    rarity: 0
+    description: Double chance to get Rare items
+  - name: Rune of Epic Chance
+    type: 9
+    rarity: 1
+    description: Double chance to get Epic items
+  - name: Rune of Gold
+    type: 10
+    rarity: 0
+    description: +2 Gold per level
+  - name: Rune of Gold
+    type: 15
+    rarity: 1
+    description: +5 Gold per level
   allHeroes:
   - heroName: WARRIOR
     startingHP: 100
@@ -434,30 +812,39 @@ MonoBehaviour:
     startingItem: 1
     description: "    100 HP      +1 Reroll \\n\u2022 Starts with  Potion"
     portrait: hero
-  - heroName: RANGER
-    startingHP: 75
+    PotionSlots: 1
+    ArtifactSlots: 2
+  - heroName: Dwarf
+    startingHP: 150
     startingTrait: 0
     startingItem: 0
-    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    description: "     150 HP        +1 Attack \\n\u2022 Starts with  Artifact"
     portrait: hero2
+    PotionSlots: 1
+    ArtifactSlots: 4
   - heroName: Warlock
-    startingHP: 75
+    startingHP: 120
     startingTrait: 0
     startingItem: 0
-    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
-    portrait: hero3
+    description: "     120 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    portrait: hero2
+    PotionSlots: 1
+    ArtifactSlots: 4
   - heroName: Goblin
-    startingHP: 75
+    startingHP: 100
     startingTrait: 0
     startingItem: 0
-    description: "     75 HP        +1 Attack \\n\u2022 Starts with  Artifact"
-    portrait: hero4
-  StatingGold: 0
-  GoldGainPerLevel: 5
+    description: "     100 HP        +1 Attack \\n\u2022 Starts with  Artifact"
+    portrait: hero2
+    PotionSlots: 2
+    ArtifactSlots: 3
+  StatingGold: 5
+  GoldGainPerLevel: 6
   GoldInflation: 1.2
-  EnemyBaseHealth: 250
-  EnemyBaseDamage: 15
-  GrowthRate: 0.2
-  ExperiencePerKill: 25
+  EnemyBaseHealth: 100
+  EnemyBaseDamage: 11
+  GrowthRate: 0.36
+  Rarity: 46000000150000000800000001000000
+  ExperiencePerKill: 43
   ExperienceToLevelUp: 100
-  HealthGainPerLevel: 25
+  HealthGainPerLevel: 50
