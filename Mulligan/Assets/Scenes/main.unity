@@ -9663,7 +9663,7 @@ MonoBehaviour:
   - Id: Step1_PreAttack
     Dialogue: Click Attack
     DialogueParent: {fileID: 1842657160}
-    DialoguePosition: {x: 63.9, y: -260.4}
+    DialoguePosition: {x: 216.9, y: -260.4}
     FocusPosition: {x: -239.4, y: -472.3}
     Width: 529
     Height: 143.4
@@ -9728,7 +9728,7 @@ MonoBehaviour:
   - Id: Step1_ClickRoll
     Dialogue: Click REROLL
     DialogueParent: {fileID: 1842657160}
-    DialoguePosition: {x: 63.9, y: -260.4}
+    DialoguePosition: {x: -200.2, y: -260.4}
     FocusPosition: {x: 281.4, y: -472.3}
     Width: 432.4
     Height: 143.4
@@ -15337,6 +15337,8 @@ MonoBehaviour:
   GoldLabel: {fileID: 21327728}
   SplashScreen: {fileID: 1455942736}
   BuyPopupWindow: {fileID: 86633906}
+  AttackButton: {fileID: 98309410}
+  ReRollButton: {fileID: 488711226}
   GoldGainedText: {fileID: 1636698879}
   HealthGainedText: {fileID: 803263337}
   LevelText: {fileID: 511912094}
