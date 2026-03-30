@@ -99,7 +99,7 @@ RefreshPotionSlots();
                 UIManager.Instance.ArtifactBackground[i].SetActive(false);
         }
         //Activate the last slot in shop
-        if(IAPManager.Instance.IsFullGameUnlocked || GameManager.Instance.TheHero.myHeroData.ArtifactSlots<=2)
+        if(IAPManager.Instance.IsFullGameUnlocked)
         if (GameManager.Instance.TheHero.myHeroData.ArtifactSlots < UIManager.Instance.ArtifactBackground.Count)
         {
             UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].gameObject.SetActive(true);
@@ -117,6 +117,7 @@ RefreshPotionSlots();
                 UIManager.Instance.PotionBackground[i].SetActive(false);
         }
         //Activate the last slot in shop
+        if(IAPManager.Instance.IsFullGameUnlocked)
         if (GameManager.Instance.TheHero.myHeroData.PotionSlots < UIManager.Instance.PotionBackground.Count&& TutorialController.Instance.HasRunTutorial() == true)
         {
             UIManager.Instance.PotionBackground[GameManager.Instance.TheHero.myHeroData.PotionSlots].gameObject.SetActive(true);

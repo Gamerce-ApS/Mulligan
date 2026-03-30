@@ -206,7 +206,7 @@ public class GameManager : Singleton<GameManager>
         {
             WinGame();
         }
-        else if (GameData.CurrentAttacks <= 0 && TutorialController.Instance.HasRunTutorial() == false)
+        else if (GameData.CurrentAttacks <= 0 && TutorialController.Instance.HasRunTutorial() == true)
         {
             LostGame();
         }
@@ -215,6 +215,11 @@ public class GameManager : Singleton<GameManager>
             TheEnemy.Attack(0);
 
         }
+        UnityHelper.RunAfterDelay(this, 0.5f, () =>
+        {
+                HandManager.Instance.HandleMutedCards();  
+        });
+  
     }
 
     // Update is called once per frame

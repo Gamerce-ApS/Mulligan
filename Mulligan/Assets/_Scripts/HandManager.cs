@@ -136,6 +136,10 @@ public class HandManager : Singleton<HandManager>
         {
             PlayedHand.Clear();
             RefillHand();
+             UnityHelper.RunAfterDelay(this, 1.0f, () =>
+            {
+                    HandManager.Instance.HandleMutedCards();  
+            });
 
         });
 
