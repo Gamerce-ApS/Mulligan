@@ -167,7 +167,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="Double chance to get rare items";
+            RuneLabel.text="2x rare items \n + Gold each level";
         }
          if(aID == 2)
         {
@@ -176,7 +176,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="+1 attack";
+            RuneLabel.text="+1 attack \n+Rank ranom units";
         }
          if(aID == 3)
         {
@@ -186,7 +186,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="10% chance to retrigger potions";
+            RuneLabel.text="2x Potions";
         }
    
     }

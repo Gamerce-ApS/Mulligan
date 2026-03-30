@@ -56,16 +56,16 @@ public class Hero : MonoBehaviour
         Health = aData.startingHP;
         healthLabel.text = Health.ToString();
         MaxHealth = Health;
-
-        if (aData.startingItem == StartingItemType.RandomArtifact)
-        {
-            ArtifactManager.Instance.AddRandomArtifact();
-        }
-        else if (aData.startingItem == StartingItemType.RandomPotion)
-        {
-            if (TutorialController.Instance.HasRunTutorial() == true)
-                PotionManager.Instance.AddRandomPotion();
-        }
+        SetStartingItems();
+        // if (aData.startingItem == StartingItemType.RandomArtifact)
+        // {
+        //     ArtifactManager.Instance.AddRandomArtifact();
+        // }
+        // else if (aData.startingItem == StartingItemType.RandomPotion)
+        // {
+        //     if (TutorialController.Instance.HasRunTutorial() == true)
+        //         PotionManager.Instance.AddRandomPotion();
+        // }
 
         GameData.CurrentAttacks += GetAttackModifier();
         GameData.CurrentReRolls += GetRollsModifier();
@@ -100,6 +100,31 @@ public class Hero : MonoBehaviour
                 UIManager.Instance.ArtifactBackground[i].SetActive(false);
         }
 
+    }
+    public void SetStartingItems()
+    {
+        if (TutorialController.Instance.HasRunTutorial() == true)
+        {
+            if( myHeroData.heroName == "WARRIOR")
+            {
+                
+            }else  if( myHeroData.heroName == "Dwarf")
+            {
+                RuneManager.Instance.AddRune(RuneType.RuneOfRareChance);
+                ArtifactManager.Instance.AddArtifact(ArtifactEffectType.GainGoldAfterLevel);
+  
+            }else  if( myHeroData.heroName == "Warlock")
+            {
+                RuneManager.Instance.AddRune(RuneType.RuneOfAttack);
+                ArtifactManager.Instance.AddArtifact(ArtifactEffectType.RankRandomUnit);
+
+ 
+            }else  if( myHeroData.heroName == "Goblin")
+            {
+                PotionManager.Instance.AddRandomPotion();
+                PotionManager.Instance.AddRandomPotion();
+            }
+        }
     }
     public int GetAttackModifier()
     {

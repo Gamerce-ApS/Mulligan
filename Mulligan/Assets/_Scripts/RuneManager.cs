@@ -185,7 +185,6 @@ public class RuneManager : Singleton<RuneManager>
         RuneData selected = PickRuneByRarity(available);
         return selected;
     }
-
     public void AddRune(RuneData artifact)
     {
 
@@ -193,6 +192,39 @@ public class RuneManager : Singleton<RuneManager>
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
         ShopManager.Instance.RefreshHeroRunes();
         TriggerRunes(artifact);
+    }
+
+    public void AddRune(RuneType aType)
+    {
+     
+
+        var all = CardContainer.Instance.RuneDataList;
+
+        // Filter out already equipped ones
+        List<RuneData> available = new List<RuneData>();
+        foreach (var artifact in all)
+        {
+            if (!ActiveRunes.Contains(artifact) && aType== artifact.type)
+            {
+                ActiveRunes.Add(artifact);
+
+                // Update UI
+                UIManager.Instance.UpdateArtifactSlotsUI();
+
+                Debug.Log("Added Rune: " + artifact.name);
+                return;
+            }
+        }
+
+        if (available.Count == 0)
+        {
+            Debug.Log("All runes are already equipped.");
+            return;
+        }
+
+
+
+
     }
     public string GetActiveRunesInfo()
     {
