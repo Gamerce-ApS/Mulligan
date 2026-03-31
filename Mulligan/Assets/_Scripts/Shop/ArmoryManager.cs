@@ -46,6 +46,8 @@ public class ArmoryManager : Singleton<ArmoryManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowWindow(System.Action onComplete = null)
     {
+        onComplete?.Invoke();
+            return;
         if(TutorialController.Instance.LastStepPlayed == "Step1_Gold")
         {
             onComplete?.Invoke();

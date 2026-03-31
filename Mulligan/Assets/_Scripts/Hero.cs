@@ -131,7 +131,7 @@ public class Hero : MonoBehaviour
         int modifier = 0;
         if (myHeroData.startingTrait == HeroTrait.BonusAttack)
         {
-            modifier = 1;
+            modifier = 0;
         }
         modifier += GameManager.Instance.BonusAttacks;
         return modifier;
