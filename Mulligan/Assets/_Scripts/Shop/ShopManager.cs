@@ -63,22 +63,37 @@ public class ShopManager : Singleton<ShopManager>
 
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
-            if (UIManager.Instance.PotionSlotParent.childCount > 0)
+            if (UIManager.Instance.PotionSlotParent.childCount > 0 && tutorialShopHelp == false)
                 PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
+
+            if( tutorialShopHelp == true)
+            {
+                go = GameObject.Instantiate(PotionPrefab, PotionParent);
+                go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+            }
+            if (TutorialController.Instance.LastStepPlayed == "Step4_Shop3" || tutorialShopHelpArmory)
+            {
+                tutorialShopHelpArmory = true;
+                go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+                go.GetComponent<ShopCard>().Init(3);
+            }
 
             if (TutorialController.Instance.LastStepPlayed == "Step3_Potion")
             {
                 go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
                 go.GetComponent<ShopCard>().Init(3);
                 TutorialController.Instance.ShowStepById("Step4_Shop1");
+                tutorialShopHelp = true;
             }
+            
+            
             if (TutorialController.Instance.LastStepPlayed == "Step5_boss2")
             {
                 go = GameObject.Instantiate(RunePrefab, RuneParent);
                 go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
                 TutorialController.Instance.ShowStepById("Step6_shop1");
             }
-
+          
 
 
         }
@@ -88,6 +103,9 @@ RefreshPotionSlots();
 
 
     }
+    bool tutorialShopHelp = false;
+    bool tutorialShopHelpArmory = false;
+
     public void RefreshArtifactSlots()
     {
         for (int i = 0; i < UIManager.Instance.ArtifactBackground.Count; i++)

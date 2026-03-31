@@ -180,7 +180,8 @@ public class Hero : MonoBehaviour
         }
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
-            aDamage = aDamage / 10;
+            if(Health-aDamage <=1)
+                aDamage = 1;
         }
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;

@@ -127,29 +127,29 @@ AddTutorialDeck();
     {
                TutorialDeck.Clear();
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Mage));
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Cleric));
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Archer));
         TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Peasant));
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
        
         TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Troll,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Cleric));
         TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Archer));
 
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
 
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Bard));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf,CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Troll,CardClass.Warrior));
         TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf,CardClass.Cleric));
         TutorialDeck.AddRange(CurrentDeck); 
     }
     public CardInstance GetCardFromRace(CardRace aRace,CardClass aClass)
