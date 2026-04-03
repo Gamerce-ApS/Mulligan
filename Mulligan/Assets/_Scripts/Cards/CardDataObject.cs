@@ -22,6 +22,7 @@ using UnityEngine;
         public int EnemyBaseHealth = 0;
         public int EnemyBaseDamage = 0;
         public float GrowthRate;
+        public float GrowthRateEXP;
         public int[] Rarity;
 
         public int ExperiencePerKill;
@@ -45,6 +46,7 @@ using UnityEngine;
         EnemyBaseHealth = aData.EnemyBaseHealth;
         EnemyBaseDamage = aData.EnemyBaseDamage;
         GrowthRate= aData.GrowthRate;
+        GrowthRateEXP = aData.GrowthRateEXP;
         allSkipeRewards = aData.allSkipeRewards;
         allRunes = aData.allRunes;
         allHeroes = aData.allHeroes;
@@ -103,6 +105,7 @@ using UnityEngine;
         ExperienceToLevelUp = data.ExperienceToLevelUp;
         HealthGainPerLevel = data.HealthGainPerLevel;
         Rarity = data.Rarity;
+        GrowthRateEXP = data.GrowthRateEXP;
 
         Debug.Log("CardDataObject loaded from json.");
     }
@@ -135,6 +138,7 @@ public class CardDataExportWrapper
     public int EnemyBaseHealth = 0;
     public int EnemyBaseDamage = 0;
     public float GrowthRate;
+    public float GrowthRateEXP;
     public SkipRewardData[] allSkipeRewards;
     public RuneData[] allRunes;
     public HeroData[] allHeroes;

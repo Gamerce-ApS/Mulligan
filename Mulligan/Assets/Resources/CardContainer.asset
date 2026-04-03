@@ -265,42 +265,42 @@ MonoBehaviour:
     effect: 0
     value: 2
     rarity: 0
-    RandomRace: 0
+    RandomRace: 2
   - name: +4 Crit
     description: Adds <color=#EAAF3B>+4</color> Crit to your total each round.
     sprite_icon: 
     effect: 0
     value: 4
     rarity: 1
-    RandomRace: 3
+    RandomRace: 5
   - name: +6 Crit
     description: Adds <color=#EAAF3B>+6</color> Crit to your total each round.
     sprite_icon: 
     effect: 0
     value: 6
     rarity: 2
-    RandomRace: 3
-  - name: +20 Dmg
-    description: Adds <color=#EAAF3B>+20</color> Damage to your total each round.
+    RandomRace: 5
+  - name: +30 Dmg
+    description: Adds <color=#EAAF3B>+30</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
-    value: 20
+    value: 30
     rarity: 0
-    RandomRace: 0
-  - name: +40 Dmg
-    description: Adds <color=#EAAF3B>+40</color> Damage to your total each round.
+    RandomRace: 3
+  - name: +60 Dmg
+    description: Adds <color=#EAAF3B>+60</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
-    value: 40
+    value: 60
     rarity: 1
-    RandomRace: 2
-  - name: +80 Dmg
-    description: Adds <color=#EAAF3B>+80</color> Damage to your total each round.
+    RandomRace: 0
+  - name: +120 Dmg
+    description: Adds <color=#EAAF3B>+120</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
-    value: 80
+    value: 120
     rarity: 2
-    RandomRace: 2
+    RandomRace: 3
   - name: Crit / Upg
     description: 'Gain <color=#EAAF3B>+1</color> Crit for each upgraded unit in your
       army. '
@@ -308,35 +308,35 @@ MonoBehaviour:
     effect: 2
     value: 1
     rarity: 2
-    RandomRace: 0
+    RandomRace: 1
   - name: Dmg / Gold
     description: Gain <color=#EAAF3B>+2</color> Damage per Gold you have.
     sprite_icon: 
     effect: 4
     value: 2
     rarity: 2
-    RandomRace: 1
+    RandomRace: 3
   - name: Crit / Potion
     description: Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.
     sprite_icon: 
     effect: 5
     value: 1
     rarity: 2
-    RandomRace: 3
+    RandomRace: 1
   - name: +1 Reroll
     description: Grants <color=#EAAF3B>+1</color> extra reroll.
     sprite_icon: 
     effect: 6
     value: 1
     rarity: 0
-    RandomRace: 4
+    RandomRace: 3
   - name: +1 Attack
     description: Grants <color=#EAAF3B>+1</color> extra attack.
     sprite_icon: 
     effect: 8
     value: 1
     rarity: 0
-    RandomRace: 2
+    RandomRace: 0
   - name: Rank Random
     description: Ranks up <color=#EAAF3B>1</color> random unit at the start of each
       level.
@@ -351,147 +351,147 @@ MonoBehaviour:
     effect: 10
     value: 1
     rarity: 2
-    RandomRace: 2
+    RandomRace: 0
   - name: Heal After
     description: Heal hero <color=#EAAF3B>15%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 15
     rarity: 0
-    RandomRace: 5
+    RandomRace: 2
   - name: Heal After
     description: Heal hero <color=#EAAF3B>25%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 25
     rarity: 1
-    RandomRace: 3
+    RandomRace: 4
   - name: Heal After
     description: Heal hero <color=#EAAF3B>35%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 35
     rarity: 2
-    RandomRace: 0
+    RandomRace: 2
   - name: +20% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+20%</color>.
     sprite_icon: 
     effect: 15
     value: 20
     rarity: 0
-    RandomRace: 1
+    RandomRace: 0
   - name: +40% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+40%</color>.
     sprite_icon: 
     effect: 15
     value: 40
     rarity: 1
-    RandomRace: 1
+    RandomRace: 0
   - name: +80% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+80%</color>.
     sprite_icon: 
     effect: 15
     value: 80
     rarity: 2
-    RandomRace: 4
+    RandomRace: 5
   - name: Dodge
     description: <color=#EAAF3B>+15%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 15
     rarity: 0
-    RandomRace: 3
+    RandomRace: 2
   - name: Dodge
     description: <color=#EAAF3B>+20%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 25
     rarity: 1
-    RandomRace: 0
+    RandomRace: 2
   - name: Dodge
     description: <color=#EAAF3B>+30%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 35
     rarity: 2
-    RandomRace: 0
+    RandomRace: 5
   - name: Dodge
     description: <color=#EAAF3B>+40%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 50
     rarity: 3
-    RandomRace: 0
+    RandomRace: 3
   - name: +2 Gold
     description: '<color=#EAAF3B>+2</color> after each level '
     sprite_icon: 
     effect: 20
     value: 2
     rarity: 0
-    RandomRace: 4
+    RandomRace: 1
   - name: +4 Gold
     description: '<color=#EAAF3B>+4</color> after each level '
     sprite_icon: 
     effect: 20
     value: 4
     rarity: 1
-    RandomRace: 0
+    RandomRace: 2
   - name: +10 Gold
     description: '<color=#EAAF3B>+10</color> after each level '
     sprite_icon: 
     effect: 20
     value: 10
     rarity: 3
-    RandomRace: 4
+    RandomRace: 1
   - name: +Random Potion
     description: Get a random Common potion after each level
     sprite_icon: 
     effect: 21
     value: 0
-    rarity: 0
-    RandomRace: 3
+    rarity: 1
+    RandomRace: 2
   - name: +Random Potion
     description: Get a random Rare potion after each level
     sprite_icon: 
     effect: 21
     value: 1
-    rarity: 1
-    RandomRace: 1
+    rarity: 2
+    RandomRace: 5
   - name: +Random Potion
     description: Get a random Epic potion after each level
     sprite_icon: 
     effect: 21
     value: 2
-    rarity: 2
-    RandomRace: 5
+    rarity: 3
+    RandomRace: 3
   - name: HP as DMG
     description: Deal 10% of your own Max HP in damage
     sprite_icon: 
     effect: 24
     value: 10
     rarity: 0
-    RandomRace: 4
+    RandomRace: 3
   - name: HP as DMG
     description: Deal 20% of your own Max HP in damage
     sprite_icon: 
     effect: 24
     value: 20
     rarity: 2
-    RandomRace: 2
-  - name: RandomRace +10 DMG
-    description: +10 Damage to all race cards
+    RandomRace: 5
+  - name: RandomRace +15 DMG
+    description: +15 Damage to all race cards
     sprite_icon: 
     effect: 19
-    value: 10
+    value: 15
     rarity: 0
     RandomRace: 4
-  - name: RandomRace +20 DMG
-    description: +20 Damage to all race cards
+  - name: RandomRace +30 DMG
+    description: +30 Damage to all race cards
     sprite_icon: 
     effect: 19
-    value: 20
+    value: 30
     rarity: 1
-    RandomRace: 3
+    RandomRace: 1
   allPotions:
   - name: Precision
     effectType: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
       max Hero HP
     sprite_icon: 
     value: 2
-    rarity: 0
+    rarity: 1
   - name: Destroy
     effectType: 11
     description: Instantly destroyes targeted unit
@@ -594,21 +594,21 @@ MonoBehaviour:
     effect: 0
     type: 0
     value: 1
-    rarity: 0
+    rarity: 1
   - name: Crit +2
     description: ' Adds 2+ permanent multiplier boost'
     sprite_icon: 
     effect: 0
     type: 0
     value: 2
-    rarity: 1
+    rarity: 2
   - name: Crit +3
     description: ' Adds 3+ permanent multiplier boost'
     sprite_icon: 
     effect: 0
     type: 0
     value: 3
-    rarity: 2
+    rarity: 3
   - name: Retrigger
     description: Retriggers unit
     sprite_icon: 
@@ -712,8 +712,8 @@ MonoBehaviour:
     description: '- Has 50% evasion'
     sprite_theSprite: boss4
     abilities: 13000000
-    baseHP: 1.2
-    baseDamage: 999
+    baseHP: 1
+    baseDamage: 1
   allEnemies:
   - name: Enemy 1
     sprite_theSprite: enemy
@@ -808,8 +808,8 @@ MonoBehaviour:
   allHeroes:
   - heroName: WARRIOR
     startingHP: 100
-    startingTrait: 1
-    startingItem: 1
+    startingTrait: 0
+    startingItem: 0
     description: "    100 HP      +1 Reroll \\n\u2022 Starts with  Potion"
     portrait: hero
     PotionSlots: 1
@@ -821,9 +821,9 @@ MonoBehaviour:
     description: "     150 HP        +1 Attack \\n\u2022 Starts with  Artifact"
     portrait: hero2
     PotionSlots: 1
-    ArtifactSlots: 4
+    ArtifactSlots: 3
   - heroName: Warlock
-    startingHP: 120
+    startingHP: 100
     startingTrait: 0
     startingItem: 0
     description: "     120 HP        +1 Attack \\n\u2022 Starts with  Artifact"
@@ -831,7 +831,7 @@ MonoBehaviour:
     PotionSlots: 1
     ArtifactSlots: 4
   - heroName: Goblin
-    startingHP: 100
+    startingHP: 110
     startingTrait: 0
     startingItem: 0
     description: "     100 HP        +1 Attack \\n\u2022 Starts with  Artifact"
@@ -841,9 +841,10 @@ MonoBehaviour:
   StatingGold: 5
   GoldGainPerLevel: 6
   GoldInflation: 1.2
-  EnemyBaseHealth: 100
+  EnemyBaseHealth: 105
   EnemyBaseDamage: 11
-  GrowthRate: 0.36
+  GrowthRate: 0.33
+  GrowthRateEXP: 0.11
   Rarity: 46000000150000000800000001000000
   ExperiencePerKill: 43
   ExperienceToLevelUp: 100

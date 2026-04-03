@@ -122,26 +122,28 @@ public class Enemy : MonoBehaviour
         HandManager.Instance.HandleMutedCards();
     }
     // Example function to calculate scaled stats for a given enemy/boss at a certain level.
-    public void SetupEnemyForLevel(float baseHp, float baseDmg, int level)
-    {
-        // Example scaling: 10% increase in stats per level (adjust factor as needed)
-        float growthRate = CardContainer.Instance.GrowthRate;  // 10% per level
+ public void SetupEnemyForLevel(float baseHp, float baseDmg, int level)
+{
+    float linearGrowth = CardContainer.Instance.GrowthRate;
+    float expGrowth = CardContainer.Instance.GrowthRateEXP;
 
-        // Calculate multiplier based on level (level 1 => 1.0, level 2 => 1.1, level 3 => 1.2, etc.)
-        float statMultiplier = 1f + (level - 1) * growthRate;
+    float linearMultiplier = 1f + (level - 1) * linearGrowth;
+    float expMultiplier = Mathf.Pow(1f + expGrowth, level - 1);
 
-        int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth*baseHp * statMultiplier);
-        int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage* baseDmg * statMultiplier);
+    float hpMultiplier = linearMultiplier * expMultiplier;
+    float dmgMultiplier = 1f + (level - 1) * 0.08f;
 
-        // Apply these values to the enemy instance (for example, to its health component)
-        Health = scaledHP;
-        MaxHealth = Health;
-        Damage = scaledDamage;
-        healthLabel.text = Health.ToString();
-        dmgLabel.text = Damage.ToString();
-        bar.fillAmount = Health / MaxHealth;
+    int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth * baseHp * hpMultiplier);
+    int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage * baseDmg * dmgMultiplier);
 
-    }
+    Health = scaledHP;
+    MaxHealth = Health;
+    Damage = scaledDamage;
+
+    healthLabel.text = Health.ToString();
+    dmgLabel.text = Damage.ToString();
+    bar.fillAmount = (float)Health / MaxHealth;
+}
 
     public void Attack(int aDamage=0)
     {
