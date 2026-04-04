@@ -126,12 +126,17 @@ public class Enemy : MonoBehaviour
 {
     float linearGrowth = CardContainer.Instance.GrowthRate;
     float expGrowth = CardContainer.Instance.GrowthRateEXP;
+    float linearGrowthDMG = CardContainer.Instance.GrowthRateDMG;
+    float expGrowthDMG = CardContainer.Instance.GrowthRateDMGEXP;
 
     float linearMultiplier = 1f + (level - 1) * linearGrowth;
     float expMultiplier = Mathf.Pow(1f + expGrowth, level - 1);
 
+    float linearMultiplierDMG = 1f + (level - 1) * linearGrowthDMG;
+    float expMultiplierDMG = Mathf.Pow(1f + expGrowthDMG, level - 1);
+
     float hpMultiplier = linearMultiplier * expMultiplier;
-    float dmgMultiplier = 1f + (level - 1) * 0.08f;
+    float dmgMultiplier = linearMultiplierDMG*expMultiplierDMG;
 
     int scaledHP = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseHealth * baseHp * hpMultiplier);
     int scaledDamage = Mathf.RoundToInt(CardContainer.Instance.EnemyBaseDamage * baseDmg * dmgMultiplier);

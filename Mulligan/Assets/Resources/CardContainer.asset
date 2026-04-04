@@ -286,14 +286,14 @@ MonoBehaviour:
     effect: 1
     value: 30
     rarity: 0
-    RandomRace: 3
+    RandomRace: 1
   - name: +60 Dmg
     description: Adds <color=#EAAF3B>+60</color> Damage to your total each round.
     sprite_icon: 
     effect: 1
     value: 60
     rarity: 1
-    RandomRace: 0
+    RandomRace: 4
   - name: +120 Dmg
     description: Adds <color=#EAAF3B>+120</color> Damage to your total each round.
     sprite_icon: 
@@ -308,28 +308,28 @@ MonoBehaviour:
     effect: 2
     value: 1
     rarity: 2
-    RandomRace: 1
+    RandomRace: 3
   - name: Dmg / Gold
     description: Gain <color=#EAAF3B>+2</color> Damage per Gold you have.
     sprite_icon: 
     effect: 4
     value: 2
     rarity: 2
-    RandomRace: 3
+    RandomRace: 5
   - name: Crit / Potion
     description: Gain <color=#EAAF3B>+1</color> Crit for each potion used this run.
     sprite_icon: 
     effect: 5
     value: 1
     rarity: 2
-    RandomRace: 1
+    RandomRace: 2
   - name: +1 Reroll
     description: Grants <color=#EAAF3B>+1</color> extra reroll.
     sprite_icon: 
     effect: 6
     value: 1
     rarity: 0
-    RandomRace: 3
+    RandomRace: 4
   - name: +1 Attack
     description: Grants <color=#EAAF3B>+1</color> extra attack.
     sprite_icon: 
@@ -344,91 +344,91 @@ MonoBehaviour:
     effect: 9
     value: 1
     rarity: 1
-    RandomRace: 2
+    RandomRace: 4
   - name: Double Potions
     description: All potion effects are <color=#EAAF3B>doubled</color>.
     sprite_icon: 
     effect: 10
     value: 1
     rarity: 2
-    RandomRace: 0
+    RandomRace: 2
   - name: Heal After
     description: Heal hero <color=#EAAF3B>15%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 15
     rarity: 0
-    RandomRace: 2
+    RandomRace: 1
   - name: Heal After
     description: Heal hero <color=#EAAF3B>25%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 25
     rarity: 1
-    RandomRace: 4
+    RandomRace: 3
   - name: Heal After
     description: Heal hero <color=#EAAF3B>35%</color> of max HP after each level.
     sprite_icon: 
     effect: 14
     value: 35
     rarity: 2
-    RandomRace: 2
+    RandomRace: 1
   - name: +20% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+20%</color>.
     sprite_icon: 
     effect: 15
     value: 20
     rarity: 0
-    RandomRace: 0
+    RandomRace: 2
   - name: +40% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+40%</color>.
     sprite_icon: 
     effect: 15
     value: 40
     rarity: 1
-    RandomRace: 0
+    RandomRace: 5
   - name: +80% Max HP
     description: Increases hero's max HP by <color=#EAAF3B>+80%</color>.
     sprite_icon: 
     effect: 15
     value: 80
     rarity: 2
-    RandomRace: 5
+    RandomRace: 1
   - name: Dodge
     description: <color=#EAAF3B>+15%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 15
     rarity: 0
-    RandomRace: 2
+    RandomRace: 5
   - name: Dodge
     description: <color=#EAAF3B>+20%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 25
     rarity: 1
-    RandomRace: 2
+    RandomRace: 5
   - name: Dodge
     description: <color=#EAAF3B>+30%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 35
     rarity: 2
-    RandomRace: 5
+    RandomRace: 2
   - name: Dodge
     description: <color=#EAAF3B>+40%</color> chance to dodge enemy attack
     sprite_icon: 
     effect: 18
     value: 50
     rarity: 3
-    RandomRace: 3
+    RandomRace: 0
   - name: +2 Gold
     description: '<color=#EAAF3B>+2</color> after each level '
     sprite_icon: 
     effect: 20
     value: 2
     rarity: 0
-    RandomRace: 1
+    RandomRace: 5
   - name: +4 Gold
     description: '<color=#EAAF3B>+4</color> after each level '
     sprite_icon: 
@@ -442,21 +442,21 @@ MonoBehaviour:
     effect: 20
     value: 10
     rarity: 3
-    RandomRace: 1
+    RandomRace: 2
   - name: +Random Potion
     description: Get a random Common potion after each level
     sprite_icon: 
     effect: 21
     value: 0
     rarity: 1
-    RandomRace: 2
+    RandomRace: 5
   - name: +Random Potion
     description: Get a random Rare potion after each level
     sprite_icon: 
     effect: 21
     value: 1
     rarity: 2
-    RandomRace: 5
+    RandomRace: 4
   - name: +Random Potion
     description: Get a random Epic potion after each level
     sprite_icon: 
@@ -470,28 +470,28 @@ MonoBehaviour:
     effect: 24
     value: 10
     rarity: 0
-    RandomRace: 3
+    RandomRace: 4
   - name: HP as DMG
     description: Deal 20% of your own Max HP in damage
     sprite_icon: 
     effect: 24
     value: 20
     rarity: 2
-    RandomRace: 5
+    RandomRace: 2
   - name: RandomRace +15 DMG
     description: +15 Damage to all race cards
     sprite_icon: 
     effect: 19
     value: 15
     rarity: 0
-    RandomRace: 4
+    RandomRace: 3
   - name: RandomRace +30 DMG
     description: +30 Damage to all race cards
     sprite_icon: 
     effect: 19
     value: 30
     rarity: 1
-    RandomRace: 1
+    RandomRace: 3
   allPotions:
   - name: Precision
     effectType: 0
@@ -511,19 +511,19 @@ MonoBehaviour:
     sprite_icon: 
     value: 5
     rarity: 2
-  - name: BloodBrew
+  - name: Berserk
     effectType: 1
     description: Chosen unit gets <color=#EAAF3B>+30</color> Damage this turn
     sprite_icon: 
     value: 30
     rarity: 0
-  - name: BloodBrew
+  - name: Berserk
     effectType: 1
     description: Chosen unit gets <color=#EAAF3B>+60</color> Damage this turn
     sprite_icon: 
     value: 60
     rarity: 1
-  - name: BloodBrew
+  - name: Berserk
     effectType: 1
     description: Chosen unit gets <color=#EAAF3B>+120</color> Damage this turn
     sprite_icon: 
@@ -843,8 +843,10 @@ MonoBehaviour:
   GoldInflation: 1.2
   EnemyBaseHealth: 105
   EnemyBaseDamage: 11
-  GrowthRate: 0.33
-  GrowthRateEXP: 0.11
+  GrowthRate: 0.1
+  GrowthRateEXP: 0.18
+  GrowthRateDMG: 0.08
+  GrowthRateDMGEXP: 0.15
   Rarity: 46000000150000000800000001000000
   ExperiencePerKill: 43
   ExperienceToLevelUp: 100

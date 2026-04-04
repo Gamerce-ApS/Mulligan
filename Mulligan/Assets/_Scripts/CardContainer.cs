@@ -25,6 +25,8 @@ public class CardContainer : Singleton<CardContainer>
     public int EnemyBaseDamage = 0;
     public float GrowthRate = 0.1f;
     public float GrowthRateEXP = 0.1f;
+    public float GrowthRateDMG = 0.1f;
+    public float GrowthRateDMGEXP = 0.1f;
     public int ExperiencePerKill;
     public int ExperienceToLevelUp;
     public int HealthGainPerLevel;
@@ -54,7 +56,8 @@ public class CardContainer : Singleton<CardContainer>
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
         GrowthRateEXP = CardLoader.LoadAllCards().GrowthRateEXP;
-
+       GrowthRateDMG = CardLoader.LoadAllCards().GrowthRateDMG;
+        GrowthRateDMGEXP = CardLoader.LoadAllCards().GrowthRateDMGEXP;
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
         ArtifactDataList = CardLoader.LoadAllCards().allArtifacts;
