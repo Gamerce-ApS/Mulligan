@@ -52655,6 +52655,9 @@ MonoBehaviour:
   EnemyBaseHealth: 0
   EnemyBaseDamage: 0
   GrowthRate: 0.1
+  GrowthRateEXP: 0.1
+  GrowthRateDMG: 0.1
+  GrowthRateDMGEXP: 0.1
   ExperiencePerKill: 0
   ExperienceToLevelUp: 0
   HealthGainPerLevel: 0
@@ -74413,7 +74416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -281.3159, y: -140.79205}
+  m_AnchoredPosition: {x: -281.31586, y: -140.79205}
   m_SizeDelta: {x: -2459.509, y: -1117.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507637901
@@ -108123,6 +108126,10 @@ PrefabInstance:
       propertyPath: canvasRect
       value: 
       objectReference: {fileID: 679112066}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[26].Dialogue
+      value: Two random unit races are disabled for this fight
+      objectReference: {fileID: 0}
     - target: {fileID: 5418511814802437907, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
       propertyPath: m_Name
       value: TutorialController

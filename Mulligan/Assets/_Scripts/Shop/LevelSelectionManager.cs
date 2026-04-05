@@ -41,10 +41,10 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public Vector3 startPosition;
-    System.Action OnHideShop=null;
+    System.Action OnHideShop = null;
     public CanvasGroup bgCanvasGroup;
     public SkipRewardData CurrentRewardData = null;
     public void ShowWindow(System.Action onComplete = null)
@@ -63,50 +63,73 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         Vector2 targetPos = startPosition;
 
         // Start below the screen
-        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height*2);
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height * 2);
 
         // Animate to its original position
         LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
 
         RefreshUI();
 
+        if (TutorialController.Instance.HasRunTutorial() == false)
+        {
 
-        EnemyPortraits[0].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[0].sprite_theSprite);
-        EnemyPortraits[1].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[1].sprite_theSprite);
-        EnemyPortraits[2].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myEnemiesList[2].sprite_theSprite);
-        EnemyPortraits[3].sprite =  Resources.Load<Sprite>("" +CardContainer.Instance.myBossList[0].sprite_theSprite);
-        int loopedIndex = ((GameData.CurrentRound-1) % 4);
-        LevelFillBar.fillAmount =(33f*loopedIndex)/100f;
+            EnemyPortraits[0].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[0].sprite_theSprite);
+            EnemyPortraits[1].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[1].sprite_theSprite);
+            EnemyPortraits[2].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[2].sprite_theSprite);
+            EnemyPortraits[3].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite);
+        }
+        else
+        {
+            EnemyPortraits[0].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[0].sprite_theSprite);
+            EnemyPortraits[1].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[1].sprite_theSprite);
+            EnemyPortraits[2].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[2].sprite_theSprite);
+            EnemyPortraits[3].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
+        }
 
-        foreach(var d in EnemyDisabled)
+
+        int loopedIndex = ((GameData.CurrentRound - 1) % 4);
+        LevelFillBar.fillAmount = (33f * loopedIndex) / 100f;
+
+        foreach (var d in EnemyDisabled)
         {
-            d.gameObject.SetActive(true);  
+            d.gameObject.SetActive(true);
         }
-        foreach(var d in EnemyGoldenFrame)
+        foreach (var d in EnemyGoldenFrame)
         {
-            d.gameObject.SetActive(false);  
+            d.gameObject.SetActive(false);
         }
-        
-        foreach(var d in EnemyPortraits)
+
+        foreach (var d in EnemyPortraits)
         {
-            d.material =  GreyScale;
+            d.material = GreyScale;
         }
         EnemyDisabled[loopedIndex].gameObject.SetActive(false);
         EnemyPortraits[loopedIndex].material = null;
 
-            EnemyGoldenFrame[loopedIndex].gameObject.SetActive(true);
-    
-        if(loopedIndex == 3)
+        EnemyGoldenFrame[loopedIndex].gameObject.SetActive(true);
+
+        if (loopedIndex == 3)
         {
             BossInfoBox.SetActive(true);
-            BossPortrait.sprite = Resources.Load<Sprite>("" +CardContainer.Instance.myBossList[0].sprite_theSprite);
-            BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
-            BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+            if (TutorialController.Instance.HasRunTutorial() == false)
+            {
+                BossPortrait.sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
+                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
+                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+
+            }
+            else
+            {
+                BossPortrait.sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
+                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
+                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+
+            }
         }
         else
         {
             BossInfoBox.SetActive(false);
-            BossPortrait.sprite =  EnemyPortraits[loopedIndex].sprite;
+            BossPortrait.sprite = EnemyPortraits[loopedIndex].sprite;
         }
         HeroPortrait.sprite = GameManager.Instance.TheHero.HeroPortraits[GameData.HeroSelected].GetComponent<Image>().sprite;
 
@@ -164,8 +187,8 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             .setEaseInBack()
             .setOnComplete(() =>
             {
-                if(callback)
-                OnHideShop?.Invoke();
+                if (callback)
+                    OnHideShop?.Invoke();
                 ShopWindow.SetActive(false);
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
                 bgCanvasGroup.gameObject.SetActive(false);
@@ -178,7 +201,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         HideWindow(false);
         LeanTween.delayedCall(gameObject, 0.3f, () =>
         {
-            RewardManager.Instance.ShowWindow(()=> { ShowWindow(OnHideShop); });
+            RewardManager.Instance.ShowWindow(() => { ShowWindow(OnHideShop); });
         });
         GameData.SkippedLevels++;
     }

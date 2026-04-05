@@ -178,11 +178,11 @@ public class Hero : MonoBehaviour
         {
             return;
         }
-        if (TutorialController.Instance.HasRunTutorial() == false)
-        {
-            if(Health-aDamage <=1)
-                aDamage = 1;
-        }
+        // if (TutorialController.Instance.HasRunTutorial() == false)
+        // {
+        //     if(Health-aDamage <=1)
+        //         aDamage = 1;
+        // }
         Health -= aDamage;
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();

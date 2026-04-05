@@ -194,7 +194,11 @@ public class GameManager : Singleton<GameManager>
 
         });
 
+        if(TutorialController.Instance.HasRunTutorial() == false)
+        {
+            PlayerPrefs.SetInt("HasRunTutorial", 1);
 
+        }
 
     }
 

@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
             EnemyData d = CardContainer.Instance.myEnemiesList[loopedIndex];
             if(TutorialController.Instance.HasRunTutorial() == false)
             {
-                d = TutorialController.Instance.GetCurrentEnemy();
+                d = TutorialController.Instance.myEnemiesList[loopedIndex];
             }
 
             SetupEnemyForLevel(d.baseHP, d.baseDamage, aRound);
