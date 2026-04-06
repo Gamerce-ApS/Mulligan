@@ -113,9 +113,9 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             BossInfoBox.SetActive(true);
             if (TutorialController.Instance.HasRunTutorial() == false)
             {
-                BossPortrait.sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
-                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
-                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+                BossPortrait.sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite);
+                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].name;
+                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].description;
 
             }
             else

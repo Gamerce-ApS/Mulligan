@@ -28,7 +28,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject AttackButton;
     public GameObject ReRollButton;
 
-    
+
 
 
 
@@ -75,11 +75,11 @@ public class UIManager : Singleton<UIManager>
 
         OriginalsynergyTextGO = synergyTextGO.transform.localScale;
 
-        SpeedLabel.text = PlayerPrefs.GetString("GameSpeed","1X");
+        SpeedLabel.text = PlayerPrefs.GetString("GameSpeed", "1X");
 
-        if(PlayerPrefs.HasKey("GameSpeed") == false)
+        if (PlayerPrefs.HasKey("GameSpeed") == false)
         {
-            PlayerPrefs.SetString("GameSpeed","2X");
+            PlayerPrefs.SetString("GameSpeed", "2X");
 
         }
 
@@ -110,7 +110,16 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickPlayHand()
     {
-        
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
+        {
+            if (HandManager.Instance.SelectedCardCount() <= 3)
+            {
+                UIManager.Instance.ShowTooltip("Click on ORCs");
+                return;
+            }
+        }
+
+
         HandManager.Instance.PlayHand();
         UIManager.Instance.HideCardInfoPopup();
 
@@ -121,6 +130,14 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickReRoll()
     {
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
+        {
+            if (HandManager.Instance.SelectedCardCount() <= 3)
+            {
+                UIManager.Instance.ShowTooltip("Click on ORCs");
+                return;
+            }
+        }
         if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.DisableRerolls))
         {
             UIManager.Instance.ShowTooltip("ReRolls disabled!");
@@ -147,14 +164,14 @@ public class UIManager : Singleton<UIManager>
     {
         GameManager.Instance.StartGame();
         SceneManager.LoadScene(0);
-        if(IAPManager.Instance.IsFullGameUnlocked == false)
+        if (IAPManager.Instance.IsFullGameUnlocked == false)
         {
-            UnityHelper.RunAfterDelay(IAPManager.Instance,0.5f,() =>
+            UnityHelper.RunAfterDelay(IAPManager.Instance, 0.5f, () =>
             {
                 UIManager.Instance.ClickBuyPopupWindow();
-            }); 
+            });
         }
-       
+
     }
     public void AddDamage(float aDamage)
     {
@@ -231,7 +248,7 @@ public class UIManager : Singleton<UIManager>
 
 
         int crit = EvaluatorManager.Instance.GetGlobalCritMultiplier(selectedCards);
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit+1).ToString();
+        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit + 1).ToString();
         if (crit != 0)
             LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
     }
@@ -673,9 +690,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject LoseParent;
     public void ShowLoseScreen(System.Action onComplete)
     {
-         
+
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
-        LostText.text ="You reached World "+currentWorld+", Level "+GameData.CurrentRound.ToString();
+        LostText.text = "You reached World " + currentWorld + ", Level " + GameData.CurrentRound.ToString();
         LoseParent.GetComponent<CanvasGroup>().alpha = 0f;
         LoseParent.SetActive(true);
 
@@ -807,23 +824,25 @@ public class UIManager : Singleton<UIManager>
         {
             SpeedLabel.text = "3X";
         }
-        PlayerPrefs.SetString("GameSpeed",SpeedLabel.text);
+        PlayerPrefs.SetString("GameSpeed", SpeedLabel.text);
         LoadSpeed();
     }
     public void LoadSpeed()
     {
-        string speed = PlayerPrefs.GetString("GameSpeed","1X");
+        string speed = PlayerPrefs.GetString("GameSpeed", "1X");
 
-        if(speed == "1X")
+        if (speed == "1X")
         {
-            Time.timeScale = 1; 
-        } else if(speed == "2X")
+            Time.timeScale = 1;
+        }
+        else if (speed == "2X")
         {
-            Time.timeScale = 2f; 
-        } else if(speed == "3X")
+            Time.timeScale = 2f;
+        }
+        else if (speed == "3X")
         {
-            Time.timeScale = 3f; 
-        } 
+            Time.timeScale = 3f;
+        }
         SpeedLabel.text = speed;
     }
     public Color GetTextColor(int aRarity)
@@ -844,19 +863,19 @@ public class UIManager : Singleton<UIManager>
                 SplashScreen.SetActive(false);
                 // if (TutorialController.Instance.HasRunTutorial() == false)
                 // {
-                    // GameManager.Instance.ShowHeroSelection();
-                    // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                    // // {
-                    // HeroSelectionManager.Instance.ClickHero(0);
-                    // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
-                    // // {
-                    // HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
-                    // HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
-                    // HeroSelectionManager.Instance.selectedHero = 0;
-                    // HeroSelectionManager.Instance.ClickPlay();
+                // GameManager.Instance.ShowHeroSelection();
+                // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                // // {
+                // HeroSelectionManager.Instance.ClickHero(0);
+                // // UnityHelper.RunAfterDelay(this, 0.01f, () =>
+                // // {
+                // HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
+                // HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
+                // HeroSelectionManager.Instance.selectedHero = 0;
+                // HeroSelectionManager.Instance.ClickPlay();
 
-                    // });
-                    // });
+                // });
+                // });
 
                 // }
                 // else
@@ -886,7 +905,7 @@ public class UIManager : Singleton<UIManager>
         // Animate to its original position
         LeanTween.move(g.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
     }
-    
+
     public void ClickClosePopupWindow()
     {
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
@@ -902,11 +921,11 @@ public class UIManager : Singleton<UIManager>
             .setEaseInBack()
             .setOnComplete(() =>
             {
-  BuyPopupWindow.SetActive(false);
+                BuyPopupWindow.SetActive(false);
                 // g.SetActive(false);
                 g.GetComponent<RectTransform>().anchoredPosition = startPos;
             });
-        
+
     }
     public void ClickBuy()
     {
@@ -916,7 +935,7 @@ public class UIManager : Singleton<UIManager>
         {
             UIManager.Instance.SplashScreenButtons[0].SetActive(true);
             UIManager.Instance.SplashScreenButtons[1].SetActive(false);
-            UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
+            UIManager.Instance.SplashScreenButtons[2].SetActive(false);
             HeroSelectionManager.Instance.RefreshUI();
             ClickClosePopupWindow();
         });
@@ -945,7 +964,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickTutorial()
     {
         PlayerPrefs.SetInt("HasRunTutorial", 0);
-        
+
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
         // Animate down
@@ -987,13 +1006,13 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickRestore()
     {
-         IAPManager.Instance.RestorePurchases();
+        IAPManager.Instance.RestorePurchases();
     }
     public void ClickDiscord()
     {
         string inviteUrl = "https://discord.gg/Bc8VJfdq";
         Application.OpenURL(inviteUrl);
-        
+
     }
 
 }

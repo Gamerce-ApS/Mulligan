@@ -56,7 +56,7 @@ public class CardContainer : Singleton<CardContainer>
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
         GrowthRateEXP = CardLoader.LoadAllCards().GrowthRateEXP;
-       GrowthRateDMG = CardLoader.LoadAllCards().GrowthRateDMG;
+        GrowthRateDMG = CardLoader.LoadAllCards().GrowthRateDMG;
         GrowthRateDMGEXP = CardLoader.LoadAllCards().GrowthRateDMGEXP;
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
@@ -107,11 +107,11 @@ public class CardContainer : Singleton<CardContainer>
 
             myBossList.AddRange(d);
         }
-                 
-       
+
+
         for (int i = 0; i < 5; i++)
         {
-            if( myBossList[0].abilities.Contains(BossAbilityEnum.Evasion) || myBossList[0].baseDamage >= 999)
+            if (myBossList[0].abilities.Contains(BossAbilityEnum.Evasion) || myBossList[0].baseDamage >= 999)
             {
                 myBossList.RemoveAt(0);
             }
@@ -126,39 +126,43 @@ public class CardContainer : Singleton<CardContainer>
         //     myBossList.Add(GetRandomBoss());
 
 
-AddTutorialDeck();
+        AddTutorialDeck();
 
     }
     public void AddTutorialDeck()
     {
-               TutorialDeck.Clear();
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Archer));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Peasant));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
-       
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Troll,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Elf,CardClass.Archer));
+        TutorialDeck.Clear();
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Elf, CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Archer));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Peasant));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Cleric));
 
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Troll, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Elf, CardClass.Archer));
 
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead,CardClass.Bard));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf,CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Troll,CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human,CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf,CardClass.Cleric));
-        TutorialDeck.AddRange(CurrentDeck); 
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
+
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Bard));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf, CardClass.Mage));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Troll, CardClass.Warrior));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Cleric));
+        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf, CardClass.Cleric));
+        foreach (var card in CurrentDeck)
+        {
+            if (card.data != null)
+                TutorialDeck.Add(new CardInstance(card.data));
+        }
     }
-    public CardInstance GetCardFromRace(CardRace aRace,CardClass aClass)
+    public CardInstance GetCardFromRace(CardRace aRace, CardClass aClass)
     {
         var candidates = CardsDataList
         .Where(c => c.race == aRace && c.cardClass == aClass)
