@@ -4,7 +4,8 @@ using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
-
+using System.Collections.Generic;
+using Singular;
 public class IAPManager : MonoBehaviour, IStoreListener
 {
     public static IAPManager Instance { get; private set; }
@@ -21,6 +22,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public event Action OnIAPInitialized;
     public event Action OnFullGameUnlockedEvent;
     public event Action<string> OnPurchaseFailedEvent;
+
+    
 
     private async void Awake()
     {
@@ -145,24 +148,68 @@ public class IAPManager : MonoBehaviour, IStoreListener
         Debug.LogError("IAP init failed: " + error + " | " + message);
     }
 
-    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
+  public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
+{
+    Product product = args.purchasedProduct;
+    string productId = product.definition.id;
+
+    Debug.Log("Purchase success: " + productId);
+
+    TrackPurchaseWithSingular(product);
+
+    if (productId == FullGameProductId)
     {
-        string productId = args.purchasedProduct.definition.id;
-
-        Debug.Log("Purchase success: " + productId);
-
-        if (productId == FullGameProductId)
-        {
-            UnlockFullGame();
-        }
-        else
-        {
-            Debug.LogWarning("Unknown product purchased: " + productId);
-        }
-
-        return PurchaseProcessingResult.Complete;
+        UnlockFullGame();
+    }
+    else
+    {
+        Debug.LogWarning("Unknown product purchased: " + productId);
     }
 
+    return PurchaseProcessingResult.Complete;
+}
+private void TrackPurchaseWithSingular(Product product)
+{
+    if (product == null)
+    {
+        Debug.LogWarning("Singular IAP tracking skipped: product is null.");
+        return;
+    }
+
+    try
+    {
+        string currency = "USD";
+        double amount = 0.0;
+
+        if (product.metadata != null)
+        {
+            if (!string.IsNullOrEmpty(product.metadata.isoCurrencyCode))
+                currency = product.metadata.isoCurrencyCode;
+
+            amount = Convert.ToDouble(product.metadata.localizedPrice);
+        }
+
+        var attributes = new Dictionary<string, object>
+        {
+            { "productSKU", product.definition.id },
+            { "productName", product.metadata != null ? product.metadata.localizedTitle : product.definition.id },
+            { "productCategory", product.definition.type.ToString() },
+            { "productQuantity", 1 },
+            { "productPrice", amount }
+        };
+
+        if (!string.IsNullOrEmpty(product.transactionID))
+            attributes["transaction_id"] = product.transactionID;
+
+        SingularSDK.Revenue(currency, amount, attributes);
+
+        Debug.Log($"Sent revenue to Singular: {product.definition.id} | {currency} {amount}");
+    }
+    catch (Exception e)
+    {
+        Debug.LogError("Failed to send revenue to Singular: " + e.Message);
+    }
+}
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
         string msg = $"Purchase failed: {product.definition.id} | {failureReason}";
@@ -177,18 +224,18 @@ public class IAPManager : MonoBehaviour, IStoreListener
         OnPurchaseFailedEvent?.Invoke(msg);
     }
 
-    private void RefreshOwnershipFromStore()
+private void RefreshOwnershipFromStore()
+{
+    if (!IsInitialized)
+        return;
+
+    Product product = storeController.products.WithID(FullGameProductId);
+
+    if (product != null && product.hasReceipt)
     {
-        if (!IsInitialized)
-            return;
-
-        Product product = storeController.products.WithID(FullGameProductId);
-
-        if (product != null && product.hasReceipt)
-        {
-            UnlockFullGame();
-        }
+        UnlockFullGame();
     }
+}
 
     private void UnlockFullGame()
     {
