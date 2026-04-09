@@ -94,7 +94,6 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.SplashScreenButtons[2].SetActive(true); 
         }
         //   #endif
-
     }
     public void ShowHeroSelection()
     {
@@ -102,6 +101,7 @@ public class GameManager : Singleton<GameManager>
         {
             myGameStates = GameStates.Pre_Game;
             TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
+            AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
             LevelSelectionManager.Instance.ShowWindow(() =>
             {
                 TheEnemy.Init(GameData.CurrentRound);
@@ -119,6 +119,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void WinGame()
     {
+        AnalyticsService.Instance.RecordEvent("WonRound_"+GameData.CurrentRound);
         GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
 
         if (GameData.CurrentRound % 4 == 0)
@@ -175,6 +176,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void LostGame()
     {
+        AnalyticsService.Instance.RecordEvent("LostRound_"+GameData.CurrentRound);
 
 
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
