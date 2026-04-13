@@ -145,9 +145,8 @@ public class TutorialController : Singleton<TutorialController>
 
         ShowStepImmediate(0);
 
-        #if ENABLE_UNITY_ANALYTICS
+
         AnalyticsService.Instance.RecordEvent("tutorial_started");
-        #endif
     }
 
     public void ShowNextStep()
@@ -287,9 +286,7 @@ public class TutorialController : Singleton<TutorialController>
 
         LastStepPlayed = step.Id;
 
-        #if ENABLE_UNITY_ANALYTICS
         AnalyticsService.Instance.RecordEvent("tutorial_step_started_"+index);
-        #endif
         
     }
 
