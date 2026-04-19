@@ -254,6 +254,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.kyubuns.appiconchangerunity": {
+      "version": "https://github.com/kyubuns/AppIconChangerUnity.git?path=Assets/AppIconChanger",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "267b6b00050eb426d76c0a8f58359faac0a30c93"
+    },
     "singular-unity-package": {
       "version": "https://github.com/singular-labs/Singular-Unity-SDK.git",
       "depth": 0,
