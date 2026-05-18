@@ -199,6 +199,8 @@ public class GameManager : Singleton<GameManager>
         if(TutorialController.Instance.HasRunTutorial() == false)
         {
             PlayerPrefs.SetInt("HasRunTutorial", 1);
+            AnalyticsService.Instance.RecordEvent("tutorial_finished");
+            AnalyticsService.Instance.RecordEvent("LostGameInTutorial");
 
         }
 

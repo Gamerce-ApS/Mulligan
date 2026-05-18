@@ -150,7 +150,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             slotFull = true;
         if(PotionData != null && PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
             slotFull = true;
-
+     if(RuneData != null && RuneManager.Instance.ActiveRunes.Count >= 6)
+            slotFull = true;
 
 
         if (IsOverSellSlot() && slotFull == false)
@@ -187,7 +188,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 UIManager.Instance.ShowTooltip("No slots!");
             else if( PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
                 UIManager.Instance.ShowTooltip("No slots!");
-
+            else if( RuneManager.Instance.ActiveRunes.Count >= 6)
+                UIManager.Instance.ShowTooltip("No slots!");
             ReturnToShop();
         }
     }

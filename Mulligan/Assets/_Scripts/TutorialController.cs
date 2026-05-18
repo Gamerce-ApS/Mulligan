@@ -21,7 +21,7 @@ public class TutorialController : Singleton<TutorialController>
         ARTIFACT_Triggered,
         ARROW_UnitUpgrade,
         END_TUTORIAL,
-        
+
     };
     private struct OverlayLayout
     {
@@ -55,6 +55,8 @@ public class TutorialController : Singleton<TutorialController>
         public float Width = 300f;
         public float Height = 200f;
 
+
+
         [Header("Overlay")]
         [Range(0f, 1f)]
         public float OverlayAlpha = 0.75f;
@@ -71,6 +73,10 @@ public class TutorialController : Singleton<TutorialController>
         public bool blockInput = false;
 
         public bool showGnome = true;
+
+        [Header("Resolution Scaling")]
+        public bool keepBottomOffset = false;
+        public bool keepTopOffset = false;
 
     }
     public TutorialActionsEnum myCurrentAction = TutorialActionsEnum.NONE;
@@ -99,11 +105,11 @@ public class TutorialController : Singleton<TutorialController>
     [SerializeField] private GameObject clickToContinueObject;
     [SerializeField] private TMP_Text clickToContinueText;
     [SerializeField] private string clickToContinueString = "Click to continue";
-    public int EnemyIndex=0;
-    public int BossIndex=0;
+    public int EnemyIndex = 0;
+    public int BossIndex = 0;
     public List<EnemyData> myEnemiesList;
     public List<BossData> myBossList;
-    
+
     public string LastStepPlayed = "";
 
 
@@ -123,6 +129,10 @@ public class TutorialController : Singleton<TutorialController>
 
     public GameObject GnomeObject;
     public GameObject ShopMerchant;
+
+    [Header("Tutorial Designed Resolution")]
+    [SerializeField] private Vector2 designedCanvasSize = new Vector2(2532f, 1170f);
+    [SerializeField] private bool scaleFocusFromDesignedResolution = true;
 
     void Awake()
     {
@@ -147,6 +157,8 @@ public class TutorialController : Singleton<TutorialController>
 
 
         AnalyticsService.Instance.RecordEvent("tutorial_started");
+        Debug.Log("tutorial_started");
+
     }
 
     public void ShowNextStep()
@@ -195,13 +207,13 @@ public class TutorialController : Singleton<TutorialController>
     }
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.I))
+        if (Input.GetKeyUp(KeyCode.I))
         {
             HideTutorial();
 
- 
+
             TutorialController.Instance.LastStepPlayed = "Step3_Potion";
-            
+
         }
 
         if (!Application.isPlaying)
@@ -226,8 +238,8 @@ public class TutorialController : Singleton<TutorialController>
         if (step.DialogueParent != null)
             step.DialogueParent.anchoredPosition = step.DialoguePosition;
 
-        if(waitingForContinueClick)
-        clickToContinueText.alpha = 0.5f + Mathf.PingPong(Time.unscaledTime, 0.5f);
+        if (waitingForContinueClick)
+            clickToContinueText.alpha = 0.5f + Mathf.PingPong(Time.unscaledTime, 0.5f);
     }
     public void ShowStep(int index)
     {
@@ -256,13 +268,13 @@ public class TutorialController : Singleton<TutorialController>
         OnStepShown?.Invoke(step.Id);
 
         SetupStepInput(step, stepRequestId);
-   
-        GnomeObject.SetActive(step.showGnome );
-        ShopMerchant.SetActive(!step.showGnome );
+
+        GnomeObject.SetActive(step.showGnome);
+        ShopMerchant.SetActive(!step.showGnome);
 
 
 
-        
+
         myCurrentAction = step.myAction;
 
         if (step.freezeTimeDelta)
@@ -286,8 +298,8 @@ public class TutorialController : Singleton<TutorialController>
 
         LastStepPlayed = step.Id;
 
-        AnalyticsService.Instance.RecordEvent("tutorial_step_started_"+index);
-        
+        AnalyticsService.Instance.RecordEvent("tutorial_step_started_" + index);
+        Debug.Log("tutorial_step_started_" + index);
     }
 
     public void HideTutorial()
@@ -309,7 +321,7 @@ public class TutorialController : Singleton<TutorialController>
 
         Time.timeScale = 1;
         ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
-        ShopMerchant.SetActive(false );
+        ShopMerchant.SetActive(false);
     }
 
     private void UpdateOverlay(TutorialStep step)
@@ -330,10 +342,56 @@ public class TutorialController : Singleton<TutorialController>
         float canvasWidth = canvasRect.rect.width;
         float canvasHeight = canvasRect.rect.height;
 
-        float left = step.FocusPosition.x - step.Width * 0.5f;
-        float right = step.FocusPosition.x + step.Width * 0.5f;
-        float bottom = step.FocusPosition.y - step.Height * 0.5f;
-        float top = step.FocusPosition.y + step.Height * 0.5f;
+        Vector2 focusPosition = step.FocusPosition;
+        float focusWidth = step.Width;
+        float focusHeight = step.Height;
+
+        if (scaleFocusFromDesignedResolution && designedCanvasSize.x > 0 && designedCanvasSize.y > 0)
+        {
+            float scaleX = canvasWidth / designedCanvasSize.x;
+            float scaleY = canvasHeight / designedCanvasSize.y;
+
+            // Important: use the same scale as Canvas Scaler "Match Width Or Height"
+            // If your Canvas Scaler Match is 0.5, keep this 0.5.
+            float canvasScalerMatch = 0.0f;
+            float scale = Mathf.Lerp(scaleX, scaleY, canvasScalerMatch);
+
+            float x = step.FocusPosition.x * scale;
+            float y;
+
+            if (step.keepBottomOffset)
+            {
+                float designedBottom = -designedCanvasSize.y * 0.5f;
+                float currentBottom = -canvasHeight * 0.5f;
+
+                float designedOffsetFromBottom = step.FocusPosition.y - designedBottom;
+
+                y = currentBottom + designedOffsetFromBottom * scale;
+            }
+            else if (step.keepTopOffset)
+            {
+                float designedTop = designedCanvasSize.y * 0.5f;
+                float currentTop = canvasHeight * 0.5f;
+
+                float designedOffsetFromTop = designedTop - step.FocusPosition.y;
+
+                y = currentTop - designedOffsetFromTop * scale;
+            }
+            else
+            {
+                y = step.FocusPosition.y * scale;
+            }
+
+            focusPosition = new Vector2(x, y);
+
+            focusWidth = step.Width * scale;
+            focusHeight = step.Height * scale;
+        }
+
+        float left = focusPosition.x - focusWidth * 0.5f;
+        float right = focusPosition.x + focusWidth * 0.5f;
+        float bottom = focusPosition.y - focusHeight * 0.5f;
+        float top = focusPosition.y + focusHeight * 0.5f;
 
         float canvasLeft = -canvasWidth * 0.5f;
         float canvasRight = canvasWidth * 0.5f;
@@ -351,11 +409,11 @@ public class TutorialController : Singleton<TutorialController>
         layout.bottomPos = new Vector2(0f, (canvasBottom + bottom) * 0.5f);
         layout.bottomSize = new Vector2(canvasWidth, bottom - canvasBottom);
 
-        layout.leftPos = new Vector2((canvasLeft + left) * 0.5f, step.FocusPosition.y);
-        layout.leftSize = new Vector2(left - canvasLeft, step.Height);
+        layout.leftPos = new Vector2((canvasLeft + left) * 0.5f, focusPosition.y);
+        layout.leftSize = new Vector2(left - canvasLeft, focusHeight);
 
-        layout.rightPos = new Vector2((canvasRight + right) * 0.5f, step.FocusPosition.y);
-        layout.rightSize = new Vector2(canvasRight - right, step.Height);
+        layout.rightPos = new Vector2((canvasRight + right) * 0.5f, focusPosition.y);
+        layout.rightSize = new Vector2(canvasRight - right, focusHeight);
 
         return layout;
     }
@@ -415,7 +473,7 @@ public class TutorialController : Singleton<TutorialController>
             Vector3 offset = new Vector3(0, 25, 0);
             ArrowDownList[0].transform.position = UIManager.Instance.AttackButton.transform.position + offset;
         }
-         if (myCurrentAction == TutorialActionsEnum.CLICK_REROLL)
+        if (myCurrentAction == TutorialActionsEnum.CLICK_REROLL)
         {
             ArrowDownList[0].gameObject.SetActive(true);
             Vector3 offset = new Vector3(0, 25, 0);
@@ -425,7 +483,7 @@ public class TutorialController : Singleton<TutorialController>
         {
             ArrowDownList[0].gameObject.SetActive(true);
             ArrowDownList[1].gameObject.SetActive(true);
-            
+
             Vector3 offset = new Vector3(0, 30, 0);
             ArrowDownList[0].transform.position = HandManager.Instance.CurrentHand[0].CardGO.transform.position + offset;
             ArrowDownList[1].transform.position = HandManager.Instance.CurrentHand[2].CardGO.transform.position + offset;
@@ -435,7 +493,7 @@ public class TutorialController : Singleton<TutorialController>
             ArrowDownList.ForEach(c => c.gameObject.SetActive(true));
             Vector3 offset = new Vector3(0, 30, 0);
 
-            List<CardInstance> warriorInHand = HandManager.Instance.CurrentHand.FindAll(c=>c.data.cardClass == CardClass.Warrior);
+            List<CardInstance> warriorInHand = HandManager.Instance.CurrentHand.FindAll(c => c.data.cardClass == CardClass.Warrior);
 
             ArrowDownList[0].transform.position = warriorInHand[0].CardGO.transform.position + offset;
             ArrowDownList[1].transform.position = warriorInHand[1].CardGO.transform.position + offset;
@@ -451,13 +509,13 @@ public class TutorialController : Singleton<TutorialController>
 
             ArrowDownList[0].transform.position = ShopManager.Instance.ArtifactParent.GetChild(0).transform.position + offset;
             ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
-            
+
         }
         if (myCurrentAction == TutorialActionsEnum.ARROW_Potion)
         {
             GameManager.Instance.AddGold(3);
-            
-            if(UIManager.Instance.PotionSlotParent.childCount>0)
+
+            if (UIManager.Instance.PotionSlotParent.childCount > 0)
                 PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
 
             ArrowDownList[0].gameObject.SetActive(true);
@@ -465,7 +523,7 @@ public class TutorialController : Singleton<TutorialController>
 
             ArrowDownList[0].transform.position = ShopManager.Instance.PotionParent.GetChild(0).transform.position + offset;
             ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
-            
+
         }
         if (myCurrentAction == TutorialActionsEnum.ARROW_Battle)
         {
@@ -474,9 +532,9 @@ public class TutorialController : Singleton<TutorialController>
             Vector3 offset = new Vector3(0, 30, 0);
 
             ArrowDownList[2].transform.position = ShopManager.Instance.BattleButton.transform.position + offset;
-            
+
         }
-  if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
+        if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
         {
             GameManager.Instance.AddGold(6);
 
@@ -485,16 +543,18 @@ public class TutorialController : Singleton<TutorialController>
 
             ArrowDownList[0].transform.position = ShopManager.Instance.UnitPackParent.GetChild(0).transform.position + offset;
             ArrowDownList[0].GetComponent<Animator>().Play("arrow_buy");
-            
+
         }
-  if (myCurrentAction == TutorialActionsEnum.END_TUTORIAL)
+        if (myCurrentAction == TutorialActionsEnum.END_TUTORIAL)
         {
             PlayerPrefs.SetInt("HasRunTutorial", 1);
             ResetAfterTutorialFinished();
             AnalyticsService.Instance.RecordEvent("tutorial_finished");
+            Debug.Log("tutorial_finished");
+
         }
-        
-        
+
+
     }
     public void HandleExitAction()
     {
@@ -502,7 +562,7 @@ public class TutorialController : Singleton<TutorialController>
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
-         if (myCurrentAction == TutorialActionsEnum.CLICK_ReRollCards)
+        if (myCurrentAction == TutorialActionsEnum.CLICK_ReRollCards)
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
@@ -514,7 +574,7 @@ public class TutorialController : Singleton<TutorialController>
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
-          if (myCurrentAction == TutorialActionsEnum.SELECT_WARRIORS)
+        if (myCurrentAction == TutorialActionsEnum.SELECT_WARRIORS)
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
@@ -530,11 +590,11 @@ public class TutorialController : Singleton<TutorialController>
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
-       if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
+        if (myCurrentAction == TutorialActionsEnum.ARROW_UnitUpgrade)
         {
             ArrowDownList.ForEach(c => c.gameObject.SetActive(false));
         }
-        
+
     }
     private OverlayLayout GetCurrentOverlayLayout()
     {
@@ -714,44 +774,44 @@ public class TutorialController : Singleton<TutorialController>
         if (clickToContinueObject != null)
             clickToContinueObject.SetActive(false);
     }
-private void SetupStepInput(TutorialStep step, int requestId)
-{
-    waitingForContinueClick = false;
-    HideClickToContinue();
-    SetBlockInputActive(step.blockInput);
-
-    if (step.WaitTime <= 0)
-        return;
-
-    UnityHelper.RunAfterDelay(this, step.WaitTime, () =>
+    private void SetupStepInput(TutorialStep step, int requestId)
     {
-        if (requestId != stepRequestId)
+        waitingForContinueClick = false;
+        HideClickToContinue();
+        SetBlockInputActive(step.blockInput);
+
+        if (step.WaitTime <= 0)
             return;
 
-        if (currentStepIndex < 0 || currentStepIndex >= steps.Count)
-            return;
-
-        if (steps[currentStepIndex] != step)
-            return;
-
-        // If input is blocked, wait for player tap
-        if (step.blockInput)
+        UnityHelper.RunAfterDelay(this, step.WaitTime, () =>
         {
-            ShowClickToContinue();
-            waitingForContinueClick = true;
-        }
-        else
-        {
-            // Otherwise keep old auto-next behavior
-            if (step.closeAfter)
-                HideTutorial();
+            if (requestId != stepRequestId)
+                return;
+
+            if (currentStepIndex < 0 || currentStepIndex >= steps.Count)
+                return;
+
+            if (steps[currentStepIndex] != step)
+                return;
+
+            // If input is blocked, wait for player tap
+            if (step.blockInput)
+            {
+                ShowClickToContinue();
+                waitingForContinueClick = true;
+            }
             else
-                ShowNextStep();
-        }
-    }, true);
-}
-public void ResetAfterTutorialFinished()
+            {
+                // Otherwise keep old auto-next behavior
+                if (step.closeAfter)
+                    HideTutorial();
+                else
+                    ShowNextStep();
+            }
+        }, true);
+    }
+    public void ResetAfterTutorialFinished()
     {
-        
+
     }
 }

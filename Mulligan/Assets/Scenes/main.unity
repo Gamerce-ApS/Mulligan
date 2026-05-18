@@ -267,7 +267,6 @@ GameObject:
   - component: {fileID: 1310531}
   - component: {fileID: 1310534}
   - component: {fileID: 1310533}
-  - component: {fileID: 1310532}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -294,62 +293,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1310532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1310530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1310533}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1310533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1086,7 +1029,6 @@ GameObject:
   - component: {fileID: 20532228}
   - component: {fileID: 20532231}
   - component: {fileID: 20532230}
-  - component: {fileID: 20532229}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -1113,62 +1055,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &20532229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20532227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 20532230}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &20532230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9694,10 +9580,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1526494060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 549, y: 1139}
-  m_SizeDelta: {x: 940.99994, y: 64.02194}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 549, y: -200}
+  m_SizeDelta: {x: 940.99994, y: 64.02197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &131390237
 MonoBehaviour:
@@ -11788,7 +11674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 737, y: 185.48296}
+  m_AnchoredPosition: {x: 737, y: 185.48297}
   m_SizeDelta: {x: 636.331, y: 186.263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165739664
@@ -15055,7 +14941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 12.111, y: -176.90707}
+  m_AnchoredPosition: {x: 12.111, y: -176.9071}
   m_SizeDelta: {x: 1593.351, y: 353.824}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266421448
@@ -31349,7 +31235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 709.11, y: 185.48296}
+  m_AnchoredPosition: {x: 709.11, y: 185.48297}
   m_SizeDelta: {x: 872.974, y: 186.263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &578138848
@@ -42562,10 +42448,10 @@ RectTransform:
   - {fileID: 21327727}
   m_Father: {fileID: 679112066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 136.3003, y: 1126.6}
-  m_SizeDelta: {x: 403.91003, y: 269.27}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 136.3003, y: -81.40015}
+  m_SizeDelta: {x: 403.91003, y: 269.27002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715973486
 MonoBehaviour:
@@ -43381,7 +43267,6 @@ GameObject:
   - component: {fileID: 743329704}
   - component: {fileID: 743329707}
   - component: {fileID: 743329706}
-  - component: {fileID: 743329705}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -43408,62 +43293,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &743329705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743329703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 743329706}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &743329706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45955,7 +45784,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 746.78357, y: 234.667}
+  m_AnchoredPosition: {x: 746.78357, y: 234.66699}
   m_SizeDelta: {x: 3927.318, y: 10826.697}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &777662178
@@ -53429,7 +53258,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32, y: -120}
+  m_AnchoredPosition: {x: -32.000244, y: -120}
   m_SizeDelta: {x: -2459.509, y: -1117.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &974813297
@@ -57963,7 +57792,6 @@ GameObject:
   - component: {fileID: 1073703752}
   - component: {fileID: 1073703755}
   - component: {fileID: 1073703754}
-  - component: {fileID: 1073703753}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -57990,62 +57818,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1073703753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073703751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1073703754}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1073703754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60826,7 +60598,6 @@ GameObject:
   - component: {fileID: 1151419336}
   - component: {fileID: 1151419339}
   - component: {fileID: 1151419338}
-  - component: {fileID: 1151419337}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -60853,62 +60624,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1151419337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151419335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1151419338}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1151419338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62483,7 +62198,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0024414065, y: -7.9951177}
-  m_SizeDelta: {x: 2705.5972, y: 1403}
+  m_SizeDelta: {x: 2929.3, y: 1519}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1218802968
 CanvasGroup:
@@ -64814,10 +64529,10 @@ RectTransform:
   - {fileID: 712586397}
   m_Father: {fileID: 1148307866}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -90.166, y: -375.46793}
-  m_SizeDelta: {x: 461.43, y: 190.317}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -90.166, y: 40.610107}
+  m_SizeDelta: {x: 461.43, y: 190.31702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1279886199
 MonoBehaviour:
@@ -70082,9 +69797,9 @@ RectTransform:
   - {fileID: 1701857016}
   m_Father: {fileID: 1148307866}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1047.32, y: -409.474}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -268.31995, y: 2.525879}
   m_SizeDelta: {x: 488.589, y: 184.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1431005635
@@ -72736,7 +72451,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483537732}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -74359,7 +74074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -281.31586, y: -140.79205}
+  m_AnchoredPosition: {x: -281.31592, y: -140.79205}
   m_SizeDelta: {x: -2459.509, y: -1117.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507637901
@@ -89261,7 +88976,6 @@ GameObject:
   - component: {fileID: 1877698328}
   - component: {fileID: 1877698331}
   - component: {fileID: 1877698330}
-  - component: {fileID: 1877698329}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -89288,62 +89002,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1877698329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877698327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1877698330}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1877698330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99757,7 +99415,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 158.20068, y: 192.57085}
+  m_AnchoredPosition: {x: 158.20068, y: 192.57086}
   m_SizeDelta: {x: -568.712, y: -533.596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2043651977
@@ -100751,7 +100409,6 @@ GameObject:
   - component: {fileID: 2080440648}
   - component: {fileID: 2080440651}
   - component: {fileID: 2080440650}
-  - component: {fileID: 2080440649}
   m_Layer: 5
   m_Name: goldlabel
   m_TagString: Untagged
@@ -100778,62 +100435,6 @@ RectTransform:
   m_AnchoredPosition: {x: -15.283768, y: -0.5275955}
   m_SizeDelta: {x: 561.76, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2080440649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080440647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2080440650}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661135959}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: AddGold
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &2080440650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107366,10 +106967,10 @@ RectTransform:
   - {fileID: 20688832}
   m_Father: {fileID: 679112066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1296.6493, y: 408.58}
-  m_SizeDelta: {x: 2682.312, y: 978.85}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -10.350708, y: -799.42004}
+  m_SizeDelta: {x: 2682.312, y: 978.8501}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2122225069
 GameObject:
@@ -107406,7 +107007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 746.78357, y: 234.66704}
+  m_AnchoredPosition: {x: 746.78357, y: 234.66705}
   m_SizeDelta: {x: 3927.318, y: 10826.697}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &2122225071
@@ -108070,8 +107671,116 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 679112066}
     - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[15].Height
+      value: 1415
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[17].Height
+      value: 1415
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
       propertyPath: steps.Array.data[26].Dialogue
       value: Two random unit races are disabled for this fight
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[12].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[14].keepTopOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[15].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[16].keepTopOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[17].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[18].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[20].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[21].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[24].keepTopOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[1].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[4].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[5].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[7].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[8].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[9].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[12].keepBottomOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[14].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[15].keepBottomOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[16].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[17].keepBottomOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[19].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[23].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[26].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600184342024223525, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: steps.Array.data[28].keepBottomOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013684624744564221, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 5418511814802437907, guid: 50169c9dafe794e08a31214f9878bf3d, type: 3}
       propertyPath: m_Name

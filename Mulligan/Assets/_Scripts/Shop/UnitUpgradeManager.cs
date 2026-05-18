@@ -129,10 +129,26 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     }
     public void ClickContinue()
     {
-        UIManager.Instance.HideCardInfoPopup();
+
 
         Card targetUnitCard = null;
         Card upgradeCard = null;
+
+        for (int i = UnitParent.childCount - 1; i >= 0; i--)
+        {
+            if (UnitParent.GetChild(i).GetComponent<Card>().isSelected == false)
+            {
+             
+            }
+            else
+                targetUnitCard = UnitParent.GetChild(i).GetComponent<Card>();
+        }
+      if(targetUnitCard == null)
+        {
+            UIManager.Instance.ShowTooltip("Click on a Unit and a Upgrade!");
+
+            return;
+        }
 
         for (int i = UnitParent.childCount - 1; i >= 0; i--)
         {
@@ -152,6 +168,8 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             else
                 targetUnitCard = UnitParent.GetChild(i).GetComponent<Card>();
         }
+  
+        UIManager.Instance.HideCardInfoPopup();
         for (int i = UnitUpgradeParent.childCount - 1; i >= 0; i--)
         {
             var card = UnitUpgradeParent.GetChild(i).GetComponent<Card>();
