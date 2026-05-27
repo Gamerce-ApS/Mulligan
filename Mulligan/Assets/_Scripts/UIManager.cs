@@ -1010,7 +1010,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickDiscord()
     {
-        string inviteUrl = "https://discord.gg/kGvm69cy";
+        string inviteUrl = "https://discord.gg/fZwm99B89G";
         Application.OpenURL(inviteUrl);
 
     }
