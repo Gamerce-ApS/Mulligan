@@ -740,6 +740,7 @@ public class TutorialController : Singleton<TutorialController>
             if (!waitingForContinueClick)
                 return;
 
+            VibrationsManager.TryVibrate(VibrationType.ButtonTap);
             waitingForContinueClick = false;
             HideClickToContinue();
 

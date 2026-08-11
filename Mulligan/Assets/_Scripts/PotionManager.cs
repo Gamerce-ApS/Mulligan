@@ -184,10 +184,13 @@ public void SellPotion(Potion aPotion)
             return null;
         }
 
-        var all = CardContainer.Instance.PotionDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedPotions();
+        if (all == null || all.Count == 0)
         {
-            Debug.LogWarning("No artifacts available to choose from.");
+            if (TutorialController.Instance.HasRunTutorial()== false)
+                return CardContainer.Instance.PotionDataList.ToList().Find(c=> c.name == "Healing");
+
+            Debug.LogWarning("No potions available to choose from.");
             return null;
         }
 
@@ -217,6 +220,8 @@ public void SellPotion(Potion aPotion)
         {
             selected = PickPotionByRarity(available,rarity);
         }
+        if (selected == null)
+            return null;
         
         ActivePotions.Add(selected);
 
@@ -230,10 +235,10 @@ public void SellPotion(Potion aPotion)
     public PotionCardData GetRandom()
     {
 
-        var all = CardContainer.Instance.PotionDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedPotions();
+        if (all == null || all.Count == 0)
         {
-            Debug.LogWarning("No artifacts available to choose from.");
+            Debug.LogWarning("No potions available to choose from.");
             return null;
         }
 
@@ -254,7 +259,10 @@ public void SellPotion(Potion aPotion)
         }
      if (TutorialController.Instance.HasRunTutorial()== false)
         {
-             return available.Find(c=> c.name == "Healing");
+             PotionCardData healing = available.Find(c=> c.name == "Healing");
+             if (healing == null)
+                healing = CardContainer.Instance.PotionDataList.ToList().Find(c=> c.name == "Healing");
+             return healing;
         }
         return PickPotionWeightedByRarity(available);
         // // Pick random one
@@ -272,9 +280,9 @@ public void SellPotion(Potion aPotion)
             return;
         }
 
-        var all = CardContainer.Instance.PotionDataList;
+        var all = CardContainer.Instance.GetUnlockedPotions();
 
-        if (all == null || all.Length == 0)
+        if (all == null || all.Count == 0)
         {
             Debug.LogWarning("No potions available to choose from.");
             return;
@@ -304,6 +312,9 @@ public void SellPotion(Potion aPotion)
     }
     public void AddPotion(PotionCardData artifact)
     {
+        if (artifact == null)
+            return;
+
         if(TutorialController.Instance.LastStepPlayed=="Step2_Shop4_Potion2")
         {
             TutorialController.Instance.ShowNextStep();
@@ -373,6 +384,9 @@ public void SellPotion(Potion aPotion)
     private PotionCardData PickPotionByRarity(List<PotionCardData> available,int rarity)
     {
         var pool = available.Where(p => p.rarity == rarity).ToList();
+        if (pool.Count == 0)
+            return PickPotionWeightedByRarity(available);
+
         return pool[Random.Range(0, pool.Count)];
     }
 

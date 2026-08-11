@@ -1,5 +1,18 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.google.external-dependency-manager",
+        "com.google.play.common",
+        "com.google.play.core",
+        "com.google.play.review"
+      ]
+    }
+  ],
   "dependencies": {
+    "com.google.play.review": "1.8.4",
     "com.unity.2d.psdimporter": "8.1.2",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ads.ios-support": "1.0.1",

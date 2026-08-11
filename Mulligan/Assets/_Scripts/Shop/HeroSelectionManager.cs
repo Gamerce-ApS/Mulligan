@@ -23,6 +23,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     public TMPro.TMP_Text PotionSlotsLabel;
     public TMPro.TMP_Text GolfLabel;
      public TMPro.TMP_Text RuneLabel;
+    public TMPro.TMP_Text MaxLevelLabel;
+    public TMPro.TMP_Text MaxDamageLabel;
     // Start is called before the first frame update
     void Awake()
     {
@@ -83,6 +85,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             }
             
         }
+        RefreshHighscoreUI(selectedHero >= 0 ? selectedHero : GameData.HeroSelected);
     }
     public void HideWindow()
     {
@@ -116,6 +119,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         if(LeanTween.isTweening())
         return;
 
+        VibrationsManager.TryVibrate(VibrationType.CardTap);
+
         for (int i = 0; i < HeroNormal.Count; i++)
         {
             if (i == id)
@@ -147,6 +152,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
         selectedHero = id;
         GameData.HeroSelected = id;
+        RefreshHighscoreUI(id);
     }
     public void SetCharacterData(int aID)
     {
@@ -188,7 +194,16 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
             RuneLabel.text="2x Potions";
         }
+        RefreshHighscoreUI(aID);
    
+    }
+    public void RefreshHighscoreUI(int heroIndex)
+    {
+        if (MaxLevelLabel != null)
+            MaxLevelLabel.text = "" + HighscoreManager.Instance.GetMaxLevel(heroIndex).ToString();
+
+        if (MaxDamageLabel != null)
+            MaxDamageLabel.text = "" + HighscoreManager.Instance.GetMaxDamage(heroIndex).ToString();
     }
     public void ClickPlay()
     {
@@ -197,12 +212,14 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             UIManager.Instance.ShowTooltip("You need to selected a hero!");
             return;
         }
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         if(TutorialController.Instance.HasRunTutorial() == false)
         {
             if(UIManager.Instance.PotionSlotParent.childCount>0)
                 PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
         }
 
+        HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
         HideWindow();
     }
     public void ClickLocked()

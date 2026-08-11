@@ -67,7 +67,14 @@ public class CardContainer : Singleton<CardContainer>
         HealthGainPerLevel = CardLoader.LoadAllCards().HealthGainPerLevel;
         Rarity = CardLoader.LoadAllCards().Rarity;
         CurrentDeck.Clear();
-        foreach (var data in CardsDataList)
+        List<CardData> startingCards = GetUnlockedCards();
+        if (startingCards.Count == 0)
+        {
+            Debug.LogWarning("No unlocked units available. Falling back to all units.");
+            startingCards = CardsDataList.ToList();
+        }
+
+        foreach (var data in startingCards)
         {
             CurrentDeck.Add(new CardInstance(data));
             //CurrentDeck.Add(new CardInstance(data));
@@ -132,42 +139,106 @@ public class CardContainer : Singleton<CardContainer>
     public void AddTutorialDeck()
     {
         TutorialDeck.Clear();
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Elf, CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Archer));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Peasant));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Cleric));
+        AddTutorialCard(CardRace.Orc, CardClass.Warrior);
+        AddTutorialCard(CardRace.Elf, CardClass.Mage);
+        AddTutorialCard(CardRace.Orc, CardClass.Cleric);
+        AddTutorialCard(CardRace.Orc, CardClass.Mage);
+        AddTutorialCard(CardRace.Orc, CardClass.Archer);
+        AddTutorialCard(CardRace.Undead, CardClass.Warrior);
+        AddTutorialCard(CardRace.Human, CardClass.Peasant);
+        AddTutorialCard(CardRace.Human, CardClass.Cleric);
 
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Troll, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Elf, CardClass.Archer));
+        AddTutorialCard(CardRace.Orc, CardClass.Mage);
+        AddTutorialCard(CardRace.Troll, CardClass.Warrior);
+        AddTutorialCard(CardRace.Undead, CardClass.Cleric);
+        AddTutorialCard(CardRace.Elf, CardClass.Archer);
 
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
+        AddTutorialCard(CardRace.Human, CardClass.Warrior);
 
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Undead, CardClass.Bard));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf, CardClass.Mage));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Orc, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Troll, CardClass.Warrior));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Human, CardClass.Cleric));
-        TutorialDeck.Add(GetCardFromRace(CardRace.Dwarf, CardClass.Cleric));
+        AddTutorialCard(CardRace.Human, CardClass.Warrior);
+        AddTutorialCard(CardRace.Undead, CardClass.Bard);
+        AddTutorialCard(CardRace.Dwarf, CardClass.Mage);
+        AddTutorialCard(CardRace.Orc, CardClass.Warrior);
+        AddTutorialCard(CardRace.Human, CardClass.Warrior);
+        AddTutorialCard(CardRace.Troll, CardClass.Warrior);
+        AddTutorialCard(CardRace.Human, CardClass.Cleric);
+        AddTutorialCard(CardRace.Dwarf, CardClass.Cleric);
         foreach (var card in CurrentDeck)
         {
             if (card.data != null)
                 TutorialDeck.Add(new CardInstance(card.data));
         }
     }
+    private void AddTutorialCard(CardRace race, CardClass cardClass)
+    {
+        CardInstance card = GetCardFromRace(race, cardClass);
+        if (card != null && card.data != null)
+            TutorialDeck.Add(card);
+    }
     public CardInstance GetCardFromRace(CardRace aRace, CardClass aClass)
     {
-        var candidates = CardsDataList
+        var candidates = GetUnlockedCards()
         .Where(c => c.race == aRace && c.cardClass == aClass)
-        .ToList().GetRandom();
-        return new CardInstance(candidates);
+        .ToList();
+
+        if (TutorialController.Instance.HasRunTutorial() == false && candidates.Count == 0)
+        {
+            candidates = CardsDataList
+            .Where(c => c.race == aRace && c.cardClass == aClass)
+            .ToList();
+        }
+
+        if (candidates.Count == 0)
+        {
+            Debug.LogWarning("No unlocked cards found for " + aRace + " " + aClass);
+            return null;
+        }
+
+        var candidate = candidates.GetRandom();
+        if (candidate == null)
+            return null;
+
+        return new CardInstance(candidate);
+    }
+    public bool IsContentUnlocked(int unlockRun)
+    {
+        return unlockRun <= GameData.UnlockProgressForThisRun;
+    }
+    public List<CardData> GetUnlockedCards()
+    {
+        if (CardsDataList == null)
+            return new List<CardData>();
+
+        return CardsDataList.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+    }
+    public List<ArtifactData> GetUnlockedArtifacts()
+    {
+        if (ArtifactDataList == null)
+            return new List<ArtifactData>();
+
+        return ArtifactDataList.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+    }
+    public List<PotionCardData> GetUnlockedPotions()
+    {
+        if (PotionDataList == null)
+            return new List<PotionCardData>();
+
+        return PotionDataList.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+    }
+    public List<RuneData> GetUnlockedRunes()
+    {
+        if (RuneDataList == null)
+            return new List<RuneData>();
+
+        return RuneDataList.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+    }
+    public List<UpgradeCardData> GetUnlockedUpgrades()
+    {
+        CardDataObject dataList = CardLoader.LoadAllCards();
+        if (dataList == null || dataList.allUpgradeCards == null)
+            return new List<UpgradeCardData>();
+
+        return dataList.allUpgradeCards.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
     }
     public void CompleteBoss()
     {
@@ -191,7 +262,14 @@ public class CardContainer : Singleton<CardContainer>
     }
     public CardData GetRandomCardData()
     {
-        return CardsDataList[Random.Range(0, CardsDataList.Length)]; ;
+        List<CardData> available = GetUnlockedCards();
+        if (available.Count == 0)
+        {
+            Debug.LogWarning("No unlocked cards available.");
+            return null;
+        }
+
+        return available[Random.Range(0, available.Count)];
     }
     public CardInstance GetRandomCardFromDecks()
     {
@@ -199,6 +277,12 @@ public class CardContainer : Singleton<CardContainer>
         allC.AddRange(CurrentDeck);
         allC.AddRange(DiscardDeck);
         allC.AddRange(HandManager.Instance.CurrentHand);
+        allC.RemoveAll(c => c == null || c.data == null);
+        if (allC.Count == 0)
+        {
+            Debug.LogWarning("No cards available from deck, discard, or hand.");
+            return null;
+        }
         return allC[Random.Range(0, allC.Count)];
 
     }
@@ -212,6 +296,11 @@ public class CardContainer : Singleton<CardContainer>
             {
                 Shuffel();
             }
+            if (CurrentDeck.Count <= 0)
+            {
+                Debug.LogWarning("No cards available to draw.");
+                return null;
+            }
             CardInstance ins = CurrentDeck[0];
             CurrentDeck.RemoveAt(0);
             return ins;
@@ -223,6 +312,11 @@ public class CardContainer : Singleton<CardContainer>
             {
                 AddTutorialDeck();
                 Shuffel();
+            }
+            if (TutorialDeck.Count <= 0)
+            {
+                Debug.LogWarning("No tutorial cards available to draw.");
+                return null;
             }
             CardInstance ins = TutorialDeck[0];
             TutorialDeck.RemoveAt(0);

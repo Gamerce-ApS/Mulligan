@@ -107,6 +107,7 @@ public enum UpgradeType
 public class RuneData
 {
     public string name;
+    public int UnlockRun = 0;
     public RuneType type;
     public RarityType rarity;
     public string description;
@@ -151,6 +152,7 @@ public enum CardTypeEnum
 public class CardData
 {
     public string cardName;
+    public int UnlockRun = 0;
     public int damage;
     public CardRace race;
     public CardClass cardClass;
@@ -207,6 +209,7 @@ public class ClassData
 public class ArtifactData
 {
     public string name;
+    public int UnlockRun = 0;
     [TextArea] public string description;
     public string sprite_icon;
 
@@ -225,6 +228,7 @@ public class ArtifactData
 public class PotionCardData
 {
     public string name;
+    public int UnlockRun = 0;
     public PotionEffectType effectType;
     [TextArea] public string description;
     public string sprite_icon;
@@ -241,6 +245,7 @@ public class PotionCardData
 public class UpgradeCardData
 {
     public string name;
+    public int UnlockRun = 0;
     [TextArea] public string description;
     public string sprite_icon;
 

@@ -45,10 +45,14 @@ public class GameManager : Singleton<GameManager>
         {
 
             Application.targetFrameRate = 60;
+            GameData.UnlockProgressForThisRun = GameData.CompletedFirstBossAmount;
+            GameData.FirstBossCompletedThisRun = 0;
             CardContainer.Instance.Init();
             HandManager.Instance.Init();
             UIManager.Instance.Init();
             UnitUpgradeManager.Instance.Init();
+            DeckOverviewManager.Instance.Init();
+            UnlockManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
             StartGame();
 
@@ -72,6 +76,8 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4;
         GameData.CurrentReRolls = 2;
         GameData.CurrentRound = 1;
+        GameData.UnlockProgressForThisRun = GameData.CompletedFirstBossAmount;
+        GameData.FirstBossCompletedThisRun = 0;
         GameData.SkippedLevels = 0;
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
@@ -119,7 +125,15 @@ public class GameManager : Singleton<GameManager>
     }
     public void WinGame()
     {
+        VibrationsManager.TryVibrate(VibrationType.Success);
         AnalyticsService.Instance.RecordEvent("WonRound_"+GameData.CurrentRound);
+        RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
+        if (GameData.CurrentRound == 4 && GameData.FirstBossCompletedThisRun == 0)
+        {
+            GameData.CompletedFirstBossAmount++;
+            GameData.FirstBossCompletedThisRun = 1;
+            PlayerPrefs.Save();
+        }
         GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
 
         if (GameData.CurrentRound % 4 == 0)
@@ -144,6 +158,7 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
+        HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;
@@ -176,6 +191,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void LostGame()
     {
+        VibrationsManager.TryVibrate(VibrationType.Error);
         AnalyticsService.Instance.RecordEvent("LostRound_"+GameData.CurrentRound);
 
 
@@ -192,7 +208,11 @@ public class GameManager : Singleton<GameManager>
 
         LeanTween.delayedCall(gameObject, 0.5f, () =>
         {
-            UIManager.Instance.ShowLoseScreen(() => { });
+            UIManager.Instance.ShowLoseScreen(() =>
+            {
+                if (UnlockManager.Instance.HasUnlocksToReveal())
+                    UnlockManager.Instance.ShowWindow();
+            });
 
         });
 
@@ -291,6 +311,14 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.V))
         {
             UnitUpgradeManager.Instance.ShowWindow();
+        }
+        if (Input.GetKeyUp(KeyCode.U))
+        {
+            UnlockManager.Instance.DebugCompleteFirstBossAndShow();
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            DeckOverviewManager.Instance.ShowWindow();
         }
         if (Input.GetKeyUp(KeyCode.F))
         {

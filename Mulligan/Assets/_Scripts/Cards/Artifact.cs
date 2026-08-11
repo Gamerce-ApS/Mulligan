@@ -44,6 +44,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
          if(isMuted)
         return;
         if (isDragging) return;
+        VibrationsManager.TryVibrate(VibrationType.Tap);
 
         if (!isSelected)
         {

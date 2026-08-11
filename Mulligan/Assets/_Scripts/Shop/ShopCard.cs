@@ -111,6 +111,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isDragging = true;
         isSelected = false;
 
+        VibrationsManager.TryVibrate(VibrationType.CardTap);
         originalAnchoredPos = rectTransform.anchoredPosition;
         UIManager.Instance.HideCardInfoPopup();
         UIManager.Instance.BuyItemArea.gameObject.SetActive(true);
@@ -133,6 +134,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
        if(CanBeDraged == false)
         return;
+        VibrationsManager.TryVibrate(VibrationType.Tap);
         UIManager.Instance.BuyItemArea.gameObject.SetActive(false);
         {
             isDragging = false;
@@ -159,6 +161,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             if (GameData.CurrentGold >= Price)
             {
                 GameData.CurrentGold -= Price;
+                VibrationsManager.TryVibrate(VibrationType.Success);
                 UIManager.Instance.UpdateLabels();
 
                 if(ArtifactData != null)
@@ -215,7 +218,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if (isDragging) return;
 
- 
+        VibrationsManager.TryVibrate(VibrationType.Tap);
 
 
         if (!isSelected)

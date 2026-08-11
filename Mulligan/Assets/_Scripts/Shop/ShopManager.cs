@@ -33,25 +33,21 @@ public class ShopManager : Singleton<ShopManager>
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
         //GameObject.Instantiate(PotionPrefab, ArtifactParent);
 
-        GameObject go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
-        go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
+        SpawnArtifactCard();
         // go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         // go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
         //go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
         //go.GetComponent<ShopCard>().Init(ArtifactManager.Instance.GetRandom());
-        go = GameObject.Instantiate(PotionPrefab, PotionParent);
-        go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+        SpawnPotionCard();
 
         if (TutorialController.Instance.HasRunTutorial())
         {
-            go = GameObject.Instantiate(RunePrefab, RuneParent);
-            go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+            SpawnRuneCard();
 
-            go = GameObject.Instantiate(PotionPrefab, PotionParent);
-            go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
-            go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+            SpawnPotionCard();
+            GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
             go.GetComponent<ShopCard>().Init(3);
         }
 
@@ -68,19 +64,18 @@ public class ShopManager : Singleton<ShopManager>
 
             if( tutorialShopHelp == true)
             {
-                go = GameObject.Instantiate(PotionPrefab, PotionParent);
-                go.GetComponent<ShopCard>().Init(PotionManager.Instance.GetRandom());
+                SpawnPotionCard();
             }
             if (TutorialController.Instance.LastStepPlayed == "Step4_Shop3" || tutorialShopHelpArmory)
             {
                 tutorialShopHelpArmory = true;
-                go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+                GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
                 go.GetComponent<ShopCard>().Init(3);
             }
 
             if (TutorialController.Instance.LastStepPlayed == "Step3_Potion")
             {
-                go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+                GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
                 go.GetComponent<ShopCard>().Init(3);
                 TutorialController.Instance.ShowStepById("Step4_Shop1");
                 tutorialShopHelp = true;
@@ -89,8 +84,7 @@ public class ShopManager : Singleton<ShopManager>
             
             if (TutorialController.Instance.LastStepPlayed == "Step5_boss2")
             {
-                go = GameObject.Instantiate(RunePrefab, RuneParent);
-                go.GetComponent<ShopCard>().Init(RuneManager.Instance.GetRandom());
+                SpawnRuneCard();
                 TutorialController.Instance.ShowStepById("Step6_shop1");
             }
           
@@ -105,6 +99,36 @@ RefreshPotionSlots();
     }
     bool tutorialShopHelp = false;
     bool tutorialShopHelpArmory = false;
+
+    private void SpawnArtifactCard()
+    {
+        ArtifactData artifact = ArtifactManager.Instance.GetRandom();
+        if (artifact == null)
+            return;
+
+        GameObject go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+        go.GetComponent<ShopCard>().Init(artifact);
+    }
+
+    private void SpawnPotionCard()
+    {
+        PotionCardData potion = PotionManager.Instance.GetRandom();
+        if (potion == null)
+            return;
+
+        GameObject go = GameObject.Instantiate(PotionPrefab, PotionParent);
+        go.GetComponent<ShopCard>().Init(potion);
+    }
+
+    private void SpawnRuneCard()
+    {
+        RuneData rune = RuneManager.Instance.GetRandom();
+        if (rune == null)
+            return;
+
+        GameObject go = GameObject.Instantiate(RunePrefab, RuneParent);
+        go.GetComponent<ShopCard>().Init(rune);
+    }
 
     public void RefreshArtifactSlots()
     {
@@ -159,6 +183,7 @@ RefreshPotionSlots();
         if (GameManager.Instance.HasFreeReroll && hasRerolledForFree == false)
         {
             PopulateShop();
+            VibrationsManager.TryVibrate(VibrationType.ButtonTap);
             hasRerolledForFree = true;
             ReRollCostLabel.text ="5";
 
@@ -167,6 +192,7 @@ RefreshPotionSlots();
         {
             GameData.CurrentGold -= 5;
             PopulateShop();
+            VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         }
         else
         {

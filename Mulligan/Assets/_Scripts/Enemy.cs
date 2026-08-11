@@ -240,6 +240,7 @@ public class Enemy : MonoBehaviour
             }
 
         Health -= aDamage;
+        VibrationsManager.TryVibrate(VibrationType.EnemyDamage);
         if(TutorialController.Instance.HasRunTutorial()== false)
         {
             if(TutorialController.Instance.LastStepPlayed=="Step3_Artifact")

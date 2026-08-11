@@ -18,15 +18,16 @@ public class ArmoryManager : Singleton<ArmoryManager>
             DestroyImmediate(UnitPackParent.GetChild(i).gameObject);
         }
 
-        GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        go.GetComponent< Card>().Init(new CardInstance(CardContainer.Instance.GetRandomCardData()));
-        go.GetComponent<Card>().OnClick += ClickOnCard;
-        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        go.GetComponent<Card>().Init(new CardInstance(CardContainer.Instance.GetRandomCardData()));
-        go.GetComponent<Card>().OnClick += ClickOnCard;
-        go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-        go.GetComponent<Card>().Init(new CardInstance(CardContainer.Instance.GetRandomCardData()));
-        go.GetComponent<Card>().OnClick += ClickOnCard;
+        for (int i = 0; i < 3; i++)
+        {
+            CardData cardData = CardContainer.Instance.GetRandomCardData();
+            if (cardData == null)
+                continue;
+
+            GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
+            go.GetComponent<Card>().Init(new CardInstance(cardData));
+            go.GetComponent<Card>().OnClick += ClickOnCard;
+        }
 
     }
     // Start is called before the first frame update
@@ -95,6 +96,7 @@ public class ArmoryManager : Singleton<ArmoryManager>
         {
             GameData.CurrentGold -= 5;
             PopulateShop();
+            VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         }
         else
         {

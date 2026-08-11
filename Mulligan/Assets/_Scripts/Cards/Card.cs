@@ -257,6 +257,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (GameManager.Instance.myGameStates != GameManager.GameStates.Game && ArmoryManager.Instance.ShopWindow.activeSelf == false&& UnitUpgradeManager.Instance.ShopWindow.activeSelf == false)
             return;
+        if (isDragging) return;
+        VibrationsManager.TryVibrate(VibrationType.CardTap);
         if (OnClick != null)
         {
             OnClick.Invoke(this);
@@ -265,7 +267,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
             return;
         }
-        if (isDragging) return;
 
         if (!isSelected)
         {

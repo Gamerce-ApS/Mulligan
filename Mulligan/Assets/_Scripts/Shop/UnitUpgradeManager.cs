@@ -25,8 +25,12 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
 
         for(int i = 0; i < 8;i++)
         {
+            CardInstance unit = CardContainer.Instance.GetRandomCardFromDecks();
+            if (unit == null)
+                continue;
+
             GameObject go = GameObject.Instantiate(UnitPrefab, UnitParent);
-            go.GetComponent<Card>().Init(CardContainer.Instance.GetRandomCardFromDecks());
+            go.GetComponent<Card>().Init(unit);
             go.GetComponent<Card>().OnClick += ClickOnCard;
             go.GetComponent<Card>().myType = CardTypeEnum.UnitSelectCard;
             go.GetComponent<Card>().allowDrag = false;
@@ -41,14 +45,16 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         
         // List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
         List<UpgradeCardData> list = new List<UpgradeCardData>();
-        list.Add(GetRandomUpgrade());
-        list.Add(GetRandomUpgrade());
-        list.Add(GetRandomUpgrade());
-        list.Add(GetRandomUpgrade());
+        for (int i = 0; i < 4; i++)
+        {
+            UpgradeCardData upgrade = GetRandomUpgrade();
+            if (upgrade != null)
+                list.Add(upgrade);
+        }
         
         list.Shuffle();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3 && i < list.Count; i++)
         {
             
             GameObject go = GameObject.Instantiate(UnitUpgradePrefab, UnitUpgradeParent);
@@ -327,7 +333,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     public UpgradeCardData GetRandomUpgrade()
     {
 
-        UpgradeCardData selected = PickArtifactByRarity(DataList.allUpgradeCards.ToList());
+        UpgradeCardData selected = PickArtifactByRarity(CardContainer.Instance.GetUnlockedUpgrades());
         return selected;
         List<UpgradeCardData> list = new List<UpgradeCardData>(DataList.allUpgradeCards);
         list.Shuffle();

@@ -121,10 +121,10 @@ public class RuneManager : Singleton<RuneManager>
     {
 
 
-        var all = CardContainer.Instance.RuneDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedRunes();
+        if (all == null || all.Count == 0)
         {
-            Debug.LogWarning("No artifacts available to choose from.");
+            Debug.LogWarning("No runes available to choose from.");
             return;
         }
 
@@ -146,6 +146,8 @@ public class RuneManager : Singleton<RuneManager>
 
         // Pick random one
         RuneData selected = available[Random.Range(0, available.Count)];
+        if (selected == null)
+            return;
 
         ActiveRunes.Add(selected);
 
@@ -157,8 +159,8 @@ public class RuneManager : Singleton<RuneManager>
     public RuneData GetRandom()
     {
 
-        var all = CardContainer.Instance.RuneDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedRunes();
+        if (all == null || all.Count == 0)
         {
             Debug.LogWarning("No runes available to choose from.");
             return null;
@@ -187,6 +189,8 @@ public class RuneManager : Singleton<RuneManager>
     }
     public void AddRune(RuneData artifact)
     {
+        if (artifact == null)
+            return;
 
         ActiveRunes.Add(artifact);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
@@ -198,7 +202,7 @@ public class RuneManager : Singleton<RuneManager>
     {
      
 
-        var all = CardContainer.Instance.RuneDataList;
+        var all = CardContainer.Instance.GetUnlockedRunes();
 
         // Filter out already equipped ones
         List<RuneData> available = new List<RuneData>();

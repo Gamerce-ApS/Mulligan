@@ -84,34 +84,44 @@ public class RewardManager : Singleton<RewardManager>
         if(LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.RareArtifact || LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.UncommonArtifact)
         {
             a1 = ArtifactManager.Instance.GetRandom();
-            ArtifactReward.Init(a1);
-            ArtifactReward.ArtifactData = a1;
-            ArtifactReward.gameObject.SetActive(true);
+            if (a1 != null)
+            {
+                ArtifactReward.Init(a1);
+                ArtifactReward.ArtifactData = a1;
+                ArtifactReward.gameObject.SetActive(true);
 
-            Vector3 targetScale = ArtifactReward.transform.localScale;
-            ArtifactReward.transform.localScale = Vector3.zero;
-            LeanTween.scale(ArtifactReward.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+                Vector3 targetScale = ArtifactReward.transform.localScale;
+                ArtifactReward.transform.localScale = Vector3.zero;
+                LeanTween.scale(ArtifactReward.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+            }
 
         }
         if (LevelSelectionManager.Instance.CurrentRewardData.type == SkipRewardType.RandomPotions)
         {
             p1 = PotionManager.Instance.GetRandom();
             p2 = PotionManager.Instance.GetRandom();
-            
-            Potion1.Init(p1);
-            Potion1.PotionData = p1;
-            Potion2.Init(p2);
-            Potion2.PotionData = p2;
-            Potion1.gameObject.SetActive(true);
-            Potion2.gameObject.SetActive(true);
 
-            Vector3 targetScale = Potion1.transform.localScale;
-            Potion1.transform.localScale = Vector3.zero;
-            LeanTween.scale(Potion1.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+            if (p1 != null)
+            {
+                Potion1.Init(p1);
+                Potion1.PotionData = p1;
+                Potion1.gameObject.SetActive(true);
 
-            targetScale = Potion2.transform.localScale;
-            Potion2.transform.localScale = Vector3.zero;
-            LeanTween.scale(Potion2.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+                Vector3 targetScale = Potion1.transform.localScale;
+                Potion1.transform.localScale = Vector3.zero;
+                LeanTween.scale(Potion1.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+            }
+
+            if (p2 != null)
+            {
+                Potion2.Init(p2);
+                Potion2.PotionData = p2;
+                Potion2.gameObject.SetActive(true);
+
+                Vector3 targetScale = Potion2.transform.localScale;
+                Potion2.transform.localScale = Vector3.zero;
+                LeanTween.scale(Potion2.transform.gameObject, targetScale, 0.5f).setEaseOutBack().setDelay(1.0f);
+            }
 
         }
     }

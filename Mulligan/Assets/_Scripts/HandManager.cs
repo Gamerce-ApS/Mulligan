@@ -48,6 +48,9 @@ public class HandManager : Singleton<HandManager>
         for(int i = 0; i< 8;i++)
         {
             CardInstance cardInstance = CardContainer.Instance.DrawCard();
+            if (cardInstance == null || cardInstance.data == null)
+                continue;
+
             CurrentHand.Add(cardInstance);
 
             Card c = GameObject.Instantiate(CardPrefab, ArcCardLayout.Instance.transform).GetComponent<Card>();
@@ -196,6 +199,9 @@ public class HandManager : Singleton<HandManager>
 
             // 3. Draw and create real card (not yet parented to layout)
             CardInstance cardInstance = CardContainer.Instance.DrawCard();
+            if (cardInstance == null || cardInstance.data == null)
+                continue;
+
             CurrentHand.Add(cardInstance);
 
             GameObject realCard = Instantiate(CardPrefab, UIManager.Instance.thCanvas.transform); // stays in Canvas space

@@ -184,6 +184,7 @@ public class Hero : MonoBehaviour
         //         aDamage = 1;
         // }
         Health -= aDamage;
+        VibrationsManager.TryVibrate(VibrationType.PlayerDamage);
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
 
@@ -286,6 +287,7 @@ public class Hero : MonoBehaviour
             {
                 gameObject.transform.localScale = Vector3.one;
             }).setEasePunch();
+            VibrationsManager.TryVibrate(VibrationType.PlayerDamage);
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
             Health += Mathf.RoundToInt( aDamage * (CurrentLifeStealProc/100f));
             RefreshBar();

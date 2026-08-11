@@ -28,7 +28,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
             int crit = int.Parse(totalCritical);
             if (crit == 0) crit = 1;
-            GameManager.Instance.TheHero.Attack(int.Parse(totalDamage) * crit);
+            int damage = int.Parse(totalDamage) * crit;
+            HighscoreManager.Instance.UpdateMaxDamage(damage);
+            GameManager.Instance.TheHero.Attack(damage);
             UnityHelper.RunAfterDelay(this, 0.5f, () =>
             {
                 HandManager.Instance.DiscardHand();

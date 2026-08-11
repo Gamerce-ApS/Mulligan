@@ -63,6 +63,21 @@ public class GameData
              }
         set { PlayerPrefs.SetInt("HeroSelected", value); UIManager.Instance.UpdateLabels(); }
     }
+    public static int CompletedFirstBossAmount
+    {
+        get { return PlayerPrefs.GetInt("CompletedFirstBossAmount", 0); }
+        set { PlayerPrefs.SetInt("CompletedFirstBossAmount", value); }
+    }
+    public static int UnlockProgressForThisRun
+    {
+        get { return PlayerPrefs.GetInt("UnlockProgressForThisRun", 0); }
+        set { PlayerPrefs.SetInt("UnlockProgressForThisRun", value); }
+    }
+    public static int FirstBossCompletedThisRun
+    {
+        get { return PlayerPrefs.GetInt("FirstBossCompletedThisRun", 0); }
+        set { PlayerPrefs.SetInt("FirstBossCompletedThisRun", value); }
+    }
 
 
 

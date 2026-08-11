@@ -27,9 +27,9 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
         }
 
-        var all = CardContainer.Instance.ArtifactDataList;
+        var all = CardContainer.Instance.GetUnlockedArtifacts();
 
-        if (all == null || all.Length == 0)
+        if (all == null || all.Count == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
             return;
@@ -54,6 +54,9 @@ public class ArtifactManager : Singleton<ArtifactManager>
         // Pick random one
         // ArtifactData selected = available[Random.Range(0, available.Count)];
         ArtifactData selected = PickArtifactByRarity(available);
+        if (selected == null)
+            return;
+
         ActiveArtifacts.Add(selected);
 
         // Update UI
@@ -64,9 +67,12 @@ public class ArtifactManager : Singleton<ArtifactManager>
     public ArtifactData GetRandom()
     {
 
-        var all = CardContainer.Instance.ArtifactDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedArtifacts();
+        if (all == null || all.Count == 0)
         {
+            if (TutorialController.Instance.HasRunTutorial()== false && TutorialController.Instance.LastStepPlayed == "Step1_Gold")
+                return CardContainer.Instance.ArtifactDataList.ToList().Find(c=> c.name == "+20 Dmg");
+
             Debug.LogWarning("No artifacts available to choose from.");
             return null;
         }
@@ -94,6 +100,8 @@ public class ArtifactManager : Singleton<ArtifactManager>
         if (TutorialController.Instance.HasRunTutorial()== false && TutorialController.Instance.LastStepPlayed == "Step1_Gold")
         {
              selected = available.Find(c=> c.name == "+20 Dmg");
+             if (selected == null)
+                selected = CardContainer.Instance.ArtifactDataList.ToList().Find(c=> c.name == "+20 Dmg");
         }
 
         return selected;
@@ -106,8 +114,8 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
         }
 
-        var all = CardContainer.Instance.ArtifactDataList;
-        if (all == null || all.Length == 0)
+        var all = CardContainer.Instance.GetUnlockedArtifacts();
+        if (all == null || all.Count == 0)
         {
             Debug.LogWarning("No artifacts available to choose from.");
             return;
@@ -151,6 +159,9 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void AddArtifact(ArtifactData artifact)
     {
+        if (artifact == null)
+            return;
+
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
         ActiveArtifacts.Add(artifact);

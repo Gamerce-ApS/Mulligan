@@ -44,6 +44,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (isDragging) return;
         if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
             return;
+        VibrationsManager.TryVibrate(VibrationType.Tap);
         if (!isSelected)
         {
             //originalAnchoredPos = rectTransform.anchoredPosition;
@@ -219,6 +220,7 @@ float threshold = baseThreshold * scaleFactor;
     {
         //PotionEffectEvaluator.ApplyPotion(potion, target); // or however you apply effects
         PotionManager.Instance.TriggerPotion(potion, target);
+        VibrationsManager.TryVibrate(VibrationType.Potion);
         // Optional: play animation
         LeanTween.scale(gameObject, Vector3.zero, 0.5f)
             .setEaseInBack()
