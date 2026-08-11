@@ -49,6 +49,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public SkipRewardData CurrentRewardData = null;
     public void ShowWindow(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.LevelSelectionOpen);
         CurrentRewardData = RewardManager.Instance.GetRandom();
         //RewardText.text = CurrentRewardData.title;
 
@@ -176,6 +177,8 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     }
     public void HideWindow(bool callback = true)
     {
+        SoundManager.TryPlay(SoundType.WindowClose);
+
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
 

@@ -86,7 +86,10 @@ public class CardInstance
     public void UpgradeRank()
     {
         if (currentRank < data.RankUpgrades.Count - 1)
+        {
             currentRank++;
+            SoundManager.TryPlay(SoundType.RankUp);
+        }
 
         if (CardGO != null)
             CardGO.UpdateCardUI();

@@ -152,6 +152,8 @@ public class Enemy : MonoBehaviour
 
     public void Attack(int aDamage=0)
     {
+        SoundManager.TryPlay(SoundType.EnemyAttack);
+
         int dmg = (int)(Damage);
 
         if (aDamage > 0)
@@ -234,6 +236,7 @@ public class Enemy : MonoBehaviour
                     if (50 < Random.Range(0, 100))
                     {
                         UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                        SoundManager.TryPlay(SoundType.Dodge);
                         return;
                     }
                 
@@ -241,6 +244,7 @@ public class Enemy : MonoBehaviour
 
         Health -= aDamage;
         VibrationsManager.TryVibrate(VibrationType.EnemyDamage);
+        SoundManager.TryPlay(SoundType.EnemyDamage);
         if(TutorialController.Instance.HasRunTutorial()== false)
         {
             if(TutorialController.Instance.LastStepPlayed=="Step3_Artifact")
@@ -324,6 +328,8 @@ public class Enemy : MonoBehaviour
     }
     public void PlayDeathAnimation(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.EnemyDeath);
+
         RectTransform rt = GetComponent<RectTransform>();
         CanvasGroup cg = GetComponent<CanvasGroup>();
         if (cg == null)

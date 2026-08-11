@@ -95,6 +95,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
     public void ShowWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.InventoryDeckOverviewOpen);
         PopulateInventory();
 
         bgCanvasGroup.gameObject.SetActive(true);
@@ -111,6 +112,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
     public void HideWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.WindowClose);
         UIManager.Instance.HideCardInfoPopup();
 
         bgCanvasGroup.alpha = 1;

@@ -36,6 +36,8 @@ public class RewardManager : Singleton<RewardManager>
 
     public void ShowWindow(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.WindowOpen);
+
         if (LevelSelectionManager.Instance.CurrentRewardData == null)
             LevelSelectionManager.Instance.CurrentRewardData = GetRandom();
 
@@ -132,6 +134,9 @@ public class RewardManager : Singleton<RewardManager>
     {
         if(LevelSelectionManager.Instance.CurrentRewardData != null)
             ApplyReward(LevelSelectionManager.Instance.CurrentRewardData.type);
+
+        SoundManager.TryPlay(SoundType.Success);
+        SoundManager.TryPlay(SoundType.WindowClose);
 
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();

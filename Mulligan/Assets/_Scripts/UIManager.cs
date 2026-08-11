@@ -157,6 +157,7 @@ public class UIManager : Singleton<UIManager>
 
         HandManager.Instance.PlayHand();
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.AttackButton);
         UIManager.Instance.HideCardInfoPopup();
 
         if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ATTACK)
@@ -184,6 +185,7 @@ public class UIManager : Singleton<UIManager>
         {
             HandManager.Instance.ReRollHand();
             VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+            SoundManager.TryPlay(SoundType.Reroll);
             UIManager.Instance.HideCardInfoPopup();
 
             GameData.CurrentReRolls--;
@@ -196,6 +198,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickContinueFromShop()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.BattleFromShop);
         ShopManager.Instance.HideShopWindow();
     }
     public void ClickContinueFromDefeate()
@@ -218,6 +221,7 @@ public class UIManager : Singleton<UIManager>
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(DamageLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.DamageTotal);
         LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
         {
             DamageLabel.transform.localScale = DamageLabelOriginalScale;
@@ -227,6 +231,7 @@ public class UIManager : Singleton<UIManager>
     {
         CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(CriticalLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.CritTotal);
         LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
         {
             CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
@@ -499,6 +504,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject TooltipPrefab;
     public void ShowTooltip(string message)
     {
+        SoundManager.TryPlay(SoundType.Tooltip);
+
         GameObject tooltip = Instantiate(TooltipPrefab, thCanvas.transform);
         TMPro.TMP_Text text = tooltip.GetComponentInChildren<TMPro.TMP_Text>();
         RectTransform rt = tooltip.GetComponent<RectTransform>();
@@ -604,6 +611,8 @@ public class UIManager : Singleton<UIManager>
     {
         if (activeInfoPopup != null) Destroy(activeInfoPopup);
 
+        SoundManager.TryPlay(SoundType.InfoPopup);
+
         currentTransform = target;
         GameObject popup = Instantiate(CardInfoPopupPrefab, thCanvas.transform);
         activeInfoPopup = popup;
@@ -675,6 +684,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject VictoryParent;
     public void ShowVictoryScreen(System.Action onComplete)
     {
+        SoundManager.TryPlay(SoundType.Victory);
+
         VictoryParent.GetComponent<CanvasGroup>().alpha = 0f;
         VictoryParent.SetActive(true);
 
@@ -701,6 +712,7 @@ public class UIManager : Singleton<UIManager>
         {
             hero.Experience -= CardContainer.Instance.ExperienceToLevelUp;
             hero.Level++;
+            SoundManager.TryPlay(SoundType.RankUp);
 
             // 3. Increase max HP
             hero.MaxHealth += CardContainer.Instance.HealthGainPerLevel;
@@ -733,6 +745,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject LoseParent;
     public void ShowLoseScreen(System.Action onComplete)
     {
+        SoundManager.TryPlay(SoundType.Lose);
 
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
         LostText.text = "You reached World " + currentWorld + ", Level " + GameData.CurrentRound.ToString();
@@ -793,6 +806,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject BossParent;
     public void ShowBossIntroScreen(BossData boss, System.Action onComplete)
     {
+        SoundManager.TryPlay(SoundType.BossIntro);
+
         BossParent.GetComponent<CanvasGroup>().alpha = 0f;
         BossParent.SetActive(true);
 
@@ -895,6 +910,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickTryForFree()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickTryForFree");
         // PlayerPrefs.SetInt("HasRunTutorial", 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
@@ -938,6 +954,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickBuyPopupWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.WindowOpen);
         BuyPopupWindow.SetActive(true);
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 0;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
@@ -954,6 +971,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickClosePopupWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.WindowClose);
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 0f, 0.25f).setEaseInQuad();
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
@@ -976,6 +994,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickBuy()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickBuy");
 
         IAPManager.Instance.BuyFullGame(() =>
@@ -1011,6 +1030,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickTutorial()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
         PlayerPrefs.SetInt("HasRunTutorial", 0);
 
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
@@ -1032,6 +1052,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickPlayFullGame()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
         PlayerPrefs.SetInt("HasRunTutorial", 1);
         // PlayerPrefs.SetInt(IAPManager.FullGameUnlockedKey, 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
@@ -1056,6 +1077,7 @@ public class UIManager : Singleton<UIManager>
     public void ClickRestore()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
         IAPManager.Instance.RestorePurchases();
     }
     public void ClickDiscord()

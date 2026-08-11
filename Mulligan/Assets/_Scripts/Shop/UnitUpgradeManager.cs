@@ -93,6 +93,8 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowWindow(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.WindowOpen);
+
         if(TutorialController.Instance.LastStepPlayed=="Step4_Shop3")
         {
             TutorialController.Instance.HideTutorial();
@@ -116,6 +118,8 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
     }
     public void HideWindow()
     {
+        SoundManager.TryPlay(SoundType.WindowClose);
+
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
 
@@ -226,6 +230,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         if (targetUnitCard != null && upgradeCard != null)
         {
             targetUnitCard.cardInstance.ApplyUpgrade(upgradeCard.cardInstance.upgradeData);
+            SoundManager.TryPlay(SoundType.UnitUpgradeApplied);
         }
         GameData.UpgradedUnits++;
     }
@@ -302,6 +307,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             aCard.rectTransform.anchoredPosition += new Vector2(0, 60f); // Lift
             aCard.rectTransform.rotation = Quaternion.identity;
             aCard.isSelected = true;
+            SoundManager.TryPlay(SoundType.UnitUpgradeSelected);
 
             
             if (aCard.myType == CardTypeEnum.UnitUpgradeCard)

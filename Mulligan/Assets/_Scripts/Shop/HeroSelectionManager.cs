@@ -42,6 +42,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     public CanvasGroup bgCanvasGroup;
     public void ShowWindow(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.WindowOpen);
 
         bgCanvasGroup.gameObject.SetActive(true);
         bgCanvasGroup.alpha = 0;
@@ -89,6 +90,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void HideWindow()
     {
+        SoundManager.TryPlay(SoundType.WindowClose);
+
         bgCanvasGroup.alpha = 1;
         LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
 
@@ -120,6 +123,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         return;
 
         VibrationsManager.TryVibrate(VibrationType.CardTap);
+        SoundManager.TryPlay(SoundType.CardTap);
 
         for (int i = 0; i < HeroNormal.Count; i++)
         {
@@ -213,6 +217,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             return;
         }
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.Success);
         if(TutorialController.Instance.HasRunTutorial() == false)
         {
             if(UIManager.Instance.PotionSlotParent.childCount>0)

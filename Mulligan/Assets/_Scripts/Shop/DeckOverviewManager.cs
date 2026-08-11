@@ -216,6 +216,7 @@ public class DeckOverviewManager : Singleton<DeckOverviewManager>
     public void ShowWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.InventoryDeckOverviewOpen);
         PopulateDeck();
 
         bgCanvasGroup.gameObject.SetActive(true);
@@ -233,6 +234,7 @@ public class DeckOverviewManager : Singleton<DeckOverviewManager>
     public void HideWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.WindowClose);
         UIManager.Instance.HideCardInfoPopup();
 
         bgCanvasGroup.alpha = 1;

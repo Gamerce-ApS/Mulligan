@@ -112,6 +112,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         isSelected = false;
 
         VibrationsManager.TryVibrate(VibrationType.CardTap);
+        SoundManager.TryPlay(SoundType.ShopItemDragStart);
         originalAnchoredPos = rectTransform.anchoredPosition;
         UIManager.Instance.HideCardInfoPopup();
         UIManager.Instance.BuyItemArea.gameObject.SetActive(true);
@@ -162,6 +163,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 GameData.CurrentGold -= Price;
                 VibrationsManager.TryVibrate(VibrationType.Success);
+                SoundManager.TryPlay(SoundType.ShopPurchase);
                 UIManager.Instance.UpdateLabels();
 
                 if(ArtifactData != null)
@@ -182,6 +184,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             else
             {
                 UIManager.Instance.ShowTooltip("Not enough gold!");
+                SoundManager.TryPlay(SoundType.ShopItemDropCancel);
                 ReturnToShop();
             }
         }
@@ -193,6 +196,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 UIManager.Instance.ShowTooltip("No slots!");
             else if( RuneManager.Instance.ActiveRunes.Count >= 6)
                 UIManager.Instance.ShowTooltip("No slots!");
+            SoundManager.TryPlay(SoundType.ShopItemDropCancel);
             ReturnToShop();
         }
     }
@@ -219,6 +223,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (isDragging) return;
 
         VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.Tap);
 
 
         if (!isSelected)

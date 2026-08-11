@@ -21,6 +21,8 @@ public class RuneManager : Singleton<RuneManager>
     }
     public void TriggerRunes(RuneData aRune, Card targetCard = null)
     {
+        SoundManager.TryPlay(SoundType.RuneTrigger);
+
         switch (aRune.type)
         {
             case RuneType.RerollBonus:
@@ -150,6 +152,7 @@ public class RuneManager : Singleton<RuneManager>
             return;
 
         ActiveRunes.Add(selected);
+        SoundManager.TryPlay(SoundType.RuneObtained);
 
         // Update UI
         UIManager.Instance.UpdateArtifactSlotsUI();
@@ -193,6 +196,7 @@ public class RuneManager : Singleton<RuneManager>
             return;
 
         ActiveRunes.Add(artifact);
+        SoundManager.TryPlay(SoundType.RuneObtained);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
         ShopManager.Instance.RefreshHeroRunes();
         TriggerRunes(artifact);
@@ -211,6 +215,7 @@ public class RuneManager : Singleton<RuneManager>
             if (!ActiveRunes.Contains(artifact) && aType== artifact.type)
             {
                 ActiveRunes.Add(artifact);
+                SoundManager.TryPlay(SoundType.RuneObtained);
 
                 // Update UI
                 UIManager.Instance.UpdateArtifactSlotsUI();

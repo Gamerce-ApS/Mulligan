@@ -330,6 +330,8 @@ public class CardContainer : Singleton<CardContainer>
     }
     public void Shuffel()
     {
+        SoundManager.TryPlay(SoundType.DeckShuffle);
+
         foreach (var a in DiscardDeck)
             CurrentDeck.Add(a);
         DiscardDeck.Clear();

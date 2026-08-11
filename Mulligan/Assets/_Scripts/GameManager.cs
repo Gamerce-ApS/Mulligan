@@ -101,6 +101,7 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.SplashScreenButtons[2].SetActive(true); 
         }
         //   #endif
+        SoundManager.TryPlayMenuMusic();
     }
     public void ShowHeroSelection()
     {
@@ -111,6 +112,7 @@ public class GameManager : Singleton<GameManager>
             AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
             LevelSelectionManager.Instance.ShowWindow(() =>
             {
+                SoundManager.TryPlayCombatMusic();
                 TheEnemy.Init(GameData.CurrentRound);
                 GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
@@ -155,6 +157,7 @@ public class GameManager : Singleton<GameManager>
         {
             GameData.CurrentGold += 5;
         }
+        SoundManager.TryPlay(SoundType.Gold);
 
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
@@ -173,6 +176,7 @@ public class GameManager : Singleton<GameManager>
                     {
                         LevelSelectionManager.Instance.ShowWindow(() =>
                         {
+                            SoundManager.TryPlayCombatMusic();
                             ArcCardLayout.Instance.transform.gameObject.SetActive(true);
                             TheEnemy.gameObject.SetActive(true);
                             TheEnemy.Init(GameData.CurrentRound);
@@ -352,6 +356,7 @@ public class GameManager : Singleton<GameManager>
     public void AddGold(int aValue)
     {
         GameData.CurrentGold += aValue;
+        SoundManager.TryPlay(SoundType.Gold);
     }
     public void DisableBossDebuffForTurn()
     {

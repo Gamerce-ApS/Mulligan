@@ -741,6 +741,7 @@ public class TutorialController : Singleton<TutorialController>
                 return;
 
             VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+            SoundManager.TryPlay(SoundType.ButtonTap);
             waitingForContinueClick = false;
             HideClickToContinue();
 

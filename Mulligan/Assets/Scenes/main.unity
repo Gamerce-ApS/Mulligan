@@ -114400,6 +114400,333 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891585483}
   m_CullTransparentMesh: 1
+--- !u!1 &1891934196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1891934198}
+  - component: {fileID: 1891934197}
+  m_Layer: 0
+  m_Name: SoundsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1891934197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891934196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e45a83d5aef340a8b3d6058e2bc284d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundsEnabled: 1
+  MusicEnabled: 1
+  MasterVolume: 1
+  SfxVolume: 1
+  MusicVolume: 0.7
+  SfxSource: {fileID: 0}
+  MusicSource: {fileID: 0}
+  DefaultMusic: {fileID: 8300000, guid: 7c3d7cbab5639445b8e1637197fefd52, type: 3}
+  MenuMusic: {fileID: 8300000, guid: 7c3d7cbab5639445b8e1637197fefd52, type: 3}
+  CombatMusic: {fileID: 8300000, guid: 6391e5bc5095f409da865f494f42b792, type: 3}
+  PlayMusicOnAwake: 1
+  Tap:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ButtonTap:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  WindowOpen:
+    Clips:
+    - {fileID: 8300000, guid: 2a2f7b52646c54237908aebd97a68fbb, type: 3}
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  WindowClose:
+    Clips:
+    - {fileID: 8300000, guid: 2a2f7b52646c54237908aebd97a68fbb, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Success:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Error:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Tooltip:
+    Clips:
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  InfoPopup:
+    Clips:
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CardTap:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CardDraw:
+    Clips:
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CardMove:
+    Clips:
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CardDiscard:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Reroll:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  AttackButton:
+    Clips:
+    - {fileID: 8300000, guid: 0b115102ba2834f579c263e3e4a191f9, type: 3}
+    - {fileID: 8300000, guid: 39c5ff83cf8e8440b8249af5c751c4d8, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  DamageTotal:
+    Clips:
+    - {fileID: 8300000, guid: 87ba8cda5be7b403fb27cdfc28150920, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CritTotal:
+    Clips:
+    - {fileID: 8300000, guid: 87ba8cda5be7b403fb27cdfc28150920, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  DeckShuffle:
+    Clips:
+    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  EnemyAttack:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  EnemyDamage:
+    Clips:
+    - {fileID: 8300000, guid: 2179c885b001d4750ac9089aadbf6381, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  EnemyDeath:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  PlayerDamage:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Dodge:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Potion:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  PotionTap:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  PotionHeal:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  PotionBuff:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  PotionDestroy:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ArtifactObtained:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ArtifactTrigger:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ArtifactSold:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  RuneObtained:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  RuneTrigger:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  UnitUpgradeSelected:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  UnitUpgradeApplied:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  RankUp:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Gold:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ShopEnter:
+    Clips:
+    - {fileID: 8300000, guid: 83b575631262d4476836a995c11880a9, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ShopReroll:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ShopPurchase:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ShopItemDragStart:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  ShopItemDropCancel:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  BattleFromShop:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Victory:
+    Clips:
+    - {fileID: 8300000, guid: 521d2364bb28247bfaba4375ee68bdec, type: 3}
+    - {fileID: 8300000, guid: e5ec3b2b3e92c4f84b5476f13523da56, type: 3}
+    - {fileID: 8300000, guid: 783320c68c5ba4aeabbcdee58f153cc8, type: 3}
+    - {fileID: 8300000, guid: ce8acd8ef56854f68af402699c990abb, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Lose:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  BossIntro:
+    Clips: []
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  LevelSelectionOpen:
+    Clips:
+    - {fileID: 8300000, guid: 6c538769f2f7648ff936de7d3690a9ef, type: 3}
+    Volume: 0.38
+    PitchMin: 1
+    PitchMax: 1
+  InventoryDeckOverviewOpen:
+    Clips:
+    - {fileID: 8300000, guid: eff3b3f32a707419f85a2cade23cfabd, type: 3}
+    - {fileID: 8300000, guid: be34265481d5e42d38455b6bca4e0975, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  Unlock:
+    Clips:
+    - {fileID: 8300000, guid: e5ec3b2b3e92c4f84b5476f13523da56, type: 3}
+    Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+--- !u!4 &1891934198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891934196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -43.349678, y: -7.2050643, z: 368.41156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1892649434
 GameObject:
   m_ObjectHideFlags: 0
@@ -137220,3 +137547,4 @@ SceneRoots:
   - {fileID: 649689313}
   - {fileID: 1536685567}
   - {fileID: 1250228582}
+  - {fileID: 1891934198}

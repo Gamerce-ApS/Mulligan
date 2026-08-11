@@ -184,6 +184,7 @@ RefreshPotionSlots();
         {
             PopulateShop();
             VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+            SoundManager.TryPlay(SoundType.ShopReroll);
             hasRerolledForFree = true;
             ReRollCostLabel.text ="5";
 
@@ -193,10 +194,12 @@ RefreshPotionSlots();
             GameData.CurrentGold -= 5;
             PopulateShop();
             VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+            SoundManager.TryPlay(SoundType.ShopReroll);
         }
         else
         {
             UIManager.Instance.ShowTooltip("Not enough gold!");
+            SoundManager.TryPlay(SoundType.Error);
         }
     }
     public void ClickUnlockSlot()
@@ -205,11 +208,13 @@ RefreshPotionSlots();
         {
             GameData.CurrentGold -= 20;
             GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+            SoundManager.TryPlay(SoundType.Success);
             RefreshArtifactSlots();
         }
         else
         {
             UIManager.Instance.ShowTooltip("Not enough gold!");
+            SoundManager.TryPlay(SoundType.Error);
         }
     }
         public void ClickUnlockPotionSlot()
@@ -218,11 +223,13 @@ RefreshPotionSlots();
         {
             GameData.CurrentGold -= 20;
             GameManager.Instance.TheHero.myHeroData.PotionSlots++;
+            SoundManager.TryPlay(SoundType.Success);
             RefreshPotionSlots();
         }
         else
         {
             UIManager.Instance.ShowTooltip("Not enough gold!");
+            SoundManager.TryPlay(SoundType.Error);
         }
     }
     public void Clear()
@@ -251,6 +258,7 @@ RefreshPotionSlots();
     public CanvasGroup bgCanvasGroup;
     public void ShowShopWindow(System.Action onComplete = null)
     {
+        SoundManager.TryPlay(SoundType.ShopEnter);
 
         PopulateShop();
 

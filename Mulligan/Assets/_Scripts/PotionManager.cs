@@ -25,6 +25,7 @@ public class PotionManager : Singleton<PotionManager>
         if(ArtifactManager.Instance.HasArtifact(ArtifactEffectType.DoublePotionEffects))
             EffectMultiplier = 2;
 
+        SoundManager.TryPlay(GetPotionSoundType(potion));
 
         switch (potion.effectType)
         {
@@ -166,12 +167,35 @@ public class PotionManager : Singleton<PotionManager>
         UIManager.Instance.UpdateArtifactSlotsUI();
     }
 
+    private SoundType GetPotionSoundType(PotionCardData potion)
+    {
+        if (potion == null)
+            return SoundType.Potion;
+
+        switch (potion.effectType)
+        {
+            case PotionEffectType.HealHero:
+                return SoundType.PotionHeal;
+            case PotionEffectType.DestroyUnit:
+                return SoundType.PotionDestroy;
+            case PotionEffectType.CritBonus:
+            case PotionEffectType.DamageBonus:
+            case PotionEffectType.RandomDamage:
+            case PotionEffectType.SuicideBoost:
+            case PotionEffectType.BoostAndLoseHP:
+                return SoundType.PotionBuff;
+            default:
+                return SoundType.Potion;
+        }
+    }
+
 public void SellPotion(Potion aPotion)
     {
         ActivePotions.Remove(aPotion.PotionData);
         Destroy(aPotion.gameObject);
         UIManager.Instance.UpdatePotionsSlotsUI(); // updates visuals
         GameData.CurrentGold += 1;
+        SoundManager.TryPlay(SoundType.Gold);
 
 
 
@@ -224,6 +248,7 @@ public void SellPotion(Potion aPotion)
             return null;
         
         ActivePotions.Add(selected);
+        SoundManager.TryPlay(SoundType.PotionTap);
 
         // Update UI
         UIManager.Instance.UpdateArtifactSlotsUI();
@@ -295,6 +320,7 @@ public void SellPotion(Potion aPotion)
             if (!ActivePotions.Contains(artifact) && aType== artifact.effectType)
             {
                 ActivePotions.Add(artifact);
+                SoundManager.TryPlay(SoundType.PotionTap);
 
                 // Update UI
                 UIManager.Instance.UpdateArtifactSlotsUI();
@@ -327,6 +353,7 @@ public void SellPotion(Potion aPotion)
 
 
         ActivePotions.Add(artifact);
+        SoundManager.TryPlay(SoundType.PotionTap);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
     }
     public void RemovePotion(PotionCardData artifact)

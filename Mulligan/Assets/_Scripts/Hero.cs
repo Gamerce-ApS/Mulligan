@@ -164,6 +164,7 @@ public class Hero : MonoBehaviour
                 if (Random.Range(0, 100) < artifact.value)
                 {
                     UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                    SoundManager.TryPlay(SoundType.Dodge);
                     return true;
                 }
             }
@@ -185,6 +186,7 @@ public class Hero : MonoBehaviour
         // }
         Health -= aDamage;
         VibrationsManager.TryVibrate(VibrationType.PlayerDamage);
+        SoundManager.TryPlay(SoundType.PlayerDamage);
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
 

@@ -58,6 +58,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
 
         ActiveArtifacts.Add(selected);
+        SoundManager.TryPlay(SoundType.ArtifactObtained);
 
         // Update UI
         UIManager.Instance.UpdateArtifactSlotsUI();
@@ -128,6 +129,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
             if (!ActiveArtifacts.Contains(artifact) && aType== artifact.effect)
             {
                 ActiveArtifacts.Add(artifact);
+                SoundManager.TryPlay(SoundType.ArtifactObtained);
 
                 // Update UI
                 UIManager.Instance.UpdateArtifactSlotsUI();
@@ -151,8 +153,10 @@ public class ArtifactManager : Singleton<ArtifactManager>
     {
         ActiveArtifacts.Remove(aArtifact.ArtifactData);
         Destroy(aArtifact.gameObject);
+        SoundManager.TryPlay(SoundType.ArtifactSold);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
         GameData.CurrentGold += 3;
+        SoundManager.TryPlay(SoundType.Gold);
         GameManager.Instance.TheHero.RefreshBar();
 
 
@@ -165,6 +169,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
         ActiveArtifacts.Add(artifact);
+        SoundManager.TryPlay(SoundType.ArtifactObtained);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
 
         if(TutorialController.Instance.LastStepPlayed=="Step2_Shop3")

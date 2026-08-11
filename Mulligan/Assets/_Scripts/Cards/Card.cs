@@ -259,6 +259,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             return;
         if (isDragging) return;
         VibrationsManager.TryVibrate(VibrationType.CardTap);
+        SoundManager.TryPlay(SoundType.CardTap);
         if (OnClick != null)
         {
             OnClick.Invoke(this);
@@ -310,6 +311,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         isDragging = true;
         isSelected = false;
+        SoundManager.TryPlay(SoundType.CardMove);
 
         originalParent = transform.parent;
         originalAnchoredPos = rectTransform.anchoredPosition;
@@ -633,6 +635,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void FlyAwayAndDiscard(Vector3 flyTargetWorld, float delay,CardInstance cInstance)
     {
+        SoundManager.TryPlay(SoundType.CardDiscard);
+
         float flyTime = 0.5f;
         float rotateAngle = 360f;
 

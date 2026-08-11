@@ -45,6 +45,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
             return;
         VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.PotionTap);
         if (!isSelected)
         {
             //originalAnchoredPos = rectTransform.anchoredPosition;
@@ -72,6 +73,7 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         isDragging = true;
         isSelected = false;
+        SoundManager.TryPlay(SoundType.Potion);
 
         originalAnchoredPos = rectTransform.anchoredPosition;
         if(ShopManager.Instance.ShopWindow.activeSelf)

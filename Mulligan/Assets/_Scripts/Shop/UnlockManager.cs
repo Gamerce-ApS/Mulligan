@@ -106,6 +106,7 @@ public class UnlockManager : Singleton<UnlockManager>
             return;
 
         VibrationsManager.TryVibrate(VibrationType.Success);
+        SoundManager.TryPlay(SoundType.Unlock);
         PopulateUnlocks();
 
         bgCanvasGroup.gameObject.SetActive(true);
@@ -122,6 +123,7 @@ public class UnlockManager : Singleton<UnlockManager>
     public void HideWindow()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.WindowClose);
         UIManager.Instance.HideCardInfoPopup();
 
         bgCanvasGroup.alpha = 1;

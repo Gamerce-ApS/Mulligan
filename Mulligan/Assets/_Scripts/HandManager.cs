@@ -203,6 +203,7 @@ public class HandManager : Singleton<HandManager>
                 continue;
 
             UIManager.Instance.PlayDeckPileDrawAnimation();
+            SoundManager.TryPlay(SoundType.CardDraw);
             CurrentHand.Add(cardInstance);
 
             GameObject realCard = Instantiate(CardPrefab, UIManager.Instance.thCanvas.transform); // stays in Canvas space

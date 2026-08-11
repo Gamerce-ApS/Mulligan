@@ -45,6 +45,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         return;
         if (isDragging) return;
         VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.Tap);
 
         if (!isSelected)
         {
@@ -202,6 +203,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             onComplete?.Invoke();
             return;
         }
+        SoundManager.TryPlay(SoundType.ArtifactTrigger);
+
         // Pulse
         LeanTween.scale(gameObject, Vector3.one * 1.7f, 0.6f)
         .setEasePunch();
