@@ -200,6 +200,9 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickContinueFromDefeate()
     {
+        if(GameData.FirstBossCompletedThisRun == 1)
+        return;
+
         GameManager.Instance.StartGame();
         SceneManager.LoadScene(0);
         if (IAPManager.Instance.IsFullGameUnlocked == false)

@@ -210,8 +210,11 @@ public class GameManager : Singleton<GameManager>
         {
             UIManager.Instance.ShowLoseScreen(() =>
             {
-                if (UnlockManager.Instance.HasUnlocksToReveal())
-                    UnlockManager.Instance.ShowWindow();
+                LeanTween.delayedCall(gameObject, 2f, () =>
+                {
+                        if (UnlockManager.Instance.HasUnlocksToReveal())
+                            UnlockManager.Instance.ShowWindow();
+                });
             });
 
         });
@@ -335,8 +338,11 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            //    RewardManager.Instance.ShowWindow();
+                    GameData.CompletedFirstBossAmount++;
+        GameData.FirstBossCompletedThisRun = 1;
+            LostGame();
         }
+        
 
 
     }

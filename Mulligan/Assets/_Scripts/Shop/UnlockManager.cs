@@ -137,6 +137,8 @@ public class UnlockManager : Singleton<UnlockManager>
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
                 bgCanvasGroup.gameObject.SetActive(false);
             });
+
+            GameData.FirstBossCompletedThisRun = 0;
     }
 
     public void DebugCompleteFirstBossAndShow()
