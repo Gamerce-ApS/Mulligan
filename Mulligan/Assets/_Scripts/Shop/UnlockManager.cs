@@ -388,7 +388,13 @@ public class UnlockManager : Singleton<UnlockManager>
 
     private void InitWrapper(GameObject visual, string title, string description)
     {
-        UnlockContentCard unlockCard = visual.GetComponentInParent<UnlockContentCard>();
+        if (visual == null || visual.transform.parent == null)
+            return;
+
+        UnlockContentCard unlockCard = visual.transform.parent.GetComponent<UnlockContentCard>();
+        if (unlockCard == null)
+            unlockCard = visual.transform.parent.gameObject.AddComponent<UnlockContentCard>();
+
         if (unlockCard != null)
             unlockCard.Init(title, description, visual.transform);
     }

@@ -53,6 +53,7 @@ public class GameManager : Singleton<GameManager>
             UnitUpgradeManager.Instance.Init();
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
+            InventoryOverviewManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
             StartGame();
 
