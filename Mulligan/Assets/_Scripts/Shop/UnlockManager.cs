@@ -9,16 +9,21 @@ public class UnlockManager : Singleton<UnlockManager>
     public GameObject ShopWindow;
     public CanvasGroup bgCanvasGroup;
     public Transform UnlockParent;
+    public Transform CardBackgroundParent;
 
     public GameObject ArtifactPrefab;
     public GameObject PotionPrefab;
     public GameObject RunePrefab;
     public GameObject UnitUpgradePrefab;
+    public GameObject CardBackgroundPrefab;
 
     public float ShopCardScale = 1.261564f;
     public float UnitUpgradeCardScale = 0.9070403f;
+    public float CardBackgroundScale = 1f;
 
     public Vector3 startPosition;
+    private List<RectTransform> cardWrappers = new List<RectTransform>();
+    private List<RectTransform> cardBackgrounds = new List<RectTransform>();
 
     public void Init()
     {
@@ -29,6 +34,8 @@ public class UnlockManager : Singleton<UnlockManager>
     {
         if (ShopWindow == null || ShopWindow.activeSelf == false)
             return;
+
+        SyncCardBackgrounds();
 
         if (UIManager.Instance.currentTransform == null || Input.GetMouseButtonDown(0) == false)
             return;
@@ -49,9 +56,20 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public void PopulateUnlocks()
     {
+        cardWrappers.Clear();
+        cardBackgrounds.Clear();
+
         for (int i = UnlockParent.childCount - 1; i >= 0; i--)
         {
             DestroyImmediate(UnlockParent.GetChild(i).gameObject);
+        }
+
+        if (CardBackgroundParent != null)
+        {
+            for (int i = CardBackgroundParent.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(CardBackgroundParent.GetChild(i).gameObject);
+            }
         }
 
         foreach (var artifact in GetUnlockedArtifactsToReveal())
@@ -73,6 +91,13 @@ public class UnlockManager : Singleton<UnlockManager>
         {
             SpawnUpgrade(upgrade);
         }
+
+        Canvas.ForceUpdateCanvases();
+        RectTransform unlockRect = UnlockParent.GetComponent<RectTransform>();
+        if (unlockRect != null)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(unlockRect);
+
+        SyncCardBackgrounds();
     }
 
     public void ShowWindow()
@@ -275,6 +300,10 @@ public class UnlockManager : Singleton<UnlockManager>
             layoutElement.flexibleWidth = 0;
             layoutElement.flexibleHeight = 0;
 
+            GameObject background = SpawnCardBackground();
+            SetupCardBackground(background, wrapperRect);
+            AddCardBackground(wrapperRect, background);
+
             cardRect.anchorMin = new Vector2(0.5f, 0.5f);
             cardRect.anchorMax = new Vector2(0.5f, 0.5f);
             cardRect.pivot = new Vector2(0.5f, 0.5f);
@@ -284,6 +313,75 @@ public class UnlockManager : Singleton<UnlockManager>
         }
 
         return visual;
+    }
+
+    private GameObject SpawnCardBackground()
+    {
+        if (CardBackgroundPrefab == null || CardBackgroundParent == null)
+            return null;
+
+        GameObject background = Instantiate(CardBackgroundPrefab, CardBackgroundParent);
+        background.SetActive(true);
+
+        foreach (var graphic in background.GetComponentsInChildren<Graphic>(true))
+        {
+            graphic.raycastTarget = false;
+        }
+
+        CanvasGroup canvasGroup = background.GetComponent<CanvasGroup>();
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = false;
+
+        return background;
+    }
+
+    private void AddCardBackground(RectTransform wrapperRect, GameObject background)
+    {
+        if (wrapperRect == null || background == null)
+            return;
+
+        RectTransform backgroundRect = background.GetComponent<RectTransform>();
+        if (backgroundRect == null)
+            return;
+
+        cardWrappers.Add(wrapperRect);
+        cardBackgrounds.Add(backgroundRect);
+    }
+
+    private void SetupCardBackground(GameObject background, RectTransform wrapperRect)
+    {
+        if (background == null)
+            return;
+
+        RectTransform backgroundRect = background.GetComponent<RectTransform>();
+        if (backgroundRect == null)
+            return;
+
+        backgroundRect.anchorMin = new Vector2(0.5f, 0.5f);
+        backgroundRect.anchorMax = new Vector2(0.5f, 0.5f);
+        backgroundRect.pivot = new Vector2(0.5f, 0.5f);
+        backgroundRect.anchoredPosition = Vector2.zero;
+        backgroundRect.position = wrapperRect.position;
+        backgroundRect.localRotation = Quaternion.identity;
+        backgroundRect.sizeDelta = GetSquareBackgroundSize(wrapperRect);
+    }
+
+    private void SyncCardBackgrounds()
+    {
+        for (int i = 0; i < cardWrappers.Count && i < cardBackgrounds.Count; i++)
+        {
+            if (cardWrappers[i] == null || cardBackgrounds[i] == null)
+                continue;
+
+            cardBackgrounds[i].position = cardWrappers[i].position;
+            // cardBackgrounds[i].sizeDelta = cardWrappers[i].sizeDelta;
+        }
+    }
+
+    private Vector2 GetSquareBackgroundSize(RectTransform wrapperRect)
+    {
+        float size = Mathf.Max(wrapperRect.sizeDelta.x, wrapperRect.sizeDelta.y) * CardBackgroundScale;
+        return new Vector2(size, size);
     }
 
     private void InitWrapper(GameObject visual, string title, string description)
@@ -310,7 +408,7 @@ public class UnlockManager : Singleton<UnlockManager>
     private void HidePrice(ShopCard shopCard)
     {
         if (shopCard.PriceLabel != null)
-            shopCard.PriceLabel.gameObject.SetActive(false);
+            shopCard.PriceLabel.transform.parent.gameObject.SetActive(false);
     }
 
     private bool IsPointerOverUnlockCard()
