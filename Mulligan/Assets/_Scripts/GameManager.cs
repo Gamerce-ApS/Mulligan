@@ -296,6 +296,10 @@ public class GameManager : Singleton<GameManager>
         {
             GameData.CurrentGold += 100;
         }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            UIManager.Instance.PlayDeckPileDrawAnimation();
+        }
         if (Input.GetKeyUp(KeyCode.X))
         {
             ShopManager.Instance.ShowShopWindow();

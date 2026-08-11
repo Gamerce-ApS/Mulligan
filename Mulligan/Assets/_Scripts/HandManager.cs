@@ -179,7 +179,7 @@ public class HandManager : Singleton<HandManager>
     }
     private IEnumerator AnimateRefillHand(int numberToDraw)
     {
-        Vector3 worldSpawn = UIManager.Instance.DiscardPileIcon.transform.position;
+         Vector3 worldSpawn = UIManager.Instance.DiscardPileIcon.transform.position;
 
         // 1. Generate empty slots
         ArcCardLayout.Instance.FillEmpty();
@@ -202,6 +202,7 @@ public class HandManager : Singleton<HandManager>
             if (cardInstance == null || cardInstance.data == null)
                 continue;
 
+            UIManager.Instance.PlayDeckPileDrawAnimation();
             CurrentHand.Add(cardInstance);
 
             GameObject realCard = Instantiate(CardPrefab, UIManager.Instance.thCanvas.transform); // stays in Canvas space

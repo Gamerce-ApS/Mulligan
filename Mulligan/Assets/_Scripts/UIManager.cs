@@ -17,6 +17,10 @@ public class UIManager : Singleton<UIManager>
     public GameObject DamageLabel;
     public GameObject CriticalLabel;
     public GameObject DiscardPileIcon;
+    public GameObject DeckPileIcon;
+    public float DeckPileScaleMultiplier = 1.15f;
+    public float DeckPileScaleUpTime = 0.12f;
+    public float DeckPileScaleDownTime = 0.2f;
 
     public TMPro.TMP_Text AttackLabel;
     public TMPro.TMP_Text ReRollLabel;
@@ -56,6 +60,7 @@ public class UIManager : Singleton<UIManager>
 
     private Vector3 DamageLabelOriginalScale;
     private Vector3 CriticalLabelOriginalScale;
+    private Vector3 DeckPileOriginalScale;
     public Transform SynergiButtonInfo;
     public Transform HeroButtonInfo;
     public List<Color> myRarityColors;
@@ -71,6 +76,9 @@ public class UIManager : Singleton<UIManager>
     {
         DamageLabelOriginalScale = DamageLabel.transform.localScale;
         CriticalLabelOriginalScale = CriticalLabel.transform.localScale;
+        if (DeckPileIcon != null)
+            DeckPileOriginalScale = DeckPileIcon.transform.localScale;
+
         DamageReset();
 
         OriginalsynergyTextGO = synergyTextGO.transform.localScale;
@@ -96,6 +104,33 @@ public class UIManager : Singleton<UIManager>
     void Update()
     {
 
+    }
+    public Vector3 GetDeckPilePosition()
+    {
+        if (DeckPileIcon != null)
+            return DeckPileIcon.transform.position;
+
+        return DiscardPileIcon.transform.position;
+    }
+    public void PlayDeckPileDrawAnimation()
+    {
+        if (DeckPileIcon == null)
+            return;
+
+        if (DeckPileOriginalScale == Vector3.zero)
+            DeckPileOriginalScale = DeckPileIcon.transform.localScale;
+
+        LeanTween.cancel(DeckPileIcon);
+        DeckPileIcon.transform.localScale = DeckPileOriginalScale;
+
+        Vector3 targetScale = DeckPileOriginalScale * DeckPileScaleMultiplier;
+        LeanTween.scale(DeckPileIcon, targetScale, DeckPileScaleUpTime)
+            .setEaseOutBack()
+            .setOnComplete(() =>
+            {
+                LeanTween.scale(DeckPileIcon, DeckPileOriginalScale, DeckPileScaleDownTime)
+                    .setEaseOutQuad();
+            });
     }
     public void UpdateLabels()
     {
