@@ -27,8 +27,10 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
     public string TestTitle = "Mulligan";
     public string TestMessage = "This is a test notification.";
     public float TestDelaySeconds = 10f;
+    public bool ShowTestNotificationInForeground = true;
 
     private bool isInitialized = false;
+    private bool skipNextPauseSchedule = false;
 
     protected override void Awake()
     {
@@ -55,13 +57,24 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
             return;
 
         if (pause)
+        {
+            if (skipNextPauseSchedule)
+            {
+                skipNextPauseSchedule = false;
+                return;
+            }
+
             ScheduleNotifications();
+        }
         else
+        {
             CancelNotifications();
+        }
     }
 
     public void ScheduleNotifications()
     {
+        skipNextPauseSchedule = false;
         CancelNotifications();
 
         foreach (var notification in Notifications)
@@ -86,8 +99,10 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
 
     public void ScheduleTestNotification()
     {
+        skipNextPauseSchedule = true;
         CancelNotifications();
-        ScheduleNotification(TestTitle, TestMessage, TimeSpan.FromSeconds(TestDelaySeconds));
+        ScheduleNotification(TestTitle, TestMessage, TimeSpan.FromSeconds(TestDelaySeconds), ShowTestNotificationInForeground);
+        Debug.Log("Scheduled local test notification in " + TestDelaySeconds + " seconds.");
     }
 
     private void InitializePlatform()
@@ -114,7 +129,7 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
 #endif
     }
 
-    private void ScheduleNotification(string title, string message, TimeSpan delay)
+    private void ScheduleNotification(string title, string message, TimeSpan delay, bool showInForeground = false)
     {
 #if UNITY_IOS
         var trigger = new iOSNotificationTimeIntervalTrigger()
@@ -128,8 +143,8 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
             Identifier = "mulligan_reminder_" + delay.TotalSeconds,
             Title = title,
             Body = message,
-            ShowInForeground = false,
-            ForegroundPresentationOption = PresentationOption.Alert | PresentationOption.Sound,
+            ShowInForeground = showInForeground,
+            ForegroundPresentationOption = showInForeground ? PresentationOption.Alert | PresentationOption.Sound : PresentationOption.None,
             Trigger = trigger
         };
 
@@ -156,8 +171,6 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
 
             if (!request.Granted)
                 Debug.Log("Local notification permission was not granted: " + request.Error);
-
-                LocalNotificationManager.Instance.ScheduleTestNotification();
         }
     }
 #endif
@@ -174,8 +187,6 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
 
         if (request.Status != PermissionStatus.Allowed)
             Debug.Log("Local notification permission was not granted: " + request.Status);
-
-            LocalNotificationManager.Instance.ScheduleTestNotification();
     }
 #endif
 }
