@@ -112809,6 +112809,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853611589}
   m_CullTransparentMesh: 1
+--- !u!1 &1854765816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1854765817}
+  - component: {fileID: 1854765818}
+  m_Layer: 0
+  m_Name: LocalNotificationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1854765817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854765816}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.7256584, y: -45.34727, z: 300.671}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2017678128}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1854765818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854765816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c009f08e1ea4cc2a6cbbedd6fdc3eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Notifications:
+  - Title: Your army is waiting!
+    Message: Come back and start another run.
+    HoursAfterLeavingGame: 24
+  - Title: Ready for another run?
+    Message: See how far you can get this time.
+    HoursAfterLeavingGame: 72
+  - Title: Mulligan needs you!
+    Message: Jump back in and beat your best run.
+    HoursAfterLeavingGame: 168
+  TestTitle: Mulligan
+  TestMessage: This is a test notification.
+  TestDelaySeconds: 20
 --- !u!1 &1855260821
 GameObject:
   m_ObjectHideFlags: 0
@@ -124746,7 +124803,8 @@ Transform:
   m_LocalPosition: {x: -42.62402, y: 38.14221, z: 67.74057}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1854765817}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2020737387

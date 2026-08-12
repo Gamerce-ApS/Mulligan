@@ -54,12 +54,14 @@ public class GameManager : Singleton<GameManager>
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
             InventoryOverviewManager.Instance.Init();
+            LocalNotificationManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
             StartGame();
 
         });
         SingularSDK.Event("StartEvent");
 
+        
 
     }
     public TMPro.TMP_SpriteAsset GetTextSpriteForSprite(string aSpriteName)
