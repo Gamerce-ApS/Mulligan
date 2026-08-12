@@ -114431,9 +114431,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoundsEnabled: 1
   MusicEnabled: 1
-  MasterVolume: 1
+  MasterVolume: 0.9
   SfxVolume: 1
-  MusicVolume: 0.7
+  MusicVolume: 0.55
+  MenuMusicVolume: 0.75
+  CombatMusicVolume: 0.3
   SfxSource: {fileID: 0}
   MusicSource: {fileID: 0}
   DefaultMusic: {fileID: 8300000, guid: 7c3d7cbab5639445b8e1637197fefd52, type: 3}
@@ -114499,20 +114501,25 @@ MonoBehaviour:
     PitchMin: 1
     PitchMax: 1
   CardDraw:
-    Clips:
-    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Clips: []
     Volume: 1
     PitchMin: 1
     PitchMax: 1
   CardMove:
-    Clips:
-    - {fileID: 8300000, guid: eeba8fb37f46e4153af864f690e3b3a7, type: 3}
+    Clips: []
     Volume: 1
     PitchMin: 1
     PitchMax: 1
   CardDiscard:
     Clips: []
     Volume: 1
+    PitchMin: 1
+    PitchMax: 1
+  CardDamageNumber:
+    Clips:
+    - {fileID: 8300000, guid: 87ba8cda5be7b403fb27cdfc28150920, type: 3}
+    - {fileID: 8300000, guid: eb2a308c783254a43b989146c2c4b25f, type: 3}
+    Volume: 0.75
     PitchMin: 1
     PitchMax: 1
   Reroll:
@@ -114531,7 +114538,8 @@ MonoBehaviour:
     PitchMax: 1
   DamageTotal:
     Clips:
-    - {fileID: 8300000, guid: 87ba8cda5be7b403fb27cdfc28150920, type: 3}
+    - {fileID: 8300000, guid: 402ceb4c13309402b9779fbb8764ab68, type: 3}
+    - {fileID: 8300000, guid: 0efd01b3052bc40c188363c64b3f25d8, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1
@@ -114554,17 +114562,25 @@ MonoBehaviour:
     PitchMax: 1
   EnemyDamage:
     Clips:
-    - {fileID: 8300000, guid: 2179c885b001d4750ac9089aadbf6381, type: 3}
+    - {fileID: 8300000, guid: c1373121c3c94408abae85d18a57c20d, type: 3}
+    - {fileID: 8300000, guid: aa742a0cbe16c4fe8a10c5946abc697c, type: 3}
+    - {fileID: 8300000, guid: 0f191030aa00e4a2bbd1a6530d587d7a, type: 3}
+    - {fileID: 8300000, guid: fc1e778a375ce417dbfe40354ae5d5c1, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1
   EnemyDeath:
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 2179c885b001d4750ac9089aadbf6381, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1
   PlayerDamage:
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: c1373121c3c94408abae85d18a57c20d, type: 3}
+    - {fileID: 8300000, guid: aa742a0cbe16c4fe8a10c5946abc697c, type: 3}
+    - {fileID: 8300000, guid: 0f191030aa00e4a2bbd1a6530d587d7a, type: 3}
+    - {fileID: 8300000, guid: fc1e778a375ce417dbfe40354ae5d5c1, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1
@@ -114609,7 +114625,8 @@ MonoBehaviour:
     PitchMin: 1
     PitchMax: 1
   ArtifactSold:
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 7e9413ea477f445abb5c0d2939a9079d, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1
@@ -114655,7 +114672,8 @@ MonoBehaviour:
     PitchMin: 1
     PitchMax: 1
   ShopPurchase:
-    Clips: []
+    Clips:
+    - {fileID: 8300000, guid: 7e9413ea477f445abb5c0d2939a9079d, type: 3}
     Volume: 1
     PitchMin: 1
     PitchMax: 1

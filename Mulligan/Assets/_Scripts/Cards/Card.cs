@@ -507,6 +507,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             }
         }
 
+        SoundManager.TryPlay(SoundType.CardDamageNumber);
 
         // Pulse
         LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.5f)

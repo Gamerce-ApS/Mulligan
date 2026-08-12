@@ -15,6 +15,7 @@ public enum SoundType
     CardDraw,
     CardMove,
     CardDiscard,
+    CardDamageNumber,
     Reroll,
     AttackButton,
     DamageTotal,
@@ -69,6 +70,8 @@ public class SoundManager : Singleton<SoundManager>
     [Range(0f, 1f)] public float MasterVolume = 1f;
     [Range(0f, 1f)] public float SfxVolume = 1f;
     [Range(0f, 1f)] public float MusicVolume = 1f;
+    [Range(0f, 1f)] public float MenuMusicVolume = 1f;
+    [Range(0f, 1f)] public float CombatMusicVolume = 1f;
 
     public AudioSource SfxSource;
     public AudioSource MusicSource;
@@ -92,6 +95,7 @@ public class SoundManager : Singleton<SoundManager>
     public SoundSettings CardDraw = new SoundSettings();
     public SoundSettings CardMove = new SoundSettings();
     public SoundSettings CardDiscard = new SoundSettings();
+    public SoundSettings CardDamageNumber = new SoundSettings();
     public SoundSettings Reroll = new SoundSettings();
     public SoundSettings AttackButton = new SoundSettings();
     public SoundSettings DamageTotal = new SoundSettings();
@@ -217,13 +221,13 @@ public class SoundManager : Singleton<SoundManager>
 
         if (MusicSource.clip == clip && MusicSource.isPlaying)
         {
-            MusicSource.volume = MusicVolume * MasterVolume;
+            MusicSource.volume = GetMusicVolume(clip);
             return;
         }
 
         MusicSource.clip = clip;
         MusicSource.loop = loop;
-        MusicSource.volume = MusicVolume * MasterVolume;
+        MusicSource.volume = GetMusicVolume(clip);
         MusicSource.pitch = 1f;
         MusicSource.Play();
     }
@@ -248,7 +252,21 @@ public class SoundManager : Singleton<SoundManager>
     {
         MusicVolume = Mathf.Clamp01(volume);
         if (MusicSource != null)
-            MusicSource.volume = MusicVolume * MasterVolume;
+            MusicSource.volume = GetMusicVolume(MusicSource.clip);
+    }
+
+    public void SetMenuMusicVolume(float volume)
+    {
+        MenuMusicVolume = Mathf.Clamp01(volume);
+        if (MusicSource != null && MusicSource.clip == MenuMusic)
+            MusicSource.volume = GetMusicVolume(MusicSource.clip);
+    }
+
+    public void SetCombatMusicVolume(float volume)
+    {
+        CombatMusicVolume = Mathf.Clamp01(volume);
+        if (MusicSource != null && MusicSource.clip == CombatMusic)
+            MusicSource.volume = GetMusicVolume(MusicSource.clip);
     }
 
     public void SetSfxVolume(float volume)
@@ -271,6 +289,17 @@ public class SoundManager : Singleton<SoundManager>
             MusicSource.playOnAwake = false;
             MusicSource.loop = true;
         }
+    }
+
+    private float GetMusicVolume(AudioClip clip)
+    {
+        float clipVolume = 1f;
+        if (clip == MenuMusic)
+            clipVolume = MenuMusicVolume;
+        else if (clip == CombatMusic)
+            clipVolume = CombatMusicVolume;
+
+        return MusicVolume * clipVolume * MasterVolume;
     }
 
     private static SoundManager GetOrCreateInstance()
@@ -309,6 +338,8 @@ public class SoundManager : Singleton<SoundManager>
                 return CardMove;
             case SoundType.CardDiscard:
                 return CardDiscard;
+            case SoundType.CardDamageNumber:
+                return CardDamageNumber;
             case SoundType.Reroll:
                 return Reroll;
             case SoundType.AttackButton:
