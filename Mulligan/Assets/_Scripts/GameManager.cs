@@ -34,6 +34,7 @@ public class GameManager : Singleton<GameManager>
     public bool HasFreeReroll = false;
 
     public List<TMPro.TMP_SpriteAsset> TextSprites = new List<TMPro.TMP_SpriteAsset>();
+    public bool ShowDailyQuestDebugButtons = true;
 
 
     // Start is called before the first frame update
@@ -272,7 +273,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyUp(KeyCode.Y))
         {
-            DailyQuestManager.Instance.DebugProgressActiveQuest(Random.Range(0,4));
+            DebugProgressDailyQuest();
         }
 
         if (Input.GetKeyUp(KeyCode.S))
@@ -332,7 +333,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
-            DailyQuestManager.Instance.DebugResetDailyQuests();
+            DebugResetDailyQuests();
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
@@ -356,6 +357,44 @@ public class GameManager : Singleton<GameManager>
         
 
 
+    }
+
+    void OnGUI()
+    {
+        if (ShowDailyQuestDebugButtons == false)
+            return;
+
+        if (DailyQuestManager.Instance == null ||
+            DailyQuestManager.Instance.ShopWindow == null ||
+            DailyQuestManager.Instance.ShopWindow.activeSelf == false)
+            return;
+
+        int width = 340;
+        int height = 80;
+        int padding = 20;
+        int y = 120;
+
+        GUI.skin.button.fontSize = 28;
+
+        if (GUI.Button(new Rect(padding, y, width, height), "Daily Quest +"))
+        {
+            DebugProgressDailyQuest();
+        }
+
+        if (GUI.Button(new Rect(padding, y + height + padding, width, height), "New Daily Quests"))
+        {
+            DebugResetDailyQuests();
+        }
+    }
+
+    private void DebugProgressDailyQuest()
+    {
+        DailyQuestManager.Instance.DebugProgressActiveQuest(Random.Range(0, 3));
+    }
+
+    private void DebugResetDailyQuests()
+    {
+        DailyQuestManager.Instance.DebugResetDailyQuests();
     }
 
     // Debug functions
