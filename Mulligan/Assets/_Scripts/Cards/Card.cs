@@ -666,6 +666,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
                     if (cardInstance.WillExplodeAfterAttack)
                     {
+                            DailyQuestManager.Instance.AddProgress(DailyQuestType.DestroyUnits);
                             CardContainer.Instance.DiscardDeck.Remove(cardInstance);
                             CardContainer.Instance.CurrentDeck.Remove(cardInstance);
                     }

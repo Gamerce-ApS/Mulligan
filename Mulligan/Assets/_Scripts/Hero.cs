@@ -227,16 +227,20 @@ public class Hero : MonoBehaviour
     public void HealPercent(float percent)
     {
         int healAmount = Mathf.RoundToInt(MaxHealth * percent);
+        float beforeHealth = Health;
         Health += healAmount; // assuming you have a Heal(int) method
         if (Health > MaxHealth)
             Health = MaxHealth;
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.Heal, Mathf.RoundToInt(Health - beforeHealth));
         RefreshBar();
     }
     public void HealHPPoints(float aValue)
     {
+        float beforeHealth = Health;
         Health += aValue; // assuming you have a Heal(int) method
         if (Health > MaxHealth)
             Health = MaxHealth;
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.Heal, Mathf.RoundToInt(Health - beforeHealth));
         RefreshBar(); 
     }
     public void ReduceMaxHPPercent(float percent)

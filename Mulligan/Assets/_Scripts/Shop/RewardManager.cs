@@ -214,8 +214,7 @@ public class RewardManager : Singleton<RewardManager>
                 break;
 
             case SkipRewardType.FullHeal:
-                GameManager.Instance.TheHero.Health = GameManager.Instance.TheHero.MaxHealth;
-                GameManager.Instance.TheHero.RefreshBar();
+                GameManager.Instance.TheHero.HealHPPoints(GameManager.Instance.TheHero.MaxHealth);
                 break;
 
             case SkipRewardType.MarketFreeNextRound:

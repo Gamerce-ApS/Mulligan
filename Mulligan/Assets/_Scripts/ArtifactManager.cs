@@ -57,6 +57,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         if (selected == null)
             return;
 
+        DailyQuestManager.Instance.RollUnlockedRaceForArtifact(selected);
         ActiveArtifacts.Add(selected);
         SoundManager.TryPlay(SoundType.ArtifactObtained);
 
@@ -97,6 +98,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         // Pick random one
         // ArtifactData selected = available[Random.Range(0, available.Count)];
         ArtifactData selected = PickArtifactByRarity(available);
+        DailyQuestManager.Instance.RollUnlockedRaceForArtifact(selected);
 
         if (TutorialController.Instance.HasRunTutorial()== false && TutorialController.Instance.LastStepPlayed == "Step1_Gold")
         {
@@ -128,6 +130,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         {
             if (!ActiveArtifacts.Contains(artifact) && aType== artifact.effect)
             {
+                DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
                 ActiveArtifacts.Add(artifact);
                 SoundManager.TryPlay(SoundType.ArtifactObtained);
 
@@ -155,8 +158,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         Destroy(aArtifact.gameObject);
         SoundManager.TryPlay(SoundType.ArtifactSold);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
-        GameData.CurrentGold += 3;
-        SoundManager.TryPlay(SoundType.Gold);
+        GameManager.Instance.AddGold(3);
         GameManager.Instance.TheHero.RefreshBar();
 
 
@@ -168,6 +170,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
+        DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
         ActiveArtifacts.Add(artifact);
         SoundManager.TryPlay(SoundType.ArtifactObtained);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals

@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager>
             UnlockManager.Instance.Init();
             InventoryOverviewManager.Instance.Init();
             LocalNotificationManager.Instance.Init();
+            DailyQuestManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
             StartGame();
 
@@ -141,29 +142,32 @@ public class GameManager : Singleton<GameManager>
         }
         GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
 
+        int goldGained = 0;
         if (GameData.CurrentRound % 4 == 0)
         {
-            GameData.CurrentGold += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
-                    CardContainer.Instance.CompleteBoss();
+            goldGained += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
+            DailyQuestManager.Instance.AddProgress(DailyQuestType.DefeatBosses);
+            CardContainer.Instance.CompleteBoss();
 
         }
         else
         {
-            GameData.CurrentGold += CardContainer.Instance.GoldGainPerLevel;
+            goldGained += CardContainer.Instance.GoldGainPerLevel;
         }
         if (RuneManager.Instance.ActiveRunes.Find(c => c.type == RuneType.RuneOfGold) != null)
         {
-            GameData.CurrentGold += 2;
+            goldGained += 2;
         }
         if (RuneManager.Instance.ActiveRunes.Find(c => c.type == RuneType.RuneOfGold2X) != null)
         {
-            GameData.CurrentGold += 5;
+            goldGained += 5;
         }
-        SoundManager.TryPlay(SoundType.Gold);
+        AddGold(goldGained);
 
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
+        DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
         HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
@@ -208,7 +212,7 @@ public class GameManager : Singleton<GameManager>
             GameData.CurrentAttacks <= 0 &&
             GameManager.Instance.TheEnemy.Health > 0)
             {
-                GameData.CurrentGold += artifact.value;
+                AddGold(artifact.value);
                 UIManager.Instance.ShowTooltip($"+{artifact.value} Gold from artifact");
             }
         }
@@ -268,7 +272,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyUp(KeyCode.Y))
         {
-            PotionManager.Instance.AddPotion(PotionEffectType.HealHero);
+            DailyQuestManager.Instance.DebugProgressActiveQuest(Random.Range(0,4));
         }
 
         if (Input.GetKeyUp(KeyCode.S))
@@ -304,7 +308,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.G))
         {
-            GameData.CurrentGold += 100;
+            AddGold(100);
         }
         if (Input.GetKeyUp(KeyCode.K))
         {
@@ -328,7 +332,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
-            UnlockManager.Instance.DebugCompleteFirstBossAndShow();
+            DailyQuestManager.Instance.DebugResetDailyQuests();
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
@@ -357,8 +361,12 @@ public class GameManager : Singleton<GameManager>
     // Debug functions
     public void AddGold(int aValue)
     {
+        if (aValue <= 0)
+            return;
+
         GameData.CurrentGold += aValue;
         SoundManager.TryPlay(SoundType.Gold);
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.EarnGold, aValue);
     }
     public void DisableBossDebuffForTurn()
     {

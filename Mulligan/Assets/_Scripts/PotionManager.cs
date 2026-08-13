@@ -163,6 +163,7 @@ public class PotionManager : Singleton<PotionManager>
         }
 
         // Remove used potion
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.ConsumePotions);
         ActivePotions.Remove(potion);
         UIManager.Instance.UpdateArtifactSlotsUI();
     }
@@ -194,8 +195,7 @@ public void SellPotion(Potion aPotion)
         ActivePotions.Remove(aPotion.PotionData);
         Destroy(aPotion.gameObject);
         UIManager.Instance.UpdatePotionsSlotsUI(); // updates visuals
-        GameData.CurrentGold += 1;
-        SoundManager.TryPlay(SoundType.Gold);
+        GameManager.Instance.AddGold(1);
 
 
 

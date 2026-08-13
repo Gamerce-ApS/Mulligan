@@ -30,6 +30,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             if (crit == 0) crit = 1;
             int damage = int.Parse(totalDamage) * crit;
             HighscoreManager.Instance.UpdateMaxDamage(damage);
+            DailyQuestManager.Instance.AddProgress(DailyQuestType.DealDamage, damage);
+            DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.SingleAttackDamage, damage);
             GameManager.Instance.TheHero.Attack(damage);
             UnityHelper.RunAfterDelay(this, 0.5f, () =>
             {
@@ -221,7 +223,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             }
             if(artifact.effect == ArtifactEffectType.GainGoldAfterLevel)
             {
-                GameData.CurrentGold += artifact.value;
+                GameManager.Instance.AddGold(artifact.value);
                 UIManager.Instance.ShowTooltip($"+ {artifact.value}% Gold from artifact");
             }
             if(artifact.effect == ArtifactEffectType.GetPotion)

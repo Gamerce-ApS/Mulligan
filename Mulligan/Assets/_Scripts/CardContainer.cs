@@ -216,7 +216,12 @@ public class CardContainer : Singleton<CardContainer>
         if (ArtifactDataList == null)
             return new List<ArtifactData>();
 
-        return ArtifactDataList.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+        DailyQuestManager dailyQuestManager = FindObjectOfType<DailyQuestManager>();
+        return ArtifactDataList
+            .Where(c => c != null &&
+                        IsContentUnlocked(c.UnlockRun) &&
+                        (dailyQuestManager == null || dailyQuestManager.IsArtifactAvailable(c)))
+            .ToList();
     }
     public List<PotionCardData> GetUnlockedPotions()
     {

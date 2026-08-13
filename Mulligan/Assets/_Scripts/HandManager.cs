@@ -72,6 +72,7 @@ public class HandManager : Singleton<HandManager>
             {
                 PlayedHand.Add(cardInstance);
                 CurrentHand.RemoveAt(i); // remove from hand list
+                DailyQuestManager.Instance.OnUnitPlayed(cardInstance);
             }
         }
 

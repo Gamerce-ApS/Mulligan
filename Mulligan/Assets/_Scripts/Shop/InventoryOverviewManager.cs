@@ -23,6 +23,8 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         public string name;
         public string description;
         public ArtifactData artifact;
+        public bool hasArtifactRace;
+        public CardRace artifactRace;
         public PotionCardData potion;
         public RuneData rune;
         public UpgradeCardData upgrade;
@@ -79,13 +81,13 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             .ThenBy(c => c.sortOrder)
             .ToList();
 
-        int unlockedCount = allContent.Count(c => IsInventoryUnlocked(c.UnlockRun));
+        int unlockedCount = allContent.Count(c => IsInventoryUnlocked(c));
         if (CountLabel != null)
             CountLabel.text = unlockedCount + " / " + allContent.Count;
 
         foreach (var content in sorted)
         {
-            if (IsInventoryUnlocked(content.UnlockRun))
+            if (IsInventoryUnlocked(content))
                 SpawnUnlocked(content);
             else
                 SpawnLocked(content);
@@ -142,9 +144,26 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
                 if (artifact == null)
                     continue;
 
-                string artifactName = artifact.name;
-                if (artifactName.Contains("RandomRace"))
-                    artifactName = artifactName.Replace("RandomRace", artifact.RandomRace.ToString());
+                if (ShouldShowArtifactForEachRace(artifact))
+                {
+                    foreach (CardRace race in GetPlayableRaces())
+                    {
+                        allContent.Add(new InventoryContent
+                        {
+                            type = InventoryContentType.Artifact,
+                            UnlockRun = artifact.UnlockRun,
+                            rarity = artifact.rarity,
+                            sortOrder = i,
+                            name = GetArtifactName(artifact, race),
+                            description = artifact.description + artifact.GetRarityText(),
+                            artifact = artifact,
+                            hasArtifactRace = true,
+                            artifactRace = race
+                        });
+                    }
+
+                    continue;
+                }
 
                 allContent.Add(new InventoryContent
                 {
@@ -152,7 +171,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
                     UnlockRun = artifact.UnlockRun,
                     rarity = artifact.rarity,
                     sortOrder = i,
-                    name = artifactName,
+                    name = GetArtifactName(artifact, artifact.RandomRace),
                     description = artifact.description + artifact.GetRarityText(),
                     artifact = artifact
                 });
@@ -226,9 +245,19 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         return allContent;
     }
 
-    private bool IsInventoryUnlocked(int unlockRun)
+    private bool IsInventoryUnlocked(InventoryContent content)
     {
-        return unlockRun <= GameData.CompletedFirstBossAmount;
+        if (content == null || content.UnlockRun > GameData.CompletedFirstBossAmount)
+            return false;
+
+        if (content.type == InventoryContentType.Artifact)
+        {
+            DailyQuestManager dailyQuestManager = FindObjectOfType<DailyQuestManager>();
+            if (dailyQuestManager != null && IsArtifactUnlockedByDailyQuest(content, dailyQuestManager) == false)
+                return false;
+        }
+
+        return true;
     }
 
     private void SpawnUnlocked(InventoryContent content)
@@ -256,10 +285,11 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         if (visual == null)
             return;
 
+        ArtifactData displayArtifact = GetDisplayArtifact(content);
         ShopCard shopCard = visual.GetComponent<ShopCard>();
         if (shopCard != null)
         {
-            shopCard.Init(content.artifact);
+            shopCard.Init(displayArtifact);
             shopCard.CanBeDraged = false;
             HidePrice(shopCard);
         }
@@ -267,6 +297,70 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         InitWrapper(visual, content.name, content.description);
         HideUnusedArtifactPreview(visual);
         DisableChildRaycasts(visual);
+    }
+
+    private bool ShouldShowArtifactForEachRace(ArtifactData artifact)
+    {
+        return artifact != null &&
+               artifact.effect == ArtifactEffectType.RaceHasExtraDamage &&
+               artifact.name.Contains("RandomRace") &&
+               (artifact.value == 20 || artifact.value == 40);
+    }
+
+    private bool IsArtifactUnlockedByDailyQuest(InventoryContent content, DailyQuestManager dailyQuestManager)
+    {
+        if (content == null || dailyQuestManager == null)
+            return true;
+
+        if (content.hasArtifactRace)
+            return dailyQuestManager.IsArtifactRaceAvailable(content.artifact, content.artifactRace);
+
+        return dailyQuestManager.IsArtifactAvailable(content.artifact);
+    }
+
+    private ArtifactData GetDisplayArtifact(InventoryContent content)
+    {
+        if (content == null || content.artifact == null)
+            return null;
+
+        if (content.hasArtifactRace == false)
+            return content.artifact;
+
+        ArtifactData artifact = content.artifact;
+        return new ArtifactData
+        {
+            name = artifact.name,
+            UnlockRun = artifact.UnlockRun,
+            description = artifact.description,
+            sprite_icon = artifact.sprite_icon,
+            effect = artifact.effect,
+            value = artifact.value,
+            rarity = artifact.rarity,
+            RandomRace = content.artifactRace
+        };
+    }
+
+    private string GetArtifactName(ArtifactData artifact, CardRace race)
+    {
+        if (artifact == null)
+            return "";
+
+        if (artifact.name.Contains("RandomRace"))
+            return artifact.name.Replace("RandomRace", race.ToString());
+
+        return artifact.name;
+    }
+
+    private List<CardRace> GetPlayableRaces()
+    {
+        List<CardRace> races = new List<CardRace>();
+        foreach (CardRace race in System.Enum.GetValues(typeof(CardRace)))
+        {
+            if (race != CardRace.END)
+                races.Add(race);
+        }
+
+        return races;
     }
 
     private void SpawnPotion(InventoryContent content)

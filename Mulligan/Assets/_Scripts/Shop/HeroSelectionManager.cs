@@ -225,6 +225,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         }
 
         HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.PlayRuns);
+        DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
         HideWindow();
     }
     public void ClickLocked()

@@ -164,6 +164,7 @@ public class CardInstance
     }
     public void Destroy()
     {
+        DailyQuestManager.Instance.AddProgress(DailyQuestType.DestroyUnits);
         HandManager.Instance.CurrentHand.Remove(this);
         HandManager.Instance.PlayedHand.Remove(this);   
         CardContainer.Instance.DiscardDeck.Remove(this);

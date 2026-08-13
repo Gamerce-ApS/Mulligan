@@ -56,21 +56,7 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public void PopulateUnlocks()
     {
-        cardWrappers.Clear();
-        cardBackgrounds.Clear();
-
-        for (int i = UnlockParent.childCount - 1; i >= 0; i--)
-        {
-            DestroyImmediate(UnlockParent.GetChild(i).gameObject);
-        }
-
-        if (CardBackgroundParent != null)
-        {
-            for (int i = CardBackgroundParent.childCount - 1; i >= 0; i--)
-            {
-                DestroyImmediate(CardBackgroundParent.GetChild(i).gameObject);
-            }
-        }
+        ClearUnlocks();
 
         foreach (var artifact in GetUnlockedArtifactsToReveal())
         {
@@ -98,6 +84,35 @@ public class UnlockManager : Singleton<UnlockManager>
             LayoutRebuilder.ForceRebuildLayoutImmediate(unlockRect);
 
         SyncCardBackgrounds();
+    }
+
+    public void ShowDailyQuestArtifactReward(ArtifactData artifact)
+    {
+        if (artifact == null)
+            return;
+
+        VibrationsManager.TryVibrate(VibrationType.Success);
+        SoundManager.TryPlay(SoundType.Unlock);
+
+        ClearUnlocks();
+        SpawnArtifact(artifact);
+
+        Canvas.ForceUpdateCanvases();
+        RectTransform unlockRect = UnlockParent.GetComponent<RectTransform>();
+        if (unlockRect != null)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(unlockRect);
+
+        SyncCardBackgrounds();
+
+        bgCanvasGroup.gameObject.SetActive(true);
+        bgCanvasGroup.alpha = 0;
+        LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();
+
+        ShopWindow.SetActive(true);
+        Vector2 targetPos = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
+        ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
+
+        LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
     }
 
     public void ShowWindow()
@@ -149,6 +164,25 @@ public class UnlockManager : Singleton<UnlockManager>
         GameData.FirstBossCompletedThisRun = 1;
         PlayerPrefs.Save();
         ShowWindow();
+    }
+
+    private void ClearUnlocks()
+    {
+        cardWrappers.Clear();
+        cardBackgrounds.Clear();
+
+        for (int i = UnlockParent.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(UnlockParent.GetChild(i).gameObject);
+        }
+
+        if (CardBackgroundParent != null)
+        {
+            for (int i = CardBackgroundParent.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(CardBackgroundParent.GetChild(i).gameObject);
+            }
+        }
     }
 
     private List<ArtifactData> GetUnlockedArtifactsToReveal()

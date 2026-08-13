@@ -231,6 +231,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         {
             targetUnitCard.cardInstance.ApplyUpgrade(upgradeCard.cardInstance.upgradeData);
             SoundManager.TryPlay(SoundType.UnitUpgradeApplied);
+            DailyQuestManager.Instance.AddProgress(DailyQuestType.UpgradeUnits);
         }
         GameData.UpgradedUnits++;
     }

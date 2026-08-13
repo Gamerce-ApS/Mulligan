@@ -78,6 +78,21 @@ public class GameData
         get { return PlayerPrefs.GetInt("FirstBossCompletedThisRun", 0); }
         set { PlayerPrefs.SetInt("FirstBossCompletedThisRun", value); }
     }
+    public static long DailyQuestNextResetUtcTicks
+    {
+        get { return long.Parse(PlayerPrefs.GetString("DailyQuestNextResetUtcTicks", "0")); }
+        set { PlayerPrefs.SetString("DailyQuestNextResetUtcTicks", value.ToString()); }
+    }
+    public static int CompletedQuestsTowardsReward
+    {
+        get { return PlayerPrefs.GetInt("CompletedQuestsTowardsReward", 0); }
+        set { PlayerPrefs.SetInt("CompletedQuestsTowardsReward", value); }
+    }
+    public static int DailyQuestArtifactRewardIndex
+    {
+        get { return PlayerPrefs.GetInt("DailyQuestArtifactRewardIndex", 0); }
+        set { PlayerPrefs.SetInt("DailyQuestArtifactRewardIndex", value); }
+    }
 
 
 
