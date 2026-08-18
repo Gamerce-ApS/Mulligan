@@ -142,13 +142,21 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.Save();
         }
         GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
-
+        bool ShowTutorialEnded = false;
         int goldGained = 0;
         if (GameData.CurrentRound % 4 == 0)
         {
             goldGained += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
             DailyQuestManager.Instance.AddProgress(DailyQuestType.DefeatBosses);
             CardContainer.Instance.CompleteBoss();
+            if(TutorialController.Instance.HasRunTutorial() == false)
+            {
+                ShowTutorialEnded = true;
+                PlayerPrefs.SetInt("HasRunTutorial", 1);
+                AnalyticsService.Instance.RecordEvent("tutorial_finished");
+            }
+
+    
 
         }
         else
@@ -168,6 +176,11 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         GameData.CurrentRound++;
+        if(TutorialController.Instance.HasRunTutorial() == false)
+        {
+            GameData.CurrentRound++;
+            GameData.CurrentRound++;
+        }
         DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
         HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
         LeanTween.delayedCall(gameObject, 1f, () =>
@@ -175,26 +188,44 @@ public class GameManager : Singleton<GameManager>
             myGameStates = GameStates.Post_Game;
             UIManager.Instance.ShowVictoryScreen(() =>
             {
-                ArmoryManager.Instance.ShowWindow(() =>
+                if(ShowTutorialEnded)
                 {
-                    TheEnemy.gameObject.SetActive(false);
-                    ArcCardLayout.Instance.transform.gameObject.SetActive(false);
-                    ShopManager.Instance.ShowShopWindow(() =>
+                    LeanTween.delayedCall(gameObject, 1f, () =>
                     {
-                        LevelSelectionManager.Instance.ShowWindow(() =>
-                        {
-                            SoundManager.TryPlayCombatMusic();
-                            ArcCardLayout.Instance.transform.gameObject.SetActive(true);
-                            TheEnemy.gameObject.SetActive(true);
-                            TheEnemy.Init(GameData.CurrentRound);
-                            EvaluatorManager.Instance.StartLevel();
-                            GameManager.Instance.myGameStates = GameManager.GameStates.Game;
-
-                        });
+                         GameData.FirstBossCompletedThisRun = 1;
+                            UIManager.Instance.ShowTutorialFinished(() =>
+                            {
+                 
+                            });
 
                     });
+            
 
-                });
+                }else
+                {
+                        ArmoryManager.Instance.ShowWindow(() =>
+                        {
+                            TheEnemy.gameObject.SetActive(false);
+                            ArcCardLayout.Instance.transform.gameObject.SetActive(false);
+                            ShopManager.Instance.ShowShopWindow(() =>
+                            {
+                                LevelSelectionManager.Instance.ShowWindow(() =>
+                                {
+                                    SoundManager.TryPlayCombatMusic();
+                                    ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+                                    TheEnemy.gameObject.SetActive(true);
+                                    TheEnemy.Init(GameData.CurrentRound);
+                                    EvaluatorManager.Instance.StartLevel();
+                                    GameManager.Instance.myGameStates = GameManager.GameStates.Game;
+
+                                });
+
+                            });
+
+                        });
+                }
+
+     
 
             });
         });

@@ -74,17 +74,17 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
 
-            EnemyPortraits[0].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[0].sprite_theSprite);
-            EnemyPortraits[1].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[1].sprite_theSprite);
-            EnemyPortraits[2].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[2].sprite_theSprite);
-            EnemyPortraits[3].sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite);
+            SetPortrait(EnemyPortraits[0], Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[0].sprite_theSprite));
+            SetPortraitEmpty(EnemyPortraits[1]);
+            SetPortraitEmpty(EnemyPortraits[2]);
+            SetPortrait(EnemyPortraits[3], Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite));
         }
         else
         {
-            EnemyPortraits[0].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[0].sprite_theSprite);
-            EnemyPortraits[1].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[1].sprite_theSprite);
-            EnemyPortraits[2].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[2].sprite_theSprite);
-            EnemyPortraits[3].sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
+            SetPortrait(EnemyPortraits[0], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[0].sprite_theSprite));
+            SetPortrait(EnemyPortraits[1], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[1].sprite_theSprite));
+            SetPortrait(EnemyPortraits[2], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[2].sprite_theSprite));
+            SetPortrait(EnemyPortraits[3], Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite));
         }
 
 
@@ -139,6 +139,22 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             ClickPlay();
         });
 
+    }
+
+    private void SetPortrait(Image portrait, Sprite sprite)
+    {
+        portrait.sprite = sprite;
+        Color color = portrait.color;
+        color.a = 1f;
+        portrait.color = color;
+    }
+
+    private void SetPortraitEmpty(Image portrait)
+    {
+        portrait.sprite = null;
+        Color color = portrait.color;
+        color.a = 0f;
+        portrait.color = color;
     }
 
     public void RefreshUI()

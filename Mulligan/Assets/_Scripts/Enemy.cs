@@ -51,7 +51,15 @@ public class Enemy : MonoBehaviour
             {
                 d = TutorialController.Instance.GetCurrentBoss();
             }
-            SetupEnemyForLevel(d.baseHP , d.baseDamage, aRound);
+            float baseDamage = d.baseDamage;
+            float baseHp = d.baseHP;
+            if (TutorialController.Instance.HasRunTutorial() == false)
+            {
+                baseHp = GetTutorialBossBaseHPForTarget(105, aRound);
+                baseDamage = GetTutorialBossBaseDamageForTarget(18, aRound);
+            }
+
+            SetupEnemyForLevel(baseHp , baseDamage, aRound);
             //image.sprite = d.theSprite;
             image.sprite = Resources.Load<Sprite>("" +d.sprite_theSprite);
 
@@ -149,6 +157,38 @@ public class Enemy : MonoBehaviour
     dmgLabel.text = Damage.ToString();
     bar.fillAmount = (float)Health / MaxHealth;
 }
+
+    private float GetTutorialBossBaseDamageForTarget(int targetDamage, int level)
+    {
+        float linearGrowthDMG = CardContainer.Instance.GrowthRateDMG;
+        float expGrowthDMG = CardContainer.Instance.GrowthRateDMGEXP;
+
+        float linearMultiplierDMG = 1f + (level - 1) * linearGrowthDMG;
+        float expMultiplierDMG = Mathf.Pow(1f + expGrowthDMG, level - 1);
+        float dmgMultiplier = linearMultiplierDMG * expMultiplierDMG;
+        float baseDamage = CardContainer.Instance.EnemyBaseDamage * dmgMultiplier;
+
+        if (baseDamage <= 0)
+            return 0;
+
+        return targetDamage / baseDamage;
+    }
+
+    private float GetTutorialBossBaseHPForTarget(int targetHP, int level)
+    {
+        float linearGrowth = CardContainer.Instance.GrowthRate;
+        float expGrowth = CardContainer.Instance.GrowthRateEXP;
+
+        float linearMultiplier = 1f + (level - 1) * linearGrowth;
+        float expMultiplier = Mathf.Pow(1f + expGrowth, level - 1);
+        float hpMultiplier = linearMultiplier * expMultiplier;
+        float baseHP = CardContainer.Instance.EnemyBaseHealth * hpMultiplier;
+
+        if (baseHP <= 0)
+            return 0;
+
+        return targetHP / baseHP;
+    }
 
     public void Attack(int aDamage=0)
     {

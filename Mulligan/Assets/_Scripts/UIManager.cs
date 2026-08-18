@@ -203,8 +203,8 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickContinueFromDefeate()
     {
-        if(GameData.FirstBossCompletedThisRun == 1)
-        return;
+        if (GameData.FirstBossCompletedThisRun == 1)
+            return;
 
         GameManager.Instance.StartGame();
         SceneManager.LoadScene(0);
@@ -1085,6 +1085,41 @@ public class UIManager : Singleton<UIManager>
         string inviteUrl = "https://discord.gg/fZwm99B89G";
         Application.OpenURL(inviteUrl);
 
+    }
+    public GameObject TutrorailFinishedWindow;
+    public void ShowTutorialFinished(System.Action onComplete)
+    {
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
+
+
+        TutrorailFinishedWindow.GetComponent<CanvasGroup>().alpha = 0f;
+        TutrorailFinishedWindow.SetActive(true);
+               // Fade in
+        LeanTween.alphaCanvas(TutrorailFinishedWindow.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
+        {
+            // Animate children
+            StartCoroutine(AnimateChildrenIn(onComplete, TutrorailFinishedWindow.transform, -1));
+        });
+        foreach (Transform child in TutrorailFinishedWindow.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+    }
+    public void ClickCloseTutorial()
+    {
+
+
+        GameManager.Instance.StartGame();
+        SceneManager.LoadScene(0);
+        if (IAPManager.Instance.IsFullGameUnlocked == false)
+        {
+            UnityHelper.RunAfterDelay(IAPManager.Instance, 0.5f, () =>
+            {
+                UIManager.Instance.ClickBuyPopupWindow();
+            });
+        }
     }
 
 }
