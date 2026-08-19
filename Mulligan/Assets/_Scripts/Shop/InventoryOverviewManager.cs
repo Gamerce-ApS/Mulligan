@@ -480,7 +480,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             unlockCard = visual.transform.parent.gameObject.AddComponent<UnlockContentCard>();
 
         if (unlockCard != null)
+        {
+            unlockCard.AllowLongPress = false;
             unlockCard.Init(title, description, visual.transform);
+        }
     }
 
     private void DisableChildRaycasts(GameObject visual)

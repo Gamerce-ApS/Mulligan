@@ -183,7 +183,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
     public bool HasArtifact(ArtifactEffectType effectType)
     {
-        return ActiveArtifacts.Exists(a => a.effect == effectType);
+        return ActiveArtifacts.Exists(a => a.effect == effectType && IsArtifactMutedByBoss(a) == false);
     }
 
     public int GetArtifactValue(ArtifactEffectType effectType)
@@ -191,10 +191,22 @@ public class ArtifactManager : Singleton<ArtifactManager>
         int total = 0;
         foreach (var artifact in ActiveArtifacts)
         {
+            if (IsArtifactMutedByBoss(artifact))
+                continue;
+
             if (artifact.effect == effectType)
                 total += artifact.value;
         }
         return total;
+    }
+
+    public bool IsArtifactMutedByBoss(ArtifactData artifact)
+    {
+        if (artifact == null || GameManager.Instance.AreArtifactsMutedByBoss() == false)
+            return false;
+
+        int index = ActiveArtifacts.IndexOf(artifact);
+        return index >= 0 && index < 2;
     }
 
 

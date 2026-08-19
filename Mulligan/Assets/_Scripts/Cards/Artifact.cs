@@ -41,11 +41,9 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-         if(isMuted)
+        if(isMuted)
         return;
         if (isDragging) return;
-        VibrationsManager.TryVibrate(VibrationType.Tap);
-        SoundManager.TryPlay(SoundType.Tap);
 
         if (!isSelected)
         {
@@ -135,6 +133,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.Tap);
         isHolding = true;
         holdTimer = 0f;
     }

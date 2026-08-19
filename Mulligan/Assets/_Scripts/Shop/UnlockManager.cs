@@ -19,7 +19,7 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public float ShopCardScale = 1.261564f;
     public float UnitUpgradeCardScale = 0.9070403f;
-    public float CardBackgroundScale = 1f;
+    public float CardBackgroundSize = 820f;
 
     public Vector3 startPosition;
     private List<RectTransform> cardWrappers = new List<RectTransform>();
@@ -400,8 +400,9 @@ public class UnlockManager : Singleton<UnlockManager>
         backgroundRect.pivot = new Vector2(0.5f, 0.5f);
         backgroundRect.anchoredPosition = Vector2.zero;
         backgroundRect.position = wrapperRect.position;
+        backgroundRect.localScale = Vector3.one;
         backgroundRect.localRotation = Quaternion.identity;
-        backgroundRect.sizeDelta = GetSquareBackgroundSize(wrapperRect);
+        backgroundRect.sizeDelta = new Vector2(CardBackgroundSize, CardBackgroundSize);
     }
 
     private void SyncCardBackgrounds()
@@ -414,12 +415,6 @@ public class UnlockManager : Singleton<UnlockManager>
             cardBackgrounds[i].position = cardWrappers[i].position;
             // cardBackgrounds[i].sizeDelta = cardWrappers[i].sizeDelta;
         }
-    }
-
-    private Vector2 GetSquareBackgroundSize(RectTransform wrapperRect)
-    {
-        float size = Mathf.Max(wrapperRect.sizeDelta.x, wrapperRect.sizeDelta.y) * CardBackgroundScale;
-        return new Vector2(size, size);
     }
 
     private void InitWrapper(GameObject visual, string title, string description)

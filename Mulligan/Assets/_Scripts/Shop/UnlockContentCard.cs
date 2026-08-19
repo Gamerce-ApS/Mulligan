@@ -3,13 +3,17 @@ using UnityEngine.EventSystems;
 
 public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
+    private const float TapMoveThreshold = 10f;
+
     public Transform PopupTarget;
+    public bool AllowLongPress = true;
     private string title;
     private string description;
     private bool isHolding = false;
     private float holdTimer = 0f;
     private Vector2 pointerDownPosition;
     private bool showedInfoThisPress = false;
+    private bool pointerMovedTooFar = false;
 
     public void Init(string aTitle, string aDescription, Transform aPopupTarget)
     {
@@ -23,12 +27,16 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
         if (isHolding == false)
             return;
 
-        if (Vector2.Distance(pointerDownPosition, Input.mousePosition) > 10f)
+        if (Vector2.Distance(pointerDownPosition, Input.mousePosition) > TapMoveThreshold)
         {
+            pointerMovedTooFar = true;
             isHolding = false;
             holdTimer = 0f;
             return;
         }
+
+        if (AllowLongPress == false)
+            return;
 
         holdTimer += Time.deltaTime;
         if (holdTimer > 0.4f)
@@ -42,6 +50,7 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public void OnPointerDown(PointerEventData eventData)
     {
         showedInfoThisPress = false;
+        pointerMovedTooFar = false;
         isHolding = true;
         holdTimer = 0f;
         pointerDownPosition = eventData.position;
@@ -53,6 +62,9 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
         holdTimer = 0f;
 
         if (showedInfoThisPress)
+            return;
+
+        if (pointerMovedTooFar || Vector2.Distance(pointerDownPosition, eventData.position) > TapMoveThreshold)
             return;
 
         if (UIManager.Instance.currentTransform == PopupTarget)

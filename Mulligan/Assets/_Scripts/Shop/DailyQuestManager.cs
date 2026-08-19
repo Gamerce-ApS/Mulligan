@@ -134,31 +134,52 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     public void UpdateUI()
     {
-        if (QuestParent != null && QuestTemplate != null)
-        {
-            for (int i = QuestParent.childCount - 1; i >= 0; i--)
-            {
-                if (QuestParent.GetChild(i).gameObject != QuestTemplate)
-                    Destroy(QuestParent.GetChild(i).gameObject);
-            }
-
-            for (int i = 0; i < activeQuests.Count; i++)
-            {
-                DailyQuestDefinition definition = GetDefinition(activeQuests[i]);
-                if (definition == null)
-                    continue;
-
-                GameObject go = Instantiate(QuestTemplate, QuestParent);
-                go.SetActive(true);
-
-                DailyQuestItem item = go.GetComponent<DailyQuestItem>();
-                if (item != null)
-                    item.Init(GetQuestText(definition), activeQuests[i].Progress, definition.TargetAmount, activeQuests[i].Completed);
-            }
-        }
+        PopulateQuestItems(QuestParent, QuestTemplate);
 
         UpdateResetLabel();
         UpdateRewardUI();
+    }
+
+    public void PopulateQuestItems(Transform parent, GameObject template)
+    {
+        LoadOrCreateDailyQuests();
+
+        if (parent == null || template == null)
+            return;
+
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            if (parent.GetChild(i).gameObject != template)
+                Destroy(parent.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < activeQuests.Count; i++)
+        {
+            DailyQuestDefinition definition = GetDefinition(activeQuests[i]);
+            if (definition == null)
+                continue;
+
+            GameObject go = Instantiate(template, parent);
+            go.SetActive(true);
+
+            DailyQuestItem item = go.GetComponent<DailyQuestItem>();
+            if (item != null)
+                item.Init(GetQuestText(definition), activeQuests[i].Progress, definition.TargetAmount, activeQuests[i].Completed);
+        }
+    }
+
+    public void UpdateRewardUI(Image rewardProgressBar, TMP_Text rewardProgressLabel, Button claimButton)
+    {
+        int progress = GameData.CompletedQuestsTowardsReward;
+
+        if (rewardProgressLabel != null)
+            rewardProgressLabel.text = progress + " / " + RewardTarget;
+
+        if (rewardProgressBar != null)
+            rewardProgressBar.fillAmount = GetRewardProgressFillAmount(progress);
+
+        if (claimButton != null)
+            claimButton.gameObject.SetActive(progress >= RewardTarget && GameData.DailyQuestArtifactRewardIndex < DailyQuestArtifactRewards.Count);
     }
 
     public void AddProgress(DailyQuestType type, int amount = 1)
@@ -508,16 +529,7 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     private void UpdateRewardUI()
     {
-        int progress = GameData.CompletedQuestsTowardsReward;
-
-        if (RewardProgressLabel != null)
-            RewardProgressLabel.text = progress + " / " + RewardTarget;
-
-        if (RewardProgressBar != null)
-            RewardProgressBar.fillAmount = GetRewardProgressFillAmount(progress);
-
-        if (ClaimButton != null)
-            ClaimButton.gameObject.SetActive(progress >= RewardTarget && GameData.DailyQuestArtifactRewardIndex < DailyQuestArtifactRewards.Count);
+        UpdateRewardUI(RewardProgressBar, RewardProgressLabel, ClaimButton);
     }
 
     private float GetRewardProgressFillAmount(int progress)

@@ -541,12 +541,15 @@ public class UIManager : Singleton<UIManager>
                 Destroy(child.gameObject);
         }
 
+        int artifactIndex = 0;
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
             Artifact slot = Instantiate(ArtifactSlotTemplate, ArtifactSlotParent).GetComponent<Artifact>();
             slot.gameObject.SetActive(true);
             slot.ArtifactData = artifact;
             slot.Init(artifact);
+            slot.SetMuted(GameManager.Instance.AreArtifactsMutedByBoss() && artifactIndex < 2);
+            artifactIndex++;
             //slot.transform.Find("Icon").GetComponent<Image>().sprite = artifact.icon;
             // Optionally add tooltip or highlight here
         }
@@ -1073,6 +1076,21 @@ public class UIManager : Singleton<UIManager>
 
 
             });
+    }
+    public void ShowSplashScreen()
+    {
+        SplashScreen.SetActive(true);
+            Vector2 targetPos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, 0);
+
+            // Start below the screen
+        SplashScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height * 2);
+
+
+        SplashScreen.GetComponent<CanvasGroup>().alpha = 0;
+        LeanTween.alphaCanvas(SplashScreen.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
+
+        // Animate to its original position
+        LeanTween.move(SplashScreen.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
     }
     public void ClickRestore()
     {

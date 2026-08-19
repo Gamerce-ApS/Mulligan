@@ -15,6 +15,9 @@ public class Hero : MonoBehaviour
             float v = 1;
             foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
             {
+                if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                    continue;
+
                 if (artifact.effect == ArtifactEffectType.AddMaxHP)
                 {
                     v += artifact.value / 100f;
@@ -159,6 +162,9 @@ public class Hero : MonoBehaviour
     {
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
+            if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                continue;
+
             if (artifact.effect == ArtifactEffectType.DodgeEnemyAttack)
             {
                 if (Random.Range(0, 100) < artifact.value)

@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager>
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
             InventoryOverviewManager.Instance.Init();
+            HeroInfoScreen.Instance.Init();
             LocalNotificationManager.Instance.Init();
             DailyQuestManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
@@ -111,23 +112,27 @@ public class GameManager : Singleton<GameManager>
     {
         HeroSelectionManager.Instance.ShowWindow(() =>
         {
-            myGameStates = GameStates.Pre_Game;
-            TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
-            AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
-            LevelSelectionManager.Instance.ShowWindow(() =>
-            {
-                SoundManager.TryPlayCombatMusic();
-                TheEnemy.Init(GameData.CurrentRound);
-                GameManager.Instance.myGameStates = GameManager.GameStates.Game;
+     
+        });
+    }
+    public void RunPreGameSetup()
+    {
+        myGameStates = GameStates.Pre_Game;
+        TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
+        AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
+        LevelSelectionManager.Instance.ShowWindow(() =>
+        {
+            SoundManager.TryPlayCombatMusic();
+            TheEnemy.Init(GameData.CurrentRound);
+            GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
-                if (GameManager.Instance.BonusAttacksNextRound)
-                {
-                    GameData.CurrentAttacks += 2;
-                    GameManager.Instance.BonusAttacksNextRound = false;
-                }
-                if (TutorialController.Instance.HasRunTutorial() == false)
-                    TutorialController.Instance.StartTutorial();
-            });
+            if (GameManager.Instance.BonusAttacksNextRound)
+            {
+                GameData.CurrentAttacks += 2;
+                GameManager.Instance.BonusAttacksNextRound = false;
+            }
+            if (TutorialController.Instance.HasRunTutorial() == false)
+                TutorialController.Instance.StartTutorial();
         });
     }
     public void WinGame()
@@ -240,6 +245,9 @@ public class GameManager : Singleton<GameManager>
 
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
+            if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                continue;
+
             if (artifact.effect == ArtifactEffectType.GoldOnLose &&
             GameData.CurrentAttacks <= 0 &&
             GameManager.Instance.TheEnemy.Health > 0)
@@ -376,8 +384,7 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.P))
         {
-            TheEnemy.Init(GameData.CurrentRound);
-            GameData.CurrentRound++;
+            HeroInfoScreen.Instance.ShowWindow();
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
@@ -426,6 +433,13 @@ public class GameManager : Singleton<GameManager>
     private void DebugResetDailyQuests()
     {
         DailyQuestManager.Instance.DebugResetDailyQuests();
+    }
+
+    public bool AreArtifactsMutedByBoss()
+    {
+        return TheEnemy != null &&
+               TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.Disable2Artifacts) &&
+               (myGameStates == GameStates.Game || myGameStates == GameStates.Evaluation);
     }
 
     // Debug functions

@@ -44,8 +44,6 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (isDragging) return;
         if(GameManager.Instance.myGameStates == GameManager.GameStates.Evaluation)
             return;
-        VibrationsManager.TryVibrate(VibrationType.Tap);
-        SoundManager.TryPlay(SoundType.PotionTap);
         if (!isSelected)
         {
             //originalAnchoredPos = rectTransform.anchoredPosition;
@@ -234,6 +232,8 @@ float threshold = baseThreshold * scaleFactor;
     public void OnPointerDown(PointerEventData eventData)
     {
         // Debug.Log("Potion PointerDown");
+        VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.PotionTap);
         isHolding = true;
         holdTimer = 0f;
     }

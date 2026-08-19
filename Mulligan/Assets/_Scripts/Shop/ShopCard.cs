@@ -222,10 +222,6 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if (isDragging) return;
 
-        VibrationsManager.TryVibrate(VibrationType.Tap);
-        SoundManager.TryPlay(SoundType.Tap);
-
-
         if (!isSelected)
         {
             if(ArtifactData !=null)
@@ -283,6 +279,8 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        VibrationsManager.TryVibrate(VibrationType.Tap);
+        SoundManager.TryPlay(SoundType.Tap);
         isHolding = true;
         holdTimer = 0f;
     }

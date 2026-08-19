@@ -88,7 +88,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         }
         RefreshHighscoreUI(selectedHero >= 0 ? selectedHero : GameData.HeroSelected);
     }
-    public void HideWindow()
+    public void HideWindow(System.Action onCompletet=null)
     {
         SoundManager.TryPlay(SoundType.WindowClose);
 
@@ -103,6 +103,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             .setEaseInBack()
             .setOnComplete(() =>
             {
+                if(onCompletet != null)
+                onCompletet.Invoke();
                 OnHideShop?.Invoke();
                 ShopWindow.SetActive(false);
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
@@ -218,21 +220,41 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         }
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.Success);
-        if(TutorialController.Instance.HasRunTutorial() == false)
-        {
-            if(UIManager.Instance.PotionSlotParent.childCount>0)
-                PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
-        }
 
-        HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
-        DailyQuestManager.Instance.AddProgress(DailyQuestType.PlayRuns);
-        DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
-        HideWindow();
+        
+
+        // if(TutorialController.Instance.HasRunTutorial() == false)
+        // {
+        //     if(UIManager.Instance.PotionSlotParent.childCount>0)
+        //         PotionManager.Instance.SellPotion(UIManager.Instance.PotionSlotParent.GetChild(0).GetComponent<Potion>());
+        // }
+
+        // HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
+        // DailyQuestManager.Instance.AddProgress(DailyQuestType.PlayRuns);
+        // DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
+        
+        HideWindow(()=>{HeroInfoScreen.Instance.ShowWindow();});
     }
     public void ClickLocked()
     {
         UIManager.Instance.ShowTooltip("Locked heroes");
 
     }
-  
+    public void ClickTalent()
+    {
+        UIManager.Instance.ShowTooltip("Comming soon!");
+    }
+    public void ClickedHighScore()
+    {
+       UIManager.Instance.ShowTooltip("Comming soon!");
+    }
+    public void ClickBack()
+    {
+        HideWindow(()=>{
+
+            UIManager.Instance.ShowSplashScreen();
+
+        });
+
+    }
 }

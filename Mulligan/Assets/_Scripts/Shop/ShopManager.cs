@@ -21,6 +21,7 @@ public class ShopManager : Singleton<ShopManager>
     public bool SetEverythingFreeNextRound = false;
     public GameObject BattleButton;
     public TMPro.TMP_Text ReRollCostLabel;
+    private int shopEnterCount = 0;
     public void PopulateShop()
     {
 
@@ -258,7 +259,7 @@ RefreshPotionSlots();
     public CanvasGroup bgCanvasGroup;
     public void ShowShopWindow(System.Action onComplete = null)
     {
-        SoundManager.TryPlay(SoundType.ShopEnter);
+        TryPlayShopEnterSound();
 
         PopulateShop();
 
@@ -295,8 +296,16 @@ RefreshPotionSlots();
         }else
         {
             ReRollCostLabel.text="5";
-        }
+            }
 
+    }
+
+    private void TryPlayShopEnterSound()
+    {
+        shopEnterCount++;
+
+        if (shopEnterCount == 1 || shopEnterCount % 3 == 0)
+            SoundManager.TryPlay(SoundType.ShopEnter);
     }
     public void HideShopWindow()
     {

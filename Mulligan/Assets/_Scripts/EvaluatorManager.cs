@@ -204,6 +204,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // ❤️ Heal 10% HP After Level
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
+            if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                continue;
+
             if (artifact.effect == ArtifactEffectType.HealAfterLevel)
             {
                 float healPercent = artifact.value / 100f;
@@ -241,6 +244,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             GameData.CurrentArmySize = 0;
             foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
             {
+                if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                    continue;
+
                 switch (artifact.effect)
                 {
                     case ArtifactEffectType.AddReroll:
@@ -331,6 +337,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         int bonusDmg = 0;
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
+            if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                continue;
+
             if(artifact.effect == ArtifactEffectType.RaceHasExtraDamage)
             {
                 if(artifact.RandomRace == card.data.race)
@@ -476,7 +485,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             
             steps.Enqueue(next =>
             {
-                 Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+                if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
+                {
+                    next();
+                    return;
+                }
+
+                Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
                 if (visual == null)
                 {
                     next();
@@ -581,6 +596,12 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         {
             steps.Enqueue(next =>
             {
+                if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifactData))
+                {
+                    next();
+                    return;
+                }
+
                 Artifact visual = UIManager.Instance.GetVisualArtifact(artifactData);
                 if (visual == null)
                 {
