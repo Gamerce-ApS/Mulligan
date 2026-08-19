@@ -97952,8 +97952,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 557, y: -31.918}
-  m_SizeDelta: {x: 632.765, y: 313.81}
+  m_AnchoredPosition: {x: 576.9562, y: -31.918}
+  m_SizeDelta: {x: 416.444, y: 162.275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &926382342
 MonoBehaviour:
@@ -97975,7 +97975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 255 Hit
+  m_text: 20 Hit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 591e01ca2404f4d6db6f0b0b489f4ac6, type: 2}
   m_sharedMaterial: {fileID: -7367546365679106110, guid: 591e01ca2404f4d6db6f0b0b489f4ac6, type: 2}
@@ -98005,9 +98005,9 @@ MonoBehaviour:
   m_fontSize: 78.2
   m_fontSizeBase: 78.2
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 78.2
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -135658,6 +135658,9 @@ MonoBehaviour:
   RewardProgressBar: {fileID: 723065351}
   RewardProgressLabel: {fileID: 0}
   ClaimButton: {fileID: 0}
+  DailyBestHeroPortrait: {fileID: 968200567}
+  DailyBestLevelLabel: {fileID: 1867068243}
+  DailyBestTopHitLabel: {fileID: 926382342}
   startPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1381769066
 Transform:

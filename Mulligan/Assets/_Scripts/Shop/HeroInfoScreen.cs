@@ -12,6 +12,9 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
     public Image RewardProgressBar;
     public TMP_Text RewardProgressLabel;
     public Button ClaimButton;
+    public Image DailyBestHeroPortrait;
+    public TMP_Text DailyBestLevelLabel;
+    public TMP_Text DailyBestTopHitLabel;
 
     public Vector3 startPosition;
 
@@ -75,6 +78,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         SetHeroPortrait();
         DailyQuestManager.Instance.PopulateQuestItems(QuestParent, QuestTemplate);
         DailyQuestManager.Instance.UpdateRewardUI(RewardProgressBar, RewardProgressLabel, ClaimButton);
+        UpdateDailyBestUI();
     }
 
     public void ClickHeroSelectionScreen()
@@ -135,6 +139,35 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         UpdateUI();
     }
 
+    private async void UpdateDailyBestUI()
+    {
+        if (DailyBestLevelLabel != null)
+            DailyBestLevelLabel.text = "Level ...";
+
+        if (DailyBestTopHitLabel != null)
+            DailyBestTopHitLabel.text = "Top Hit ...";
+
+        LeaderboardEntryData dailyBest = await HighscoreManager.Instance.GetDailyBest();
+        if (dailyBest == null)
+        {
+            if (DailyBestLevelLabel != null)
+                DailyBestLevelLabel.text = "Level 0";
+
+            if (DailyBestTopHitLabel != null)
+                DailyBestTopHitLabel.text = "Top Hit 0";
+
+            return;
+        }
+
+        SetDailyBestHeroPortrait(dailyBest.HeroId);
+
+        if (DailyBestLevelLabel != null)
+            DailyBestLevelLabel.text = "Level " + dailyBest.LevelReached;
+
+        if (DailyBestTopHitLabel != null)
+            DailyBestTopHitLabel.text = "Top Hit " + dailyBest.TopHit;
+    }
+
     private void SetHeroPortrait()
     {
         if (HeroPortrait == null ||
@@ -148,6 +181,23 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         Image selectedPortrait = GameManager.Instance.TheHero.HeroPortraits[GameData.HeroSelected].GetComponent<Image>();
         if (selectedPortrait != null)
             HeroPortrait.sprite = selectedPortrait.sprite;
+    }
+
+    private void SetDailyBestHeroPortrait(string heroId)
+    {
+        if (DailyBestHeroPortrait == null ||
+            GameManager.Instance == null ||
+            GameManager.Instance.TheHero == null ||
+            GameManager.Instance.TheHero.HeroPortraits == null)
+            return;
+
+        int heroIndex = HighscoreManager.Instance.GetHeroIndex(heroId);
+        if (heroIndex < 0 || heroIndex >= GameManager.Instance.TheHero.HeroPortraits.Count)
+            return;
+
+        Image selectedPortrait = GameManager.Instance.TheHero.HeroPortraits[heroIndex].GetComponent<Image>();
+        if (selectedPortrait != null)
+            DailyBestHeroPortrait.sprite = selectedPortrait.sprite;
     }
 
     private void PlayButtonFeedback()

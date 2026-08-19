@@ -57,6 +57,7 @@ public class GameManager : Singleton<GameManager>
             InventoryOverviewManager.Instance.Init();
             HeroInfoScreen.Instance.Init();
             LocalNotificationManager.Instance.Init();
+            HighscoreManager.Instance.Init();
             DailyQuestManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
             StartGame();
@@ -119,6 +120,7 @@ public class GameManager : Singleton<GameManager>
     {
         myGameStates = GameStates.Pre_Game;
         TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
+        HighscoreManager.Instance.StartRun(GameData.HeroSelected);
         AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
         LevelSelectionManager.Instance.ShowWindow(() =>
         {
@@ -241,6 +243,7 @@ public class GameManager : Singleton<GameManager>
     {
         VibrationsManager.TryVibrate(VibrationType.Error);
         AnalyticsService.Instance.RecordEvent("LostRound_"+GameData.CurrentRound);
+        HighscoreManager.Instance.SubmitCurrentRun();
 
 
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
