@@ -145,7 +145,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
             DailyBestLevelLabel.text = "Level ...";
 
         if (DailyBestTopHitLabel != null)
-            DailyBestTopHitLabel.text = "Top Hit ...";
+            DailyBestTopHitLabel.text = "... Hit";
 
         LeaderboardEntryData dailyBest = await HighscoreManager.Instance.GetDailyBest();
         if (dailyBest == null)
@@ -154,7 +154,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
                 DailyBestLevelLabel.text = "Level 0";
 
             if (DailyBestTopHitLabel != null)
-                DailyBestTopHitLabel.text = "Top Hit 0";
+                DailyBestTopHitLabel.text = "0 Hit";
 
             return;
         }
@@ -165,7 +165,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
             DailyBestLevelLabel.text = "Level " + dailyBest.LevelReached;
 
         if (DailyBestTopHitLabel != null)
-            DailyBestTopHitLabel.text = "Top Hit " + dailyBest.TopHit;
+            DailyBestTopHitLabel.text = "" + dailyBest.TopHit+" Hit";
     }
 
     private void SetHeroPortrait()
@@ -185,19 +185,10 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
 
     private void SetDailyBestHeroPortrait(string heroId)
     {
-        if (DailyBestHeroPortrait == null ||
-            GameManager.Instance == null ||
-            GameManager.Instance.TheHero == null ||
-            GameManager.Instance.TheHero.HeroPortraits == null)
+        if (DailyBestHeroPortrait == null)
             return;
 
-        int heroIndex = HighscoreManager.Instance.GetHeroIndex(heroId);
-        if (heroIndex < 0 || heroIndex >= GameManager.Instance.TheHero.HeroPortraits.Count)
-            return;
-
-        Image selectedPortrait = GameManager.Instance.TheHero.HeroPortraits[heroIndex].GetComponent<Image>();
-        if (selectedPortrait != null)
-            DailyBestHeroPortrait.sprite = selectedPortrait.sprite;
+        HighscoreManager.Instance.ApplyHeroPortrait(DailyBestHeroPortrait, heroId);
     }
 
     private void PlayButtonFeedback()

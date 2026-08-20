@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class RunScore
@@ -45,8 +47,23 @@ public class HeroBestScoreData
     public long TopHit;
 }
 
+[Serializable]
+public class HighscoreHeroPortraitSettings
+{
+    public string HeroName;
+    public Vector2 Offset;
+    public float Scale = 1f;
+}
+
 public class HighscoreManager : Singleton<HighscoreManager>
 {
+    private enum HighscoreTab
+    {
+        Daily,
+        AllTime,
+        YourBest
+    }
+
     public const string DailyLeaderboardId = "daily_global";
     public const string AllTimeLeaderboardId = "all_time_global";
 
@@ -55,11 +72,36 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
     public bool IsUGSReady { get; private set; }
     public string PlayerId { get; private set; } = "";
+    public string PlayerDisplayName { get; private set; } = "Player";
+
+    [Header("Window")]
+    public GameObject ShopWindow;
+    public CanvasGroup bgCanvasGroup;
+    public ScrollRect LeaderboardScrollRect;
+    public Transform LeaderboardParent;
+    public GameObject ScoreEntryTemplate;
+    public GameObject DailyButton;
+    public GameObject AllTimeButton;
+    public GameObject YourBestButton;
+    public int LeaderboardLimit = 50;
+    public int PlayerRangeLimit = 5;
+    public int VisibleEntryCount = 7;
+
+    [Header("Today's Best")]
+    public Image TodaysBestHeroPortrait;
+    public TMP_Text TodaysBestLevelLabel;
+    public TMP_Text TodaysBestTopHitLabel;
+
+    [Header("Hero Portrait Tuning")]
+    public List<HighscoreHeroPortraitSettings> HeroPortraitSettings = new List<HighscoreHeroPortraitSettings>();
+
+    public Vector3 startPosition;
 
     private int currentRunHeroIndex = -1;
     private int currentRunTopHit = 0;
     private bool hasActiveRun = false;
     private bool initStarted = false;
+    private HighscoreTab activeTab = HighscoreTab.Daily;
 
     protected override void Awake()
     {
@@ -84,8 +126,92 @@ public class HighscoreManager : Singleton<HighscoreManager>
         if (initStarted)
             return;
 
+        if (ShopWindow != null)
+            startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
+
+        if (ScoreEntryTemplate != null)
+            ScoreEntryTemplate.SetActive(false);
+
         initStarted = true;
         _ = InitUGSAsync();
+    }
+
+    public void ShowWindow()
+    {
+        SoundManager.TryPlay(SoundType.WindowOpen);
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+
+        if (bgCanvasGroup != null)
+        {
+            bgCanvasGroup.gameObject.SetActive(true);
+            bgCanvasGroup.alpha = 0;
+            LeanTween.alphaCanvas(bgCanvasGroup, 1f, 0.25f).setEaseOutQuad();
+        }
+
+        if (ShopWindow != null)
+        {
+            ShopWindow.SetActive(true);
+            Vector2 targetPos = startPosition;
+            ShopWindow.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
+            LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
+        }
+
+        activeTab = HighscoreTab.Daily;
+        UpdateTabHighlights();
+        PopulateDailyLeaderboard();
+        UpdateTodaysBestUI();
+    }
+
+    public void HideWindow()
+    {
+        SoundManager.TryPlay(SoundType.WindowClose);
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+
+        if (bgCanvasGroup != null)
+        {
+            bgCanvasGroup.alpha = 1;
+            LeanTween.alphaCanvas(bgCanvasGroup, 0f, 0.25f).setEaseInQuad();
+        }
+
+        if (ShopWindow == null)
+            return;
+
+        Vector2 hidePos = new Vector2(ShopWindow.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
+
+        LeanTween.move(ShopWindow.GetComponent<RectTransform>(), hidePos, 0.4f)
+            .setEaseInBack()
+            .setOnComplete(() =>
+            {
+                ShopWindow.SetActive(false);
+                ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
+
+                if (bgCanvasGroup != null)
+                    bgCanvasGroup.gameObject.SetActive(false);
+            });
+    }
+
+    public void ClickDaily()
+    {
+        PlayButtonFeedback();
+        activeTab = HighscoreTab.Daily;
+        UpdateTabHighlights();
+        PopulateDailyLeaderboard();
+    }
+
+    public void ClickAllTime()
+    {
+        PlayButtonFeedback();
+        activeTab = HighscoreTab.AllTime;
+        UpdateTabHighlights();
+        PopulateAllTimeLeaderboard();
+    }
+
+    public void ClickYourBest()
+    {
+        PlayButtonFeedback();
+        activeTab = HighscoreTab.YourBest;
+        UpdateTabHighlights();
+        PopulateYourBestLeaderboard();
     }
 
     public void StartRun(int heroIndex)
@@ -217,6 +343,44 @@ public class HighscoreManager : Singleton<HighscoreManager>
         return entries[0];
     }
 
+    public Sprite GetHeroPortraitSprite(string heroId)
+    {
+        return GetHeroPortraitSprite(GetHeroIndex(heroId));
+    }
+
+    public Sprite GetHeroPortraitSprite(int heroIndex)
+    {
+        if (GameManager.Instance == null ||
+            GameManager.Instance.TheHero == null ||
+            GameManager.Instance.TheHero.HeroPortraits == null ||
+            heroIndex < 0 ||
+            heroIndex >= GameManager.Instance.TheHero.HeroPortraits.Count)
+            return null;
+
+        Image selectedPortrait = GameManager.Instance.TheHero.HeroPortraits[heroIndex].GetComponent<Image>();
+        if (selectedPortrait == null)
+            return null;
+
+        return selectedPortrait.sprite;
+    }
+
+    public void ApplyHeroPortrait(Image target, string heroId)
+    {
+        ApplyHeroPortrait(target, GetHeroIndex(heroId));
+    }
+
+    public void ApplyHeroPortrait(Image target, int heroIndex)
+    {
+        if (target == null)
+            return;
+
+        Sprite portrait = GetHeroPortraitSprite(heroIndex);
+        if (portrait != null)
+            target.sprite = portrait;
+
+        ApplyHeroPortraitTransform(target, heroIndex);
+    }
+
     public string GetHeroId(int heroIndex)
     {
         return "hero_" + heroIndex;
@@ -249,6 +413,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
             PlayerId = AuthenticationService.Instance.PlayerId;
+            await InitPlayerNameAsync();
             IsUGSReady = true;
             Debug.Log("Highscore UGS initialized. PlayerID: " + PlayerId);
         }
@@ -292,6 +457,23 @@ public class HighscoreManager : Singleton<HighscoreManager>
         }
     }
 
+    private async Task InitPlayerNameAsync()
+    {
+        try
+        {
+            string playerName = await AuthenticationService.Instance.GetPlayerNameAsync(false);
+            if (string.IsNullOrEmpty(playerName) || playerName.StartsWith("Player#") == false)
+                playerName = await AuthenticationService.Instance.UpdatePlayerNameAsync("Player");
+
+            PlayerDisplayName = playerName;
+        }
+        catch (Exception e)
+        {
+            PlayerDisplayName = "Player";
+            Debug.LogWarning("Failed to set Unity player name. Leaderboards still work. " + e.Message);
+        }
+    }
+
     private async Task<List<LeaderboardEntryData>> GetLeaderboard(string leaderboardId, int limit)
     {
         List<LeaderboardEntryData> entries = new List<LeaderboardEntryData>();
@@ -318,6 +500,37 @@ public class HighscoreManager : Singleton<HighscoreManager>
         catch (Exception e)
         {
             Debug.LogWarning("Leaderboard read failed for " + leaderboardId + ". " + e.Message);
+        }
+
+        return entries;
+    }
+
+    private async Task<List<LeaderboardEntryData>> GetLeaderboardAroundPlayer(string leaderboardId, int rangeLimit)
+    {
+        List<LeaderboardEntryData> entries = new List<LeaderboardEntryData>();
+
+        if (IsUGSReady == false)
+            await InitUGSAsync();
+
+        if (IsUGSReady == false)
+            return entries;
+
+        try
+        {
+            var scores = await LeaderboardsService.Instance.GetPlayerRangeAsync(
+                leaderboardId,
+                new GetPlayerRangeOptions
+                {
+                    RangeLimit = Mathf.Max(1, rangeLimit),
+                    IncludeMetadata = true
+                });
+
+            foreach (LeaderboardEntry entry in scores.Results)
+                entries.Add(ConvertEntry(entry));
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Player leaderboard range read failed for " + leaderboardId + ". " + e.Message);
         }
 
         return entries;
@@ -425,5 +638,210 @@ public class HighscoreManager : Singleton<HighscoreManager>
     private string GetMaxDamageKey(int heroIndex)
     {
         return MaxDamageKey + heroIndex;
+    }
+
+    private async void PopulateDailyLeaderboard()
+    {
+        await PopulateRemoteLeaderboard(DailyLeaderboardId, HighscoreTab.Daily);
+    }
+
+    private async void PopulateAllTimeLeaderboard()
+    {
+        await PopulateRemoteLeaderboard(AllTimeLeaderboardId, HighscoreTab.AllTime);
+    }
+
+    private async Task PopulateRemoteLeaderboard(string leaderboardId, HighscoreTab tab)
+    {
+        ClearEntries();
+
+        List<LeaderboardEntryData> entries = await GetLeaderboard(leaderboardId, LeaderboardLimit);
+        bool playerIsVisible = entries.Exists(entry => entry.PlayerId == PlayerId);
+
+        if (playerIsVisible == false)
+        {
+            List<LeaderboardEntryData> playerRange = await GetLeaderboardAroundPlayer(leaderboardId, PlayerRangeLimit);
+            if (playerRange.Count > 0)
+                entries = playerRange;
+        }
+
+        if (activeTab != tab)
+            return;
+
+        PopulateEntries(entries);
+        ScrollToPlayerIfNeeded(entries);
+    }
+
+    private void PopulateYourBestLeaderboard()
+    {
+        ClearEntries();
+
+        if (LeaderboardParent == null || ScoreEntryTemplate == null)
+            return;
+
+        List<HeroBestScoreData> scores = GetMyHeroBestScores();
+        scores.Sort((a, b) =>
+        {
+            int levelCompare = b.LevelReached.CompareTo(a.LevelReached);
+            if (levelCompare != 0)
+                return levelCompare;
+
+            return b.TopHit.CompareTo(a.TopHit);
+        });
+
+        for (int i = 0; i < scores.Count; i++)
+        {
+            GameObject entryObject = Instantiate(ScoreEntryTemplate, LeaderboardParent);
+            entryObject.SetActive(true);
+
+            HighscoreEntryItem item = entryObject.GetComponent<HighscoreEntryItem>();
+            if (item != null)
+                item.Init(i + 1, "You", scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
+        }
+
+        ResetScrollPosition();
+    }
+
+    private void PopulateEntries(List<LeaderboardEntryData> entries)
+    {
+        if (LeaderboardParent == null || ScoreEntryTemplate == null)
+            return;
+
+        for (int i = 0; i < entries.Count; i++)
+        {
+            GameObject entryObject = Instantiate(ScoreEntryTemplate, LeaderboardParent);
+            entryObject.SetActive(true);
+
+            HighscoreEntryItem item = entryObject.GetComponent<HighscoreEntryItem>();
+            if (item != null)
+                item.Init(entries[i]);
+        }
+    }
+
+    private void ClearEntries()
+    {
+        if (LeaderboardParent == null || ScoreEntryTemplate == null)
+            return;
+
+        for (int i = LeaderboardParent.childCount - 1; i >= 0; i--)
+        {
+            if (LeaderboardParent.GetChild(i).gameObject != ScoreEntryTemplate)
+                Destroy(LeaderboardParent.GetChild(i).gameObject);
+        }
+
+        ResetScrollPosition();
+    }
+
+    private void UpdateTodaysBestUI()
+    {
+        _ = UpdateTodaysBestUIAsync();
+    }
+
+    private async Task UpdateTodaysBestUIAsync()
+    {
+        if (TodaysBestLevelLabel != null)
+            TodaysBestLevelLabel.text = "...";
+
+        if (TodaysBestTopHitLabel != null)
+            TodaysBestTopHitLabel.text = "...";
+
+        LeaderboardEntryData dailyBest = await GetDailyBest();
+        if (dailyBest == null)
+        {
+            if (TodaysBestLevelLabel != null)
+                TodaysBestLevelLabel.text = "0";
+
+            if (TodaysBestTopHitLabel != null)
+                TodaysBestTopHitLabel.text = "0";
+
+            return;
+        }
+
+        if (TodaysBestHeroPortrait != null)
+            ApplyHeroPortrait(TodaysBestHeroPortrait, dailyBest.HeroId);
+
+        if (TodaysBestLevelLabel != null)
+            TodaysBestLevelLabel.text = "" + dailyBest.LevelReached;
+
+        if (TodaysBestTopHitLabel != null)
+            TodaysBestTopHitLabel.text = "" + dailyBest.TopHit;
+    }
+
+    private void ScrollToPlayerIfNeeded(List<LeaderboardEntryData> entries)
+    {
+        if (LeaderboardScrollRect == null || entries.Count <= 1)
+            return;
+
+        int playerIndex = entries.FindIndex(entry => entry.PlayerId == PlayerId);
+        if (playerIndex < VisibleEntryCount)
+            return;
+
+        Canvas.ForceUpdateCanvases();
+        LeaderboardScrollRect.verticalNormalizedPosition = 1f - ((float)playerIndex / (entries.Count - 1));
+    }
+
+    private void ResetScrollPosition()
+    {
+        if (LeaderboardScrollRect == null)
+            return;
+
+        Canvas.ForceUpdateCanvases();
+        LeaderboardScrollRect.verticalNormalizedPosition = 1f;
+    }
+
+    private void UpdateTabHighlights()
+    {
+        SetButtonHighlight(DailyButton, activeTab == HighscoreTab.Daily);
+        SetButtonHighlight(AllTimeButton, activeTab == HighscoreTab.AllTime);
+        SetButtonHighlight(YourBestButton, activeTab == HighscoreTab.YourBest);
+    }
+
+    private void SetButtonHighlight(GameObject button, bool active)
+    {
+        if (button == null || button.transform.childCount == 0)
+            return;
+
+        button.transform.GetChild(0).gameObject.SetActive(active);
+    }
+
+    private void PlayButtonFeedback()
+    {
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
+    }
+
+    private void ApplyHeroPortraitTransform(Image target, int heroIndex)
+    {
+        RectTransform rectTransform = target.GetComponent<RectTransform>();
+        if (rectTransform == null)
+            return;
+
+        HighscoreHeroPortraitSettings settings = GetHeroPortraitSettings(heroIndex);
+        if (settings == null)
+        {
+            rectTransform.anchoredPosition = Vector2.zero;
+            rectTransform.localScale = Vector3.one;
+            return;
+        }
+
+        rectTransform.anchoredPosition = settings.Offset;
+        rectTransform.localScale = Vector3.one * Mathf.Max(0.01f, settings.Scale);
+    }
+
+    private HighscoreHeroPortraitSettings GetHeroPortraitSettings(int heroIndex)
+    {
+        if (CardContainer.Instance == null ||
+            CardContainer.Instance.HeroDataList == null ||
+            heroIndex < 0 ||
+            heroIndex >= CardContainer.Instance.HeroDataList.Length)
+            return null;
+
+        string heroName = CardContainer.Instance.HeroDataList[heroIndex].heroName;
+        for (int i = 0; i < HeroPortraitSettings.Count; i++)
+        {
+            if (HeroPortraitSettings[i] != null && HeroPortraitSettings[i].HeroName == heroName)
+                return HeroPortraitSettings[i];
+        }
+
+        return null;
     }
 }
