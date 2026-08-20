@@ -5,6 +5,7 @@ using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Event = UnityEngine.Event;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -200,9 +201,11 @@ public class GameManager : Singleton<GameManager>
                     LeanTween.delayedCall(gameObject, 1f, () =>
                     {
                          GameData.FirstBossCompletedThisRun = 1;
+                            if (UnlockManager.Instance.HasUnlocksToReveal())
+                                UnlockManager.Instance.ShowWindow();
                             UIManager.Instance.ShowTutorialFinished(() =>
                             {
-                 
+
                             });
 
                     });
@@ -419,12 +422,18 @@ public class GameManager : Singleton<GameManager>
 
         if (GUI.Button(new Rect(padding, y, width, height), "Daily Quest +"))
         {
+            DailyQuestManager.Instance.SuppressHideForDebugClick();
             DebugProgressDailyQuest();
+            DailyQuestManager.Instance.UpdateUI();
+            Event.current.Use();
         }
 
         if (GUI.Button(new Rect(padding, y + height + padding, width, height), "New Daily Quests"))
         {
+            DailyQuestManager.Instance.SuppressHideForDebugClick();
             DebugResetDailyQuests();
+            DailyQuestManager.Instance.UpdateUI();
+            Event.current.Use();
         }
     }
 

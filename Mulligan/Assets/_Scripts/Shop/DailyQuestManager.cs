@@ -65,6 +65,7 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     private List<ActiveQuest> activeQuests = new List<ActiveQuest>();
     private bool isInitialized = false;
+    private float suppressHideUntilTime = 0f;
 
     public void Init()
     {
@@ -114,6 +115,9 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     public void HideWindow()
     {
+        if (Time.unscaledTime < suppressHideUntilTime)
+            return;
+
         SoundManager.TryPlay(SoundType.WindowClose);
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
 
@@ -179,7 +183,10 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
             rewardProgressBar.fillAmount = GetRewardProgressFillAmount(progress);
 
         if (claimButton != null)
+        {
+            claimButton.transform.parent.gameObject.SetActive(progress >= RewardTarget && GameData.DailyQuestArtifactRewardIndex < DailyQuestArtifactRewards.Count);
             claimButton.gameObject.SetActive(progress >= RewardTarget && GameData.DailyQuestArtifactRewardIndex < DailyQuestArtifactRewards.Count);
+        }
     }
 
     public void AddProgress(DailyQuestType type, int amount = 1)
@@ -378,6 +385,11 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
     {
         GenerateNewDailyQuests();
         SaveAndRefresh();
+    }
+
+    public void SuppressHideForDebugClick()
+    {
+        suppressHideUntilTime = Time.unscaledTime + 0.35f;
     }
 
     public void DebugAddRewardProgress()
