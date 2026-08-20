@@ -252,7 +252,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         HideWindow(()=>{
 
-            UIManager.Instance.ShowSplashScreen();
+            HeroInfoScreen.Instance.ShowWindow();
 
         });
 

@@ -107,8 +107,6 @@ public class HighscoreManager : Singleton<HighscoreManager>
     {
         base.Awake();
 
-        if (Instance == this)
-            DontDestroyOnLoad(gameObject);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
