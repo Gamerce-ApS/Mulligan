@@ -179,7 +179,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="2x rare items \n + Gold each level";
+            RuneLabel.text="Rune of Rare chance \nArtifact: +2 Gold";
         }
          if(aID == 2)
         {
@@ -188,7 +188,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="+1 attack \n+Rank ranom units";
+            RuneLabel.text="Rune of Attack \nArtifact: Rank Up";
         }
          if(aID == 3)
         {
