@@ -1139,5 +1139,10 @@ public class UIManager : Singleton<UIManager>
             });
         }
     }
+    public void Reset()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(0);
+    }
 
 }
