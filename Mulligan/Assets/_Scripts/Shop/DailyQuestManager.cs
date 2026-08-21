@@ -347,6 +347,9 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
         UpdateRewardUI();
 
+        if (InventoryOverviewManager.Instance != null)
+            InventoryOverviewManager.Instance.MarkArtifactAsNew(unlockedArtifact);
+
         UnlockManager.Instance.ShowDailyQuestArtifactReward(unlockedArtifact);
     }
 

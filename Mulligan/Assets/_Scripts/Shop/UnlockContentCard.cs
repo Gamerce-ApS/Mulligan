@@ -7,6 +7,7 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public Transform PopupTarget;
     public bool AllowLongPress = true;
+    public bool IsInteractable = true;
     private string title;
     private string description;
     private bool isHolding = false;
@@ -24,6 +25,13 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     void Update()
     {
+        if (IsInteractable == false)
+        {
+            isHolding = false;
+            holdTimer = 0f;
+            return;
+        }
+
         if (isHolding == false)
             return;
 
@@ -49,6 +57,9 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (IsInteractable == false)
+            return;
+
         showedInfoThisPress = false;
         pointerMovedTooFar = false;
         isHolding = true;
@@ -58,6 +69,9 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (IsInteractable == false)
+            return;
+
         isHolding = false;
         holdTimer = 0f;
 
@@ -75,6 +89,9 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (IsInteractable == false)
+            return;
+
         isHolding = false;
         holdTimer = 0f;
     }
