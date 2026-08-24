@@ -4,6 +4,12 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public class RoundRewardResult
+{
+    public int GoldGained = 0;
+    public int HealthGained = 0;
+}
+
 public class EvaluatorManager  : Singleton<EvaluatorManager>
 {
     // Start is called before the first frame update
@@ -197,10 +203,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         RunNextStep(steps);
 
     }
-    public void FinisLevel()
+    public RoundRewardResult FinisLevel()
     {
+        RoundRewardResult result = new RoundRewardResult();
+
         if ( GameManager.Instance.TheEnemy.Health > 0)
-            return;
+            return result;
+
         // ❤️ Heal 10% HP After Level
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
@@ -210,7 +219,9 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             if (artifact.effect == ArtifactEffectType.HealAfterLevel)
             {
                 float healPercent = artifact.value / 100f;
+                float healthBefore = GameManager.Instance.TheHero.Health;
                 GameManager.Instance.TheHero.HealPercent(healPercent);
+                result.HealthGained += Mathf.RoundToInt(GameManager.Instance.TheHero.Health - healthBefore);
                 UIManager.Instance.ShowTooltip($"Healed {artifact.value}% HP from artifact");
             }
             if(artifact.effect == ArtifactEffectType.DestroyUnitInHand)
@@ -227,7 +238,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             if(artifact.effect == ArtifactEffectType.GainGoldAfterLevel)
             {
                 GameManager.Instance.AddGold(artifact.value);
-                UIManager.Instance.ShowTooltip($"+ {artifact.value}% Gold from artifact");
+                result.GoldGained += artifact.value;
+                UIManager.Instance.ShowTooltip($"+ {artifact.value} Gold from artifact");
             }
             if(artifact.effect == ArtifactEffectType.GetPotion)
             {
@@ -236,6 +248,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             }
             
         }
+
+        return result;
     }
     public void StartLevel()
     {

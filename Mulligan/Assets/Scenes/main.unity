@@ -26948,6 +26948,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 728658121}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -37546,6 +37547,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 71505731}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -97748,6 +97750,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 2082045042}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -99212,8 +99215,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 329.4, y: -392.054}
-  m_SizeDelta: {x: 246.367, y: 207.734}
+  m_AnchoredPosition: {x: 266, y: -392.05}
+  m_SizeDelta: {x: 550.164, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &803263337
 MonoBehaviour:
@@ -99235,7 +99238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +5
+  m_text: +50
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c517af0bcf7049068c80c56953aec80, type: 2}
   m_sharedMaterial: {fileID: -7367546365679106110, guid: 2c517af0bcf7049068c80c56953aec80, type: 2}
@@ -99269,7 +99272,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -5
@@ -142616,6 +142619,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 538837070}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -180340,7 +180344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 289.1, y: -267.95398}
+  m_AnchoredPosition: {x: 266, y: -267.95398}
   m_SizeDelta: {x: 246.367, y: 207.734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1636698879
@@ -180397,7 +180401,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: -5
@@ -184211,6 +184215,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 1416515683}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -193265,6 +193270,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 262257339}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -196878,6 +196884,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 580948030}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}
@@ -212677,6 +212684,7 @@ MonoBehaviour:
     rarity: 0
     RandomRace: 0
   NameLabel: {fileID: 668889994}
+  CounterLabel: {fileID: 0}
   mutedGO: {fileID: 0}
   isMuted: 0
   DmgNumber: {fileID: 0}

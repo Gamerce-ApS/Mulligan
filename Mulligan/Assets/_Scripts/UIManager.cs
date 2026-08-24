@@ -704,10 +704,16 @@ public class UIManager : Singleton<UIManager>
     public GameObject VictoryParent;
     public void ShowVictoryScreen(System.Action onComplete)
     {
+        ShowVictoryScreen(0, 0, onComplete);
+    }
+    public void ShowVictoryScreen(int goldGainedThisRound, int healthGainedThisRound, System.Action onComplete)
+    {
         SoundManager.TryPlay(SoundType.Victory);
 
         VictoryParent.GetComponent<CanvasGroup>().alpha = 0f;
         VictoryParent.SetActive(true);
+        GoldGainedText.text = "+ " + goldGainedThisRound.ToString();
+        HealthGainedText.text = "+ " + healthGainedThisRound.ToString();
 
         // Pick a fun message
         VictoryFunText.text = funMessages[UnityEngine.Random.Range(0, funMessages.Length)];
@@ -736,9 +742,11 @@ public class UIManager : Singleton<UIManager>
 
             // 3. Increase max HP
             hero.MaxHealth += CardContainer.Instance.HealthGainPerLevel;
+            float healthBefore = hero.Health;
             hero.HealHPPoints(CardContainer.Instance.HealthGainPerLevel);
             hero.RefreshBar();
-            HealthGainedText.text = "+ " + CardContainer.Instance.HealthGainPerLevel.ToString();
+            healthGainedThisRound += Mathf.RoundToInt(hero.Health - healthBefore);
+            HealthGainedText.text = "+ " + healthGainedThisRound.ToString();
 
             LeanTween.delayedCall(gameObject, 1.5f, () =>
             {
@@ -751,7 +759,7 @@ public class UIManager : Singleton<UIManager>
         }
         LevelText.text = "Level " + hero.Level.ToString();
         XpBar.fillAmount = (float)hero.Experience / (float)CardContainer.Instance.ExperienceToLevelUp;
-        GoldGainedText.text = "+ " + CardContainer.Instance.GoldGainPerLevel.ToString();
+        GoldGainedText.text = "+ " + goldGainedThisRound.ToString();
 
 
 

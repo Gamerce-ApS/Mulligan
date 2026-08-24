@@ -138,8 +138,11 @@ public class GameManager : Singleton<GameManager>
                 TutorialController.Instance.StartTutorial();
         });
     }
-    public void WinGame()
+    public void WinGame(RoundRewardResult roundRewardResult = null)
     {
+        if (roundRewardResult == null)
+            roundRewardResult = new RoundRewardResult();
+
         VibrationsManager.TryVibrate(VibrationType.Success);
         AnalyticsService.Instance.RecordEvent("WonRound_"+GameData.CurrentRound);
         RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
@@ -180,6 +183,7 @@ public class GameManager : Singleton<GameManager>
             goldGained += 5;
         }
         AddGold(goldGained);
+        int goldGainedThisRound = goldGained + roundRewardResult.GoldGained;
 
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
@@ -194,7 +198,7 @@ public class GameManager : Singleton<GameManager>
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;
-            UIManager.Instance.ShowVictoryScreen(() =>
+            UIManager.Instance.ShowVictoryScreen(goldGainedThisRound, roundRewardResult.HealthGained, () =>
             {
                 if(ShowTutorialEnded)
                 {
@@ -289,13 +293,13 @@ public class GameManager : Singleton<GameManager>
     public void FinishRound()
     {
         GameData.CurrentAttacks--;
-        EvaluatorManager.Instance.FinisLevel();
+        RoundRewardResult roundRewardResult = EvaluatorManager.Instance.FinisLevel();
         myGameStates = GameStates.Game;
 
 
         if (TheEnemy.Health <= 0)
         {
-            WinGame();
+            WinGame(roundRewardResult);
         }
         else if (GameData.CurrentAttacks <= 0 && TutorialController.Instance.HasRunTutorial() == true)
         {
