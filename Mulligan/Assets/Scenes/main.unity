@@ -221511,7 +221511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4adcfa1394949f291fae7b1dc2746b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonUrl: http://gamerce.net/mulligan/data.json
+  jsonUrl: https://pbertilsson.se/Mulligan/data.json
   useLocalData: 0
 --- !u!4 &2017678128
 Transform:
