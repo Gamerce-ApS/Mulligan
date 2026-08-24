@@ -157,6 +157,7 @@ public class Hero : MonoBehaviour
 
         bar.fillAmount = Health / MaxHealth;
         healthLabel.text = Health.ToString();
+        UIManager.Instance.RefreshArtifactCounters();
     }
     public bool DodgeCheck()
     {

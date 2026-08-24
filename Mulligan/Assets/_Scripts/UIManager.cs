@@ -141,6 +141,7 @@ public class UIManager : Singleton<UIManager>
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
         WorldLabel.text = $"{currentWorld}/{totalWorlds}";
         GoldLabel.text = GameData.CurrentGold.ToString();
+        RefreshArtifactCounters();
 
     }
     public void ClickPlayHand()
@@ -555,6 +556,22 @@ public class UIManager : Singleton<UIManager>
         }
         UpdatePotionsSlotsUI();
         GameManager.Instance.TheHero.RefreshBar();
+        RefreshArtifactCounters();
+    }
+    public void RefreshArtifactCounters()
+    {
+        if (ArtifactSlotParent == null || ArtifactSlotTemplate == null)
+            return;
+
+        foreach (Transform child in ArtifactSlotParent)
+        {
+            if (child == ArtifactSlotTemplate.transform)
+                continue;
+
+            Artifact artifact = child.GetComponent<Artifact>();
+            if (artifact != null)
+                artifact.RefreshCounter();
+        }
     }
     public void UpdatePotionsSlotsUI()
     {

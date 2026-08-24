@@ -15,6 +15,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private bool isHolding = false;
     public ArtifactData ArtifactData;
     public TMPro.TMP_Text NameLabel;
+    public TMPro.TMP_Text CounterLabel;
     public GameObject mutedGO;
     public bool isMuted = false;
 
@@ -31,6 +32,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(ArtifactData aData)
     {
+        ArtifactData = aData;
+
         string artifactName = aData.name;
         if( artifactName.Contains("RandomRace"))
         {
@@ -38,6 +41,52 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         NameLabel.text = artifactName;
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
+        RefreshCounter();
+    }
+    public void RefreshCounter()
+    {
+        if (CounterLabel == null)
+            return;
+
+        GameObject counterObject = CounterLabel.transform.parent != null ? CounterLabel.transform.parent.gameObject : CounterLabel.gameObject;
+        counterObject.SetActive(false);
+
+        if (ArtifactData == null)
+            return;
+
+        bool showCounter = true;
+        int counter = 0;
+
+        switch (ArtifactData.effect)
+        {
+            case ArtifactEffectType.DamagePerGold:
+                counter = GameData.CurrentGold * ArtifactData.value;
+                break;
+            case ArtifactEffectType.CritPerPotionUsed:
+                counter = GameData.PotionsUsed;
+                break;
+            case ArtifactEffectType.CritPerSkippedLevel:
+                counter = GameData.SkippedLevels;
+                break;
+            case ArtifactEffectType.CritPerUpgradedUnit:
+                counter = GameData.UpgradedUnits;
+                break;
+            case ArtifactEffectType.ProcHPinDamage:
+                if (GameManager.Instance.TheHero == null)
+                    return;
+
+                counter = Mathf.RoundToInt((ArtifactData.value / 100f) * GameManager.Instance.TheHero.MaxHealth);
+                break;
+            default:
+                showCounter = false;
+                break;
+        }
+
+        if (showCounter == false)
+            return;
+
+        CounterLabel.text = counter.ToString();
+        counterObject.SetActive(true);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
