@@ -92,6 +92,14 @@ public class HighscoreManager : Singleton<HighscoreManager>
     public TMP_Text TodaysBestLevelLabel;
     public TMP_Text TodaysBestTopHitLabel;
 
+    [Header("Set Name")]
+    public GameObject SetNameWindow;
+    public CanvasGroup SetNameCanvasGroup;
+    public TMP_InputField NameInputField;
+    public TMP_Text CurrentNameLabel;
+    public TMP_Text NameErrorLabel;
+    public int MaxCustomNameLength = 20;
+
     [Header("Hero Portrait Tuning")]
     public List<HighscoreHeroPortraitSettings> HeroPortraitSettings = new List<HighscoreHeroPortraitSettings>();
 
@@ -130,6 +138,11 @@ public class HighscoreManager : Singleton<HighscoreManager>
         if (ScoreEntryTemplate != null)
             ScoreEntryTemplate.SetActive(false);
 
+        if (SetNameWindow != null)
+            SetNameWindow.SetActive(false);
+
+        UpdateCurrentNameLabel();
+
         initStarted = true;
         _ = InitUGSAsync();
     }
@@ -156,6 +169,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
         activeTab = HighscoreTab.Daily;
         UpdateTabHighlights();
+        UpdateCurrentNameLabel();
         PopulateDailyLeaderboard();
         UpdateTodaysBestUI();
     }
@@ -210,6 +224,28 @@ public class HighscoreManager : Singleton<HighscoreManager>
         activeTab = HighscoreTab.YourBest;
         UpdateTabHighlights();
         PopulateYourBestLeaderboard();
+    }
+
+    public void ClickSetName()
+    {
+        PlayButtonFeedback();
+        ShowSetNameWindow();
+    }
+
+    public void ClickCancelSetName()
+    {
+        PlayButtonFeedback();
+        HideSetNameWindow();
+    }
+
+    public void ClickConfirmSetName()
+    {
+        PlayButtonFeedback();
+
+        if (NameInputField == null)
+            return;
+
+        _ = SetPlayerNameAsync(NameInputField.text);
     }
 
     public void StartRun(int heroIndex)
@@ -460,15 +496,158 @@ public class HighscoreManager : Singleton<HighscoreManager>
         try
         {
             string playerName = await AuthenticationService.Instance.GetPlayerNameAsync(false);
-            if (string.IsNullOrEmpty(playerName) || playerName.StartsWith("Player#") == false)
+            if (string.IsNullOrEmpty(playerName))
                 playerName = await AuthenticationService.Instance.UpdatePlayerNameAsync("Player");
 
             PlayerDisplayName = playerName;
+            UpdateCurrentNameLabel();
         }
         catch (Exception e)
         {
             PlayerDisplayName = "Player";
+            UpdateCurrentNameLabel();
             Debug.LogWarning("Failed to set Unity player name. Leaderboards still work. " + e.Message);
+        }
+    }
+
+    private void ShowSetNameWindow()
+    {
+        if (SetNameWindow == null)
+            return;
+
+        if (NameErrorLabel != null)
+            NameErrorLabel.text = "";
+
+        SetNameWindow.SetActive(true);
+
+        if (SetNameCanvasGroup != null)
+        {
+            SetNameCanvasGroup.alpha = 0f;
+            LeanTween.alphaCanvas(SetNameCanvasGroup, 1f, 0.2f).setEaseOutQuad();
+        }
+
+        if (NameInputField != null)
+        {
+            NameInputField.characterLimit = Mathf.Clamp(MaxCustomNameLength, 1, 50);
+            NameInputField.text = GetPlayerNameWithoutSuffix(PlayerDisplayName);
+            NameInputField.Select();
+            NameInputField.ActivateInputField();
+        }
+    }
+
+    private void HideSetNameWindow()
+    {
+        if (SetNameWindow == null)
+            return;
+
+        if (SetNameCanvasGroup == null)
+        {
+            SetNameWindow.SetActive(false);
+            return;
+        }
+
+        SetNameCanvasGroup.alpha = 1f;
+        LeanTween.alphaCanvas(SetNameCanvasGroup, 0f, 0.2f)
+            .setEaseInQuad()
+            .setOnComplete(() =>
+            {
+                SetNameWindow.SetActive(false);
+            });
+    }
+
+    private async Task SetPlayerNameAsync(string rawName)
+    {
+        string playerName = CleanPlayerName(rawName);
+        if (string.IsNullOrEmpty(playerName))
+        {
+            ShowNameError("Enter a name");
+            return;
+        }
+
+        if (IsUGSReady == false)
+            await InitUGSAsync();
+
+        if (IsUGSReady == false)
+        {
+            ShowNameError("Could not connect");
+            return;
+        }
+
+        try
+        {
+            string updatedName = await AuthenticationService.Instance.UpdatePlayerNameAsync(playerName);
+            PlayerDisplayName = updatedName;
+            UpdateCurrentNameLabel();
+            HideSetNameWindow();
+            RefreshActiveLeaderboardTab();
+        }
+        catch (Exception e)
+        {
+            ShowNameError("Name unavailable");
+            Debug.LogWarning("Failed to update player name. " + e.Message);
+        }
+    }
+
+    private string CleanPlayerName(string rawName)
+    {
+        if (string.IsNullOrEmpty(rawName))
+            return "";
+
+        string trimmed = rawName.Trim();
+        string cleaned = "";
+        for (int i = 0; i < trimmed.Length; i++)
+        {
+            char c = trimmed[i];
+            if (char.IsWhiteSpace(c))
+                continue;
+
+            cleaned += c;
+        }
+
+        int maxLength = Mathf.Clamp(MaxCustomNameLength, 1, 50);
+        if (cleaned.Length > maxLength)
+            cleaned = cleaned.Substring(0, maxLength);
+
+        return cleaned;
+    }
+
+    private string GetPlayerNameWithoutSuffix(string playerName)
+    {
+        if (string.IsNullOrEmpty(playerName))
+            return "";
+
+        int suffixIndex = playerName.LastIndexOf("#", StringComparison.Ordinal);
+        if (suffixIndex <= 0)
+            return playerName;
+
+        return playerName.Substring(0, suffixIndex);
+    }
+
+    private void ShowNameError(string message)
+    {
+        if (NameErrorLabel != null)
+            NameErrorLabel.text = message;
+    }
+
+    private void UpdateCurrentNameLabel()
+    {
+        if (CurrentNameLabel != null)
+            CurrentNameLabel.text = PlayerDisplayName;
+    }
+
+    private void RefreshActiveLeaderboardTab()
+    {
+        switch (activeTab)
+        {
+            case HighscoreTab.Daily:
+                PopulateDailyLeaderboard();
+                break;
+            case HighscoreTab.AllTime:
+                PopulateAllTimeLeaderboard();
+                break;
+            case HighscoreTab.YourBest:
+                PopulateYourBestLeaderboard();
+                break;
         }
     }
 
@@ -693,7 +872,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
             HighscoreEntryItem item = entryObject.GetComponent<HighscoreEntryItem>();
             if (item != null)
-                item.Init(i + 1, "You", scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
+                item.Init(i + 1, PlayerDisplayName, scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
         }
 
         ResetScrollPosition();
