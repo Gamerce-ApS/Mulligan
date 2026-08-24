@@ -1006,6 +1006,7 @@ public class UIManager : Singleton<UIManager>
             UIManager.Instance.SplashScreenButtons[1].SetActive(false);
             UIManager.Instance.SplashScreenButtons[2].SetActive(false);
             HeroSelectionManager.Instance.RefreshUI();
+            HeroInfoScreen.Instance.RefreshBuyButton();
             ClickClosePopupWindow();
         });
 

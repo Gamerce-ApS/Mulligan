@@ -153283,6 +153283,7 @@ MonoBehaviour:
   DailyBestHeroPortrait: {fileID: 968200567}
   DailyBestLevelLabel: {fileID: 1867068243}
   DailyBestTopHitLabel: {fileID: 926382342}
+  BuyButton: {fileID: 153176977}
   startPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1381769066
 Transform:

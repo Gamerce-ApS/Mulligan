@@ -15,6 +15,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
     public Image DailyBestHeroPortrait;
     public TMP_Text DailyBestLevelLabel;
     public TMP_Text DailyBestTopHitLabel;
+    public GameObject BuyButton;
 
     public Vector3 startPosition;
 
@@ -79,6 +80,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         DailyQuestManager.Instance.PopulateQuestItems(QuestParent, QuestTemplate);
         DailyQuestManager.Instance.UpdateRewardUI(RewardProgressBar, RewardProgressLabel, ClaimButton);
         UpdateDailyBestUI();
+        RefreshBuyButton();
     }
 
     public void ClickHeroSelectionScreen()
@@ -189,6 +191,14 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
             return;
 
         HighscoreManager.Instance.ApplyHeroPortrait(DailyBestHeroPortrait, heroId);
+    }
+
+    public void RefreshBuyButton()
+    {
+        if (BuyButton == null || IAPManager.Instance == null)
+            return;
+
+        BuyButton.SetActive(IAPManager.Instance.IsFullGameUnlocked == false);
     }
 
     private void PlayButtonFeedback()

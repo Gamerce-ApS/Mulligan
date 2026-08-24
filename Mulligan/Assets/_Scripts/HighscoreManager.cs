@@ -73,6 +73,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
     public bool IsUGSReady { get; private set; }
     public string PlayerId { get; private set; } = "";
     public string PlayerDisplayName { get; private set; } = "Player";
+    public string PlayerDisplayNameForUI => GetDisplayPlayerName(PlayerDisplayName);
 
     [Header("Window")]
     public GameObject ShopWindow;
@@ -632,7 +633,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
     private void UpdateCurrentNameLabel()
     {
         if (CurrentNameLabel != null)
-            CurrentNameLabel.text = PlayerDisplayName;
+            CurrentNameLabel.text = PlayerDisplayNameForUI;
     }
 
     private void RefreshActiveLeaderboardTab()
@@ -752,7 +753,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
         {
             Rank = entry.Rank + 1,
             PlayerId = entry.PlayerId,
-            PlayerName = string.IsNullOrEmpty(entry.PlayerName) ? "Player" : entry.PlayerName,
+            PlayerName = GetDisplayPlayerName(entry.PlayerName),
             HeroId = heroId,
             HeroIndex = heroIndex,
             LevelReached = Mathf.RoundToInt((float)entry.Score),
@@ -872,7 +873,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
             HighscoreEntryItem item = entryObject.GetComponent<HighscoreEntryItem>();
             if (item != null)
-                item.Init(i + 1, PlayerDisplayName, scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
+                item.Init(i + 1, PlayerDisplayNameForUI, scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
         }
 
         ResetScrollPosition();
@@ -1020,5 +1021,16 @@ public class HighscoreManager : Singleton<HighscoreManager>
         }
 
         return null;
+    }
+
+    private string GetDisplayPlayerName(string playerName)
+    {
+        if (string.IsNullOrEmpty(playerName))
+            return "Player";
+
+        if (playerName.StartsWith("Player#", StringComparison.Ordinal))
+            return playerName;
+
+        return GetPlayerNameWithoutSuffix(playerName);
     }
 }
