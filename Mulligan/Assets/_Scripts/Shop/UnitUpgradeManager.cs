@@ -160,7 +160,20 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             return;
         }
 
-        for (int i = UnitParent.childCount - 1; i >= 0; i--)
+
+        for (int i = UnitUpgradeParent.childCount - 1; i >= 0; i--)
+        {
+            var card = UnitUpgradeParent.GetChild(i).GetComponent<Card>();
+            if (card.isSelected)
+                upgradeCard = card;
+        }
+    if(upgradeCard == null)
+        {
+            UIManager.Instance.ShowTooltip("Click on a Unit and a Upgrade card!");
+
+            return;
+        }
+                for (int i = UnitParent.childCount - 1; i >= 0; i--)
         {
             if (UnitParent.GetChild(i).GetComponent<Card>().isSelected == false)
             {
@@ -180,13 +193,6 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         }
   
         UIManager.Instance.HideCardInfoPopup();
-        for (int i = UnitUpgradeParent.childCount - 1; i >= 0; i--)
-        {
-            var card = UnitUpgradeParent.GetChild(i).GetComponent<Card>();
-            if (card.isSelected)
-                upgradeCard = card;
-        }
-
         for (int i = UnitUpgradeParent.childCount - 1; i >= 0; i--)
         {
             if (UnitUpgradeParent.GetChild(i).GetComponent<Card>().isSelected == false)
