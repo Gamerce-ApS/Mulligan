@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "characterName": "OrcArcher",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.4966,
+      "y": 0.2598,
+      "description": "neck attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.0035,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 1.8,
+      "rotationAmount": 0.6,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible head artwork is directly extracted from the original source without resizing or repositioning.",
+    "The headband and ears are part of the head because they should move rigidly with it.",
+    "The quiver and arrows remain in the body layer because they are rigidly attached to the torso and do not need independent spring motion for this minimal portrait rig.",
+    "A narrow hidden band behind the head was reconstructed only to support subtle head translation and rotation.",
+    "eyes_closed.png is a full-canvas blink overlay containing only the small eye regions.",
+    "hair_back, hair_left, hair_right, ponytail and beard were skipped because they do not apply to this character.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}

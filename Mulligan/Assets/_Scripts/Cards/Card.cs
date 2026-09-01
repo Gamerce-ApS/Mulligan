@@ -101,6 +101,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         DamageLabel.text = aData.damage.ToString();
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
         Portrait.sprite = Resources.Load<Sprite>("" + cardInstance.data.sprite_portrait);
+        SetupAnimatedPortrait(aData);
         //Portrait.sprite = cardInstance.data.portrait;
 
         RaceIcon.sprite = CardContainer.Instance.GetSpriteForRace(aData.race);
@@ -109,6 +110,27 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         
         bg.sprite = myCardBG[(int)aData.race];
+    }
+
+    private void SetupAnimatedPortrait(CardData aData)
+    {
+        if (Portrait == null)
+            return;
+
+        AnimatedPortraitSlot slot = Portrait.GetComponent<AnimatedPortraitSlot>();
+        AnimatedCardPortraitData portraitData = CardContainer.Instance.GetAnimatedCardPortraitData(aData.sprite_portrait);
+
+        if (portraitData == null || portraitData.PortraitPrefab == null)
+        {
+            if (slot != null)
+                slot.ClearPortrait();
+            return;
+        }
+
+        if (slot == null)
+            slot = Portrait.gameObject.AddComponent<AnimatedPortraitSlot>();
+
+        slot.ShowPortrait(portraitData.PortraitPrefab, portraitData.Offset, portraitData.Scale);
     }
     public void Init(UpgradeCardData aData)
     {

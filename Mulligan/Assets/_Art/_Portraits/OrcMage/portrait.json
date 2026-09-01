@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "characterName": "OrcMage",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "ponytail",
+      "file": "ponytail.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.4564,
+        "y": 0.764,
+        "description": "hair tie / ponytail root"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.3945,
+        "description": "upper beard / jaw attachment point"
+      },
+      "spring": {
+        "strength": 14.0,
+        "damping": 10.0,
+        "maxRotation": 1.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "ponytail",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.3862,
+      "description": "neck attachment point"
+    },
+    "ponytail": {
+      "x": 0.4564,
+      "y": 0.764,
+      "description": "hair tie / ponytail root"
+    },
+    "beard": {
+      "x": 0.5,
+      "y": 0.3945,
+      "description": "upper beard / jaw attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.0035,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 1.8,
+      "rotationAmount": 0.6,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible head, ponytail and beard artwork is directly extracted from the original source without resizing or repositioning.",
+    "The ears and tusks remain rigidly attached to the head.",
+    "The ponytail is a spring layer with subtle secondary motion.",
+    "The beard is a separate spring layer with a smaller maximum rotation than the ponytail.",
+    "A narrow hidden cloak/neck region behind the head was reconstructed only to support subtle head movement.",
+    "Small hidden face/scalp areas beneath the beard and ponytail root were reconstructed only where movement could reveal them.",
+    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
+    "hair_back, hair_left and hair_right were skipped because separate loose-hair layers do not add useful motion for this portrait.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}

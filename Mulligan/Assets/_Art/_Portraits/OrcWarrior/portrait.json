@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "characterName": "WarriorOrc",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "ponytail",
+      "file": "ponytail.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.82,
+        "description": "hair tie / ponytail root"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 6.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "ponytail",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.3409,
+      "description": "neck attachment point"
+    },
+    "ponytail": {
+      "x": 0.5,
+      "y": 0.82,
+      "description": "hair tie / ponytail root"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.004,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 2.0,
+      "rotationAmount": 0.6,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers are 894x839 and use the exact source canvas.",
+    "Visible head and ponytail artwork is extracted from the source image without resizing or repositioning.",
+    "A narrow hidden band behind the head is reconstructed for subtle translation and rotation.",
+    "Only the tiny scalp area hidden by the ponytail root is reconstructed in the head layer.",
+    "eyes_closed.png is a full-canvas blink overlay and only contains pixels around the eyes.",
+    "hair_back, hair_left, hair_right and beard were skipped because they do not add useful independent motion for this portrait.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}

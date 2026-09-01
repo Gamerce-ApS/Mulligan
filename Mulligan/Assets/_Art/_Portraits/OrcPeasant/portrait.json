@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "characterName": "OrcPeasant",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "ponytail",
+      "file": "ponytail.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.4899,
+        "y": 0.8677,
+        "description": "top-knot attachment point"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 1.8
+      }
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.4636,
+        "description": "upper beard / jaw attachment point"
+      },
+      "spring": {
+        "strength": 14.0,
+        "damping": 10.0,
+        "maxRotation": 0.9
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "ponytail",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.2729,
+      "description": "neck attachment point"
+    },
+    "ponytail": {
+      "x": 0.4899,
+      "y": 0.8677,
+      "description": "top-knot attachment point"
+    },
+    "beard": {
+      "x": 0.5,
+      "y": 0.4636,
+      "description": "upper beard / jaw attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.0035,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 1.8,
+      "rotationAmount": 0.6,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible head, top-knot and beard artwork is directly extracted from the original source without resizing or repositioning.",
+    "The ears, tusks, scalp hair and side facial hair remain rigidly attached to the head.",
+    "The small top knot is a spring layer.",
+    "The central hanging beard is a subtle spring layer.",
+    "The shirt and shoulders remain in the static body layer.",
+    "A narrow hidden neck/shirt region behind the head was reconstructed only to support subtle head movement.",
+    "Tiny hidden scalp and face strips beneath the top knot and beard were reconstructed only where spring movement could reveal them.",
+    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
+    "hair_back, hair_left and hair_right were skipped because separate loose-hair layers would add seams without enough visual benefit.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}

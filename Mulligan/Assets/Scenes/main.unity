@@ -37085,7 +37085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &319953345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -114091,6 +114091,31 @@ MonoBehaviour:
   TutorialDeck: []
   myEnemiesList: []
   myBossList: []
+  AnimatedCardPortraits:
+  - PortraitKey: warrior_orc
+    PortraitPrefab: {fileID: 3175835483654260168, guid: 2d9aee79b47ab4abdae1d8bb2bcf4c97, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: archer_orc
+    PortraitPrefab: {fileID: 8547515911771797054, guid: 68734a4cfc9b44dbabc102c053829582, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: orc_mage
+    PortraitPrefab: {fileID: 343731082867648356, guid: 2d40827f7fb314bd2a643a26972f530b, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: orc_peasant
+    PortraitPrefab: {fileID: 189233953975513448, guid: f5f4bcfa62e5249a58947208a5ef2038, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: orc_warlock
+    PortraitPrefab: {fileID: 6729471398809830006, guid: 1f0284a35623e475d856be26ffc35b3c, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: orc_cleric
+    PortraitPrefab: {fileID: 1278322180473542388, guid: 30c74346c403c417aaffc66379f2f75c, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
 --- !u!4 &963989988
 Transform:
   m_ObjectHideFlags: 0
@@ -174772,7 +174797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1575953563
 RectTransform:
   m_ObjectHideFlags: 0

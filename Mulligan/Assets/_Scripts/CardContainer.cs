@@ -5,6 +5,16 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+[System.Serializable]
+public class AnimatedCardPortraitData
+{
+    public string PortraitKey;
+    public GameObject PortraitPrefab;
+    public Vector2 Offset = Vector2.zero;
+    public float Scale = 1f;
+}
+
 public class CardContainer : Singleton<CardContainer>
 {
     private CardData[] CardsDataList = null;
@@ -38,6 +48,7 @@ public class CardContainer : Singleton<CardContainer>
 
     public List<EnemyData> myEnemiesList;
     public List<BossData> myBossList;
+    public List<AnimatedCardPortraitData> AnimatedCardPortraits = new List<AnimatedCardPortraitData>();
 
 
     public void Init()
@@ -244,6 +255,20 @@ public class CardContainer : Singleton<CardContainer>
             return new List<UpgradeCardData>();
 
         return dataList.allUpgradeCards.Where(c => c != null && IsContentUnlocked(c.UnlockRun)).ToList();
+    }
+    public AnimatedCardPortraitData GetAnimatedCardPortraitData(string portraitKey)
+    {
+        if (string.IsNullOrEmpty(portraitKey) || AnimatedCardPortraits == null)
+            return null;
+
+        for (int i = 0; i < AnimatedCardPortraits.Count; i++)
+        {
+            AnimatedCardPortraitData data = AnimatedCardPortraits[i];
+            if (data != null && data.PortraitKey == portraitKey)
+                return data;
+        }
+
+        return null;
     }
     public void CompleteBoss()
     {
