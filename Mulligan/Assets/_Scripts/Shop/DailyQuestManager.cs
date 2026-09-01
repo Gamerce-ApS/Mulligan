@@ -469,8 +469,18 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
         SaveActiveQuests();
         PlayerPrefs.Save();
 
-        if (isInitialized)
+        if (isInitialized == false)
+            return;
+
+        if (ShopWindow != null && ShopWindow.activeSelf)
             UpdateUI();
+
+        if (HeroInfoScreen.Instance != null &&
+            HeroInfoScreen.Instance.ShopWindow != null &&
+            HeroInfoScreen.Instance.ShopWindow.activeSelf)
+        {
+            HeroInfoScreen.Instance.UpdateUI();
+        }
     }
 
     private void SaveActiveQuests()
@@ -500,6 +510,7 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
         quest.Progress = definition.TargetAmount;
         quest.Completed = true;
         GameData.CompletedQuestsTowardsReward++;
+        UIManager.Instance.ShowTooltip("Achievement completed!");
     }
 
     private DailyQuestDefinition GetDefinition(ActiveQuest quest)

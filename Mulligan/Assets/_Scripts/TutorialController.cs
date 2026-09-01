@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 using TMPro;
 using Unity.Services.Analytics;
 using UnityEngine;
@@ -157,6 +158,7 @@ public class TutorialController : Singleton<TutorialController>
 
 
         AnalyticsService.Instance.RecordEvent("tutorial_started");
+        GameAnalytics.NewDesignEvent("tutorial:start");
         Debug.Log("tutorial_started");
 
     }
@@ -299,6 +301,7 @@ public class TutorialController : Singleton<TutorialController>
         LastStepPlayed = step.Id;
 
         AnalyticsService.Instance.RecordEvent("tutorial_step_started_" + index);
+        GameAnalytics.NewDesignEvent("tutorial:step:" + index);
         Debug.Log("tutorial_step_started_" + index);
     }
 
@@ -550,6 +553,7 @@ public class TutorialController : Singleton<TutorialController>
             PlayerPrefs.SetInt("HasRunTutorial", 1);
             ResetAfterTutorialFinished();
             AnalyticsService.Instance.RecordEvent("tutorial_finished");
+            GameAnalytics.NewDesignEvent("tutorial:finished");
             Debug.Log("tutorial_finished");
 
         }

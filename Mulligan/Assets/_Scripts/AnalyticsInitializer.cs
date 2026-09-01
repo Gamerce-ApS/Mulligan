@@ -1,4 +1,5 @@
 using System;
+using GameAnalyticsSDK;
 using Unity.Services.Core;
 using Unity.Services.Analytics;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class AnalyticsInitializer : MonoBehaviour
             await UnityServices.InitializeAsync();
 
             AnalyticsService.Instance.StartDataCollection();
+
+            if (GameAnalytics.Initialized == false)
+                GameAnalytics.Initialize();
 
             Debug.Log("Unity Analytics initialized");
         }

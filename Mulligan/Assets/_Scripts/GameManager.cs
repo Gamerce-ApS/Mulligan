@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 using Singular;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
@@ -65,6 +66,9 @@ public class GameManager : Singleton<GameManager>
 
         });
         SingularSDK.Event("StartEvent");
+        if (GameAnalytics.Initialized == false)
+            GameAnalytics.Initialize();
+        GameAnalytics.NewDesignEvent("app:start");
 
         
 
@@ -123,6 +127,7 @@ public class GameManager : Singleton<GameManager>
         TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
         HighscoreManager.Instance.StartRun(GameData.HeroSelected);
         AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
+        GameAnalytics.NewDesignEvent("run:start:hero_" + GameData.HeroSelected);
         LevelSelectionManager.Instance.ShowWindow(() =>
         {
             SoundManager.TryPlayCombatMusic();
@@ -145,6 +150,7 @@ public class GameManager : Singleton<GameManager>
 
         VibrationsManager.TryVibrate(VibrationType.Success);
         AnalyticsService.Instance.RecordEvent("WonRound_"+GameData.CurrentRound);
+        GameAnalytics.NewDesignEvent("round:win:" + GameData.CurrentRound);
         RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
         if (GameData.CurrentRound == 4 && GameData.FirstBossCompletedThisRun == 0)
         {
@@ -165,6 +171,7 @@ public class GameManager : Singleton<GameManager>
                 ShowTutorialEnded = true;
                 PlayerPrefs.SetInt("HasRunTutorial", 1);
                 AnalyticsService.Instance.RecordEvent("tutorial_finished");
+                GameAnalytics.NewDesignEvent("tutorial:finished");
             }
 
     
@@ -250,6 +257,7 @@ public class GameManager : Singleton<GameManager>
     {
         VibrationsManager.TryVibrate(VibrationType.Error);
         AnalyticsService.Instance.RecordEvent("LostRound_"+GameData.CurrentRound);
+        GameAnalytics.NewDesignEvent("round:loss:" + GameData.CurrentRound);
         HighscoreManager.Instance.SubmitCurrentRun();
 
 
@@ -285,6 +293,8 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.SetInt("HasRunTutorial", 1);
             AnalyticsService.Instance.RecordEvent("tutorial_finished");
             AnalyticsService.Instance.RecordEvent("LostGameInTutorial");
+            GameAnalytics.NewDesignEvent("tutorial:finished");
+            GameAnalytics.NewDesignEvent("tutorial:lost");
 
         }
 
@@ -409,36 +419,36 @@ public class GameManager : Singleton<GameManager>
 
     void OnGUI()
     {
-        if (ShowDailyQuestDebugButtons == false)
-            return;
+        // if (ShowDailyQuestDebugButtons == false)
+        //     return;
 
-        if (DailyQuestManager.Instance == null ||
-            DailyQuestManager.Instance.ShopWindow == null ||
-            DailyQuestManager.Instance.ShopWindow.activeSelf == false)
-            return;
+        // if (DailyQuestManager.Instance == null ||
+        //     DailyQuestManager.Instance.ShopWindow == null ||
+        //     DailyQuestManager.Instance.ShopWindow.activeSelf == false)
+        //     return;
 
-        int width = 340;
-        int height = 80;
-        int padding = 20;
-        int y = 120;
+        // int width = 340;
+        // int height = 80;
+        // int padding = 20;
+        // int y = 120;
 
-        GUI.skin.button.fontSize = 28;
+        // GUI.skin.button.fontSize = 28;
 
-        if (GUI.Button(new Rect(padding, y, width, height), "Daily Quest +"))
-        {
-            DailyQuestManager.Instance.SuppressHideForDebugClick();
-            DebugProgressDailyQuest();
-            DailyQuestManager.Instance.UpdateUI();
-            Event.current.Use();
-        }
+        // if (GUI.Button(new Rect(padding, y, width, height), "Daily Quest +"))
+        // {
+        //     DailyQuestManager.Instance.SuppressHideForDebugClick();
+        //     DebugProgressDailyQuest();
+        //     DailyQuestManager.Instance.UpdateUI();
+        //     Event.current.Use();
+        // }
 
-        if (GUI.Button(new Rect(padding, y + height + padding, width, height), "New Daily Quests"))
-        {
-            DailyQuestManager.Instance.SuppressHideForDebugClick();
-            DebugResetDailyQuests();
-            DailyQuestManager.Instance.UpdateUI();
-            Event.current.Use();
-        }
+        // if (GUI.Button(new Rect(padding, y + height + padding, width, height), "New Daily Quests"))
+        // {
+        //     DailyQuestManager.Instance.SuppressHideForDebugClick();
+        //     DebugResetDailyQuests();
+        //     DailyQuestManager.Instance.UpdateUI();
+        //     Event.current.Use();
+        // }
     }
 
     private void DebugProgressDailyQuest()

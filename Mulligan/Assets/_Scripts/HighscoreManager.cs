@@ -87,6 +87,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
     public int LeaderboardLimit = 50;
     public int PlayerRangeLimit = 5;
     public int VisibleEntryCount = 7;
+    public float LeaderboardEntrySpacing = 8f;
 
     [Header("Today's Best")]
     public Image TodaysBestHeroPortrait;
@@ -110,7 +111,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
     private int currentRunTopHit = 0;
     private bool hasActiveRun = false;
     private bool initStarted = false;
-    private HighscoreTab activeTab = HighscoreTab.Daily;
+    private HighscoreTab activeTab = HighscoreTab.AllTime;
 
     protected override void Awake()
     {
@@ -168,10 +169,10 @@ public class HighscoreManager : Singleton<HighscoreManager>
             LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
         }
 
-        activeTab = HighscoreTab.Daily;
+        activeTab = HighscoreTab.AllTime;
         UpdateTabHighlights();
         UpdateCurrentNameLabel();
-        PopulateDailyLeaderboard();
+        PopulateAllTimeLeaderboard();
         UpdateTodaysBestUI();
     }
 
@@ -876,6 +877,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
                 item.Init(i + 1, PlayerDisplayNameForUI, scores[i].HeroIndex, scores[i].LevelReached, scores[i].TopHit);
         }
 
+        ResizeLeaderboardContent(scores.Count);
         ResetScrollPosition();
     }
 
@@ -893,6 +895,8 @@ public class HighscoreManager : Singleton<HighscoreManager>
             if (item != null)
                 item.Init(entries[i]);
         }
+
+        ResizeLeaderboardContent(entries.Count);
     }
 
     private void ClearEntries()
@@ -903,10 +907,66 @@ public class HighscoreManager : Singleton<HighscoreManager>
         for (int i = LeaderboardParent.childCount - 1; i >= 0; i--)
         {
             if (LeaderboardParent.GetChild(i).gameObject != ScoreEntryTemplate)
+            {
+                LeaderboardParent.GetChild(i).gameObject.SetActive(false);
                 Destroy(LeaderboardParent.GetChild(i).gameObject);
+            }
         }
 
+        ResizeLeaderboardContent(0);
         ResetScrollPosition();
+    }
+
+    private void ResizeLeaderboardContent(int entryCount)
+    {
+        if (LeaderboardParent == null || ScoreEntryTemplate == null)
+            return;
+
+        RectTransform contentRect = LeaderboardParent.GetComponent<RectTransform>();
+        RectTransform templateRect = ScoreEntryTemplate.GetComponent<RectTransform>();
+        if (contentRect == null || templateRect == null)
+            return;
+
+        VerticalLayoutGroup layoutGroup = LeaderboardParent.GetComponent<VerticalLayoutGroup>();
+        float spacing = layoutGroup != null ? layoutGroup.spacing : LeaderboardEntrySpacing;
+        int paddingTop = layoutGroup != null ? layoutGroup.padding.top : 0;
+        int paddingBottom = layoutGroup != null ? layoutGroup.padding.bottom : 0;
+
+        float entryHeight = templateRect.rect.height;
+        float contentHeight = entryCount > 0
+            ? paddingTop + paddingBottom + (entryHeight * entryCount) + (spacing * Mathf.Max(0, entryCount - 1))
+            : 0f;
+
+        if (LeaderboardScrollRect != null && LeaderboardScrollRect.viewport != null)
+            contentHeight = Mathf.Max(contentHeight, LeaderboardScrollRect.viewport.rect.height);
+
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, contentHeight);
+
+        if (layoutGroup != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
+            Canvas.ForceUpdateCanvases();
+            return;
+        }
+
+        int visibleIndex = 0;
+        for (int i = 0; i < LeaderboardParent.childCount; i++)
+        {
+            RectTransform child = LeaderboardParent.GetChild(i).GetComponent<RectTransform>();
+            if (child == null || child.gameObject == ScoreEntryTemplate)
+                continue;
+
+            child.anchorMin = new Vector2(0.5f, 1f);
+            child.anchorMax = new Vector2(0.5f, 1f);
+            child.pivot = new Vector2(0.5f, 0.5f);
+            child.anchoredPosition = new Vector2(templateRect.anchoredPosition.x, templateRect.anchoredPosition.y - (visibleIndex * (entryHeight + spacing)));
+            visibleIndex++;
+        }
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
+        Canvas.ForceUpdateCanvases();
     }
 
     private void UpdateTodaysBestUI()

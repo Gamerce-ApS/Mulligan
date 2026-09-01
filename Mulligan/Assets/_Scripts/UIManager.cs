@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GameAnalyticsSDK;
 using Singular;
 using TMPro;
 using UnityEngine;
@@ -175,6 +176,17 @@ public class UIManager : Singleton<UIManager>
                 UIManager.Instance.ShowTooltip("Click on ORCs");
                 return;
             }
+        }
+        if (HandManager.Instance.SelectedCardCount() <= 0)
+        {
+            UIManager.Instance.ShowTooltip("Select a card to reroll");
+            return;
+        }
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ReRollCards &&
+            HandManager.Instance.SelectedCardCount() < 2)
+        {
+            UIManager.Instance.ShowTooltip("Select 2 cards to reroll");
+            return;
         }
         if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.DisableRerolls))
         {
@@ -940,6 +952,7 @@ public class UIManager : Singleton<UIManager>
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickTryForFree");
+        GameAnalytics.NewDesignEvent("click:tryfree");
         // PlayerPrefs.SetInt("HasRunTutorial", 1);
         Vector2 hidePos = new Vector2(SplashScreen.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
 
@@ -1024,6 +1037,7 @@ public class UIManager : Singleton<UIManager>
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickBuy");
+        GameAnalytics.NewDesignEvent("click:buy");
 
         IAPManager.Instance.BuyFullGame(() =>
         {

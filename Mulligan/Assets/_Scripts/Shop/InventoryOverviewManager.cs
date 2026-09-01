@@ -80,6 +80,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
     private List<NewInventoryReveal> newReveals = new List<NewInventoryReveal>();
     private Coroutine revealCoroutine = null;
     private GameObject activeFlyingCard = null;
+    private bool wasScrollRectEnabled = true;
+    private bool wasScrollRectVertical = true;
+    private bool wasScrollRectHorizontal = false;
+    private bool isScrollLockedForReveal = false;
 
     public void Init()
     {
@@ -574,6 +578,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         if (newReveals.Count == 0 || ShopWindow == null || ShopWindow.activeSelf == false)
             return;
 
+        LockInventoryScroll();
         revealCoroutine = StartCoroutine(PlayNewRevealSequence());
     }
 
@@ -598,6 +603,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         }
 
         HideRevealFocus(true);
+        UnlockInventoryScroll();
     }
 
     private IEnumerator PlayNewRevealSequence()
@@ -670,7 +676,34 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
 
         PlayerPrefs.Save();
         HideRevealFocus();
+        UnlockInventoryScroll();
         revealCoroutine = null;
+    }
+
+    private void LockInventoryScroll()
+    {
+        if (InventoryScrollRect == null || isScrollLockedForReveal)
+            return;
+
+        wasScrollRectEnabled = InventoryScrollRect.enabled;
+        wasScrollRectVertical = InventoryScrollRect.vertical;
+        wasScrollRectHorizontal = InventoryScrollRect.horizontal;
+        isScrollLockedForReveal = true;
+
+        InventoryScrollRect.vertical = false;
+        InventoryScrollRect.horizontal = false;
+        InventoryScrollRect.StopMovement();
+    }
+
+    private void UnlockInventoryScroll()
+    {
+        if (InventoryScrollRect == null || isScrollLockedForReveal == false)
+            return;
+
+        InventoryScrollRect.enabled = wasScrollRectEnabled;
+        InventoryScrollRect.vertical = wasScrollRectVertical;
+        InventoryScrollRect.horizontal = wasScrollRectHorizontal;
+        isScrollLockedForReveal = false;
     }
 
     private void ShowRevealFocus()
@@ -767,9 +800,6 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
     private void ScrollToReveal(RectTransform wrapper)
     {
         if (InventoryScrollRect == null || wrapper == null || InventoryParent == null)
-            return;
-
-        if (InventoryScrollRect.vertical == false)
             return;
 
         int childCount = InventoryParent.childCount;
