@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "characterName": "HumanWarrior",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5256,
+        "description": "upper beard / moustache attachment point"
+      },
+      "spring": {
+        "strength": 14.0,
+        "damping": 10.0,
+        "maxRotation": 0.8
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.3111,
+      "description": "neck attachment point"
+    },
+    "beard": {
+      "x": 0.5,
+      "y": 0.5256,
+      "description": "upper beard / moustache attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible head and beard artwork is directly extracted from the original source without resizing or repositioning.",
+    "Hair cap, face and ears remain rigidly attached to the head.",
+    "The full moustache and beard mass is a subtle spring layer.",
+    "Armor, shoulder plate, blue scarf, sword and all body equipment remain in the static body layer.",
+    "A narrow hidden neck/scarf region behind the head was reconstructed only to support subtle head translation and rotation.",
+    "A small hidden skin strip beneath the beard was reconstructed only where beard motion could reveal it.",
+    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
+    "hair_back, hair_left, hair_right and ponytail were skipped because they do not add useful independent motion for this portrait.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}

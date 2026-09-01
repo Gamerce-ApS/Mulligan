@@ -114116,6 +114116,10 @@ MonoBehaviour:
     PortraitPrefab: {fileID: 1278322180473542388, guid: 30c74346c403c417aaffc66379f2f75c, type: 3}
     Offset: {x: 0, y: 0}
     Scale: 1
+  - PortraitKey: warrior_human
+    PortraitPrefab: {fileID: 1678237549260044072, guid: 4fc9883de1b964e4c97c33366b13bcd9, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
 --- !u!4 &963989988
 Transform:
   m_ObjectHideFlags: 0
@@ -168217,7 +168221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -281.31592, y: -140.79205}
+  m_AnchoredPosition: {x: -281.31598, y: -140.79205}
   m_SizeDelta: {x: -2459.509, y: -1117.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507637901
