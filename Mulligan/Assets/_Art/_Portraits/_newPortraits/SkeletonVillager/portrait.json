@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "characterName": "SkeletonVillager",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.3766,
+      "description": "neck attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible skull artwork is directly extracted from the original source without resizing or repositioning.",
+    "No hair, beard, ponytail or other clear secondary-motion part was split into a separate spring layer.",
+    "The static body layer contains the ragged tunic, collar bones, torso and all non-head elements.",
+    "A narrow hidden neck and upper torso region behind the skull was reconstructed only to support subtle head translation and rotation.",
+    "eyes_closed.png is a full-canvas transparent blink overlay that replaces the glowing sockets with darker closed sockets.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}
