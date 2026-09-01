@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "characterName": "ElfWarrior",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "ponytail",
+      "file": "ponytail.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.8665,
+        "description": "hair tie / ponytail root"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "ponytail",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.2813,
+      "description": "neck attachment point"
+    },
+    "ponytail": {
+      "x": 0.5,
+      "y": 0.8665,
+      "description": "hair tie / ponytail root"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All PNG layers use the exact 894x839 source canvas.",
+    "Visible head and ponytail artwork is directly extracted from the original source without resizing or repositioning.",
+    "The long ears and front hair locks remain rigidly attached to the head.",
+    "The large rear/top ponytail is a spring layer.",
+    "Armor, shield, sword, torso and all body equipment remain in the static body layer.",
+    "A narrow hidden body/neck region behind the head was reconstructed only to support subtle head movement.",
+    "A tiny hidden scalp area under the ponytail root was reconstructed only where spring motion could reveal it.",
+    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
+    "hair_back, hair_left, hair_right and beard were skipped because they do not add enough independent motion to justify extra seams.",
+    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+  ]
+}
