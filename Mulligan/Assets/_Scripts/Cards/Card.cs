@@ -118,6 +118,13 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             return;
 
         AnimatedPortraitSlot slot = Portrait.GetComponent<AnimatedPortraitSlot>();
+        if (CardContainer.Instance.UseAnimatedPortraits == false)
+        {
+            if (slot != null)
+                slot.ClearPortrait();
+            return;
+        }
+
         AnimatedCardPortraitData portraitData = CardContainer.Instance.GetAnimatedCardPortraitData(aData.sprite_portrait);
 
         if (portraitData == null || portraitData.PortraitPrefab == null)

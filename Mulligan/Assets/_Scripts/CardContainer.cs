@@ -48,6 +48,7 @@ public class CardContainer : Singleton<CardContainer>
 
     public List<EnemyData> myEnemiesList;
     public List<BossData> myBossList;
+    public bool UseAnimatedPortraits = false;
     public List<AnimatedCardPortraitData> AnimatedCardPortraits = new List<AnimatedCardPortraitData>();
 
 

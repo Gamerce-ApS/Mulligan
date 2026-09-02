@@ -114091,6 +114091,7 @@ MonoBehaviour:
   TutorialDeck: []
   myEnemiesList: []
   myBossList: []
+  UseAnimatedPortraits: 0
   AnimatedCardPortraits:
   - PortraitKey: warrior_orc
     PortraitPrefab: {fileID: 3175835483654260168, guid: 2d9aee79b47ab4abdae1d8bb2bcf4c97, type: 3}
@@ -114118,6 +114119,30 @@ MonoBehaviour:
     Scale: 1
   - PortraitKey: warrior_human
     PortraitPrefab: {fileID: 1678237549260044072, guid: 4fc9883de1b964e4c97c33366b13bcd9, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: warrior_elf
+    PortraitPrefab: {fileID: 6576299654716221984, guid: a23704726d3fe45ac9dba0c6f95dd5f0, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: undead_mage
+    PortraitPrefab: {fileID: 539097035719633145, guid: eee803289e41b47e68807a33bef3797e, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: undead_cleric
+    PortraitPrefab: {fileID: 5519833367775092586, guid: cb1aef4adb78747d7a5a030c7b39d660, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: undead_peasant
+    PortraitPrefab: {fileID: 1586244960122032169, guid: 245b2e9e2dd4b42f0bd2912dbb9eb517, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: undead_warlock
+    PortraitPrefab: {fileID: 760625757844038050, guid: a65a02ec4768c4ce3b9923e665a6333b, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: warrior undead
+    PortraitPrefab: {fileID: 3528411117151449504, guid: 2cee31f97c9774238a8bedd07cf4a491, type: 3}
     Offset: {x: 0, y: 0}
     Scale: 1
 --- !u!4 &963989988
@@ -166900,7 +166925,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d33ed7ba92e304644be142f507899489, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e90848ca20c04866ae3dde0fcb1394b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
