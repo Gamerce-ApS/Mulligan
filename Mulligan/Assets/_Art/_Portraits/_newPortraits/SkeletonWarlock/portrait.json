@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "characterName": "SkeletonWarlock",
+  "characterName": "UndeadWarlock",
   "sourceWidth": 894,
   "sourceHeight": 839,
   "layers": [
@@ -31,9 +31,9 @@
   ],
   "pivots": {
     "head": {
-      "x": 0.5,
-      "y": 0.4195,
-      "description": "neck attachment point"
+      "x": 0.5039,
+      "y": 0.3413,
+      "description": "base of neck / skull attachment point"
     }
   },
   "animation": {
@@ -56,12 +56,10 @@
     }
   },
   "notes": [
-    "All PNG layers use the exact 894x839 source canvas.",
-    "Visible skull artwork is directly extracted from the original source without resizing or repositioning.",
-    "No hair, beard, ponytail or other clear secondary-motion part was split into a separate spring layer.",
-    "The static body layer contains the hood, cloak, necklace, crystal pendant and all non-head elements.",
-    "A narrow hidden neck/hood area behind the skull was reconstructed only to support subtle head translation and rotation.",
-    "eyes_closed.png is a full-canvas transparent blink overlay that replaces the glowing eye sockets with darker closed sockets.",
-    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "The hood, cloak, necklace and pendant remain static in body.png. The skull and exposed neck bones move together in head.png.",
+    "No secondary spring layer is included because the pendant contains partially transparent source pixels; separating it would require inventing or altering visible source artwork to avoid a hole beneath it.",
+    "Hidden reconstruction is limited to a narrow dark hood-interior band behind the head.",
+    "This skeleton has no eyelids. eyes_closed.png performs a source-aligned glow-off blink inside the detected green socket regions."
   ]
 }

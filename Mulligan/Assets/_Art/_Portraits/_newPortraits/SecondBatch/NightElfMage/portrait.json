@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "characterName": "NightElfMage",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "braid_left",
+      "file": "braid_left.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.3236,
+        "y": 0.5823,
+        "description": "left braid attachment below the temple"
+      },
+      "spring": {
+        "strength": 11.0,
+        "damping": 7.5,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "braid_right",
+      "file": "braid_right.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.6249,
+        "y": 0.5859,
+        "description": "right braid attachment below the temple"
+      },
+      "spring": {
+        "strength": 11.0,
+        "damping": 7.5,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "braid_left",
+    "braid_right",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5006,
+      "y": 0.2768,
+      "description": "neck attachment point at the scarf opening"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Visible source artwork is direct pixel extraction from source.png.",
+    "Hidden scarf/body pixels behind the head and hidden face/hair pixels behind the braids were reconstructed only where fully covered in the neutral pose.",
+    "The two braids are the only secondary spring layers.",
+    "The blink overlay was derived from the exact detected glowing-eye pixels and inpainted from surrounding face artwork."
+  ]
+}

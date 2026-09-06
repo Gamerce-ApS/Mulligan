@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "characterName": "HoodedOrcMystic",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.479,
+        "description": "beard attachment below lower lip"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.238,
+      "description": "neck attachment point"
+    },
+    "beard": {
+      "x": 0.5,
+      "y": 0.479,
+      "description": "beard attachment below lower lip"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, beard, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Hidden regions minimally reconstructed: lower face behind beard and hood interior behind head.",
+    "Neutral composite RGB MAE on visible source pixels: 0.00"
+  ]
+}

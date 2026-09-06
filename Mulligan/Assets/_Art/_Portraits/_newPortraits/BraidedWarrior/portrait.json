@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "characterName": "BraidedWarrior",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5006,
+        "y": 0.5286,
+        "description": "upper beard attachment below the mustache"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "braid_left",
+      "file": "braid_left.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.3203,
+        "y": 0.6277,
+        "description": "left braid attachment under the ear"
+      },
+      "spring": {
+        "strength": 11.0,
+        "damping": 7.5,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "braid_right",
+      "file": "braid_right.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.673,
+        "y": 0.6253,
+        "description": "right braid attachment under the ear"
+      },
+      "spring": {
+        "strength": 11.0,
+        "damping": 7.5,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "braid_left",
+    "braid_right",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5006,
+      "y": 0.2243,
+      "description": "neck attachment point inside hood opening"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution is 894x839.",
+    "Visible source artwork was directly extracted into body, head, beard, braid_left, and braid_right.",
+    "Only hidden regions behind the head, beard, and braids were reconstructed.",
+    "The blink overlay is a minimal eyes-only overlay aligned to the neutral head.",
+    "This is the smallest useful set that supports breathing, head motion, blinking, and secondary spring motion."
+  ]
+}

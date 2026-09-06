@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "characterName": "CloakedDwarfElder",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "topknot",
+      "file": "topknot.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.431,
+        "y": 0.908,
+        "description": "topknot tie attachment point"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.5
+      }
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.496,
+        "y": 0.545,
+        "description": "upper beard attachment under moustache"
+      },
+      "spring": {
+        "strength": 10.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "topknot",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.327,
+      "description": "neck attachment point at cloak opening center"
+    },
+    "topknot": {
+      "x": 0.431,
+      "y": 0.908,
+      "description": "topknot tie attachment point"
+    },
+    "beard": {
+      "x": 0.496,
+      "y": 0.545,
+      "description": "upper beard attachment under moustache"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, topknot, beard, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Small hidden areas were reconstructed behind the separated head inside the cloak opening, behind the moustache/beard around the mouth and chin, and under the topknot attachment area.",
+    "This is the smallest useful set because the body handles breathing, the head handles rigid face motion, the beard adds the main secondary spring motion, the topknot adds hair spring motion, and eyes_closed handles blinking.",
+    "Neutral composite mean absolute RGB error on visible pixels: 0.00."
+  ]
+}

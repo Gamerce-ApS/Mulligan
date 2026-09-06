@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "characterName": "ElfArcher",
+  "characterName": "RangerElf",
   "sourceWidth": 894,
   "sourceHeight": 839,
   "layers": [
@@ -11,27 +11,27 @@
       "required": true
     },
     {
-      "name": "head",
-      "file": "head.png",
-      "type": "head",
-      "required": true
-    },
-    {
       "name": "ponytail",
       "file": "ponytail.png",
       "type": "spring",
       "required": false,
       "parent": "head",
       "pivot": {
-        "x": 0.5257,
-        "y": 0.8176,
-        "description": "hair tie / ponytail root"
+        "x": 0.5017,
+        "y": 0.8282,
+        "description": "ponytail attachment at the hair tie"
       },
       "spring": {
         "strength": 12.0,
         "damping": 8.0,
         "maxRotation": 2.0
       }
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
     },
     {
       "name": "eyes_closed",
@@ -43,32 +43,32 @@
   ],
   "recommendedLayerOrder": [
     "body",
-    "head",
     "ponytail",
+    "head",
     "eyes_closed"
   ],
   "pivots": {
     "head": {
-      "x": 0.4989,
-      "y": 0.2515,
-      "description": "neck attachment point"
+      "x": 0.5006,
+      "y": 0.2649,
+      "description": "base of neck / head attachment point"
     },
     "ponytail": {
-      "x": 0.5257,
-      "y": 0.8176,
-      "description": "hair tie / ponytail root"
+      "x": 0.5017,
+      "y": 0.8282,
+      "description": "ponytail attachment at the hair tie"
     }
   },
   "animation": {
     "breathing": {
       "enabled": true,
-      "amount": 0.0035,
+      "amount": 0.05,
       "speed": 1.0
     },
     "head": {
       "enabled": true,
-      "positionAmount": 1.8,
-      "rotationAmount": 0.6,
+      "positionAmount": 15,
+      "rotationAmount": 5,
       "speed": 0.15
     },
     "blink": {
@@ -79,15 +79,10 @@
     }
   },
   "notes": [
-    "All PNG layers use the exact 894x839 source canvas.",
-    "Visible head and ponytail artwork is directly extracted from the original source without resizing or repositioning.",
-    "The long ears and front hair locks remain rigidly attached to the head.",
-    "The large tied rear hair mass is a spring layer.",
-    "The green cloak, torso, quiver and arrows remain in the static body layer.",
-    "A narrow hidden cloak/neck region behind the head was reconstructed only to support subtle head movement.",
-    "A small hidden scalp strip beneath the ponytail root was reconstructed only where spring motion could reveal it.",
-    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
-    "hair_back, hair_left, hair_right and beard were skipped because they would add seams without enough extra animation benefit.",
-    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "Front hair and both ears remain part of head.png.",
+    "The rear ponytail is the only secondary spring layer.",
+    "Only a narrow hidden neck and upper-cloak band beneath the head was reconstructed.",
+    "eyes_closed.png is aligned from the exact source eye components and clipped to those eye regions."
   ]
 }

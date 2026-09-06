@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "characterName": "BlindfoldSkeletonRanger",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5006,
+      "y": 0.2542,
+      "description": "base of skull / neck attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "No secondary spring layer was created because no part offered clear motion value without adding separation risk.",
+    "Only a narrow hidden band behind the lower skull and exposed neck opening was reconstructed for small head motion.",
+    "This skeleton has no eyelids. eyes_closed.png performs a source-aligned glow-off blink inside the detected socket regions."
+  ]
+}

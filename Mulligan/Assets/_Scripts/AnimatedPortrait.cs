@@ -233,7 +233,7 @@ public class AnimatedPortrait : MonoBehaviour
         if (pose == null)
             return;
 
-        float time = Time.time * BreathingSpeed * BreathingSpeedMultiplier + breathingPhase;
+        float time = Time.unscaledTime * BreathingSpeed * BreathingSpeedMultiplier + breathingPhase;
         float baseWave = Mathf.Sin(time);
         float secondaryWave = Mathf.Sin(time * 2f + 1.7f) * 0.16f;
         float shapedWave = Mathf.Sign(baseWave) * Mathf.Pow(Mathf.Abs(baseWave), 0.72f);
@@ -252,7 +252,7 @@ public class AnimatedPortrait : MonoBehaviour
         if (pose == null)
             return;
 
-        float time = Time.time * HeadSpeed * HeadSpeedMultiplier * headFrequencyVariation;
+        float time = Time.unscaledTime * HeadSpeed * HeadSpeedMultiplier * headFrequencyVariation;
         float movementEnvelope = GetMovementEnvelope(time);
         float debugMultiplier = debugExaggerateMotion ? 4f : 1f;
 
@@ -274,7 +274,7 @@ public class AnimatedPortrait : MonoBehaviour
         LastHeadRotationNoise = r;
         LastHeadTargetRotation = targetRotation;
 
-        float smoothing = 1f - Mathf.Exp(-Time.deltaTime * 2.2f);
+        float smoothing = 1f - Mathf.Exp(-Time.unscaledDeltaTime * 2.2f);
         smoothedHeadOffset = Vector3.Lerp(smoothedHeadOffset, targetOffset, smoothing);
         smoothedHeadRotation = Mathf.Lerp(smoothedHeadRotation, targetRotation, smoothing);
         LastHeadRotation = smoothedHeadRotation;
@@ -288,7 +288,7 @@ public class AnimatedPortrait : MonoBehaviour
         while (idlePlaying)
         {
             float interval = GetBlinkInterval();
-            yield return new WaitForSeconds(interval);
+            yield return new WaitForSecondsRealtime(interval);
 
             if (idlePlaying == false || paused || BlinkEnabled == false)
                 continue;
@@ -298,7 +298,7 @@ public class AnimatedPortrait : MonoBehaviour
             float doubleBlinkChance = Mathf.Clamp(DoubleBlinkChance, 0.08f, 0.15f);
             if (GetSeededBlinkValue(37) <= doubleBlinkChance)
             {
-                yield return new WaitForSeconds(Mathf.Lerp(0.08f, 0.16f, GetSeededBlinkValue(53)));
+                yield return new WaitForSecondsRealtime(Mathf.Lerp(0.08f, 0.16f, GetSeededBlinkValue(53)));
                 yield return DoBlink(GetBlinkDuration());
             }
 
@@ -311,7 +311,7 @@ public class AnimatedPortrait : MonoBehaviour
     private IEnumerator DoBlink(float duration)
     {
         SetBlinkOverlays(true);
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
         SetBlinkOverlays(false);
     }
 

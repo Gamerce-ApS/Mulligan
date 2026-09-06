@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "characterName": "SpectralSkeletonBard",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.503,
+      "y": 0.369,
+      "description": "neck attachment point at the center of the collar opening"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail, beard.",
+    "No useful secondary-motion PNGs were separated.",
+    "Small hidden-area reconstruction was used only behind the lower skull to restore the collar interior and neck area needed for subtle head motion.",
+    "Blink overlay uses a minimal closed-eye treatment aligned to the glowing eye sockets."
+  ]
+}

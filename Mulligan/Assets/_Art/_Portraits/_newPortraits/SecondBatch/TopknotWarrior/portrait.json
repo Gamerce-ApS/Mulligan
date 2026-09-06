@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "characterName": "TopknotWarrior",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5006,
+        "y": 0.4833,
+        "description": "upper chin beard attachment point"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5006,
+      "y": 0.4153,
+      "description": "neck attachment point at the base of the jaw and neckline center"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, beard, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Hidden regions reconstructed: shirt and neck behind the removed head and beard, and a small band of face hidden behind the chin beard.",
+    "This is the smallest useful set because it supports breathing, subtle head motion, blinking, and one useful spring layer without splitting tiny parts.",
+    "Visible source artwork was directly extracted. Only hidden regions were reconstructed."
+  ]
+}

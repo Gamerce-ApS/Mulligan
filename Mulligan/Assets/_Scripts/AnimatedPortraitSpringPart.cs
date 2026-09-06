@@ -79,7 +79,7 @@ public class AnimatedPortraitSpringPart : MonoBehaviour
         if (initialized == false)
             ResetSpring();
 
-        float deltaTime = Time.deltaTime;
+        float deltaTime = Time.unscaledDeltaTime;
         if (deltaTime <= 0f)
             return;
 

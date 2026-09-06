@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "characterName": "GingerbeardDwarfChampion",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "topknot",
+      "file": "topknot.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.438,
+        "y": 0.892,
+        "description": "hair tie attachment point"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.2
+      }
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.503,
+        "y": 0.553,
+        "description": "beard attachment under the moustache"
+      },
+      "spring": {
+        "strength": 10.0,
+        "damping": 8.0,
+        "maxRotation": 2.4
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "topknot",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.327,
+      "description": "neck attachment point behind the upper chest center"
+    },
+    "topknot": {
+      "x": 0.438,
+      "y": 0.892,
+      "description": "hair tie attachment point"
+    },
+    "beard": {
+      "x": 0.503,
+      "y": 0.553,
+      "description": "beard attachment under the moustache"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, topknot, beard, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Small hidden areas were reconstructed only where needed behind the beard at the chest and neck opening, beneath the separated beard around the mouth and chin, and beneath the topknot attachment area.",
+    "This is the smallest useful set because body covers breathing and torso motion, head covers rigid facial motion, beard provides the main secondary spring motion, topknot provides hair spring motion, and eyes_closed handles blinking.",
+    "Neutral composite mean absolute RGB error on visible pixels: 0.00."
+  ]
+}

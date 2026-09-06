@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "characterName": "SkeletonCleric",
+  "characterName": "UndeadCleric",
   "sourceWidth": 894,
   "sourceHeight": 839,
   "layers": [
@@ -31,21 +31,21 @@
   ],
   "pivots": {
     "head": {
-      "x": 0.5,
-      "y": 0.3266,
-      "description": "neck attachment point"
+      "x": 0.5028,
+      "y": 0.2936,
+      "description": "base of skull / neck attachment point"
     }
   },
   "animation": {
     "breathing": {
       "enabled": true,
-      "amount": 0.05,
+      "amount": 0.025,
       "speed": 1.0
     },
     "head": {
       "enabled": true,
-      "positionAmount": 15,
-      "rotationAmount": 5,
+      "positionAmount": 6,
+      "rotationAmount": 0.8,
       "speed": 0.15
     },
     "blink": {
@@ -56,12 +56,9 @@
     }
   },
   "notes": [
-    "All PNG layers use the exact 894x839 source canvas.",
-    "Visible skull artwork is directly extracted from the original source without resizing or repositioning.",
-    "No hair, beard, ponytail or other clear secondary-motion part was separated.",
-    "The white/gold cleric robe, shoulders, collar, torso and hands remain in the static body layer.",
-    "A narrow hidden robe/neck region behind the skull was reconstructed only to support subtle head translation and rotation.",
-    "eyes_closed.png is a full-canvas transparent blink overlay that replaces the glowing sockets with darker resting sockets.",
-    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+    "Visible source artwork in body.png and head.png is direct pixel extraction from source.png.",
+    "Only a narrow hidden hood/neck band beneath the skull was reconstructed for small head motion.",
+    "This skeleton has no eyelids. eyes_closed.png performs a source-aligned magical glow-off blink inside the existing sockets.",
+    "No separate spring layer was created because the robe hood is broad and torso-anchored."
   ]
 }

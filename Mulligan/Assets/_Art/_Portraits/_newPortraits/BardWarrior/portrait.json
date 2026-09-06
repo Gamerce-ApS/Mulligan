@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "characterName": "BardWarrior",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.4401,
+        "y": 0.5692,
+        "description": "upper beard attachment under chin"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.4401,
+      "y": 0.3759,
+      "description": "neck attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "Only a small hidden band behind the head and a small hidden chin/neck region behind the beard were reconstructed.",
+    "The beard is the only secondary spring layer.",
+    "eyes_closed.png is a minimal eye-area overlay aligned to the neutral head."
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "characterName": "HoodedWarlock",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5006,
+        "y": 0.6038,
+        "description": "beard attachment below the mouth"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "pendant",
+      "file": "pendant.png",
+      "type": "spring",
+      "required": false,
+      "parent": "body",
+      "pivot": {
+        "x": 0.5006,
+        "y": 0.315,
+        "description": "chain attachment point at the center clasp area"
+      },
+      "spring": {
+        "strength": 11.0,
+        "damping": 7.5,
+        "maxRotation": 3.0
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "pendant",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5006,
+      "y": 0.3365,
+      "description": "neck attachment point at the center of the cloak opening"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, beard, pendant, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Hidden regions reconstructed: robe behind head and pendant, and a small face area behind the beard.",
+    "Visible source artwork was directly extracted. Only hidden regions were reconstructed."
+  ]
+}

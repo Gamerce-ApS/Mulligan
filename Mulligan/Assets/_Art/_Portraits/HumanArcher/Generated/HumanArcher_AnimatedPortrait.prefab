@@ -165,9 +165,9 @@ MonoBehaviour:
   SpringPivot: {fileID: 1057708388039940804}
   DriverTransform: {fileID: 8599673279816504020}
   FollowTarget: {fileID: 8599673279816504020}
-  Strength: 14
-  Damping: 10
-  MaxRotation: 0.8
+  Strength: 30
+  Damping: 15
+  MaxRotation: 25
   PositionResponse: 1.2
   VerticalResponse: 0.25
   RotationResponse: 1.8
@@ -226,29 +226,29 @@ MonoBehaviour:
   playOnEnable: 1
   useManifestAnimationSettings: 1
   debugExaggerateMotion: 0
-  GlobalIntensity: 1
+  GlobalIntensity: 0.5
   SourceWidth: 894
   SourceHeight: 839
   BreathingEnabled: 1
-  BreathingAmount: 0.0035
+  BreathingAmount: 0.05
   BreathingSpeed: 1
   BreathingAmountMultiplier: 1
   BreathingSpeedMultiplier: 1
   HeadEnabled: 1
-  HeadPositionAmount: 1.8
-  HeadRotationAmount: 0.6
-  MaxHeadRotation: 25
+  HeadPositionAmount: 15
+  HeadRotationAmount: 5
+  MaxHeadRotation: 10
   HeadSpeed: 0.15
   HeadPositionMultiplier: 1
-  HeadRotationMultiplier: 1
-  HeadSpeedMultiplier: 1
+  HeadRotationMultiplier: 12
+  HeadSpeedMultiplier: 5
   BlinkEnabled: 1
   BlinkMinInterval: 3
   BlinkMaxInterval: 7
   BlinkClosedDuration: 0.1
   BlinkIntervalMultiplier: 1
   DoubleBlinkChance: 0.18
-  GlobalSpringMultiplier: 1
+  GlobalSpringMultiplier: 10
   Body: {fileID: 9136035803460887814}
   HeadPivot: {fileID: 8599673279816504020}
   BlinkOverlays:

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "characterName": "ElfWarrior",
+  "characterName": "WarriorElf",
   "sourceWidth": 894,
   "sourceHeight": 839,
   "layers": [
@@ -17,9 +17,9 @@
       "required": false,
       "parent": "head",
       "pivot": {
-        "x": 0.5,
-        "y": 0.8665,
-        "description": "hair tie / ponytail root"
+        "x": 0.4961,
+        "y": 0.8711,
+        "description": "ponytail attachment at the hair tie"
       },
       "spring": {
         "strength": 12.0,
@@ -49,14 +49,14 @@
   ],
   "pivots": {
     "head": {
-      "x": 0.5,
-      "y": 0.2813,
-      "description": "neck attachment point"
+      "x": 0.4972,
+      "y": 0.2959,
+      "description": "base of neck / head attachment point"
     },
     "ponytail": {
-      "x": 0.5,
-      "y": 0.8665,
-      "description": "hair tie / ponytail root"
+      "x": 0.4961,
+      "y": 0.8711,
+      "description": "ponytail attachment at the hair tie"
     }
   },
   "animation": {
@@ -79,15 +79,10 @@
     }
   },
   "notes": [
-    "All PNG layers use the exact 894x839 source canvas.",
-    "Visible head and ponytail artwork is directly extracted from the original source without resizing or repositioning.",
-    "The long ears and front hair locks remain rigidly attached to the head.",
-    "The large rear/top ponytail is a spring layer.",
-    "Armor, shield, sword, torso and all body equipment remain in the static body layer.",
-    "A narrow hidden body/neck region behind the head was reconstructed only to support subtle head movement.",
-    "A tiny hidden scalp area under the ponytail root was reconstructed only where spring motion could reveal it.",
-    "eyes_closed.png is a full-canvas transparent blink overlay containing only the eye regions.",
-    "hair_back, hair_left, hair_right and beard were skipped because they do not add enough independent motion to justify extra seams.",
-    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "Front hair and both ears remain part of head.png.",
+    "The large rear ponytail is the only spring layer.",
+    "Only a narrow torso/neck region hidden beneath fully opaque head pixels was reconstructed.",
+    "eyes_closed.png was positioned from the two detected source eye components and clipped to those regions."
   ]
 }

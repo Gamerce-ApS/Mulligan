@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "characterName": "HeadbandOrcRanger",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "beard",
+      "file": "beard.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.499,
+        "y": 0.476,
+        "description": "beard attachment below lower lip"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.0
+      }
+    },
+    {
+      "name": "topknot",
+      "file": "topknot.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5,
+        "y": 0.878,
+        "description": "topknot tie attachment point"
+      },
+      "spring": {
+        "strength": 10.0,
+        "damping": 8.0,
+        "maxRotation": 1.8
+      }
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "head",
+    "beard",
+    "topknot",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5,
+      "y": 0.3,
+      "description": "neck attachment point"
+    },
+    "beard": {
+      "x": 0.499,
+      "y": 0.476,
+      "description": "beard attachment below lower lip"
+    },
+    "topknot": {
+      "x": 0.5,
+      "y": 0.878,
+      "description": "topknot tie attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Source resolution: 894x839.",
+    "Chosen layers: body, head, beard, topknot, eyes_closed.",
+    "Skipped standard layers: hair_back, hair_left, hair_right, ponytail.",
+    "Hidden regions minimally reconstructed: cloak and background behind removed moving layers, scalp behind topknot, and lower face behind beard.",
+    "Neutral composite RGB MAE on visible source pixels: 0.00"
+  ]
+}

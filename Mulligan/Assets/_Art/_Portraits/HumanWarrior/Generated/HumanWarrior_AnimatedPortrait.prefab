@@ -316,9 +316,9 @@ MonoBehaviour:
   SpringPivot: {fileID: 6036036384266523441}
   DriverTransform: {fileID: 1892579225208243742}
   FollowTarget: {fileID: 1892579225208243742}
-  Strength: 14
-  Damping: 10
-  MaxRotation: 0.8
+  Strength: 20
+  Damping: 15
+  MaxRotation: 30
   PositionResponse: 1.2
   VerticalResponse: 0.25
   RotationResponse: 1.8

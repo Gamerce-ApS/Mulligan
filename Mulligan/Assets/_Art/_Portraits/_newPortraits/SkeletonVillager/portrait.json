@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "characterName": "SkeletonVillager",
+  "characterName": "UndeadSkeleton",
   "sourceWidth": 894,
   "sourceHeight": 839,
   "layers": [
@@ -31,9 +31,9 @@
   ],
   "pivots": {
     "head": {
-      "x": 0.5,
-      "y": 0.3766,
-      "description": "neck attachment point"
+      "x": 0.4994,
+      "y": 0.2721,
+      "description": "base of skull / neck attachment point"
     }
   },
   "animation": {
@@ -56,12 +56,9 @@
     }
   },
   "notes": [
-    "All PNG layers use the exact 894x839 source canvas.",
-    "Visible skull artwork is directly extracted from the original source without resizing or repositioning.",
-    "No hair, beard, ponytail or other clear secondary-motion part was split into a separate spring layer.",
-    "The static body layer contains the ragged tunic, collar bones, torso and all non-head elements.",
-    "A narrow hidden neck and upper torso region behind the skull was reconstructed only to support subtle head translation and rotation.",
-    "eyes_closed.png is a full-canvas transparent blink overlay that replaces the glowing sockets with darker closed sockets.",
-    "Normalized pivot coordinates use x=0 left, x=1 right, y=0 bottom, y=1 top."
+    "All visible neutral artwork is direct pixel extraction from source.png.",
+    "No secondary spring layer was created because no part offered clear motion value without adding separation risk.",
+    "Only a narrow hidden band behind the lower skull and upper neck opening was reconstructed for small head motion.",
+    "This skeleton has no eyelids. eyes_closed.png performs a source-aligned glow-off blink inside the detected socket regions."
   ]
 }

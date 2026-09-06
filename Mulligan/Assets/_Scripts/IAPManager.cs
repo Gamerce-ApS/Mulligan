@@ -6,6 +6,7 @@ using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using System.Collections.Generic;
 using Singular;
+using GameAnalyticsSDK;
 public class IAPManager : MonoBehaviour, IStoreListener
 {
     public static IAPManager Instance { get; private set; }
@@ -165,6 +166,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     if (productId == FullGameProductId)
     {
+        TrackPurchaseWithGameAnalytics(product);
         UnlockFullGame();
     }
     else
@@ -174,6 +176,20 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     return PurchaseProcessingResult.Complete;
 }
+private void TrackPurchaseWithGameAnalytics(Product product)
+{
+    if (product == null)
+    {
+        Debug.LogWarning("GameAnalytics IAP tracking skipped: product is null.");
+        return;
+    }
+
+    if (GameAnalytics.Initialized == false)
+        GameAnalytics.Initialize();
+
+    GameAnalytics.NewDesignEvent("purchase:success");
+}
+
 private void TrackPurchaseWithSingular(Product product)
 {
     if (product == null)

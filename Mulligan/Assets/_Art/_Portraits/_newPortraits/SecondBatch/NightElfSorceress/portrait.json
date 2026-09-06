@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "characterName": "NightElfSorceress",
+  "sourceWidth": 894,
+  "sourceHeight": 839,
+  "layers": [
+    {
+      "name": "body",
+      "file": "body.png",
+      "type": "body",
+      "required": true
+    },
+    {
+      "name": "ponytail",
+      "file": "ponytail.png",
+      "type": "spring",
+      "required": false,
+      "parent": "head",
+      "pivot": {
+        "x": 0.5403,
+        "y": 0.8486,
+        "description": "hair tie attachment point"
+      },
+      "spring": {
+        "strength": 12.0,
+        "damping": 8.0,
+        "maxRotation": 2.2
+      }
+    },
+    {
+      "name": "head",
+      "file": "head.png",
+      "type": "head",
+      "required": true
+    },
+    {
+      "name": "eyes_closed",
+      "file": "eyes_closed.png",
+      "type": "blinkOverlay",
+      "required": false,
+      "parent": "head"
+    }
+  ],
+  "recommendedLayerOrder": [
+    "body",
+    "ponytail",
+    "head",
+    "eyes_closed"
+  ],
+  "pivots": {
+    "head": {
+      "x": 0.5011,
+      "y": 0.2253,
+      "description": "neck attachment point"
+    },
+    "ponytail": {
+      "x": 0.5403,
+      "y": 0.8486,
+      "description": "hair tie attachment point"
+    }
+  },
+  "animation": {
+    "breathing": {
+      "enabled": true,
+      "amount": 0.05,
+      "speed": 1.0
+    },
+    "head": {
+      "enabled": true,
+      "positionAmount": 15,
+      "rotationAmount": 5,
+      "speed": 0.15
+    },
+    "blink": {
+      "enabled": true,
+      "minInterval": 3.0,
+      "maxInterval": 7.0,
+      "closedDuration": 0.1
+    }
+  },
+  "notes": [
+    "Visible source pixels were extracted directly for visible artwork.",
+    "Only hidden body areas behind the head and ponytail were reconstructed.",
+    "Neutral composite visible-pixel difference count: 1878",
+    "Remaining uncovered glow pixels after blink overlay: 0"
+  ]
+}

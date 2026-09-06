@@ -114091,7 +114091,7 @@ MonoBehaviour:
   TutorialDeck: []
   myEnemiesList: []
   myBossList: []
-  UseAnimatedPortraits: 0
+  UseAnimatedPortraits: 1
   AnimatedCardPortraits:
   - PortraitKey: warrior_orc
     PortraitPrefab: {fileID: 3175835483654260168, guid: 2d9aee79b47ab4abdae1d8bb2bcf4c97, type: 3}
@@ -114122,7 +114122,7 @@ MonoBehaviour:
     Offset: {x: 0, y: 0}
     Scale: 1
   - PortraitKey: warrior_elf
-    PortraitPrefab: {fileID: 6576299654716221984, guid: a23704726d3fe45ac9dba0c6f95dd5f0, type: 3}
+    PortraitPrefab: {fileID: 4739364759975113056, guid: f14b21bc2abd14227898111f6d7f3397, type: 3}
     Offset: {x: 0, y: 0}
     Scale: 1
   - PortraitKey: undead_mage
@@ -114130,7 +114130,7 @@ MonoBehaviour:
     Offset: {x: 0, y: 0}
     Scale: 1
   - PortraitKey: undead_cleric
-    PortraitPrefab: {fileID: 5519833367775092586, guid: cb1aef4adb78747d7a5a030c7b39d660, type: 3}
+    PortraitPrefab: {fileID: 8100384519599734090, guid: caa8120dabdf144f990a83dd40b09e3c, type: 3}
     Offset: {x: 0, y: 0}
     Scale: 1
   - PortraitKey: undead_peasant
@@ -114143,6 +114143,90 @@ MonoBehaviour:
     Scale: 1
   - PortraitKey: warrior undead
     PortraitPrefab: {fileID: 3528411117151449504, guid: 2cee31f97c9774238a8bedd07cf4a491, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: archer_human
+    PortraitPrefab: {fileID: 5131110578120171000, guid: f2849b1fe54bf4421b32b98ee0e34efe, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: archer_elf
+    PortraitPrefab: {fileID: 1810820055038262612, guid: a742df2a1e33e4fa5973d773b84d683d, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: archer_undead
+    PortraitPrefab: {fileID: 3505743407914249575, guid: 3703f36b39f9c425bbabd79daffd10aa, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: human_cleric
+    PortraitPrefab: {fileID: 2126447607367766477, guid: 8e39dd56905374d6fb0f7a6c35f7914d, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: human_bard
+    PortraitPrefab: {fileID: 4048654844986924170, guid: 7fe4a9b339adf4d46abf61bfc425df6a, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: human_warlock
+    PortraitPrefab: {fileID: 5096224285425821991, guid: 7a6f8ca7866f645a0b8d7bd49744c30f, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: elve_mage
+    PortraitPrefab: {fileID: 3567041084865897227, guid: 93a1ffdb8a54147469b78abaa97192db, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: elf_peasant
+    PortraitPrefab: {fileID: 6575262017727506888, guid: 12ec58df4d0bc4d4bab8f16fc8975ff3, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: elve_cleric
+    PortraitPrefab: {fileID: 337594841096749304, guid: 27ff76058d38d453f82bc33063dfb7dc, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: human_mage
+    PortraitPrefab: {fileID: 6323171736422021272, guid: 3f3af57298d154c26a0e9890899dedc5, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: human_peasant
+    PortraitPrefab: {fileID: 8083780596877787567, guid: b60575cf4eda5451d8dba6ced6cb5ef6, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: troll_cleric
+    PortraitPrefab: {fileID: 3951599517402099061, guid: caab0d44f4a7d40d39c14069cc767e68, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: dwarf_mage
+    PortraitPrefab: {fileID: 5290871766808687127, guid: 81f397ab5e27046be871d5f822b79b7c, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: dwarf_warrior
+    PortraitPrefab: {fileID: 8544597813244518624, guid: 1c0359980c51f48efa52606a7ceb8a57, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: dwarf_peasant
+    PortraitPrefab: {fileID: 4547333453368750287, guid: e17e322cd9c11492494b85de49918897, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: troll_hunter
+    PortraitPrefab: {fileID: 1622282907453803197, guid: e70a29c7a517e468cb6b4aea9e0b1439, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: troll_warlock
+    PortraitPrefab: {fileID: 7942835774374839424, guid: 97e62e748a97341c696ffa29fb333417, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: troll_warrior
+    PortraitPrefab: {fileID: 6632366543762886258, guid: 967f0ca12369344c2a74d40cc98f5302, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: troll_peasant
+    PortraitPrefab: {fileID: 5505872375617029167, guid: 88fe88220245e410ab44220589b7a1d3, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: undead_bard
+    PortraitPrefab: {fileID: 2737551846654247402, guid: 870a92ac941a942bea64f9a21cca31bf, type: 3}
+    Offset: {x: 0, y: 0}
+    Scale: 1
+  - PortraitKey: dwarf_cleric
+    PortraitPrefab: {fileID: 2909671876801470447, guid: 8493c1f73c6384b0cbbbc245a6c3e793, type: 3}
     Offset: {x: 0, y: 0}
     Scale: 1
 --- !u!4 &963989988
@@ -168246,7 +168330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -281.31598, y: -140.79205}
+  m_AnchoredPosition: {x: -281.31592, y: -140.79205}
   m_SizeDelta: {x: -2459.509, y: -1117.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1507637901
