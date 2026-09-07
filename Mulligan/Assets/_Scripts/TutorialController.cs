@@ -818,6 +818,6 @@ public class TutorialController : Singleton<TutorialController>
     }
     public void ResetAfterTutorialFinished()
     {
-
+        CardContainer.Instance.ResetDeckAfterTutorial();
     }
 }

@@ -8,6 +8,16 @@ public class AnimatedPortraitSlot : MonoBehaviour
     public bool HideStaticImageWhenAnimated = true;
 
     private GameObject currentPortrait;
+    private RectTransform currentPortraitRect;
+    private AnimatedPortrait currentAnimatedPortrait;
+    private Vector2 currentSourceSize;
+    private Vector2 lastTargetSize;
+    private float baseBreathingAmountMultiplier = 1f;
+    private float baseBreathingSpeedMultiplier = 1f;
+    private float baseHeadPositionMultiplier = 1f;
+    private float baseHeadPositionSpeedMultiplier = 1f;
+    private float baseHeadRotationMultiplier = 1f;
+    private float baseHeadRotationSpeedMultiplier = 1f;
     private Image staticImage;
     private Color originalImageColor;
     private bool hasOriginalColor = false;
@@ -15,6 +25,11 @@ public class AnimatedPortraitSlot : MonoBehaviour
     void Awake()
     {
         CacheStaticImage();
+    }
+
+    void OnEnable()
+    {
+        ApplyPortraitLayout();
     }
 
     public void ShowPortrait(GameObject portraitPrefab, Vector2 offset, float scale)
@@ -36,25 +51,24 @@ public class AnimatedPortraitSlot : MonoBehaviour
         currentPortrait = Instantiate(portraitPrefab, transform);
         currentPortrait.name = portraitPrefab.name;
 
-        RectTransform rectTransform = currentPortrait.GetComponent<RectTransform>();
-        if (rectTransform != null)
-        {
-            Vector2 sourceSize = GetSourceSize(currentPortrait);
-            float fitScale = GetFitScale(sourceSize);
-            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rectTransform.anchoredPosition = offset;
-            rectTransform.localScale = Vector3.one * Mathf.Max(0.01f, scale) * fitScale;
-            rectTransform.localRotation = Quaternion.identity;
-            rectTransform.sizeDelta = sourceSize;
-        }
+        currentPortraitRect = currentPortrait.GetComponent<RectTransform>();
+        currentSourceSize = GetSourceSize(currentPortrait);
+        ApplyPortraitLayout();
 
         DisableRaycasts(currentPortrait);
 
-        AnimatedPortrait animatedPortrait = currentPortrait.GetComponent<AnimatedPortrait>();
-        if (animatedPortrait != null)
-            animatedPortrait.PlayIdle();
+        currentAnimatedPortrait = currentPortrait.GetComponent<AnimatedPortrait>();
+        if (currentAnimatedPortrait != null)
+        {
+            baseBreathingAmountMultiplier = currentAnimatedPortrait.BreathingAmountMultiplier;
+            baseBreathingSpeedMultiplier = currentAnimatedPortrait.BreathingSpeedMultiplier;
+            baseHeadPositionMultiplier = currentAnimatedPortrait.HeadPositionMultiplier;
+            baseHeadPositionSpeedMultiplier = currentAnimatedPortrait.HeadPositionSpeedMultiplier;
+            baseHeadRotationMultiplier = currentAnimatedPortrait.HeadRotationMultiplier;
+            baseHeadRotationSpeedMultiplier = currentAnimatedPortrait.HeadRotationSpeedMultiplier;
+            ApplyGlobalAnimationTweaks();
+            currentAnimatedPortrait.PlayIdle();
+        }
     }
 
     public void ClearPortrait()
@@ -63,7 +77,86 @@ public class AnimatedPortraitSlot : MonoBehaviour
             Destroy(currentPortrait);
 
         currentPortrait = null;
+        currentPortraitRect = null;
+        currentAnimatedPortrait = null;
+        currentSourceSize = Vector2.zero;
+        lastTargetSize = Vector2.zero;
         RestoreStaticImage();
+    }
+
+    void LateUpdate()
+    {
+        if (currentPortraitRect == null)
+            return;
+
+        Vector2 targetSize = GetTargetSize();
+        if (targetSize != lastTargetSize || IsPortraitLayoutDirty())
+            ApplyPortraitLayout();
+
+        ApplyGlobalAnimationTweaks();
+    }
+
+    void OnRectTransformDimensionsChange()
+    {
+        if (currentPortraitRect != null)
+            ApplyPortraitLayout();
+    }
+
+    private void ApplyPortraitLayout()
+    {
+        if (currentPortraitRect == null)
+            return;
+
+        if (currentSourceSize.x <= 0f || currentSourceSize.y <= 0f)
+            currentSourceSize = GetSourceSize(currentPortrait);
+
+        float fitScale = GetFitScale(currentSourceSize);
+        Vector3 targetScale = Vector3.one * Mathf.Max(0.01f, Scale) * fitScale;
+        currentPortraitRect.anchorMin = new Vector2(0.5f, 0.5f);
+        currentPortraitRect.anchorMax = new Vector2(0.5f, 0.5f);
+        currentPortraitRect.pivot = new Vector2(0.5f, 0.5f);
+        currentPortraitRect.anchoredPosition = Offset;
+        currentPortraitRect.localScale = targetScale;
+        currentPortraitRect.localRotation = Quaternion.identity;
+        currentPortraitRect.sizeDelta = currentSourceSize;
+        lastTargetSize = GetTargetSize();
+    }
+
+    private bool IsPortraitLayoutDirty()
+    {
+        if (currentPortraitRect == null)
+            return false;
+
+        Vector3 targetScale = Vector3.one * Mathf.Max(0.01f, Scale) * GetFitScale(currentSourceSize);
+        if ((currentPortraitRect.localScale - targetScale).sqrMagnitude > 0.0001f)
+            return true;
+
+        if ((currentPortraitRect.anchoredPosition - Offset).sqrMagnitude > 0.0001f)
+            return true;
+
+        if ((currentPortraitRect.sizeDelta - currentSourceSize).sqrMagnitude > 0.0001f)
+            return true;
+
+        return false;
+    }
+
+    private void ApplyGlobalAnimationTweaks()
+    {
+        if (currentAnimatedPortrait == null || CardContainer.Instance == null)
+            return;
+
+        currentAnimatedPortrait.BreathingAmountMultiplier =
+            baseBreathingAmountMultiplier * CardContainer.Instance.AnimatedPortraitBreathingAmountMultiplier;
+        currentAnimatedPortrait.BreathingSpeedMultiplier =
+            baseBreathingSpeedMultiplier * CardContainer.Instance.AnimatedPortraitBreathingSpeedMultiplier;
+        currentAnimatedPortrait.HeadPositionMultiplier =
+            baseHeadPositionMultiplier * CardContainer.Instance.AnimatedPortraitHeadPositionMultiplier;
+        currentAnimatedPortrait.HeadPositionSpeedMultiplier =
+            baseHeadPositionSpeedMultiplier * CardContainer.Instance.AnimatedPortraitHeadPositionSpeedMultiplier;
+        currentAnimatedPortrait.HeadRotationMultiplier =
+            baseHeadRotationMultiplier * CardContainer.Instance.AnimatedPortraitHeadRotationMultiplier;
+        currentAnimatedPortrait.HeadRotationSpeedMultiplier =
+            baseHeadRotationSpeedMultiplier * CardContainer.Instance.AnimatedPortraitHeadRotationSpeedMultiplier;
     }
 
     private Vector2 GetSourceSize(GameObject portrait)
@@ -85,7 +178,7 @@ public class AnimatedPortraitSlot : MonoBehaviour
         if (parentRect == null || sourceSize.x <= 0f || sourceSize.y <= 0f)
             return 1f;
 
-        Vector2 targetSize = parentRect.rect.size;
+        Vector2 targetSize = GetTargetSize();
         if (targetSize.x <= 0f || targetSize.y <= 0f)
             return 1f;
 
@@ -98,7 +191,14 @@ public class AnimatedPortraitSlot : MonoBehaviour
         if (parentRect == null)
             return Vector2.one;
 
-        return parentRect.rect.size;
+        Vector2 rectSize = parentRect.rect.size;
+        if (rectSize.x > 0f && rectSize.y > 0f)
+            return rectSize;
+
+        if (parentRect.sizeDelta.x > 0f && parentRect.sizeDelta.y > 0f)
+            return parentRect.sizeDelta;
+
+        return Vector2.one;
     }
 
     private void DisableRaycasts(GameObject root)

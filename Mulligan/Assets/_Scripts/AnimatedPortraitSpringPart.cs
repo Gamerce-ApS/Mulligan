@@ -25,17 +25,29 @@ public class AnimatedPortraitSpringPart : MonoBehaviour
     private Vector3 lastTargetPosition;
     private Vector3 restDriverPosition;
     private Quaternion restDriverRotation;
+    private Vector3 restAnchoredPosition;
     private Quaternion restLocalRotation;
+    private Vector3 restLocalScale;
     private float lastDriverRotation;
     private float currentAngle;
     private float angularVelocity;
     private bool initialized;
+    private bool hasRestPose;
+
+    void Awake()
+    {
+        if (SpringPivot == null)
+            SpringPivot = transform as RectTransform;
+
+        CaptureRestPose(false);
+    }
 
     public void Init(RectTransform springPivot, RectTransform followTarget, PortraitSpringDefinition spring)
     {
         SpringPivot = springPivot;
         DriverTransform = followTarget;
         FollowTarget = followTarget;
+        CaptureRestPose(true);
 
         if (spring != null)
         {
@@ -51,6 +63,7 @@ public class AnimatedPortraitSpringPart : MonoBehaviour
     {
         currentAngle = 0f;
         angularVelocity = 0f;
+        CaptureRestPose(false);
 
         RectTransform driver = GetDriverTransform();
         if (driver != null)
@@ -63,8 +76,9 @@ public class AnimatedPortraitSpringPart : MonoBehaviour
 
         if (SpringPivot != null)
         {
-            restLocalRotation = SpringPivot.localRotation;
+            SpringPivot.anchoredPosition3D = restAnchoredPosition;
             SpringPivot.localRotation = restLocalRotation;
+            SpringPivot.localScale = restLocalScale;
         }
 
         initialized = true;
@@ -122,5 +136,19 @@ public class AnimatedPortraitSpringPart : MonoBehaviour
             return DriverTransform;
 
         return FollowTarget;
+    }
+
+    private void CaptureRestPose(bool force)
+    {
+        if (hasRestPose && force == false)
+            return;
+
+        if (SpringPivot == null)
+            return;
+
+        restAnchoredPosition = SpringPivot.anchoredPosition3D;
+        restLocalRotation = SpringPivot.localRotation;
+        restLocalScale = SpringPivot.localScale;
+        hasRestPose = true;
     }
 }

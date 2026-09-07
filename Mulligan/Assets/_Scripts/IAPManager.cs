@@ -188,6 +188,25 @@ private void TrackPurchaseWithGameAnalytics(Product product)
         GameAnalytics.Initialize();
 
     GameAnalytics.NewDesignEvent("purchase:success");
+
+    string currency = "USD";
+    int amount = 0;
+
+    if (product.metadata != null)
+    {
+        if (!string.IsNullOrEmpty(product.metadata.isoCurrencyCode))
+            currency = product.metadata.isoCurrencyCode;
+
+        amount = Mathf.RoundToInt((float)product.metadata.localizedPrice * 100f);
+    }
+
+    if (amount <= 0)
+    {
+        Debug.LogWarning("GameAnalytics business event skipped: invalid product price.");
+        return;
+    }
+
+    GameAnalytics.NewBusinessEvent(currency, amount, "iap", product.definition.id, "shop");
 }
 
 private void TrackPurchaseWithSingular(Product product)
@@ -236,6 +255,7 @@ private void TrackPurchaseWithSingular(Product product)
     {
         string msg = $"Purchase failed: {product.definition.id} | {failureReason}";
         Debug.LogWarning(msg);
+        GameAnalytics.NewDesignEvent("purchase:fail");
         OnPurchaseFailedEvent?.Invoke(msg);
     }
 
@@ -243,6 +263,7 @@ private void TrackPurchaseWithSingular(Product product)
     {
         string msg = $"Purchase failed: {product.definition.id} | {failureDescription.reason} | {failureDescription.message}";
         Debug.LogWarning(msg);
+        GameAnalytics.NewDesignEvent("purchase:fail");
         OnPurchaseFailedEvent?.Invoke(msg);
     }
 

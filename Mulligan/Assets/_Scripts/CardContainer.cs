@@ -49,6 +49,13 @@ public class CardContainer : Singleton<CardContainer>
     public List<EnemyData> myEnemiesList;
     public List<BossData> myBossList;
     public bool UseAnimatedPortraits = false;
+    [Header("Animated Portrait Global Tweaks")]
+    public float AnimatedPortraitBreathingAmountMultiplier = 1f;
+    public float AnimatedPortraitBreathingSpeedMultiplier = 1f;
+    public float AnimatedPortraitHeadPositionMultiplier = 1f;
+    public float AnimatedPortraitHeadPositionSpeedMultiplier = 1f;
+    public float AnimatedPortraitHeadRotationMultiplier = 1f;
+    public float AnimatedPortraitHeadRotationSpeedMultiplier = 1f;
     public List<AnimatedCardPortraitData> AnimatedCardPortraits = new List<AnimatedCardPortraitData>();
 
 
@@ -180,6 +187,27 @@ public class CardContainer : Singleton<CardContainer>
             if (card.data != null)
                 TutorialDeck.Add(new CardInstance(card.data));
         }
+    }
+    public void ResetDeckAfterTutorial()
+    {
+        CurrentDeck.Clear();
+        DiscardDeck.Clear();
+        TutorialDeck.Clear();
+
+        if (HandManager.Instance != null)
+            HandManager.Instance.CurrentHand.Clear();
+
+        List<CardData> startingCards = GetUnlockedCards();
+        if (startingCards.Count == 0)
+        {
+            Debug.LogWarning("No unlocked units available after tutorial. Falling back to all units.");
+            startingCards = CardsDataList.ToList();
+        }
+
+        foreach (var data in startingCards)
+            CurrentDeck.Add(new CardInstance(data));
+
+        CurrentDeck.Shuffle();
     }
     private void AddTutorialCard(CardRace race, CardClass cardClass)
     {

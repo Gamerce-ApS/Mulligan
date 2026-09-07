@@ -114092,6 +114092,12 @@ MonoBehaviour:
   myEnemiesList: []
   myBossList: []
   UseAnimatedPortraits: 1
+  AnimatedPortraitBreathingAmountMultiplier: 0.75
+  AnimatedPortraitBreathingSpeedMultiplier: 1.25
+  AnimatedPortraitHeadPositionMultiplier: 1
+  AnimatedPortraitHeadPositionSpeedMultiplier: 0.75
+  AnimatedPortraitHeadRotationMultiplier: 0.25
+  AnimatedPortraitHeadRotationSpeedMultiplier: 0.75
   AnimatedCardPortraits:
   - PortraitKey: warrior_orc
     PortraitPrefab: {fileID: 3175835483654260168, guid: 2d9aee79b47ab4abdae1d8bb2bcf4c97, type: 3}

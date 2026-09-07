@@ -10,6 +10,9 @@ using Event = UnityEngine.Event;
 
 public class GameManager : Singleton<GameManager>
 {
+    public const string FirstDefeatBuyPopupSkippedKey = "FirstDefeatBuyPopupSkipped";
+    public static bool OpenHeroSelectionAfterDefeat = false;
+
     public enum GameStates
     {
         Loading,
@@ -94,6 +97,22 @@ public class GameManager : Singleton<GameManager>
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
 
+        if (TutorialController.Instance.HasRunTutorial() == false)
+        {
+            StartTutorialGameDirect();
+            return;
+        }
+
+        if (OpenHeroSelectionAfterDefeat)
+        {
+            OpenHeroSelectionAfterDefeat = false;
+            UIManager.Instance.SplashScreen.SetActive(false);
+            SoundManager.TryPlayMenuMusic();
+            ShowHeroSelection();
+            ShowBuyPopupAfterDefeatIfNeeded();
+            return;
+        }
+
         //  #if UNITY_EDITOR
         //      UIManager.Instance.ClickPlayFullGame();
         //      PlayerPrefs.SetInt(IAPManager.FullGameUnlockedKey, 1);
@@ -114,6 +133,42 @@ public class GameManager : Singleton<GameManager>
         //   #endif
         SoundManager.TryPlayMenuMusic();
     }
+    private void StartTutorialGameDirect()
+    {
+        GameData.HeroSelected = 0;
+        UIManager.Instance.SplashScreen.SetActive(false);
+        myGameStates = GameStates.Pre_Game;
+        TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
+        HighscoreManager.Instance.StartRun(GameData.HeroSelected);
+        TrackRunStart();
+        AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
+        GameAnalytics.NewDesignEvent("run:start:hero_" + GameData.HeroSelected);
+        LevelSelectionManager.Instance.ShowWindow(() =>
+        {
+            SoundManager.TryPlayCombatMusic();
+            TheEnemy.Init(GameData.CurrentRound);
+            myGameStates = GameStates.Game;
+            TutorialController.Instance.StartTutorial();
+        });
+    }
+    private void ShowBuyPopupAfterDefeatIfNeeded()
+    {
+        if (IAPManager.Instance.IsFullGameUnlocked)
+            return;
+
+        if (PlayerPrefs.GetInt(FirstDefeatBuyPopupSkippedKey, 0) == 0)
+        {
+            PlayerPrefs.SetInt(FirstDefeatBuyPopupSkippedKey, 1);
+            PlayerPrefs.Save();
+            GameAnalytics.NewDesignEvent("paywall:first_loss_skipped");
+            return;
+        }
+
+        UnityHelper.RunAfterDelay(this, 0.5f, () =>
+        {
+            UIManager.Instance.ClickBuyPopupWindow();
+        });
+    }
     public void ShowHeroSelection()
     {
         HeroSelectionManager.Instance.ShowWindow(() =>
@@ -126,6 +181,7 @@ public class GameManager : Singleton<GameManager>
         myGameStates = GameStates.Pre_Game;
         TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
         HighscoreManager.Instance.StartRun(GameData.HeroSelected);
+        TrackRunStart();
         AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
         GameAnalytics.NewDesignEvent("run:start:hero_" + GameData.HeroSelected);
         LevelSelectionManager.Instance.ShowWindow(() =>
@@ -151,6 +207,7 @@ public class GameManager : Singleton<GameManager>
         VibrationsManager.TryVibrate(VibrationType.Success);
         AnalyticsService.Instance.RecordEvent("WonRound_"+GameData.CurrentRound);
         GameAnalytics.NewDesignEvent("round:win:" + GameData.CurrentRound);
+        GameAnalytics.NewDesignEvent("round:win", GameData.CurrentRound);
         RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
         if (GameData.CurrentRound == 4 && GameData.FirstBossCompletedThisRun == 0)
         {
@@ -159,7 +216,6 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.Save();
         }
         GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
-        bool ShowTutorialEnded = false;
         int goldGained = 0;
         if (GameData.CurrentRound % 4 == 0)
         {
@@ -168,10 +224,12 @@ public class GameManager : Singleton<GameManager>
             CardContainer.Instance.CompleteBoss();
             if(TutorialController.Instance.HasRunTutorial() == false)
             {
-                ShowTutorialEnded = true;
                 PlayerPrefs.SetInt("HasRunTutorial", 1);
+                CardContainer.Instance.ResetDeckAfterTutorial();
                 AnalyticsService.Instance.RecordEvent("tutorial_finished");
                 GameAnalytics.NewDesignEvent("tutorial:finished");
+                GameAnalytics.NewDesignEvent("tutorial:continued_to_run");
+                GameData.CurrentRunStartedAfterTutorial = 1;
             }
 
     
@@ -207,44 +265,26 @@ public class GameManager : Singleton<GameManager>
             myGameStates = GameStates.Post_Game;
             UIManager.Instance.ShowVictoryScreen(goldGainedThisRound, roundRewardResult.HealthGained, () =>
             {
-                if(ShowTutorialEnded)
+                ArmoryManager.Instance.ShowWindow(() =>
                 {
-                    LeanTween.delayedCall(gameObject, 1f, () =>
+                    TheEnemy.gameObject.SetActive(false);
+                    ArcCardLayout.Instance.transform.gameObject.SetActive(false);
+                    ShopManager.Instance.ShowShopWindow(() =>
                     {
-                         GameData.FirstBossCompletedThisRun = 1;
-                            if (UnlockManager.Instance.HasUnlocksToReveal())
-                                UnlockManager.Instance.ShowWindow();
-                            UIManager.Instance.ShowTutorialFinished(() =>
-                            {
-
-                            });
-
-                    });
-            
-
-                }else
-                {
-                        ArmoryManager.Instance.ShowWindow(() =>
+                        LevelSelectionManager.Instance.ShowWindow(() =>
                         {
-                            TheEnemy.gameObject.SetActive(false);
-                            ArcCardLayout.Instance.transform.gameObject.SetActive(false);
-                            ShopManager.Instance.ShowShopWindow(() =>
-                            {
-                                LevelSelectionManager.Instance.ShowWindow(() =>
-                                {
-                                    SoundManager.TryPlayCombatMusic();
-                                    ArcCardLayout.Instance.transform.gameObject.SetActive(true);
-                                    TheEnemy.gameObject.SetActive(true);
-                                    TheEnemy.Init(GameData.CurrentRound);
-                                    EvaluatorManager.Instance.StartLevel();
-                                    GameManager.Instance.myGameStates = GameManager.GameStates.Game;
-
-                                });
-
-                            });
+                            SoundManager.TryPlayCombatMusic();
+                            ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+                            TheEnemy.gameObject.SetActive(true);
+                            TheEnemy.Init(GameData.CurrentRound);
+                            EvaluatorManager.Instance.StartLevel();
+                            GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
                         });
-                }
+
+                    });
+
+                });
 
      
 
@@ -258,6 +298,8 @@ public class GameManager : Singleton<GameManager>
         VibrationsManager.TryVibrate(VibrationType.Error);
         AnalyticsService.Instance.RecordEvent("LostRound_"+GameData.CurrentRound);
         GameAnalytics.NewDesignEvent("round:loss:" + GameData.CurrentRound);
+        GameAnalytics.NewDesignEvent("round:loss", GameData.CurrentRound);
+        TrackRunEnd();
         HighscoreManager.Instance.SubmitCurrentRun();
 
 
@@ -290,14 +332,36 @@ public class GameManager : Singleton<GameManager>
 
         if(TutorialController.Instance.HasRunTutorial() == false)
         {
-            PlayerPrefs.SetInt("HasRunTutorial", 1);
-            AnalyticsService.Instance.RecordEvent("tutorial_finished");
             AnalyticsService.Instance.RecordEvent("LostGameInTutorial");
-            GameAnalytics.NewDesignEvent("tutorial:finished");
             GameAnalytics.NewDesignEvent("tutorial:lost");
 
         }
 
+    }
+
+    private void TrackRunStart()
+    {
+        GameData.TotalRunsStarted++;
+        GameData.CurrentRunNumber = GameData.TotalRunsStarted;
+        GameData.CurrentRunStartedAfterTutorial = TutorialController.Instance.HasRunTutorial() ? 1 : 0;
+        PlayerPrefs.Save();
+
+        GameAnalytics.NewDesignEvent("run:start", GameData.CurrentRunNumber);
+        GameAnalytics.NewDesignEvent("run:start:number_" + GameData.CurrentRunNumber);
+    }
+
+    private void TrackRunEnd()
+    {
+        GameData.TotalRunsFinished++;
+        PlayerPrefs.Save();
+
+        GameAnalytics.NewDesignEvent("run:end", GameData.CurrentRound);
+        GameAnalytics.NewDesignEvent("run:end:number_" + GameData.CurrentRunNumber);
+
+        if (GameData.CurrentRunNumber == 1)
+            GameAnalytics.NewDesignEvent("run:end:tutorial_first_run", GameData.CurrentRound);
+        else
+            GameAnalytics.NewDesignEvent("run:end:normal", GameData.CurrentRound);
     }
 
     public void FinishRound()

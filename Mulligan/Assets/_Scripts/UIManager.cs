@@ -216,19 +216,18 @@ public class UIManager : Singleton<UIManager>
     }
     public void ClickContinueFromDefeate()
     {
-        if (GameData.FirstBossCompletedThisRun == 1)
-            return;
-
-        GameManager.Instance.StartGame();
-        SceneManager.LoadScene(0);
-        if (IAPManager.Instance.IsFullGameUnlocked == false)
+        if (GameData.FirstBossCompletedThisRun == 1 &&
+            UnlockManager.Instance != null &&
+            UnlockManager.Instance.HasUnlocksToReveal())
         {
-            UnityHelper.RunAfterDelay(IAPManager.Instance, 0.5f, () =>
-            {
-                UIManager.Instance.ClickBuyPopupWindow();
-            });
+            UIManager.Instance.ShowTooltip("New unlocks!");
+            return;
         }
 
+        if (TutorialController.Instance.HasRunTutorial())
+            GameManager.OpenHeroSelectionAfterDefeat = true;
+
+        SceneManager.LoadScene(0);
     }
     public void AddDamage(float aDamage)
     {
@@ -996,6 +995,7 @@ public class UIManager : Singleton<UIManager>
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.WindowOpen);
+        GameAnalytics.NewDesignEvent("paywall:show");
         BuyPopupWindow.SetActive(true);
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 0;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
@@ -1013,6 +1013,7 @@ public class UIManager : Singleton<UIManager>
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.WindowClose);
+        GameAnalytics.NewDesignEvent("paywall:close");
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 0f, 0.25f).setEaseInQuad();
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
@@ -1038,6 +1039,7 @@ public class UIManager : Singleton<UIManager>
         SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickBuy");
         GameAnalytics.NewDesignEvent("click:buy");
+        GameAnalytics.NewDesignEvent("paywall:buy_click");
 
         IAPManager.Instance.BuyFullGame(() =>
         {
@@ -1084,12 +1086,7 @@ public class UIManager : Singleton<UIManager>
             .setOnComplete(() =>
             {
                 SplashScreen.SetActive(false);
-                GameManager.Instance.ShowHeroSelection();
-                HeroSelectionManager.Instance.HeroPortrait[0].SetActive(true);
-                HeroSelectionManager.Instance.HeroNormal[0].transform.GetChild(0).gameObject.SetActive(true);
-                HeroSelectionManager.Instance.ClickHero(0);
-                HeroSelectionManager.Instance.selectedHero = 0;
-                HeroSelectionManager.Instance.ClickPlay();
+                GameManager.Instance.StartGame();
             });
     }
     public void ClickPlayFullGame()

@@ -36,7 +36,9 @@ public class AnimatedPortrait : MonoBehaviour
     public float MaxHeadRotation = 10f;
     public float HeadSpeed = 0.15f;
     public float HeadPositionMultiplier = 1f;
+    public float HeadPositionSpeedMultiplier = 1f;
     public float HeadRotationMultiplier = 12f;
+    public float HeadRotationSpeedMultiplier = 1f;
     public float HeadSpeedMultiplier = 5f;
 
     [Header("Blink")]
@@ -176,10 +178,17 @@ public class AnimatedPortrait : MonoBehaviour
 
     public void ResetPose()
     {
+        RectTransform rootRect = transform as RectTransform;
         for (int i = 0; i < OriginalPoses.Count; i++)
         {
             PortraitTransformPose pose = OriginalPoses[i];
             if (pose == null || pose.Target == null)
+                continue;
+
+            if (pose.Target == rootRect)
+                continue;
+
+            if (IsSpringPivot(pose.Target))
                 continue;
 
             pose.Target.anchoredPosition3D = pose.AnchoredPosition;
@@ -212,8 +221,15 @@ public class AnimatedPortrait : MonoBehaviour
     {
         OriginalPoses.Clear();
         RectTransform[] rects = GetComponentsInChildren<RectTransform>(true);
+        RectTransform rootRect = transform as RectTransform;
         for (int i = 0; i < rects.Length; i++)
         {
+            if (rects[i] == rootRect)
+                continue;
+
+            if (IsSpringPivot(rects[i]))
+                continue;
+
             OriginalPoses.Add(new PortraitTransformPose
             {
                 Target = rects[i],
@@ -252,13 +268,14 @@ public class AnimatedPortrait : MonoBehaviour
         if (pose == null)
             return;
 
-        float time = Time.unscaledTime * HeadSpeed * HeadSpeedMultiplier * headFrequencyVariation;
-        float movementEnvelope = GetMovementEnvelope(time);
+        float positionTime = Time.unscaledTime * HeadSpeed * HeadSpeedMultiplier * HeadPositionSpeedMultiplier * headFrequencyVariation;
+        float rotationTime = Time.unscaledTime * HeadSpeed * HeadSpeedMultiplier * HeadRotationSpeedMultiplier * headFrequencyVariation;
+        float movementEnvelope = GetMovementEnvelope(positionTime);
         float debugMultiplier = debugExaggerateMotion ? 4f : 1f;
 
-        float x = GetLayeredNoise(seedX, time, 0.82f, 1.73f, 0.75f, 0.25f);
-        float y = GetLayeredNoise(seedY, time, 0.57f, 1.31f, 0.82f, 0.18f);
-        float independentRotation = GetRotationNoise(time);
+        float x = GetLayeredNoise(seedX, positionTime, 0.82f, 1.73f, 0.75f, 0.25f);
+        float y = GetLayeredNoise(seedY, positionTime, 0.57f, 1.31f, 0.82f, 0.18f);
+        float independentRotation = GetRotationNoise(rotationTime);
         float r = GetHeadTiltNoise(x, independentRotation);
         float pixelScale = GetSourceToLocalScale();
 
@@ -397,6 +414,23 @@ public class AnimatedPortrait : MonoBehaviour
         };
         OriginalPoses.Add(pose);
         return pose;
+    }
+
+    private bool IsSpringPivot(RectTransform target)
+    {
+        if (target == null)
+            return false;
+
+        for (int i = 0; i < SpringParts.Count; i++)
+        {
+            if (SpringParts[i] != null && SpringParts[i].SpringPivot == target)
+                return true;
+        }
+
+        if (target.GetComponent<AnimatedPortraitSpringPart>() != null)
+            return true;
+
+        return false;
     }
 
     private float GetSourceToLocalScale()

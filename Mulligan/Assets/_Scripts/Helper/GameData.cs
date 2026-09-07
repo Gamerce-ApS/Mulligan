@@ -93,6 +93,26 @@ public class GameData
         get { return PlayerPrefs.GetInt("DailyQuestArtifactRewardIndex", 0); }
         set { PlayerPrefs.SetInt("DailyQuestArtifactRewardIndex", value); }
     }
+    public static int TotalRunsStarted
+    {
+        get { return PlayerPrefs.GetInt("TotalRunsStarted", 0); }
+        set { PlayerPrefs.SetInt("TotalRunsStarted", value); }
+    }
+    public static int TotalRunsFinished
+    {
+        get { return PlayerPrefs.GetInt("TotalRunsFinished", 0); }
+        set { PlayerPrefs.SetInt("TotalRunsFinished", value); }
+    }
+    public static int CurrentRunNumber
+    {
+        get { return PlayerPrefs.GetInt("CurrentRunNumber", 0); }
+        set { PlayerPrefs.SetInt("CurrentRunNumber", value); }
+    }
+    public static int CurrentRunStartedAfterTutorial
+    {
+        get { return PlayerPrefs.GetInt("CurrentRunStartedAfterTutorial", 0); }
+        set { PlayerPrefs.SetInt("CurrentRunStartedAfterTutorial", value); }
+    }
 
 
 
