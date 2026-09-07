@@ -61,6 +61,49 @@ public class HandManager : Singleton<HandManager>
 
         ArcCardLayout.Instance.UpdateCardLayout();
     }
+    public void ClearHandAfterTutorial()
+    {
+        StopAllCoroutines();
+
+        foreach (var card in CurrentHand)
+        {
+            DestroyCardVisual(card);
+        }
+
+        foreach (var card in PlayedHand)
+        {
+            DestroyCardVisual(card);
+        }
+
+        CurrentHand.Clear();
+        PlayedHand.Clear();
+
+        if (ArcCardLayout.Instance != null)
+        {
+            for (int i = ArcCardLayout.Instance.transform.childCount - 1; i >= 0; i--)
+            {
+                Transform child = ArcCardLayout.Instance.transform.GetChild(i);
+                child.SetParent(null);
+                Destroy(child.gameObject);
+            }
+        }
+
+        if (PlayAreaTransform != null)
+        {
+            for (int i = PlayAreaTransform.childCount - 1; i >= 0; i--)
+                Destroy(PlayAreaTransform.GetChild(i).gameObject);
+        }
+    }
+    private void DestroyCardVisual(CardInstance card)
+    {
+        if (card == null || card.CardGO == null)
+            return;
+
+        GameObject cardObject = card.CardGO.gameObject;
+        card.CardGO.transform.SetParent(null);
+        card.CardGO = null;
+        Destroy(cardObject);
+    }
     public void PlayHand()
     {
         for (int i = CurrentHand.Count - 1; i >= 0; i--)

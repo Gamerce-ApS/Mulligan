@@ -195,7 +195,7 @@ public class CardContainer : Singleton<CardContainer>
         TutorialDeck.Clear();
 
         if (HandManager.Instance != null)
-            HandManager.Instance.CurrentHand.Clear();
+            HandManager.Instance.ClearHandAfterTutorial();
 
         List<CardData> startingCards = GetUnlockedCards();
         if (startingCards.Count == 0)

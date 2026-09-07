@@ -27,6 +27,7 @@ public class GameManager : Singleton<GameManager>
     public Hero TheHero;
     public bool DisableBossDebuffNextRound = false;
     public bool BonusAttacksNextRound = false;
+    private bool drawFreshHandAfterTutorial = false;
 
     //Runes Effects
     public int BonusRerolls = 0;
@@ -209,6 +210,7 @@ public class GameManager : Singleton<GameManager>
         GameAnalytics.NewDesignEvent("round:win:" + GameData.CurrentRound);
         GameAnalytics.NewDesignEvent("round:win", GameData.CurrentRound);
         RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
+        bool completedTutorialThisRound = TutorialController.Instance.HasRunTutorial() == false && GameData.CurrentRound % 4 == 0;
         if (GameData.CurrentRound == 4 && GameData.FirstBossCompletedThisRun == 0)
         {
             GameData.CompletedFirstBossAmount++;
@@ -226,6 +228,7 @@ public class GameManager : Singleton<GameManager>
             {
                 PlayerPrefs.SetInt("HasRunTutorial", 1);
                 CardContainer.Instance.ResetDeckAfterTutorial();
+                RequestFreshHandAfterTutorial();
                 AnalyticsService.Instance.RecordEvent("tutorial_finished");
                 GameAnalytics.NewDesignEvent("tutorial:finished");
                 GameAnalytics.NewDesignEvent("tutorial:continued_to_run");
@@ -252,11 +255,18 @@ public class GameManager : Singleton<GameManager>
 
         GameData.CurrentAttacks = 4 + TheHero.GetAttackModifier();
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
-        GameData.CurrentRound++;
-        if(TutorialController.Instance.HasRunTutorial() == false)
+        if (completedTutorialThisRound)
+        {
+            GameData.CurrentRound = 1;
+        }
+        else
         {
             GameData.CurrentRound++;
-            GameData.CurrentRound++;
+            if(TutorialController.Instance.HasRunTutorial() == false)
+            {
+                GameData.CurrentRound++;
+                GameData.CurrentRound++;
+            }
         }
         DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.ReachLevel, GameData.CurrentRound);
         HighscoreManager.Instance.UpdateMaxLevel(GameData.CurrentRound);
@@ -277,6 +287,7 @@ public class GameManager : Singleton<GameManager>
                             ArcCardLayout.Instance.transform.gameObject.SetActive(true);
                             TheEnemy.gameObject.SetActive(true);
                             TheEnemy.Init(GameData.CurrentRound);
+                            DrawFreshHandAfterTutorialIfNeeded();
                             EvaluatorManager.Instance.StartLevel();
                             GameManager.Instance.myGameStates = GameManager.GameStates.Game;
 
@@ -362,6 +373,21 @@ public class GameManager : Singleton<GameManager>
             GameAnalytics.NewDesignEvent("run:end:tutorial_first_run", GameData.CurrentRound);
         else
             GameAnalytics.NewDesignEvent("run:end:normal", GameData.CurrentRound);
+    }
+
+    public void RequestFreshHandAfterTutorial()
+    {
+        drawFreshHandAfterTutorial = true;
+    }
+
+    private void DrawFreshHandAfterTutorialIfNeeded()
+    {
+        if (drawFreshHandAfterTutorial == false)
+            return;
+
+        drawFreshHandAfterTutorial = false;
+        HandManager.Instance.DrawHand();
+        HandManager.Instance.HandleMutedCards();
     }
 
     public void FinishRound()

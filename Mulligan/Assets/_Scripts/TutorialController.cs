@@ -193,6 +193,15 @@ public class TutorialController : Singleton<TutorialController>
 
         ShowStep(prevIndex);
     }
+    public bool ShouldShowArtifactTriggeredStep()
+    {
+        if (HasRunTutorial())
+            return false;
+
+        return LastStepPlayed == "Step2_Shop4_ClickBattle" ||
+               LastStepPlayed == "Step5_boss1" ||
+               LastStepPlayed == "Step5_boss2";
+    }
 
     public void ShowStepById(string stepId)
     {
@@ -819,5 +828,6 @@ public class TutorialController : Singleton<TutorialController>
     public void ResetAfterTutorialFinished()
     {
         CardContainer.Instance.ResetDeckAfterTutorial();
+        GameManager.Instance.RequestFreshHandAfterTutorial();
     }
 }

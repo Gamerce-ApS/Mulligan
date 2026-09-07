@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour
             // UIManager.Instance.ShowBossIntroScreen(d,()=> { PlayEnterAnimation(); });
             PlayEnterAnimation();
 
-            if(TutorialController.Instance.LastStepPlayed=="Step4_Shop3")
+            if(TutorialController.Instance.HasRunTutorial() == false && aRound % 4 == 0)
             {
                 TutorialController.Instance.ShowStepById("Step5_boss1");
             }
