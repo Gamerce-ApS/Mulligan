@@ -60,6 +60,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         LeanTween.move(ShopWindow.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
 
         RefreshUI();
+        SelectHero(GameData.HeroSelected, false);
 
 
 
@@ -124,8 +125,21 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         if(LeanTween.isTweening())
         return;
 
-        VibrationsManager.TryVibrate(VibrationType.CardTap);
-        SoundManager.TryPlay(SoundType.CardTap);
+        SelectHero(id, true);
+    }
+    private void SelectHero(int id, bool playFeedback)
+    {
+        if (id < 0 || id >= HeroNormal.Count)
+            id = 0;
+
+        if (IAPManager.Instance.IsFullGameUnlocked == false && id != 0)
+            id = 0;
+
+        if (playFeedback)
+        {
+            VibrationsManager.TryVibrate(VibrationType.CardTap);
+            SoundManager.TryPlay(SoundType.CardTap);
+        }
 
         for (int i = 0; i < HeroNormal.Count; i++)
         {
@@ -138,15 +152,18 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
                 // Reset scale before animating
                 OriginalScale = HeroPortrait[i].transform.localScale;
-                 HeroPortrait[i].transform.localScale = OriginalScale * 0.9f;
-            GameObject ports = HeroPortrait[i];
-                // Animate pop-in effect
-                LeanTween.scale(ports, OriginalScale * 1.05f, 0.15f)
-                    .setEaseOutBack()
-                    .setOnComplete(() =>
-                    {
-                        LeanTween.scale(ports, OriginalScale, 0.1f).setEaseInOutSine();
-                    });
+                if (playFeedback)
+                {
+                    HeroPortrait[i].transform.localScale = OriginalScale * 0.9f;
+                    GameObject ports = HeroPortrait[i];
+                    // Animate pop-in effect
+                    LeanTween.scale(ports, OriginalScale * 1.05f, 0.15f)
+                        .setEaseOutBack()
+                        .setOnComplete(() =>
+                        {
+                            LeanTween.scale(ports, OriginalScale, 0.1f).setEaseInOutSine();
+                        });
+                }
              }
             else
             {
