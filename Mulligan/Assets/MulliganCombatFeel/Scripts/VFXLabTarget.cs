@@ -142,34 +142,28 @@ namespace MulliganCombatFeel
             while (t < snap)
             {
                 t += Time.deltaTime;
-                float k = t / snap;
+                float k = Mathf.Clamp01(t / snap);
                 transform.localScale = Vector3.Lerp(_baseScale, hitScale, k);
                 transform.localPosition = Vector3.Lerp(_basePos, kbTarget, k);
                 transform.localRotation = _baseRot * Quaternion.Euler(0f, 0f, Mathf.Lerp(0f, rp, k));
                 yield return null;
             }
 
-            t = 0f; float settle = Mathf.Max(0.02f, reactionTime * 0.65f);
+            t = 0f;
+            float settle = Mathf.Max(0.02f, reactionTime * 0.65f + knockbackReturnTime);
             while (t < settle)
             {
                 t += Time.deltaTime;
-                float k = EaseOutBack(t / settle);
+                float k = EaseOutCubic(t / settle);
                 transform.localScale = Vector3.LerpUnclamped(hitScale, _baseScale, k);
+                transform.localPosition = Vector3.LerpUnclamped(kbTarget, _basePos, k);
                 transform.localRotation = _baseRot * Quaternion.Euler(0f, 0f, Mathf.LerpUnclamped(rp, 0f, k));
                 yield return null;
             }
-            transform.localScale = _baseScale;
-            transform.localRotation = _baseRot;
 
-            t = 0f; float ret = Mathf.Max(0.02f, knockbackReturnTime);
-            Vector3 from = transform.localPosition;
-            while (t < ret)
-            {
-                t += Time.deltaTime;
-                transform.localPosition = Vector3.Lerp(from, _basePos, EaseOutCubic(t / ret));
-                yield return null;
-            }
+            transform.localScale = _baseScale;
             transform.localPosition = _basePos;
+            transform.localRotation = _baseRot;
             _reactCo = null;
         }
 

@@ -202,10 +202,13 @@ public class Hero : MonoBehaviour
 
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
-        LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setOnComplete(() =>
+        if (VFXLabController.Instance == null || VFXLabController.Instance.IsActiveHitReactionTarget(transform) == false)
+        {
+            LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setOnComplete(() =>
             {
                 gameObject.transform.localScale = Vector3.one;
             }).setEasePunch();
+        }
 
 
 

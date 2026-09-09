@@ -303,16 +303,19 @@ public class Enemy : MonoBehaviour
         healthLabel.text = Health.ToString();
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
-        LeanTween.scale(gameObject, originalLocalScale * 1.2f, 0.5f)
-            .setEasePunch()
-            .setOnComplete(() =>
+        if (VFXLabController.Instance == null || VFXLabController.Instance.IsActiveHitReactionTarget(transform) == false)
+        {
+            LeanTween.scale(gameObject, originalLocalScale * 1.2f, 0.5f)
+                .setEasePunch()
+                .setOnComplete(() =>
             {
                 transform.localScale = originalLocalScale;
             });
-        LeanTween.delayedCall(gameObject, 0.6f, () =>
-        {
-            transform.localScale = originalLocalScale;
-        }).setIgnoreTimeScale(true);
+            LeanTween.delayedCall(gameObject, 0.6f, () =>
+            {
+                transform.localScale = originalLocalScale;
+            }).setIgnoreTimeScale(true);
+        }
 
 
 

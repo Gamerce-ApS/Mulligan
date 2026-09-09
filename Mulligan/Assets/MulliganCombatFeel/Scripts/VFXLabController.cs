@@ -349,6 +349,16 @@ namespace MulliganCombatFeel
 
         public void TriggerHitStop(float realSeconds = 0.09f) => HitStop(realSeconds);
 
+        public bool IsActiveHitReactionTarget(Transform targetTransform)
+        {
+            if (targetTransform == null || target == null) return false;
+
+            Transform hitTarget = target.transform;
+            return hitTarget == targetTransform ||
+                   hitTarget.IsChildOf(targetTransform) ||
+                   targetTransform.IsChildOf(hitTarget);
+        }
+
         // ================================================================
         //  Background suppression
         // ================================================================
