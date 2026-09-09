@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class LevelSelectionPortraitOverride
+{
+    public string Key;
+    public Sprite Sprite;
+}
+
 public class LevelSelectionManager : Singleton<LevelSelectionManager>
 {
 
@@ -30,6 +37,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     public Image BossPortrait;
     public Image HeroPortrait;
     public GameObject BossInfoBox;
+    public List<LevelSelectionPortraitOverride> PortraitOverrides;
 
     // Start is called before the first frame update
     void Awake()
@@ -74,17 +82,17 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
 
-            SetPortrait(EnemyPortraits[0], Resources.Load<Sprite>("" + TutorialController.Instance.myEnemiesList[0].sprite_theSprite));
+            SetPortrait(EnemyPortraits[0], GetPortraitSprite(TutorialController.Instance.myEnemiesList[0].sprite_theSprite));
             SetPortraitEmpty(EnemyPortraits[1]);
             SetPortraitEmpty(EnemyPortraits[2]);
-            SetPortrait(EnemyPortraits[3], Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite));
+            SetPortrait(EnemyPortraits[3], GetPortraitSprite(TutorialController.Instance.myBossList[0].sprite_theSprite));
         }
         else
         {
-            SetPortrait(EnemyPortraits[0], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[0].sprite_theSprite));
-            SetPortrait(EnemyPortraits[1], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[1].sprite_theSprite));
-            SetPortrait(EnemyPortraits[2], Resources.Load<Sprite>("" + CardContainer.Instance.myEnemiesList[2].sprite_theSprite));
-            SetPortrait(EnemyPortraits[3], Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite));
+            SetPortrait(EnemyPortraits[0], GetPortraitSprite(CardContainer.Instance.myEnemiesList[0].sprite_theSprite));
+            SetPortrait(EnemyPortraits[1], GetPortraitSprite(CardContainer.Instance.myEnemiesList[1].sprite_theSprite));
+            SetPortrait(EnemyPortraits[2], GetPortraitSprite(CardContainer.Instance.myEnemiesList[2].sprite_theSprite));
+            SetPortrait(EnemyPortraits[3], GetPortraitSprite(CardContainer.Instance.myBossList[0].sprite_theSprite));
         }
 
 
@@ -114,14 +122,14 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             BossInfoBox.SetActive(true);
             if (TutorialController.Instance.HasRunTutorial() == false)
             {
-                BossPortrait.sprite = Resources.Load<Sprite>("" + TutorialController.Instance.myBossList[0].sprite_theSprite);
+                BossPortrait.sprite = GetPortraitSprite(TutorialController.Instance.myBossList[0].sprite_theSprite);
                 BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].name;
                 BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].description;
 
             }
             else
             {
-                BossPortrait.sprite = Resources.Load<Sprite>("" + CardContainer.Instance.myBossList[0].sprite_theSprite);
+                BossPortrait.sprite = GetPortraitSprite(CardContainer.Instance.myBossList[0].sprite_theSprite);
                 BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
                 BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
 
@@ -139,6 +147,20 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             ClickPlay();
         });
 
+    }
+
+    private Sprite GetPortraitSprite(string key)
+    {
+        if (PortraitOverrides != null)
+        {
+            foreach (var portraitOverride in PortraitOverrides)
+            {
+                if (portraitOverride != null && portraitOverride.Key == key && portraitOverride.Sprite != null)
+                    return portraitOverride.Sprite;
+            }
+        }
+
+        return Resources.Load<Sprite>("" + key);
     }
 
     private void SetPortrait(Image portrait, Sprite sprite)

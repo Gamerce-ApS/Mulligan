@@ -48284,7 +48284,6 @@ GameObject:
   m_Component:
   - component: {fileID: 413975963}
   - component: {fileID: 413975965}
-  - component: {fileID: 413975964}
   m_Layer: 0
   m_Name: VFXLabController
   m_TagString: Untagged
@@ -48307,24 +48306,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &413975964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413975961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acdeec6e498ed4c6d8de0374bb5747e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 413975965}
-  triggerKey: 32
-  resetKey: 114
-  autoRepeat: 0
-  repeatInterval: 1.6
-  showOnScreenButtons: 1
 --- !u!114 &413975965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222086,6 +222067,9 @@ MonoBehaviour:
   BossPortrait: {fileID: 792413675}
   HeroPortrait: {fileID: 1698150059}
   BossInfoBox: {fileID: 418084768}
+  PortraitOverrides:
+  - Key: boss1
+    Sprite: {fileID: 21300000, guid: 5fa11c8f077574111beda727472c83ad, type: 3}
   startPosition: {x: 0, y: 0, z: 0}
   bgCanvasGroup: {fileID: 1218802968}
   CurrentRewardData:
