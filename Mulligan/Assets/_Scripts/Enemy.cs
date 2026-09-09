@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MulliganCombatFeel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -196,6 +197,8 @@ public class Enemy : MonoBehaviour
     public void Attack(int aDamage=0)
     {
         SoundManager.TryPlay(SoundType.EnemyAttack);
+        if (VFXLabController.Instance != null)
+            VFXLabController.Instance.PlayEnemyAttack();
 
         int dmg = (int)(Damage);
 
@@ -214,24 +217,24 @@ public class Enemy : MonoBehaviour
         Vector3 attackTargetPos = targetPos - direction * overshoot;
 
         // 1. Fly to target
-        LeanTween.move(gameObject, attackTargetPos, attackDuration)
-            .setEaseOutCubic()
-            .setOnComplete(() =>
-            {
+        // LeanTween.move(gameObject, attackTargetPos, attackDuration)
+        //     .setEaseOutCubic()
+        //     .setOnComplete(() =>
+        //     {
 
 
-                    // 3. Return to start
-                    LeanTween.move(gameObject, originalPos, attackDuration)
-                                .setEaseInCubic();
+        //             // 3. Return to start
+        //             LeanTween.move(gameObject, originalPos, attackDuration)
+        //                         .setEaseInCubic();
 
 
-            });
+        //     });
 
         UnityHelper.RunAfterDelay(this, 0.45f, () =>
         {
             // 2. Optional: impact punch
-            LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
-                        .setEasePunch();
+            // LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
+            //             .setEasePunch();
             GameManager.Instance.TheHero.DoDamage(dmg);
 
             if (GameManager.Instance.TheHero.Health <= 0)

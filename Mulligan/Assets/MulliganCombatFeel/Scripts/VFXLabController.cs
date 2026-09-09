@@ -6,6 +6,27 @@ namespace MulliganCombatFeel
 {
     public enum VFXLabBackground { DarkNeutral, LightNeutral, MulliganLike }
 
+    [System.Serializable]
+    public class VFXAttackSetup
+    {
+        public GameObject EffectPrefab;
+        public VFXLabEffectPlayer Effect;
+        public Transform Attacker;
+        public VFXLabTarget Target;
+        public Transform EffectOrigin;
+        public Transform ImpactPoint;
+
+        public bool HasSetup()
+        {
+            return EffectPrefab != null ||
+                   Effect != null ||
+                   Attacker != null ||
+                   Target != null ||
+                   EffectOrigin != null ||
+                   ImpactPoint != null;
+        }
+    }
+
     /// <summary>
     /// Standalone experimental VFX Lab orchestrator. Presentation-only — contains NO gameplay logic.
     /// Owns <see cref="Time.timeScale"/> for playback speed and hit stop, drives one effect at a time,
@@ -24,6 +45,10 @@ namespace MulliganCombatFeel
         public Transform effectOrigin;
         public Transform impactPoint;
         public Camera labCamera;
+
+        [Header("Attack setups")]
+        public VFXAttackSetup PlayerAttackSetup;
+        public VFXAttackSetup EnemyAttackSetup;
 
         [Header("Backgrounds (child roots toggled by mode)")]
         public GameObject bgDarkNeutral;
@@ -97,6 +122,28 @@ namespace MulliganCombatFeel
             IsPaused = false;
             RestoreTimeScale();
             currentEffect.Play(this);
+        }
+
+        public void PlayPlayerAttack()
+        {
+            if (PlayerAttackSetup != null && PlayerAttackSetup.HasSetup())
+                PlayAttack(PlayerAttackSetup);
+            else
+                Play();
+        }
+
+        public void PlayEnemyAttack()
+        {
+            if (EnemyAttackSetup == null || EnemyAttackSetup.HasSetup() == false)
+                return;
+
+            PlayAttack(EnemyAttackSetup);
+        }
+
+        void PlayAttack(VFXAttackSetup setup)
+        {
+            ApplyAttackSetup(setup);
+            Play();
         }
 
         public void Replay() => Play();
@@ -204,6 +251,34 @@ namespace MulliganCombatFeel
         {
             currentEffectPrefab = prefab;
             DespawnEffect();
+        }
+
+        void ApplyAttackSetup(VFXAttackSetup setup)
+        {
+            if (setup == null) return;
+
+            if (target != null) target.ResetTarget();
+
+            bool effectChanged = false;
+            if (setup.Effect != null && currentEffect != setup.Effect)
+                effectChanged = true;
+            if (setup.EffectPrefab != null && currentEffectPrefab != setup.EffectPrefab)
+                effectChanged = true;
+
+            if (effectChanged)
+            {
+                if (_spawnedEffect != null)
+                    DespawnEffect();
+                else if (setup.Effect == null)
+                    currentEffect = null;
+            }
+
+            if (setup.Target != null) target = setup.Target;
+            if (setup.Attacker != null) attacker = setup.Attacker;
+            if (setup.EffectOrigin != null) effectOrigin = setup.EffectOrigin;
+            if (setup.ImpactPoint != null) impactPoint = setup.ImpactPoint;
+            if (setup.EffectPrefab != null) currentEffectPrefab = setup.EffectPrefab;
+            if (setup.Effect != null) currentEffect = setup.Effect;
         }
 
         void EnsureEffectInstance()

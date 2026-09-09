@@ -280,7 +280,8 @@ public class Hero : MonoBehaviour
         Vector3 direction = (targetPos - originalPos).normalized;
         Vector3 attackTargetPos = targetPos - direction * overshoot;
 
-                   VFXLabController.Instance.Play();
+        if (VFXLabController.Instance != null)
+            VFXLabController.Instance.PlayPlayerAttack();
         // 1. Fly to target
         // LeanTween.move(gameObject, attackTargetPos, attackDuration)
         //     .setEaseOutCubic()

@@ -30536,6 +30536,7 @@ GameObject:
   - component: {fileID: 256949436}
   - component: {fileID: 256949437}
   - component: {fileID: 256949438}
+  - component: {fileID: 256949439}
   m_Layer: 5
   m_Name: Hero
   m_TagString: Untagged
@@ -30738,6 +30739,31 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   maxFrameStep: 0.034
+--- !u!114 &256949439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256949432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7225486f217004c19a264f07acc3f4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyRenderer: {fileID: 0}
+  bodyGraphic: {fileID: 545219742}
+  colorProperty: _Color
+  flashColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
+  flashOverlay: {fileID: 0}
+  flashOverlayGraphic: {fileID: 0}
+  flashOverlayPeak: 0.85
+  squash: 0.22
+  knockback: 0.6
+  rotationPunch: 8
+  flashTime: 0.03
+  reactionTime: 0.26
+  knockbackReturnTime: 0.35
 --- !u!1 &258612213
 GameObject:
   m_ObjectHideFlags: 0
@@ -48317,6 +48343,20 @@ MonoBehaviour:
   effectOrigin: {fileID: 0}
   impactPoint: {fileID: 1759281696}
   labCamera: {fileID: 963194227}
+  PlayerAttackSetup:
+    EffectPrefab: {fileID: 403322909328413185, guid: 039db824a53054a708703e2ea106be28, type: 3}
+    Effect: {fileID: 0}
+    Attacker: {fileID: 256949433}
+    Target: {fileID: 1865616988}
+    EffectOrigin: {fileID: 0}
+    ImpactPoint: {fileID: 1759281696}
+  EnemyAttackSetup:
+    EffectPrefab: {fileID: 403322909328413185, guid: c83fdc873b69a4aebad4cd6e2d49a731, type: 3}
+    Effect: {fileID: 0}
+    Attacker: {fileID: 1865616983}
+    Target: {fileID: 256949439}
+    EffectOrigin: {fileID: 0}
+    ImpactPoint: {fileID: 616174073}
   bgDarkNeutral: {fileID: 0}
   bgLightNeutral: {fileID: 0}
   bgMulliganLike: {fileID: 0}
@@ -73469,6 +73509,50 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616094510}
+  m_CullTransparentMesh: 1
+--- !u!1 &616174072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 616174073}
+  - component: {fileID: 616174074}
+  m_Layer: 5
+  m_Name: ImpatPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &616174073
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616174072}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.90411127, y: 0.90411127, z: 0.90411127}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1902272635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -63, y: -24.780762}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &616174074
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616174072}
   m_CullTransparentMesh: 1
 --- !u!1 &617692668
 GameObject:
@@ -202146,6 +202230,7 @@ GameObject:
   - component: {fileID: 1865616986}
   - component: {fileID: 1865616987}
   - component: {fileID: 1865616988}
+  - component: {fileID: 1865616989}
   m_Layer: 5
   m_Name: Enemy
   m_TagString: Untagged
@@ -202273,6 +202358,50 @@ MonoBehaviour:
   flashTime: 0.03
   reactionTime: 0.26
   knockbackReturnTime: 0.35
+--- !u!114 &1865616989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865616982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71fc0a75327d04c9ea0bc668e1d1120e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anticipationTime: 0
+  releaseTime: 0.14
+  impactTime: 0.24
+  recoveryTime: 0.5
+  tailTime: 0.4
+  intensity: 0.6
+  hitStopSeconds: 0.06
+  attackerMotionTarget: {fileID: 0}
+  attackerAnticipationBy: {x: -0.4, y: 0, z: 0}
+  attackerLungeBy: {x: 1.2, y: 0, z: 0}
+  primaryParticles: []
+  secondaryParticles: []
+  trails: []
+  impactObject: {fileID: 0}
+  impactObjectFlashTime: 0.06
+  moveImpactObjectToImpactPoint: 1
+  onAnticipation:
+    m_PersistentCalls:
+      m_Calls: []
+  onRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onImpact:
+    m_PersistentCalls:
+      m_Calls: []
+  onRecovery:
+    m_PersistentCalls:
+      m_Calls: []
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+  maxFrameStep: 0.034
 --- !u!1 &1867068241
 GameObject:
   m_ObjectHideFlags: 0
@@ -205952,6 +206081,7 @@ RectTransform:
   - {fileID: 1446314284}
   - {fileID: 1474757185}
   - {fileID: 765281825}
+  - {fileID: 616174073}
   m_Father: {fileID: 256949433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
