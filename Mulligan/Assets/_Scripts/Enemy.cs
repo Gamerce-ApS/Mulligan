@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     private Vector2 originalAnchoredPosition;
     private Quaternion originalRotation;
+    private Vector3 originalLocalScale;
     private bool initialized = false;
 
     public List<BossAbilityEnum> ActiveAbbilities = new List<BossAbilityEnum>();
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour
             RectTransform rt = GetComponent<RectTransform>();
             originalAnchoredPosition = rt.anchoredPosition;
             originalRotation = rt.localRotation;
+            originalLocalScale = rt.localScale;
             initialized = true;
         }
 
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour
     }
     public void Init(int aRound)
     {
+        ResetTransformState();
         ActiveAbbilities.Clear();
         UIManager.Instance.MutePotions(false);
         UIManager.Instance.MuteArtifacts(false);
@@ -297,7 +300,16 @@ public class Enemy : MonoBehaviour
         healthLabel.text = Health.ToString();
         LeanTween.scale(healthLabel.gameObject, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
-        LeanTween.scale(gameObject, Vector3.one * 1.2f, 0.5f).setEasePunch();
+        LeanTween.scale(gameObject, originalLocalScale * 1.2f, 0.5f)
+            .setEasePunch()
+            .setOnComplete(() =>
+            {
+                transform.localScale = originalLocalScale;
+            });
+        LeanTween.delayedCall(gameObject, 0.6f, () =>
+        {
+            transform.localScale = originalLocalScale;
+        }).setIgnoreTimeScale(true);
 
 
 
@@ -360,6 +372,22 @@ public class Enemy : MonoBehaviour
         // Optional pop-in scale
         floatingLabel.transform.localScale = Vector3.zero;
         LeanTween.scale(floatingLabel.gameObject, Vector3.one, 0.2f).setEaseOutBack();
+    }
+    private void ResetTransformState()
+    {
+        if (!initialized)
+        {
+            RectTransform rt = GetComponent<RectTransform>();
+            originalAnchoredPosition = rt.anchoredPosition;
+            originalRotation = rt.localRotation;
+            originalLocalScale = rt.localScale;
+            initialized = true;
+        }
+
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = originalAnchoredPosition;
+        rectTransform.localRotation = originalRotation;
+        rectTransform.localScale = originalLocalScale;
     }
     // Update is called once per frame
     void Update()

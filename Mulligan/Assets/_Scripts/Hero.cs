@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MulliganCombatFeel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -279,27 +280,28 @@ public class Hero : MonoBehaviour
         Vector3 direction = (targetPos - originalPos).normalized;
         Vector3 attackTargetPos = targetPos - direction * overshoot;
 
+                   VFXLabController.Instance.Play();
         // 1. Fly to target
-        LeanTween.move(gameObject, attackTargetPos, attackDuration)
-            .setEaseOutCubic()
-            .setOnComplete(() =>
-            {
+        // LeanTween.move(gameObject, attackTargetPos, attackDuration)
+        //     .setEaseOutCubic()
+        //     .setOnComplete(() =>
+        //     {
+
+     
+        //         // 3. Return to start
+        //         LeanTween.move(gameObject, originalPos, attackDuration)
+        //                         .setEaseInCubic();
 
 
-                // 3. Return to start
-                LeanTween.move(gameObject, originalPos, attackDuration)
-                                .setEaseInCubic();
-
-
-            });
+        //     });
 
         UnityHelper.RunAfterDelay(this, 0.45f, () =>
         {
             // 2. Optional: impact punch
-            LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f).setOnComplete(() =>
-            {
-                gameObject.transform.localScale = Vector3.one;
-            }).setEasePunch();
+            // LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f).setOnComplete(() =>
+            // {
+            //     gameObject.transform.localScale = Vector3.one;
+            // }).setEasePunch();
             VibrationsManager.TryVibrate(VibrationType.PlayerDamage);
             GameManager.Instance.TheEnemy.DoDamage(aDamage);
             Health += Mathf.RoundToInt( aDamage * (CurrentLifeStealProc/100f));
