@@ -130,13 +130,13 @@ public class GameManager : Singleton<GameManager>
         if(IAPManager.Instance.IsFullGameUnlocked)// owns game
         {
             UIManager.Instance.SplashScreenButtons[0].SetActive(true);
-            UIManager.Instance.SplashScreenButtons[1].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[1].SetActive(true);
             UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
         }else // trial
         {
-            UIManager.Instance.SplashScreenButtons[0].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[0].SetActive(true);
             UIManager.Instance.SplashScreenButtons[1].SetActive(true);
-            UIManager.Instance.SplashScreenButtons[2].SetActive(true); 
+            UIManager.Instance.SplashScreenButtons[2].SetActive(false); 
         }
         //   #endif
         SoundManager.TryPlayMenuMusic();

@@ -1044,7 +1044,7 @@ public class UIManager : Singleton<UIManager>
         IAPManager.Instance.BuyFullGame(() =>
         {
             UIManager.Instance.SplashScreenButtons[0].SetActive(true);
-            UIManager.Instance.SplashScreenButtons[1].SetActive(false);
+            UIManager.Instance.SplashScreenButtons[1].SetActive(true);
             UIManager.Instance.SplashScreenButtons[2].SetActive(false);
             HeroSelectionManager.Instance.RefreshUI();
             HeroInfoScreen.Instance.RefreshBuyButton();
