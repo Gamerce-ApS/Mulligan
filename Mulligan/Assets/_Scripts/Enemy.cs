@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     private Quaternion originalRotation;
     private Vector3 originalLocalScale;
     private bool initialized = false;
+    private int attackStartSiblingIndex = -1;
 
     public List<BossAbilityEnum> ActiveAbbilities = new List<BossAbilityEnum>();
 
@@ -42,6 +43,7 @@ public class Enemy : MonoBehaviour
     }
     public void Init(int aRound)
     {
+        RestoreSiblingIndexAfterAttack();
         ResetTransformState();
         ActiveAbbilities.Clear();
         UIManager.Instance.MutePotions(false);
@@ -196,6 +198,9 @@ public class Enemy : MonoBehaviour
 
     public void Attack(int aDamage=0)
     {
+        attackStartSiblingIndex = transform.GetSiblingIndex();
+        transform.SetAsLastSibling();
+
         SoundManager.TryPlay(SoundType.EnemyAttack);
         if (VFXLabController.Instance != null)
             VFXLabController.Instance.PlayEnemyAttack();
@@ -273,7 +278,20 @@ public class Enemy : MonoBehaviour
             }
         });
 
+        LeanTween.delayedCall(gameObject, 0.8f, RestoreSiblingIndexAfterAttack);
     }
+
+    private void RestoreSiblingIndexAfterAttack()
+    {
+        if (attackStartSiblingIndex < 0 || transform.parent == null)
+            return;
+
+        int maxIndex = transform.parent.childCount - 1;
+        int clampedIndex = Mathf.Clamp(attackStartSiblingIndex, 0, maxIndex);
+        transform.SetSiblingIndex(clampedIndex);
+        attackStartSiblingIndex = -1;
+    }
+
     public void DoDamage(int aDamage)
     {
        if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.Evasion))

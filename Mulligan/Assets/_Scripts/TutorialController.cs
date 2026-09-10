@@ -95,6 +95,9 @@ public class TutorialController : Singleton<TutorialController>
     [Header("Steps")]
     [SerializeField] private List<TutorialStep> steps = new List<TutorialStep>();
 
+    [Header("Timing")]
+    public float WaitTimeMultiplier = 1f;
+
     [Header("Transition")]
     [SerializeField] private float transitionDuration = 0.35f;
     [SerializeField] private AnimationCurve transitionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -798,7 +801,7 @@ public class TutorialController : Singleton<TutorialController>
         if (step.WaitTime <= 0)
             return;
 
-        UnityHelper.RunAfterDelay(this, step.WaitTime, () =>
+        UnityHelper.RunAfterDelay(this, GetStepWaitTime(step), () =>
         {
             if (requestId != stepRequestId)
                 return;
@@ -824,6 +827,13 @@ public class TutorialController : Singleton<TutorialController>
                     ShowNextStep();
             }
         }, true);
+    }
+    private float GetStepWaitTime(TutorialStep step)
+    {
+        if (step == null)
+            return 0f;
+
+        return Mathf.Max(0f, step.WaitTime * WaitTimeMultiplier);
     }
     public void ResetAfterTutorialFinished()
     {

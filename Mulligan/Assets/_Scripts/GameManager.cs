@@ -48,9 +48,12 @@ public class GameManager : Singleton<GameManager>
     {
 
         myGameStates = GameStates.Loading;
+        TrackDesign("boot:data_load:request");
         GameDataLoader.Instance.LoadGameData(() =>
         {
 
+            TrackDesign("boot:data_load:complete");
+            TrackDesign("boot:managers_init:start");
             Application.targetFrameRate = 60;
             GameData.UnlockProgressForThisRun = GameData.CompletedFirstBossAmount;
             GameData.FirstBossCompletedThisRun = 0;
@@ -66,13 +69,15 @@ public class GameManager : Singleton<GameManager>
             HighscoreManager.Instance.Init();
             DailyQuestManager.Instance.Init();
             ShopManager.Instance.PopulateShop();
+            TrackDesign("boot:managers_init:complete");
+            TrackDesign("boot:start_game");
             StartGame();
 
         });
         SingularSDK.Event("StartEvent");
         if (GameAnalytics.Initialized == false)
             GameAnalytics.Initialize();
-        GameAnalytics.NewDesignEvent("app:start");
+        TrackDesign("app:start");
 
         
 
@@ -100,6 +105,7 @@ public class GameManager : Singleton<GameManager>
 
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
+            TrackDesign("boot:start_game:tutorial_required");
             StartTutorialGameDirect();
             return;
         }
@@ -119,6 +125,7 @@ public class GameManager : Singleton<GameManager>
         //      PlayerPrefs.SetInt(IAPManager.FullGameUnlockedKey, 1);
         //      #else
         UIManager.Instance.SplashScreen.SetActive(true);
+        TrackDesign("boot:start_game:splash");
 
         if(IAPManager.Instance.IsFullGameUnlocked)// owns game
         {
@@ -136,6 +143,7 @@ public class GameManager : Singleton<GameManager>
     }
     private void StartTutorialGameDirect()
     {
+        TrackDesign("boot:tutorial_direct:start");
         GameData.HeroSelected = 0;
         UIManager.Instance.SplashScreen.SetActive(false);
         myGameStates = GameStates.Pre_Game;
@@ -144,11 +152,13 @@ public class GameManager : Singleton<GameManager>
         TrackRunStart();
         AnalyticsService.Instance.RecordEvent("Started_Game_With_Hero"+GameData.HeroSelected);
         GameAnalytics.NewDesignEvent("run:start:hero_" + GameData.HeroSelected);
+        TrackDesign("boot:tutorial_direct:level_selection_open");
         LevelSelectionManager.Instance.ShowWindow(() =>
         {
             SoundManager.TryPlayCombatMusic();
             TheEnemy.Init(GameData.CurrentRound);
             myGameStates = GameStates.Game;
+            TrackDesign("boot:tutorial_direct:combat_ready");
             TutorialController.Instance.StartTutorial();
         });
     }
@@ -373,6 +383,14 @@ public class GameManager : Singleton<GameManager>
             GameAnalytics.NewDesignEvent("run:end:tutorial_first_run", GameData.CurrentRound);
         else
             GameAnalytics.NewDesignEvent("run:end:normal", GameData.CurrentRound);
+    }
+
+    private void TrackDesign(string eventName)
+    {
+        if (GameAnalytics.Initialized == false)
+            GameAnalytics.Initialize();
+
+        GameAnalytics.NewDesignEvent(eventName);
     }
 
     public void RequestFreshHandAfterTutorial()

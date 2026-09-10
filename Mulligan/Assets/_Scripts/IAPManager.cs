@@ -48,6 +48,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     private async Task InitializeAsync()
     {
+        TrackDesign("iap:init:start");
         try
         {
             await UnityServices.InitializeAsync();
@@ -55,6 +56,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
         catch (Exception e)
         {
             Debug.LogError("Unity Services init failed: " + e.Message);
+            TrackDesign("iap:init:fail");
+            TrackDesign("iap:init:fail:unity_services");
             return;
         }
 
@@ -140,6 +143,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         extensionProvider = extensions;
 
         Debug.Log("IAP initialized.");
+        TrackDesign("iap:init:success");
         RefreshOwnershipFromStore();
 
         OnIAPInitialized?.Invoke();
@@ -148,11 +152,15 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public void OnInitializeFailed(InitializationFailureReason error)
     {
         Debug.LogError("IAP init failed: " + error);
+        TrackDesign("iap:init:fail");
+        TrackInitializeFailedReason(error);
     }
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
     {
         Debug.LogError("IAP init failed: " + error + " | " + message);
+        TrackDesign("iap:init:fail");
+        TrackInitializeFailedReason(error);
     }
 
   public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
@@ -273,12 +281,42 @@ private void RefreshOwnershipFromStore()
         return;
 
     Product product = storeController.products.WithID(FullGameProductId);
+    if (product == null)
+    {
+        TrackDesign("iap:product:missing");
+        return;
+    }
 
-    if (product != null && product.hasReceipt)
+    if (product.availableToPurchase)
+        TrackDesign("iap:product:available");
+    else
+        TrackDesign("iap:product:missing");
+
+    if (product.hasReceipt)
     {
         UnlockFullGame();
     }
 }
+
+    private void TrackInitializeFailedReason(InitializationFailureReason error)
+    {
+        if (error == InitializationFailureReason.PurchasingUnavailable)
+            TrackDesign("iap:init:fail:purchasing_unavailable");
+        else if (error == InitializationFailureReason.NoProductsAvailable)
+            TrackDesign("iap:init:fail:no_products_available");
+        else if (error == InitializationFailureReason.AppNotKnown)
+            TrackDesign("iap:init:fail:app_not_known");
+        else
+            TrackDesign("iap:init:fail:unknown");
+    }
+
+    private void TrackDesign(string eventName)
+    {
+        if (GameAnalytics.Initialized == false)
+            GameAnalytics.Initialize();
+
+        GameAnalytics.NewDesignEvent(eventName);
+    }
 
     private void UnlockFullGame()
     {
