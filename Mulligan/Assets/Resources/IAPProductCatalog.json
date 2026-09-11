@@ -1,1 +1,104 @@
-{"appleSKU":"","appleTeamID":"","enableCodelessAutoInitialization":true,"enableUnityGamingServicesAutoInitialization":false,"products":[{"id":"full_game_unlock","type":1,"storeIDs":[],"defaultDescription":{"googleLocale":21,"title":"Full Game Unlock","description":"Unlock the full game"},"screenshotPath":"","applePriceTier":0,"googlePrice":{"data":[0,0,0,0],"num":0.0},"pricingTemplateID":"","descriptions":[],"payouts":[]}]}
+{
+    "appleSKU": "",
+    "appleTeamID": "",
+    "enableCodelessAutoInitialization": true,
+    "enableUnityGamingServicesAutoInitialization": false,
+    "products": [
+        {
+            "id": "full_game_unlock",
+            "type": 1,
+            "storeIDs": [],
+            "defaultDescription": {
+                "googleLocale": 21,
+                "title": "Full Game Unlock",
+                "description": "Unlock the full game"
+            },
+            "screenshotPath": "",
+            "applePriceTier": 0,
+            "googlePrice": {
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "num": 0.0
+            },
+            "pricingTemplateID": "",
+            "descriptions": [],
+            "payouts": []
+        },
+        {
+            "id": "hero_1_unlock",
+            "type": 1,
+            "storeIDs": [],
+            "defaultDescription": {
+                "googleLocale": 21,
+                "title": "Hero 1 Unlock",
+                "description": "Unlock Hero 1"
+            },
+            "screenshotPath": "",
+            "applePriceTier": 0,
+            "googlePrice": {
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "num": 0.0
+            },
+            "pricingTemplateID": "",
+            "descriptions": [],
+            "payouts": []
+        },
+        {
+            "id": "hero_2_unlock",
+            "type": 1,
+            "storeIDs": [],
+            "defaultDescription": {
+                "googleLocale": 21,
+                "title": "Hero 2 Unlock",
+                "description": "Unlock Hero 2"
+            },
+            "screenshotPath": "",
+            "applePriceTier": 0,
+            "googlePrice": {
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "num": 0.0
+            },
+            "pricingTemplateID": "",
+            "descriptions": [],
+            "payouts": []
+        },
+        {
+            "id": "hero_3_unlock",
+            "type": 1,
+            "storeIDs": [],
+            "defaultDescription": {
+                "googleLocale": 21,
+                "title": "Hero 3 Unlock",
+                "description": "Unlock Hero 3"
+            },
+            "screenshotPath": "",
+            "applePriceTier": 0,
+            "googlePrice": {
+                "data": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "num": 0.0
+            },
+            "pricingTemplateID": "",
+            "descriptions": [],
+            "payouts": []
+        }
+    ]
+}

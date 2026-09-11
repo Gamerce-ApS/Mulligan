@@ -68,25 +68,19 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void RefreshUI()
     {
-        if(IAPManager.Instance.IsFullGameUnlocked == false)
+        for(int i = 0; i < HeroLock.Count;i++)
         {
-            for(int i = 1; i < HeroLock.Count;i++)
-            {
-                HeroLock[i].SetActive(true);
-                HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f,1);
-            }
-            
-            
-        }else
-        {
-            for(int i = 0; i < HeroLock.Count;i++)
-            {
-                HeroLock[i].SetActive(false);
-                HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>().color = new Color(1,1,1,1);
+            bool isUnlocked = IAPManager.Instance == null || IAPManager.Instance.IsHeroUnlocked(i);
+            HeroLock[i].SetActive(isUnlocked == false);
 
+            if (HeroLock[i].transform.parent.childCount > 0)
+            {
+                Image portrait = HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>();
+                if (portrait != null)
+                    portrait.color = isUnlocked ? new Color(1,1,1,1) : new Color(0.5f,0.5f,0.5f,1);
             }
-            
         }
+
         RefreshHighscoreUI(selectedHero >= 0 ? selectedHero : GameData.HeroSelected);
     }
     public void HideWindow(System.Action onCompletet=null)
@@ -116,9 +110,9 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         // if (selectedHero == id)
         //     return; // Don't reselect the same hero
-        if(IAPManager.Instance.IsFullGameUnlocked == false&& id!= 0)
+        if(IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(id) == false)
         {
-            UIManager.Instance.ClickBuyPopupWindow();
+            UIManager.Instance.ClickBuyHero(id);
             return;  
         }
 
@@ -132,7 +126,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         if (id < 0 || id >= HeroNormal.Count)
             id = 0;
 
-        if (IAPManager.Instance.IsFullGameUnlocked == false && id != 0)
+        if (IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(id) == false)
             id = 0;
 
         if (playFeedback)

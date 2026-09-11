@@ -1072,6 +1072,53 @@ public class UIManager : Singleton<UIManager>
         //     });
 
     }
+
+    public void ClickBuyHero1()
+    {
+        ClickBuyHero(1);
+    }
+
+    public void ClickBuyHero2()
+    {
+        ClickBuyHero(2);
+    }
+
+    public void ClickBuyHero3()
+    {
+        ClickBuyHero(3);
+    }
+
+    public void ClickBuyHero(int heroIndex)
+    {
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
+        SingularSDK.Event("ClickBuyHero" + heroIndex);
+        GameAnalytics.NewDesignEvent("click:buy_hero_" + heroIndex);
+        GameAnalytics.NewDesignEvent("paywall:buy_hero_click");
+        GameAnalytics.NewDesignEvent("paywall:buy_hero_click:hero_" + heroIndex);
+
+        if (IAPManager.Instance == null)
+            return;
+
+        if (IAPManager.Instance.IsHeroUnlocked(heroIndex))
+        {
+            ShowTooltip("You already own this hero!");
+            return;
+        }
+
+        IAPManager.Instance.BuyHero(heroIndex, () =>
+        {
+            if (HeroSelectionManager.Instance != null)
+            {
+                HeroSelectionManager.Instance.RefreshUI();
+                HeroSelectionManager.Instance.ClickHero(heroIndex);
+            }
+
+            if (HeroInfoScreen.Instance != null)
+                HeroInfoScreen.Instance.RefreshBuyButton();
+        });
+    }
+
     public void ClickTutorial()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);

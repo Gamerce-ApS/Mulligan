@@ -19,6 +19,12 @@ public class IAPManager : MonoBehaviour, IStoreListener
 #endif
 
     public const string FullGameUnlockedKey = "full_game_unlocked";
+    private const string HeroProductPrefix = "hero_";
+    private const string HeroProductSuffix = "_unlock";
+    private const string HeroUnlockedPrefix = "hero_";
+    private const string HeroUnlockedSuffix = "_unlocked";
+    private const int FirstPaidHeroIndex = 1;
+    private const int LastPaidHeroIndex = 3;
 
     private static IStoreController storeController;
     private static IExtensionProvider extensionProvider;
@@ -28,6 +34,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public event Action OnIAPInitialized;
     public event Action OnFullGameUnlockedEvent;
+    private event Action OnHeroUnlockedEvent;
     public event Action<string> OnPurchaseFailedEvent;
 
     
@@ -66,6 +73,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
         builder.AddProduct(FullGameProductId, ProductType.NonConsumable);
+        for (int i = FirstPaidHeroIndex; i <= LastPaidHeroIndex; i++)
+            builder.AddProduct(GetHeroProductId(i), ProductType.NonConsumable);
 
         UnityPurchasing.Initialize(this, builder);
     }
@@ -105,12 +114,86 @@ public class IAPManager : MonoBehaviour, IStoreListener
         storeController.InitiatePurchase(product);
     }
 
+    public bool IsHeroUnlocked(int heroIndex)
+    {
+        if (heroIndex <= 0)
+            return true;
+
+        if (IsFullGameUnlocked)
+            return true;
+
+        return PlayerPrefs.GetInt(GetHeroUnlockedKey(heroIndex), 0) == 1;
+    }
+
+    public bool HasBoughtAnyIAP()
+    {
+        if (IsFullGameUnlocked)
+            return true;
+
+        for (int i = FirstPaidHeroIndex; i <= LastPaidHeroIndex; i++)
+        {
+            if (PlayerPrefs.GetInt(GetHeroUnlockedKey(i), 0) == 1)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void BuyHero(int heroIndex, System.Action onComplete)
+    {
+        OnHeroUnlockedEvent = onComplete;
+        if (IsHeroUnlocked(heroIndex))
+        {
+            Debug.Log("Hero already unlocked: " + heroIndex);
+            return;
+        }
+
+        if (!IsInitialized)
+        {
+            Debug.LogWarning("IAP is not initialized yet.");
+            OnPurchaseFailedEvent?.Invoke("IAP not initialized");
+            return;
+        }
+
+        string productId = GetHeroProductId(heroIndex);
+        Product product = storeController.products.WithID(productId);
+
+        if (product == null)
+        {
+            Debug.LogWarning("Product not found: " + productId);
+            OnPurchaseFailedEvent?.Invoke("Product not found");
+            return;
+        }
+
+        if (!product.availableToPurchase)
+        {
+            Debug.LogWarning("Product not available to purchase: " + productId);
+            OnPurchaseFailedEvent?.Invoke("Product not available");
+            return;
+        }
+
+        storeController.InitiatePurchase(product);
+    }
+
     public string GetLocalizedPrice()
     {
         if (!IsInitialized)
             return "...";
 
         Product product = storeController.products.WithID(FullGameProductId);
+
+        if (product == null || product.metadata == null)
+            return "...";
+
+        return product.metadata.localizedPriceString;
+    }
+
+    public string GetLocalizedHeroPrice(int heroIndex)
+    {
+        if (!IsInitialized)
+            return "...";
+
+        Product product = storeController.products.WithID(GetHeroProductId(heroIndex));
 
         if (product == null || product.metadata == null)
             return "...";
@@ -163,140 +246,170 @@ public class IAPManager : MonoBehaviour, IStoreListener
         TrackInitializeFailedReason(error);
     }
 
-  public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
-{
-    Product product = args.purchasedProduct;
-    string productId = product.definition.id;
-
-    Debug.Log("Purchase success: " + productId);
-
-    TrackPurchaseWithSingular(product);
-
-    if (productId == FullGameProductId)
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        TrackPurchaseWithGameAnalytics(product);
-        UnlockFullGame();
-    }
-    else
-    {
-        Debug.LogWarning("Unknown product purchased: " + productId);
-    }
+        Product product = args.purchasedProduct;
+        string productId = product.definition.id;
+        int heroIndex = GetHeroIndexFromProductId(productId);
 
-    return PurchaseProcessingResult.Complete;
-}
-private void TrackPurchaseWithGameAnalytics(Product product)
-{
-    if (product == null)
-    {
-        Debug.LogWarning("GameAnalytics IAP tracking skipped: product is null.");
-        return;
-    }
+        Debug.Log("Purchase success: " + productId);
 
-    if (GameAnalytics.Initialized == false)
-        GameAnalytics.Initialize();
+        TrackPurchaseWithSingular(product);
 
-    GameAnalytics.NewDesignEvent("purchase:success");
+        if (productId == FullGameProductId)
+        {
+            TrackPurchaseWithGameAnalytics(product);
+            UnlockFullGame();
+        }
+        else if (heroIndex >= 0)
+        {
+            TrackPurchaseWithGameAnalytics(product);
+            UnlockHero(heroIndex);
+        }
+        else
+        {
+            Debug.LogWarning("Unknown product purchased: " + productId);
+        }
 
-    string currency = "USD";
-    int amount = 0;
-
-    if (product.metadata != null)
-    {
-        if (!string.IsNullOrEmpty(product.metadata.isoCurrencyCode))
-            currency = product.metadata.isoCurrencyCode;
-
-        amount = Mathf.RoundToInt((float)product.metadata.localizedPrice * 100f);
+        return PurchaseProcessingResult.Complete;
     }
 
-    if (amount <= 0)
+    private void TrackPurchaseWithGameAnalytics(Product product)
     {
-        Debug.LogWarning("GameAnalytics business event skipped: invalid product price.");
-        return;
-    }
+        if (product == null)
+        {
+            Debug.LogWarning("GameAnalytics IAP tracking skipped: product is null.");
+            return;
+        }
 
-    GameAnalytics.NewBusinessEvent(currency, amount, "iap", product.definition.id, "shop");
-}
+        if (GameAnalytics.Initialized == false)
+            GameAnalytics.Initialize();
 
-private void TrackPurchaseWithSingular(Product product)
-{
-    if (product == null)
-    {
-        Debug.LogWarning("Singular IAP tracking skipped: product is null.");
-        return;
-    }
+        GameAnalytics.NewDesignEvent("purchase:success");
+        GameAnalytics.NewDesignEvent("purchase:success:" + product.definition.id);
 
-    try
-    {
         string currency = "USD";
-        double amount = 0.0;
+        int amount = 0;
 
         if (product.metadata != null)
         {
             if (!string.IsNullOrEmpty(product.metadata.isoCurrencyCode))
                 currency = product.metadata.isoCurrencyCode;
 
-            amount = Convert.ToDouble(product.metadata.localizedPrice);
+            amount = Mathf.RoundToInt((float)product.metadata.localizedPrice * 100f);
         }
 
-        var attributes = new Dictionary<string, object>
+        if (amount <= 0)
         {
-            { "productSKU", product.definition.id },
-            { "productName", product.metadata != null ? product.metadata.localizedTitle : product.definition.id },
-            { "productCategory", product.definition.type.ToString() },
-            { "productQuantity", 1 },
-            { "productPrice", amount }
-        };
+            Debug.LogWarning("GameAnalytics business event skipped: invalid product price.");
+            return;
+        }
 
-        if (!string.IsNullOrEmpty(product.transactionID))
-            attributes["transaction_id"] = product.transactionID;
-
-        SingularSDK.Revenue(currency, amount, attributes);
-
-        Debug.Log($"Sent revenue to Singular: {product.definition.id} | {currency} {amount}");
+        GameAnalytics.NewBusinessEvent(currency, amount, "iap", product.definition.id, "shop");
     }
-    catch (Exception e)
+
+    private void TrackPurchaseWithSingular(Product product)
     {
-        Debug.LogError("Failed to send revenue to Singular: " + e.Message);
+        if (product == null)
+        {
+            Debug.LogWarning("Singular IAP tracking skipped: product is null.");
+            return;
+        }
+
+        try
+        {
+            string currency = "USD";
+            double amount = 0.0;
+
+            if (product.metadata != null)
+            {
+                if (!string.IsNullOrEmpty(product.metadata.isoCurrencyCode))
+                    currency = product.metadata.isoCurrencyCode;
+
+                amount = Convert.ToDouble(product.metadata.localizedPrice);
+            }
+
+            var attributes = new Dictionary<string, object>
+            {
+                { "productSKU", product.definition.id },
+                { "productName", product.metadata != null ? product.metadata.localizedTitle : product.definition.id },
+                { "productCategory", product.definition.type.ToString() },
+                { "productQuantity", 1 },
+                { "productPrice", amount }
+            };
+
+            if (!string.IsNullOrEmpty(product.transactionID))
+                attributes["transaction_id"] = product.transactionID;
+
+            SingularSDK.Revenue(currency, amount, attributes);
+
+            Debug.Log($"Sent revenue to Singular: {product.definition.id} | {currency} {amount}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to send revenue to Singular: " + e.Message);
+        }
     }
-}
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
-        string msg = $"Purchase failed: {product.definition.id} | {failureReason}";
+        string productId = product != null ? product.definition.id : "unknown";
+        string msg = $"Purchase failed: {productId} | {failureReason}";
         Debug.LogWarning(msg);
-        GameAnalytics.NewDesignEvent("purchase:fail");
+        TrackDesign("purchase:fail");
+        TrackDesign("purchase:fail:" + productId);
         OnPurchaseFailedEvent?.Invoke(msg);
     }
 
     public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
     {
-        string msg = $"Purchase failed: {product.definition.id} | {failureDescription.reason} | {failureDescription.message}";
+        string productId = product != null ? product.definition.id : "unknown";
+        string msg = $"Purchase failed: {productId} | {failureDescription.reason} | {failureDescription.message}";
         Debug.LogWarning(msg);
-        GameAnalytics.NewDesignEvent("purchase:fail");
+        TrackDesign("purchase:fail");
+        TrackDesign("purchase:fail:" + productId);
         OnPurchaseFailedEvent?.Invoke(msg);
     }
 
-private void RefreshOwnershipFromStore()
-{
-    if (!IsInitialized)
-        return;
-
-    Product product = storeController.products.WithID(FullGameProductId);
-    if (product == null)
+    private void RefreshOwnershipFromStore()
     {
-        TrackDesign("iap:product:missing");
-        return;
+        if (!IsInitialized)
+            return;
+
+        RefreshProductOwnership(FullGameProductId);
+
+        for (int i = FirstPaidHeroIndex; i <= LastPaidHeroIndex; i++)
+            RefreshProductOwnership(GetHeroProductId(i));
     }
 
-    if (product.availableToPurchase)
-        TrackDesign("iap:product:available");
-    else
-        TrackDesign("iap:product:missing");
-
-    if (product.hasReceipt)
+    private void RefreshProductOwnership(string productId)
     {
-        UnlockFullGame();
+        Product product = storeController.products.WithID(productId);
+        if (product == null)
+        {
+            TrackDesign("iap:product:missing");
+            TrackDesign("iap:product:missing:" + productId);
+            return;
+        }
+
+        if (product.availableToPurchase)
+        {
+            TrackDesign("iap:product:available");
+            TrackDesign("iap:product:available:" + productId);
+        }
+        else
+        {
+            TrackDesign("iap:product:missing");
+            TrackDesign("iap:product:missing:" + productId);
+        }
+
+        if (product.hasReceipt)
+        {
+            if (productId == FullGameProductId)
+                UnlockFullGame();
+            else
+                UnlockHero(GetHeroIndexFromProductId(productId));
+        }
     }
-}
 
     private void TrackInitializeFailedReason(InitializationFailureReason error)
     {
@@ -318,6 +431,27 @@ private void RefreshOwnershipFromStore()
         GameAnalytics.NewDesignEvent(eventName);
     }
 
+    private string GetHeroProductId(int heroIndex)
+    {
+        return HeroProductPrefix + heroIndex + HeroProductSuffix;
+    }
+
+    private string GetHeroUnlockedKey(int heroIndex)
+    {
+        return HeroUnlockedPrefix + heroIndex + HeroUnlockedSuffix;
+    }
+
+    private int GetHeroIndexFromProductId(string productId)
+    {
+        for (int i = FirstPaidHeroIndex; i <= LastPaidHeroIndex; i++)
+        {
+            if (productId == GetHeroProductId(i))
+                return i;
+        }
+
+        return -1;
+    }
+
     private void UnlockFullGame()
     {
         bool wasUnlocked = IsFullGameUnlocked;
@@ -329,6 +463,23 @@ private void RefreshOwnershipFromStore()
         {
             Debug.Log("Full game unlocked.");
             OnFullGameUnlockedEvent?.Invoke();
+        }
+    }
+
+    private void UnlockHero(int heroIndex)
+    {
+        if (heroIndex < FirstPaidHeroIndex || heroIndex > LastPaidHeroIndex)
+            return;
+
+        bool wasUnlocked = IsHeroUnlocked(heroIndex);
+
+        PlayerPrefs.SetInt(GetHeroUnlockedKey(heroIndex), 1);
+        PlayerPrefs.Save();
+
+        if (!wasUnlocked)
+        {
+            Debug.Log("Hero unlocked: " + heroIndex);
+            OnHeroUnlockedEvent?.Invoke();
         }
     }
 }
