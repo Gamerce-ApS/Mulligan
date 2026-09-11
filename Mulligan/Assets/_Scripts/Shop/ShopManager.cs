@@ -47,7 +47,7 @@ public class ShopManager : Singleton<ShopManager>
         {
             SpawnRuneCard();
 
-            SpawnPotionCard();
+            SpawnRandomShopItem();
             GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
             go.GetComponent<ShopCard>().Init(3);
         }
@@ -101,13 +101,14 @@ RefreshPotionSlots();
     bool tutorialShopHelp = false;
     bool tutorialShopHelpArmory = false;
 
-    private void SpawnArtifactCard()
+    private void SpawnArtifactCard(Transform aParent = null)
     {
         ArtifactData artifact = ArtifactManager.Instance.GetRandom();
         if (artifact == null)
             return;
-
-        GameObject go = GameObject.Instantiate(ArtifactPrefab, ArtifactParent);
+       if(aParent == null)
+        aParent = ArtifactParent;
+        GameObject go = GameObject.Instantiate(ArtifactPrefab, aParent);
         go.GetComponent<ShopCard>().Init(artifact);
     }
 
@@ -120,14 +121,40 @@ RefreshPotionSlots();
         GameObject go = GameObject.Instantiate(PotionPrefab, PotionParent);
         go.GetComponent<ShopCard>().Init(potion);
     }
+    public void SpawnRandomShopItem()
+    {
+        int rand = Random.Range(0,4);
+        if(rand == 0)
+        {
+            GameObject go = GameObject.Instantiate(UnitPackPrefab, PotionParent);
+            go.GetComponent<ShopCard>().Init(3);  
+        }else if(rand == 1)
+        {
+           SpawnArtifactCard(PotionParent); 
+        }else if(rand == 2)
+        {
+            SpawnRuneCard(PotionParent);
+        }else
+        {
+            SpawnPotionCard();
+        }
 
-    private void SpawnRuneCard()
+        
+        
+
+
+     
+        
+    }
+
+    private void SpawnRuneCard(Transform aParent = null)
     {
         RuneData rune = RuneManager.Instance.GetRandom();
         if (rune == null)
             return;
-
-        GameObject go = GameObject.Instantiate(RunePrefab, RuneParent);
+        if(aParent == null)
+        aParent = RuneParent;
+        GameObject go = GameObject.Instantiate(RunePrefab, aParent);
         go.GetComponent<ShopCard>().Init(rune);
     }
 

@@ -258,10 +258,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             if( HandManager.Instance.CurrentHand[0] == cardInstance ||  HandManager.Instance.CurrentHand[2] == cardInstance )
             {
-                if(HandManager.Instance.SelectedCardCount()>=1)
-                {
-                    TutorialController.Instance.ShowNextStep();
-                }
+                // Wait until the click has actually toggled selection before advancing.
             }else
             {
                 UIManager.Instance.ShowTooltip("Click on correct cards!");
@@ -322,6 +319,28 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         UIManager.Instance.ShowSynergies();
         UIManager.Instance.RefreshPreDamage();
+
+        if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ReRollCards &&
+            HasSelectedTutorialRerollCards())
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
+    }
+
+    private bool HasSelectedTutorialRerollCards()
+    {
+        if (HandManager.Instance.CurrentHand.Count <= 2)
+            return false;
+
+        CardInstance firstCard = HandManager.Instance.CurrentHand[0];
+        CardInstance thirdCard = HandManager.Instance.CurrentHand[2];
+
+        return firstCard != null &&
+               thirdCard != null &&
+               firstCard.CardGO != null &&
+               thirdCard.CardGO != null &&
+               firstCard.CardGO.isSelected &&
+               thirdCard.CardGO.isSelected;
     }
 
     

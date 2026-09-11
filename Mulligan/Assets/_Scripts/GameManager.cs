@@ -237,6 +237,8 @@ public class GameManager : Singleton<GameManager>
             if(TutorialController.Instance.HasRunTutorial() == false)
             {
                 PlayerPrefs.SetInt("HasRunTutorial", 1);
+                if (LocalNotificationManager.Instance != null)
+                    LocalNotificationManager.Instance.RequestPermissionAfterTutorial();
                 CardContainer.Instance.ResetDeckAfterTutorial();
                 RequestFreshHandAfterTutorial();
                 AnalyticsService.Instance.RecordEvent("tutorial_finished");

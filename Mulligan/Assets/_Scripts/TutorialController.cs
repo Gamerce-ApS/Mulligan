@@ -563,6 +563,8 @@ public class TutorialController : Singleton<TutorialController>
         if (myCurrentAction == TutorialActionsEnum.END_TUTORIAL)
         {
             PlayerPrefs.SetInt("HasRunTutorial", 1);
+            if (LocalNotificationManager.Instance != null)
+                LocalNotificationManager.Instance.RequestPermissionAfterTutorial();
             ResetAfterTutorialFinished();
             AnalyticsService.Instance.RecordEvent("tutorial_finished");
             GameAnalytics.NewDesignEvent("tutorial:finished");

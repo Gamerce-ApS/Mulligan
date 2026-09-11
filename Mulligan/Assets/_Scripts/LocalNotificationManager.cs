@@ -30,6 +30,7 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
     public bool ShowTestNotificationInForeground = true;
 
     private bool isInitialized = false;
+    private bool permissionRequested = false;
     private bool skipNextPauseSchedule = false;
 
     protected override void Awake()
@@ -47,8 +48,16 @@ public class LocalNotificationManager : Singleton<LocalNotificationManager>
 
         isInitialized = true;
         InitializePlatform();
-        RequestPermission();
         CancelNotifications();
+    }
+
+    public void RequestPermissionAfterTutorial()
+    {
+        if (permissionRequested)
+            return;
+
+        permissionRequested = true;
+        RequestPermission();
     }
 
     private void OnApplicationPause(bool pause)
