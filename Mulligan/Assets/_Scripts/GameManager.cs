@@ -11,6 +11,7 @@ using Event = UnityEngine.Event;
 public class GameManager : Singleton<GameManager>
 {
     public const string FirstDefeatBuyPopupSkippedKey = "FirstDefeatBuyPopupSkipped";
+    private const int RoundAfterTutorial = 5;
     public static bool OpenHeroSelectionAfterDefeat = false;
 
     public enum GameStates
@@ -269,7 +270,7 @@ public class GameManager : Singleton<GameManager>
         GameData.CurrentReRolls = 2 + TheHero.GetRollsModifier();
         if (completedTutorialThisRound)
         {
-            GameData.CurrentRound = 1;
+            GameData.CurrentRound = RoundAfterTutorial;
         }
         else
         {

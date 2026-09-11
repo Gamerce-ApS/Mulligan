@@ -32,7 +32,7 @@ MonoBehaviour:
   - b4d3e05349b887624e166a5e8a58d8492b3f790a
   - 8b3e27fbc92e3dd4942611398c8b0ba90eca6bb7
   Build:
-  - 0.1
+  - 0.93
   - 0.92
   SelectedPlatformOrganization:
   - Gamerce ApS
@@ -96,7 +96,7 @@ MonoBehaviour:
   IncludeGooglePlay: 1
   FpsCriticalThreshold: 20
   FpsCirticalSubmitInterval: 1
-  PlatformFoldOut: 0001
+  PlatformFoldOut: 0101
   CustomDimensions01FoldOut: 0
   CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 0

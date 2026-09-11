@@ -80,7 +80,9 @@ public enum UpgradeEffect
     Charms_Gold,// Done
     Charms_Potion,
     Charms_Heal,
-    RankUpgrade_Normal // Done
+    RankUpgrade_Normal, // Done
+    Destroy=25,
+    Duplicate=26,
 }
 public enum SkipRewardType
 {

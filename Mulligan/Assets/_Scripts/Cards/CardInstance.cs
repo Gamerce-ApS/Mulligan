@@ -115,6 +115,14 @@ public class CardInstance
   
     }
 
+    public CardInstance CreateCopyForDeck()
+    {
+        CardInstance copy = new CardInstance(data);
+        copy.currentRank = currentRank;
+        copy.appliedUpgrades = new List<UpgradeCardData>(appliedUpgrades);
+        return copy;
+    }
+
     public void EvaluateUpgrades(System.Action onComplete)
     {
         foreach (var upgrade in appliedUpgrades)
@@ -169,7 +177,12 @@ public class CardInstance
         HandManager.Instance.PlayedHand.Remove(this);   
         CardContainer.Instance.DiscardDeck.Remove(this);
         CardContainer.Instance.CurrentDeck.Remove(this);
-        GameObject.Destroy(CardGO.gameObject);
+
+        if (CardGO != null)
+        {
+            GameObject.Destroy(CardGO.gameObject);
+            CardGO = null;
+        }
     }
     public void TurnEnded(System.Action onComplete)
     {

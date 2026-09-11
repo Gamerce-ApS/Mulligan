@@ -235,11 +235,42 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
 
         if (targetUnitCard != null && upgradeCard != null)
         {
-            targetUnitCard.cardInstance.ApplyUpgrade(upgradeCard.cardInstance.upgradeData);
+            ApplySelectedUpgrade(targetUnitCard, upgradeCard);
             SoundManager.TryPlay(SoundType.UnitUpgradeApplied);
             DailyQuestManager.Instance.AddProgress(DailyQuestType.UpgradeUnits);
         }
         GameData.UpgradedUnits++;
+    }
+
+    private void ApplySelectedUpgrade(Card targetUnitCard, Card upgradeCard)
+    {
+        if (targetUnitCard == null || targetUnitCard.cardInstance == null ||
+            upgradeCard == null || upgradeCard.cardInstance == null ||
+            upgradeCard.cardInstance.upgradeData == null)
+            return;
+
+        UpgradeCardData upgrade = upgradeCard.cardInstance.upgradeData;
+        CardInstance target = targetUnitCard.cardInstance;
+
+        if (upgrade.effect == UpgradeEffect.Destroy)
+        {
+            string unitName = target.data != null ? target.data.cardName : "Unit";
+            target.Destroy();
+            UIManager.Instance.ShowTooltip(unitName + " Destroyed");
+            return;
+        }
+
+        if (upgrade.effect == UpgradeEffect.Duplicate)
+        {
+            if (target.data == null)
+                return;
+
+            CardContainer.Instance.CurrentDeck.Add(target.CreateCopyForDeck());
+            UIManager.Instance.ShowTooltip(target.data.cardName + " Duplicated");
+            return;
+        }
+
+        target.ApplyUpgrade(upgrade);
     }
     public void ClickSkip()
     {
