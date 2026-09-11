@@ -123,11 +123,10 @@ RefreshPotionSlots();
     }
     public void SpawnRandomShopItem()
     {
-        int rand = Random.Range(0,4);
+        int rand = Random.Range(0,2);
         if(rand == 0)
         {
-            GameObject go = GameObject.Instantiate(UnitPackPrefab, PotionParent);
-            go.GetComponent<ShopCard>().Init(3);  
+            SpawnPotionCard();
         }else if(rand == 1)
         {
            SpawnArtifactCard(PotionParent); 
@@ -136,7 +135,9 @@ RefreshPotionSlots();
             SpawnRuneCard(PotionParent);
         }else
         {
-            SpawnPotionCard();
+                GameObject go = GameObject.Instantiate(UnitPackPrefab, PotionParent);
+            go.GetComponent<ShopCard>().Init(3);  
+        
         }
 
         

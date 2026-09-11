@@ -235,7 +235,7 @@ public class Enemy : MonoBehaviour
 
         //     });
 
-        UnityHelper.RunAfterDelay(this, 0.45f, () =>
+        UnityHelper.RunAfterDelay(this, 0.15f, () =>
         {
             // 2. Optional: impact punch
             // LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.15f)
