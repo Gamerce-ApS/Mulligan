@@ -85,6 +85,9 @@ public class CardInstance
     
     public void UpgradeRank()
     {
+        if (data == null || data.RankUpgrades == null)
+            return;
+
         if (currentRank < data.RankUpgrades.Count - 1)
         {
             currentRank++;

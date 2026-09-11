@@ -503,7 +503,10 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
-            DebugResetDailyQuests();
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                DebugResetDailyQuests();
+            else
+                DebugUnlockAllArtifacts();
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
@@ -570,6 +573,37 @@ public class GameManager : Singleton<GameManager>
     private void DebugResetDailyQuests()
     {
         DailyQuestManager.Instance.DebugResetDailyQuests();
+    }
+
+    private void DebugUnlockAllArtifacts()
+    {
+        int highestUnlockRun = GameData.CompletedFirstBossAmount;
+
+        if (CardContainer.Instance.ArtifactDataList != null)
+        {
+            foreach (var artifact in CardContainer.Instance.ArtifactDataList)
+            {
+                if (artifact != null && artifact.UnlockRun > highestUnlockRun)
+                    highestUnlockRun = artifact.UnlockRun;
+            }
+        }
+
+        GameData.CompletedFirstBossAmount = highestUnlockRun;
+        GameData.UnlockProgressForThisRun = highestUnlockRun;
+
+        if (DailyQuestManager.Instance != null)
+            DailyQuestManager.Instance.DebugUnlockAllArtifactRewards();
+
+        PlayerPrefs.Save();
+
+        if (InventoryOverviewManager.Instance != null &&
+            InventoryOverviewManager.Instance.ShopWindow != null &&
+            InventoryOverviewManager.Instance.ShopWindow.activeSelf)
+        {
+            InventoryOverviewManager.Instance.PopulateInventory();
+        }
+
+        UIManager.Instance.ShowTooltip("All artifacts unlocked");
     }
 
     public bool AreArtifactsMutedByBoss()

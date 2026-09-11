@@ -672,7 +672,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
               
                         break;
                     case ArtifactEffectType.ProcHPinDamage:
-                        visual.AddDamage( (int)((artifactData.value/100f) * GameManager.Instance.TheHero.MaxHealth), () =>
+                        int hpDamage = (int)((artifactData.value/100f) * GameManager.Instance.TheHero.MaxHealth);
+                        if (hpDamage == 0)
+                        {
+                            next();
+                            break;
+                        }
+                        visual.AddDamage(hpDamage, () =>
                         {
                             visual.AddToTotalDamage(() =>
                             {
@@ -684,6 +690,11 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
                     case ArtifactEffectType.CritPerPotionUsed:
                         int crit = GameData.PotionsUsed * artifactData.value;
+                        if (crit == 0)
+                        {
+                            next();
+                            break;
+                        }
 
                         visual.AddDamage(crit, () =>
                         {
@@ -698,6 +709,11 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         break;
                     case ArtifactEffectType.CritPerSkippedLevel:
                         int crit2 = GameData.SkippedLevels * artifactData.value;
+                        if (crit2 == 0)
+                        {
+                            next();
+                            break;
+                        }
 
                         visual.AddDamage(crit2, () =>
                         {
@@ -712,6 +728,11 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                         break;
                     case ArtifactEffectType.CritPerUpgradedUnit:
                         int crit3 = GameData.UpgradedUnits * artifactData.value;
+                        if (crit3 == 0)
+                        {
+                            next();
+                            break;
+                        }
 
                         visual.AddDamage(crit3, () =>
                         {

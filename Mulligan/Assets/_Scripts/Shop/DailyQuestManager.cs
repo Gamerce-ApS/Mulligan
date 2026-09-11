@@ -390,6 +390,13 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
         SaveAndRefresh();
     }
 
+    public void DebugUnlockAllArtifactRewards()
+    {
+        GameData.DailyQuestArtifactRewardIndex = DailyQuestArtifactRewards.Count;
+        PlayerPrefs.Save();
+        UpdateRewardUI();
+    }
+
     public void SuppressHideForDebugClick()
     {
         suppressHideUntilTime = Time.unscaledTime + 0.35f;

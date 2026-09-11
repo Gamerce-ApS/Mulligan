@@ -314,6 +314,12 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void AddToTotalDamage(System.Action onComplete)
     {
+        if (DmgNumber == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
         // 5. Wait, then fly to damage label
         LeanTween.delayedCall(DmgNumber, 0.75f, () =>
         {
