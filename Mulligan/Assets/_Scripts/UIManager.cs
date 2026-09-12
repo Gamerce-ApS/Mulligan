@@ -30,6 +30,7 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text GoldLabel;
     public GameObject SplashScreen;
     public GameObject BuyPopupWindow;
+    private Dictionary<RectTransform, Vector2> buyPopupItemPositions = new Dictionary<RectTransform, Vector2>();
     public GameObject AttackButton;
     public GameObject ReRollButton;
 
@@ -1003,8 +1004,10 @@ public class UIManager : Singleton<UIManager>
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
         // Store the target position
         Vector2 targetPos = g.GetComponent<RectTransform>().anchoredPosition;
+        PrepareBuyPopupItems(g.transform);
         // Start below the screen
         g.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
+        AnimateBuyPopupItemsIn(g.transform);
         // Animate to its original position
         LeanTween.move(g.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
     }
@@ -1033,6 +1036,66 @@ public class UIManager : Singleton<UIManager>
             });
 
     }
+
+    private void PrepareBuyPopupItems(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == "ignore")
+                continue;
+
+            RectTransform rect = child.GetComponent<RectTransform>();
+            if (rect == null)
+                continue;
+
+            LeanTween.cancel(child.gameObject);
+            if (buyPopupItemPositions.ContainsKey(rect) == false)
+                buyPopupItemPositions.Add(rect, rect.anchoredPosition);
+
+            Vector2 targetPosition = buyPopupItemPositions[rect];
+            rect.anchoredPosition = new Vector2(targetPosition.x, targetPosition.y - Screen.height);
+
+            CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
+            if (canvasGroup != null)
+                canvasGroup.alpha = 0f;
+        }
+    }
+
+    private void AnimateBuyPopupItemsIn(Transform parent)
+    {
+        int index = 0;
+        foreach (Transform child in parent)
+        {
+            if (child.name == "ignore")
+                continue;
+
+            RectTransform rect = child.GetComponent<RectTransform>();
+            if (rect == null)
+                continue;
+
+            LeanTween.cancel(child.gameObject);
+
+            if (buyPopupItemPositions.ContainsKey(rect) == false)
+                buyPopupItemPositions.Add(rect, rect.anchoredPosition);
+
+            Vector2 targetPosition = buyPopupItemPositions[rect];
+            rect.anchoredPosition = new Vector2(targetPosition.x, targetPosition.y - Screen.height);
+
+            CanvasGroup canvasGroup = child.GetComponent<CanvasGroup>();
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha = 0f;
+                LeanTween.alphaCanvas(canvasGroup, 1f, 0.2f).setDelay(index * 0.07f);
+            }
+
+            LeanTween.move(rect, targetPosition, 0.45f)
+                .setEaseOutBack()
+                .setDelay(index * 0.07f);
+
+            index++;
+        }
+    }
+
     public void ClickBuy()
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);

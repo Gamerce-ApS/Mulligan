@@ -122,14 +122,14 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             BossInfoBox.SetActive(true);
             if (TutorialController.Instance.HasRunTutorial() == false)
             {
-                BossPortrait.sprite = GetPortraitSprite(TutorialController.Instance.myBossList[0].sprite_theSprite);
+                BossPortrait.sprite = GetPortraitSprite(TutorialController.Instance.myBossList[0].sprite_theSprite, true);
                 BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].name;
                 BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].description;
 
             }
             else
             {
-                BossPortrait.sprite = GetPortraitSprite(CardContainer.Instance.myBossList[0].sprite_theSprite);
+                BossPortrait.sprite = GetPortraitSprite(CardContainer.Instance.myBossList[0].sprite_theSprite, true);
                 BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
                 BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
 
@@ -149,9 +149,9 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
 
     }
 
-    private Sprite GetPortraitSprite(string key)
+    private Sprite GetPortraitSprite(string key, bool useOverride = false)
     {
-        if (PortraitOverrides != null)
+        if (useOverride && PortraitOverrides != null)
         {
             foreach (var portraitOverride in PortraitOverrides)
             {
