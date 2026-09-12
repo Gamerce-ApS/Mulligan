@@ -5,6 +5,7 @@ using GameAnalyticsSDK;
 using Singular;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -105,7 +106,7 @@ public class UIManager : Singleton<UIManager>
     // Update is called once per frame
     void Update()
     {
-
+        UpdateIapHeroInfoPopupClose();
     }
     public Vector3 GetDeckPilePosition()
     {
@@ -637,16 +638,27 @@ public class UIManager : Singleton<UIManager>
         return null;
     }
     public GameObject CardInfoPopupPrefab;
+    public GameObject IapHeroInfoPopupPrefab;
     private GameObject activeInfoPopup;
+    private bool isIapHeroInfoPopupOpen = false;
     public Transform currentTransform;
     public void ShowCardInfoPopup(string title, string description, string text2, Transform target)
+    {
+        isIapHeroInfoPopupOpen = false;
+        ShowInfoPopup(title, description, text2, target, CardInfoPopupPrefab);
+    }
+
+    private void ShowInfoPopup(string title, string description, string text2, Transform target, GameObject popupPrefab)
     {
         if (activeInfoPopup != null) Destroy(activeInfoPopup);
 
         SoundManager.TryPlay(SoundType.InfoPopup);
 
         currentTransform = target;
-        GameObject popup = Instantiate(CardInfoPopupPrefab, thCanvas.transform);
+        if (popupPrefab == null)
+            popupPrefab = CardInfoPopupPrefab;
+
+        GameObject popup = Instantiate(popupPrefab, thCanvas.transform);
         activeInfoPopup = popup;
 
         TMP_Text titleText = popup.transform.Find("Title").GetComponent<TMP_Text>();
@@ -700,8 +712,31 @@ public class UIManager : Singleton<UIManager>
             Destroy(activeInfoPopup);
             activeInfoPopup = null;
         }
+        isIapHeroInfoPopupOpen = false;
         currentTransform = null;
     }
+
+    private void UpdateIapHeroInfoPopupClose()
+    {
+        if (isIapHeroInfoPopupOpen == false || activeInfoPopup == null)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideCardInfoPopup();
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0) == false)
+            return;
+
+        RectTransform popupRect = activeInfoPopup.GetComponent<RectTransform>();
+        if (popupRect != null && RectTransformUtility.RectangleContainsScreenPoint(popupRect, Input.mousePosition, null))
+            return;
+
+        HideCardInfoPopup();
+    }
+
     private string[] funMessages = new string[]
 {
         "- You did great!",
@@ -1017,6 +1052,7 @@ public class UIManager : Singleton<UIManager>
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.WindowClose);
         GameAnalytics.NewDesignEvent("paywall:close");
+        HideCardInfoPopup();
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 0f, 0.25f).setEaseInQuad();
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
@@ -1153,6 +1189,7 @@ public class UIManager : Singleton<UIManager>
 
     public void ClickBuyHero(int heroIndex)
     {
+        HideCardInfoPopup();
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.ButtonTap);
         SingularSDK.Event("ClickBuyHero" + heroIndex);
@@ -1180,6 +1217,81 @@ public class UIManager : Singleton<UIManager>
             if (HeroInfoScreen.Instance != null)
                 HeroInfoScreen.Instance.RefreshBuyButton();
         });
+    }
+
+    public void IapHeroButtonInfoPress(int heroIndex)
+    {
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.ButtonTap);
+
+        if (CardContainer.Instance == null ||
+            CardContainer.Instance.HeroDataList == null ||
+            heroIndex < 0 ||
+            heroIndex >= CardContainer.Instance.HeroDataList.Length)
+        {
+            ShowTooltip("Hero info coming soon!");
+            return;
+        }
+
+        HeroData heroData = CardContainer.Instance.HeroDataList[heroIndex];
+        Transform popupTarget = transform;
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            popupTarget = EventSystem.current.currentSelectedGameObject.transform;
+        else if (BuyPopupWindow != null)
+            popupTarget = BuyPopupWindow.transform;
+
+        ShowInfoPopup(
+            heroData.heroName,
+            GetIapHeroDescription(heroData),
+            "",
+            popupTarget,
+            IapHeroInfoPopupPrefab
+        );
+        isIapHeroInfoPopupOpen = true;
+    }
+
+    private string GetIapHeroDescription(HeroData heroData)
+    {
+        string labelColor = "#EAAF3B";
+        return
+            "<color=" + labelColor + ">Health:</color> " + heroData.startingHP + "\n" +
+            "<color=" + labelColor + ">Artifact Slots:</color> " + heroData.ArtifactSlots + "\n" +
+            "<color=" + labelColor + ">Potions Slots:</color> " + heroData.PotionSlots + "\n" +
+            "<color=" + labelColor + ">Starting Gold:</color> " + CardContainer.Instance.StatingGold + "\n\n" +
+            "<color=" + labelColor + ">Starting Items:</color>\n" +
+            GetIapHeroStartingItems(heroData);
+    }
+
+    private string GetIapHeroStartingItems(HeroData heroData)
+    {
+        if (heroData.heroName == "Dwarf")
+            return "Rune of Rare Chance\nArtifact: +2 Gold";
+
+        if (heroData.heroName == "Warlock")
+            return "Rune of Attack\nArtifact: Rank Up";
+
+        if (heroData.heroName == "Goblin")
+            return "2x Potions";
+
+        if (heroData.startingItem == StartingItemType.RandomArtifact)
+            return "Random Artifact";
+
+        if (heroData.startingItem == StartingItemType.RandomPotion)
+            return "Random Potion";
+
+        if (heroData.startingTrait == HeroTrait.BonusAttack)
+            return "+1 Attack";
+
+        if (heroData.startingTrait == HeroTrait.BonusReroll)
+            return "+1 Reroll";
+
+        if (heroData.startingTrait == HeroTrait.ExtraGold)
+            return "Extra Gold";
+
+        if (string.IsNullOrEmpty(heroData.description) == false)
+            return heroData.description;
+
+        return "None";
     }
 
     public void ClickTutorial()
