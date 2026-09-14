@@ -73,7 +73,6 @@ namespace MulliganCombatFeel
             _baseLocalPos = transform.localPosition;
             _baseLocalScale = transform.localScale;
             _baseLocalRot = transform.localRotation;
-            CaptureAttackerBase();
             if (impactObject != null)
             {
                 _impactObjBaseLocalPos = impactObject.transform.localPosition;
@@ -85,7 +84,7 @@ namespace MulliganCombatFeel
 
         void CaptureAttackerBase()
         {
-            if (_capturedAttackerBase || attackerMotionTarget == null) return;
+            if (attackerMotionTarget == null) return;
             _attackerBaseLocalPos = attackerMotionTarget.localPosition;
             _capturedAttackerBase = true;
         }
@@ -94,6 +93,7 @@ namespace MulliganCombatFeel
         {
             _lab = lab != null ? lab : VFXLabController.Instance;
             ResetEffect();
+            CaptureAttackerBase();
             _run = StartCoroutine(RunRoutine());
         }
 
@@ -203,6 +203,7 @@ namespace MulliganCombatFeel
 
         public void ResetEffect()
         {
+            bool wasPlaying = IsPlaying || _run != null;
             StopAllCoroutines();
             _run = null;
             IsPlaying = false;
@@ -226,7 +227,7 @@ namespace MulliganCombatFeel
                     impactObject.transform.localRotation = _impactObjBaseLocalRot;
                 }
             }
-            if (attackerMotionTarget != null && _capturedAttackerBase)
+            if (wasPlaying && attackerMotionTarget != null && _capturedAttackerBase)
                 attackerMotionTarget.localPosition = _attackerBaseLocalPos;
         }
 

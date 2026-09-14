@@ -52,9 +52,7 @@ namespace MulliganCombatFeel
 
         void Awake()
         {
-            _baseScale = transform.localScale;
-            _basePos = transform.localPosition;
-            _baseRot = transform.localRotation;
+            CaptureBaseTransform();
             _colorId = Shader.PropertyToID(colorProperty);
             _mpb = new MaterialPropertyBlock();
 
@@ -75,10 +73,20 @@ namespace MulliganCombatFeel
         /// <paramref name="fromDir"/> = attacker -> target direction (world space).</summary>
         public void PlayHitReaction(Vector3 fromDir, float intensity = 1f)
         {
+            if (_reactCo != null)
+            {
+                StopCoroutine(_reactCo);
+                _reactCo = null;
+                RestoreBaseTransform();
+            }
+            else
+            {
+                CaptureBaseTransform();
+            }
+
             float i = Mathf.Max(0f, intensity);
             Vector3 dir = fromDir.sqrMagnitude > 0.0001f ? fromDir.normalized : Vector3.right;
             HitFlash(i);
-            if (_reactCo != null) StopCoroutine(_reactCo);
             _reactCo = StartCoroutine(ReactRoutine(dir, i));
             if (_resetFailsafeCo != null) StopCoroutine(_resetFailsafeCo);
             _resetFailsafeCo = StartCoroutine(ResetAfterRealtime(reactionTime + knockbackReturnTime + 0.25f));
@@ -161,9 +169,7 @@ namespace MulliganCombatFeel
                 yield return null;
             }
 
-            transform.localScale = _baseScale;
-            transform.localPosition = _basePos;
-            transform.localRotation = _baseRot;
+            RestoreBaseTransform();
             _reactCo = null;
         }
 
@@ -176,15 +182,33 @@ namespace MulliganCombatFeel
 
         public void ResetTarget()
         {
+            bool wasReacting = _reactCo != null;
             if (_reactCo != null) { StopCoroutine(_reactCo); _reactCo = null; }
             if (_flashCo != null) { StopCoroutine(_flashCo); _flashCo = null; }
             if (_resetFailsafeCo != null) { StopCoroutine(_resetFailsafeCo); _resetFailsafeCo = null; }
-            transform.localScale = _baseScale;
-            transform.localPosition = _basePos;
-            transform.localRotation = _baseRot;
+
+            if (wasReacting)
+                RestoreBaseTransform();
+            else
+                CaptureBaseTransform();
+
             SetColor(_baseColor);
             SetOverlayAlpha(0f);
             SetOverlayActive(false);
+        }
+
+        void CaptureBaseTransform()
+        {
+            _baseScale = transform.localScale;
+            _basePos = transform.localPosition;
+            _baseRot = transform.localRotation;
+        }
+
+        void RestoreBaseTransform()
+        {
+            transform.localScale = _baseScale;
+            transform.localPosition = _basePos;
+            transform.localRotation = _baseRot;
         }
 
         void SetColor(Color c)

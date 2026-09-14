@@ -22,9 +22,11 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     public TMPro.TMP_Text ArtifactSlotsLabel;
     public TMPro.TMP_Text PotionSlotsLabel;
     public TMPro.TMP_Text GolfLabel;
-     public TMPro.TMP_Text RuneLabel;
+    public TMPro.TMP_Text RuneLabel;
     public TMPro.TMP_Text MaxLevelLabel;
     public TMPro.TMP_Text MaxDamageLabel;
+    public GameObject BuyHeroButton;
+    private bool subscribedToIapInitialized = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,6 +45,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     public void ShowWindow(System.Action onComplete = null)
     {
         SoundManager.TryPlay(SoundType.WindowOpen);
+        SubscribeToIapInitialized();
 
         bgCanvasGroup.gameObject.SetActive(true);
         bgCanvasGroup.alpha = 0;
@@ -72,16 +75,18 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         {
             bool isUnlocked = IAPManager.Instance == null || IAPManager.Instance.IsHeroUnlocked(i);
             HeroLock[i].SetActive(isUnlocked == false);
+            SetLockRaycasts(HeroLock[i], false);
 
             if (HeroLock[i].transform.parent.childCount > 0)
             {
                 Image portrait = HeroLock[i].transform.parent.GetChild(0).GetComponent<Image>();
-                if (portrait != null)
-                    portrait.color = isUnlocked ? new Color(1,1,1,1) : new Color(0.5f,0.5f,0.5f,1);
+                // if (portrait != null)
+                //     portrait.color = isUnlocked ? new Color(1,1,1,1) : new Color(0.5f,0.5f,0.5f,1);
             }
         }
 
         RefreshHighscoreUI(selectedHero >= 0 ? selectedHero : GameData.HeroSelected);
+        RefreshBuyHeroButton();
     }
     public void HideWindow(System.Action onCompletet=null)
     {
@@ -110,12 +115,6 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         // if (selectedHero == id)
         //     return; // Don't reselect the same hero
-        if(IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(id) == false)
-        {
-            UIManager.Instance.ClickBuyPopupWindow();
-            return;  
-        }
-
         if(LeanTween.isTweening())
         return;
 
@@ -124,9 +123,6 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     private void SelectHero(int id, bool playFeedback)
     {
         if (id < 0 || id >= HeroNormal.Count)
-            id = 0;
-
-        if (IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(id) == false)
             id = 0;
 
         if (playFeedback)
@@ -168,9 +164,19 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         }
 
         selectedHero = id;
-        GameData.HeroSelected = id;
+        if (IAPManager.Instance == null || IAPManager.Instance.IsHeroUnlocked(id))
+            GameData.HeroSelected = id;
+
         RefreshHighscoreUI(id);
+        RefreshBuyHeroButton();
     }
+
+    private void OnDestroy()
+    {
+        if (subscribedToIapInitialized && IAPManager.Instance != null)
+            IAPManager.Instance.OnIAPInitialized -= RefreshBuyHeroButton;
+    }
+
     public void SetCharacterData(int aID)
     {
         HeroData data= CardContainer.Instance.HeroDataList[aID];
@@ -229,6 +235,15 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             UIManager.Instance.ShowTooltip("You need to selected a hero!");
             return;
         }
+
+        if (IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(selectedHero) == false)
+        {
+            UIManager.Instance.ShowTooltip("Unlock this hero first!");
+            RefreshBuyHeroButton();
+            return;
+        }
+
+        GameData.HeroSelected = selectedHero;
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.Success);
 
@@ -248,8 +263,64 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void ClickLocked()
     {
-        UIManager.Instance.ClickBuyPopupWindow();
+        RefreshBuyHeroButton();
 
+    }
+
+    public void ClickedBuyHeroButton()
+    {
+        if (selectedHero <= 0)
+            return;
+
+        if (IAPManager.Instance == null)
+            return;
+
+        if (IAPManager.Instance.IsHeroUnlocked(selectedHero))
+        {
+            UIManager.Instance.ShowTooltip("You already own this hero!");
+            RefreshBuyHeroButton();
+            return;
+        }
+
+        UIManager.Instance.ClickBuyHero(selectedHero);
+    }
+
+    public void RefreshBuyHeroButton()
+    {
+        if (BuyHeroButton == null)
+            return;
+
+        bool showBuyButton = selectedHero > 0 && IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(selectedHero) == false;
+        BuyHeroButton.SetActive(showBuyButton);
+
+        if (showBuyButton == false)
+            return;
+
+        TMPro.TMP_Text priceLabel = BuyHeroButton.transform.childCount > 0
+            ? BuyHeroButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>()
+            : null;
+
+        if (priceLabel != null)
+            priceLabel.text = IAPManager.Instance.GetLocalizedHeroPrice(selectedHero);
+    }
+
+    private void SubscribeToIapInitialized()
+    {
+        if (subscribedToIapInitialized || IAPManager.Instance == null)
+            return;
+
+        IAPManager.Instance.OnIAPInitialized += RefreshBuyHeroButton;
+        subscribedToIapInitialized = true;
+    }
+
+    private void SetLockRaycasts(GameObject lockObject, bool value)
+    {
+        if (lockObject == null)
+            return;
+
+        Graphic[] graphics = lockObject.GetComponentsInChildren<Graphic>(true);
+        foreach (Graphic graphic in graphics)
+            graphic.raycastTarget = value;
     }
     public void ClickTalent()
     {

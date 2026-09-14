@@ -55,9 +55,9 @@ public class Hero : MonoBehaviour
     }
     public void Init(HeroData aData)
     {
-        myHeroData = aData;
+        myHeroData = CreateRuntimeHeroData(aData);
 
-        Health = aData.startingHP;
+        Health = myHeroData.startingHP;
         healthLabel.text = Health.ToString();
         MaxHealth = Health;
         SetStartingItems();
@@ -84,7 +84,7 @@ public class Hero : MonoBehaviour
         RefreshBar();
         for (int i = 0; i < UIManager.Instance.PotionBackground.Count; i++)
         {
-            if (i < aData.PotionSlots)
+            if (i < myHeroData.PotionSlots)
             {
                 UIManager.Instance.PotionBackground[i].SetActive(true);
                 UIManager.Instance.PotionBackground[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -95,7 +95,7 @@ public class Hero : MonoBehaviour
         }
         for (int i = 0; i < UIManager.Instance.ArtifactBackground.Count; i++)
         {
-            if (i < aData.ArtifactSlots)
+            if (i < myHeroData.ArtifactSlots)
             {
                 UIManager.Instance.ArtifactBackground[i].SetActive(true);
                 UIManager.Instance.ArtifactBackground[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -104,6 +104,20 @@ public class Hero : MonoBehaviour
                 UIManager.Instance.ArtifactBackground[i].SetActive(false);
         }
 
+    }
+    private HeroData CreateRuntimeHeroData(HeroData source)
+    {
+        return new HeroData
+        {
+            heroName = source.heroName,
+            startingHP = source.startingHP,
+            startingTrait = source.startingTrait,
+            startingItem = source.startingItem,
+            description = source.description,
+            portrait = source.portrait,
+            PotionSlots = source.PotionSlots,
+            ArtifactSlots = source.ArtifactSlots
+        };
     }
     public void SetStartingItems()
     {
