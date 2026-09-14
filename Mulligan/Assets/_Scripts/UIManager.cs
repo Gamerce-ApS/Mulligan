@@ -9,6 +9,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class IapPriceText
+{
+    public bool IsFullGameUnlock;
+    public int HeroIndex;
+    public TMP_Text PriceLabel;
+}
+
 public class UIManager : Singleton<UIManager>
 {
     //TODO
@@ -32,6 +40,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject SplashScreen;
     public GameObject BuyPopupWindow;
     private Dictionary<RectTransform, Vector2> buyPopupItemPositions = new Dictionary<RectTransform, Vector2>();
+    public List<IapPriceText> IapPriceTexts;
+    private bool subscribedToIapInitialized = false;
     public GameObject AttackButton;
     public GameObject ReRollButton;
 
@@ -94,6 +104,10 @@ public class UIManager : Singleton<UIManager>
 
         }
 
+        SubscribeToIapInitialized();
+
+        UpdateIapPriceTexts();
+
     }
     public void DamageReset()
     {
@@ -108,6 +122,13 @@ public class UIManager : Singleton<UIManager>
     {
         UpdateIapHeroInfoPopupClose();
     }
+
+    private void OnDestroy()
+    {
+        if (subscribedToIapInitialized && IAPManager.Instance != null)
+            IAPManager.Instance.OnIAPInitialized -= UpdateIapPriceTexts;
+    }
+
     public Vector3 GetDeckPilePosition()
     {
         if (DeckPileIcon != null)
@@ -1032,6 +1053,8 @@ public class UIManager : Singleton<UIManager>
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.WindowOpen);
         GameAnalytics.NewDesignEvent("paywall:show");
+        SubscribeToIapInitialized();
+        UpdateIapPriceTexts();
         BuyPopupWindow.SetActive(true);
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 0;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
@@ -1130,6 +1153,32 @@ public class UIManager : Singleton<UIManager>
 
             index++;
         }
+    }
+
+    public void UpdateIapPriceTexts()
+    {
+        if (IapPriceTexts == null || IAPManager.Instance == null)
+            return;
+
+        foreach (IapPriceText priceText in IapPriceTexts)
+        {
+            if (priceText == null || priceText.PriceLabel == null)
+                continue;
+
+            if (priceText.IsFullGameUnlock)
+                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedPrice();
+            else
+                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedHeroPrice(priceText.HeroIndex);
+        }
+    }
+
+    private void SubscribeToIapInitialized()
+    {
+        if (subscribedToIapInitialized || IAPManager.Instance == null)
+            return;
+
+        IAPManager.Instance.OnIAPInitialized += UpdateIapPriceTexts;
+        subscribedToIapInitialized = true;
     }
 
     public void ClickBuy()

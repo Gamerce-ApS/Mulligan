@@ -112,7 +112,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         //     return; // Don't reselect the same hero
         if(IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(id) == false)
         {
-            UIManager.Instance.ClickBuyHero(id);
+            UIManager.Instance.ClickBuyPopupWindow();
             return;  
         }
 
@@ -248,7 +248,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void ClickLocked()
     {
-        UIManager.Instance.ShowTooltip("Locked heroes");
+        UIManager.Instance.ClickBuyPopupWindow();
 
     }
     public void ClickTalent()
