@@ -74,7 +74,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
     public string PlayerId { get; private set; } = "";
     public string PlayerDisplayName { get; private set; } = "Player";
     public string PlayerDisplayNameForUI => GetDisplayPlayerName(PlayerDisplayName);
-
+    
     [Header("Window")]
     public GameObject ShopWindow;
     public CanvasGroup bgCanvasGroup;
@@ -93,6 +93,8 @@ public class HighscoreManager : Singleton<HighscoreManager>
     public Image TodaysBestHeroPortrait;
     public TMP_Text TodaysBestLevelLabel;
     public TMP_Text TodaysBestTopHitLabel;
+    public TMP_Text TodaysBestName;
+
 
     [Header("Set Name")]
     public GameObject SetNameWindow;
@@ -981,6 +983,9 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
         if (TodaysBestTopHitLabel != null)
             TodaysBestTopHitLabel.text = "...";
+        
+        if(TodaysBestName != null);
+        TodaysBestName.text = "";
 
         LeaderboardEntryData dailyBest = await GetDailyBest();
         if (dailyBest == null)
@@ -990,7 +995,8 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
             if (TodaysBestTopHitLabel != null)
                 TodaysBestTopHitLabel.text = "0";
-
+            if(TodaysBestName != null);
+                    TodaysBestName.text = "";
             return;
         }
 
@@ -1002,6 +1008,9 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
         if (TodaysBestTopHitLabel != null)
             TodaysBestTopHitLabel.text = "" + dailyBest.TopHit;
+
+        if(TodaysBestName != null);
+            TodaysBestName.text = ""+GetDisplayPlayerName(dailyBest.PlayerName);
     }
 
     private void ScrollToPlayerIfNeeded(List<LeaderboardEntryData> entries)
@@ -1083,7 +1092,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
         return null;
     }
 
-    private string GetDisplayPlayerName(string playerName)
+    public string GetDisplayPlayerName(string playerName)
     {
         if (string.IsNullOrEmpty(playerName))
             return "Player";

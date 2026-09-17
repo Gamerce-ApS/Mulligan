@@ -15,6 +15,7 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
     public Image DailyBestHeroPortrait;
     public TMP_Text DailyBestLevelLabel;
     public TMP_Text DailyBestTopHitLabel;
+    public TMP_Text TodaysBestName;    
     public GameObject BuyButton;
 
     public Vector3 startPosition;
@@ -148,6 +149,8 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
 
         if (DailyBestTopHitLabel != null)
             DailyBestTopHitLabel.text = "... Hit";
+        if (TodaysBestName != null)
+                TodaysBestName.text = "";
 
         LeaderboardEntryData dailyBest = await HighscoreManager.Instance.GetDailyBest();
         if (dailyBest == null)
@@ -157,6 +160,8 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
 
             if (DailyBestTopHitLabel != null)
                 DailyBestTopHitLabel.text = "0 Hit";
+                if (TodaysBestName != null)
+                TodaysBestName.text = "";
 
             return;
         }
@@ -168,6 +173,10 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
 
         if (DailyBestTopHitLabel != null)
             DailyBestTopHitLabel.text = "" + dailyBest.TopHit+" Hit";
+
+          if(TodaysBestName != null);
+            TodaysBestName.text = ""+HighscoreManager.Instance.GetDisplayPlayerName(dailyBest.PlayerName);
+
     }
 
     private void SetHeroPortrait()

@@ -61,6 +61,7 @@ public class GameManager : Singleton<GameManager>
             CardContainer.Instance.Init();
             HandManager.Instance.Init();
             UIManager.Instance.Init();
+            SettingsManager.Instance.Init();
             UnitUpgradeManager.Instance.Init();
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
