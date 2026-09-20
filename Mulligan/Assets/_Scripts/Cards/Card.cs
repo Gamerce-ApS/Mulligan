@@ -47,6 +47,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
     }
+
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
     public void Init(CardInstance aCardInstance)
     {
         cardInstance = aCardInstance;
@@ -93,10 +103,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void Init(CardData aData)
     {
         // Sett image, name, type and so on
-        NameLabel.text = aData.cardName;
-
-        string[] splitName = aData.cardName.Split(" ");
-        NameLabel.text = splitName[0] + "\n" + splitName[1];
+        NameLabel.text = FormatCardName(LocalizedContent.UnitName(aData));
 
         DamageLabel.text = aData.damage.ToString();
         DamageLabel.text = (cardInstance.GetDamage()).ToString();
@@ -141,7 +148,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     public void Init(UpgradeCardData aData)
     {
-        NameLabel.text = aData.name;
+        NameLabel.text = LocalizedContent.UpgradeName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void UpdateCardUI()
@@ -208,11 +215,12 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             {
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
-                    NameLabel.text,
-                    GetDescription(),
-                    "",
-                    transform
-                );
+                    () => cardInstance.data != null
+                        ? LocalizedContent.UnitName(cardInstance.data)
+                        : LocalizedContent.UpgradeName(cardInstance.upgradeData),
+                    () => GetDescription(),
+                    () => "",
+                    transform);
             }
         }
     }
@@ -222,23 +230,48 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         for(int i= 0; i < cardInstance.appliedUpgrades.Count;i++)
         {
             var upg = cardInstance.appliedUpgrades[i];
-            if (upg.description.Length >0)
+            string localizedDescription = LocalizedContent.UpgradeDescription(upg);
+            if (string.IsNullOrEmpty(localizedDescription) == false)
             {
                 if(i != 0)
               upgradeString += "\n";
-              upgradeString += upg.description.Replace("\n", " ");
+              upgradeString += localizedDescription.Replace("\n", " ");
 
             }
         }
         if(cardInstance.tempCritBonus>0)
-        upgradeString+= "<color=\"red\">"+"\n +"+cardInstance.tempCritBonus+" Crit </color>";
+        upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_crit", "\n+{0} Crit", cardInstance.tempCritBonus) + "</color>";
         if(cardInstance.tempDamageBonus>0)
-        upgradeString+= "<color=\"red\">"+"\n +"+cardInstance.tempDamageBonus+" Damage</color>";
+        upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_damage", "\n+{0} Damage", cardInstance.tempDamageBonus) + "</color>";
 
 
         //upgradeString = upgradeString.Replace(" ", "");
         return upgradeString;
     }
+
+    private void RefreshLocalizedText()
+    {
+        if (NameLabel == null || cardInstance == null)
+            return;
+
+        if (cardInstance.data != null)
+            NameLabel.text = FormatCardName(LocalizedContent.UnitName(cardInstance.data));
+        else if (cardInstance.upgradeData != null)
+            NameLabel.text = LocalizedContent.UpgradeName(cardInstance.upgradeData);
+    }
+
+    private string FormatCardName(string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+            return "";
+
+        int firstSpace = displayName.IndexOf(' ');
+        if (firstSpace <= 0 || firstSpace >= displayName.Length - 1)
+            return displayName;
+
+        return displayName.Substring(0, firstSpace) + "\n" + displayName.Substring(firstSpace + 1);
+    }
+
     public Quaternion originalRotation;
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -246,7 +279,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             if( cardInstance.data.race != CardRace.Orc)
             {
-                UIManager.Instance.ShowTooltip("Click on ORCs");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
                 return;
             }
             if(HandManager.Instance.SelectedCardCount()>=3)
@@ -261,7 +294,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 // Wait until the click has actually toggled selection before advancing.
             }else
             {
-                UIManager.Instance.ShowTooltip("Click on correct cards!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_correct_cards", "Click on correct cards!"));
                 return;
             } 
         }
@@ -269,7 +302,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             if( cardInstance.data.cardClass != CardClass.Warrior)
             {
-                UIManager.Instance.ShowTooltip("Click on Warriors");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_warriors", "Click on Warriors"));
                 return;
             }
             if(HandManager.Instance.SelectedCardCount()>=3)
@@ -298,7 +331,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             if (HandManager.Instance.SelectedCardCount() >= 4)
             {
                 LeanTween.scale(gameObject, transform.localScale * 1.1f, 0.2f).setEasePunch();
-                UIManager.Instance.ShowTooltip("Only 4 cards can be selected.");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.only_four_cards", "Only 4 cards can be selected."));
                 return;
             }
             //if (cardInstance.isMuted)
@@ -506,24 +539,11 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (DmgNumber == null)
             return 0;
 
-        string amount = DmgNumber.GetComponent<TMPro.TMP_Text>().text;
-
-
-        amount = amount.Replace("</color>", "");
-        amount = amount.Replace("<color=#FFD700>+", "");
-        amount = amount.Replace("Critical", "");
-        amount = amount.Replace("Gold", "");
-        amount = amount.Replace("+", "");
-        amount = amount.Replace(" ", "");
-        amount = amount.Replace("<voffset=-26>", "");
-        amount = amount.Replace("</voffset>", "");
-        amount = amount.Replace("<sprite=0>", "");
-
-
-        return int.Parse(amount);
+        return currentDamageNumberAmount;
 
     }
     public GameObject DmgNumber = null;
+    private int currentDamageNumberAmount = 0;
     public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false, bool isGold = false,bool isTotal = false,string SynergySpriteName = "")
     {
         if(damageAmount==0)
@@ -579,18 +599,19 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         //totalD = int.Parse(dmgText.text.Replace("+", "")) + damageAmount;
         totalD = damageAmount;
+        currentDamageNumberAmount = totalD;
 
         if (isCrit)
         {
             if (isTotal)
             {
-                dmgText.text = "<color=#FFD700>+" + totalD + " Critical</color>"; // gold/yellow + label
+                dmgText.text = "<color=#FFD700>" + LocalizationService.Format("ui.damage.critical", "+{0} Critical", totalD) + "</color>"; // gold/yellow + label
             }
             else
-                dmgText.text = "+" + totalD + " Critical";
+                dmgText.text = LocalizationService.Format("ui.damage.critical", "+{0} Critical", totalD);
         }else if(isGold)
         {
-            dmgText.text = "+" + totalD + " Gold";
+            dmgText.text = LocalizationService.Format("ui.damage.gold", "+{0} Gold", totalD);
         }
         else
         {
@@ -657,24 +678,19 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 .setEaseInCubic()
                 .setOnComplete(() =>
                 {
-                    string amount = DmgNumber.GetComponent<TMPro.TMP_Text>().text;
+                    int amount = currentDamageNumberAmount;
                     Destroy(DmgNumber);
                     DmgNumber = null;
-
-                    amount = amount.Replace("</color>", "");
-                    amount = amount.Replace("<color=#FFD700>+", "");
-                    amount = amount.Replace("<voffset=-26>", "");
-                    amount = amount.Replace("</voffset>", "");
-                    amount = amount.Replace("<sprite=0>", "");
+                    currentDamageNumberAmount = 0;
                     // After animation add to the total
                     if (isCrit)
-                        UIManager.Instance.AddCritical(int.Parse(amount.Replace(" Critical", "")));
+                        UIManager.Instance.AddCritical(amount);
                     else if(isGold)
                     {
-                        GameManager.Instance.AddGold(int.Parse(amount.Replace(" Gold", "")));
+                        GameManager.Instance.AddGold(amount);
                     }
                     else
-                        UIManager.Instance.AddDamage(int.Parse(amount));
+                        UIManager.Instance.AddDamage(amount);
 
                     onComplete?.Invoke();
                 });

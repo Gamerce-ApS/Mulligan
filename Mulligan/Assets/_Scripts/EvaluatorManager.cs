@@ -222,7 +222,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 float healthBefore = GameManager.Instance.TheHero.Health;
                 GameManager.Instance.TheHero.HealPercent(healPercent);
                 result.HealthGained += Mathf.RoundToInt(GameManager.Instance.TheHero.Health - healthBefore);
-                UIManager.Instance.ShowTooltip($"Healed {artifact.value}% HP from artifact");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.healed_from_artifact", "Healed {0}% HP from artifact", artifact.value));
             }
             if(artifact.effect == ArtifactEffectType.DestroyUnitInHand)
             {
@@ -232,18 +232,18 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                     CardInstance ins = HandManager.Instance.CurrentHand.GetRandom();
                     ins.CardGO.FlyAwayAndDiscard(discardTarget,0.1f,ins);
 
-                UIManager.Instance.ShowTooltip($"Destroyed Random Unit in hand");   
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.random_unit_destroyed", "Destroyed random unit in hand"));
                 }
             }
             if(artifact.effect == ArtifactEffectType.GainGoldAfterLevel)
             {
                 GameManager.Instance.AddGold(artifact.value);
                 result.GoldGained += artifact.value;
-                UIManager.Instance.ShowTooltip($"+ {artifact.value} Gold from artifact");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.gold_from_artifact", "+{0} Gold from artifact", artifact.value));
             }
             if(artifact.effect == ArtifactEffectType.GetPotion)
             {
-                UIManager.Instance.ShowTooltip($"Added random potion!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.random_potion_added", "Added random potion!"));
                 PotionManager.Instance.AddRandomPotion(artifact.value);
             }
             
@@ -265,17 +265,17 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 {
                     case ArtifactEffectType.AddReroll:
                         GameData.CurrentReRolls += artifact.value;
-                        UIManager.Instance.ShowTooltip($"+{artifact.value} Reroll");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.reroll_added", "+{0} Reroll", artifact.value));
                         break;
 
                     case ArtifactEffectType.AddArmySize:
                         GameData.CurrentArmySize += artifact.value;
-                        UIManager.Instance.ShowTooltip($"+{artifact.value} Army Size");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.army_size_added", "+{0} Army Size", artifact.value));
                         break;
 
                     case ArtifactEffectType.AttackPerLevel:
                         GameData.CurrentAttacks += artifact.value;
-                        UIManager.Instance.ShowTooltip($"+{artifact.value} Attack");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.attack_added", "+{0} Attack", artifact.value));
                         break;
 
                     case ArtifactEffectType.RankRandomUnit:
@@ -563,7 +563,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                     steps.Enqueue(next =>
                     {
                         Debug.Log("Retriggering card from upgrade: " + card.data.cardName);
-                        UIManager.Instance.ShowTooltip($"Retriggered: {card.data.cardName}");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.retriggered_unit", "Retriggered: {0}", LocalizedContent.UnitName(card.data)));
                         EvaluateCard(card, () =>
                         {
                             Debug.Log("Retrigger complete for: " + card.data.cardName);
@@ -575,7 +575,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 {
                     steps.Enqueue(next =>
                     {
-                        UIManager.Instance.ShowTooltip($"Added potion: {card.data.cardName}");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_added_for_unit", "Added potion: {0}", LocalizedContent.UnitName(card.data)));
                         PotionManager.Instance.AddRandomPotion();
                         UnityHelper.RunAfterDelay(this, 0.5f, () =>
                         {
@@ -587,7 +587,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 {
                     steps.Enqueue(next =>
                     {
-                        UIManager.Instance.ShowTooltip($"Healed 10% of max health!");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.healed_max_health", "Healed 10% of max health!"));
                         GameManager.Instance.TheHero.HealPercent(0.1f);
                         UnityHelper.RunAfterDelay(this, 0.5f, () =>
                         {

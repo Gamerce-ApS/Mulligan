@@ -16,7 +16,9 @@ public class DailyQuestItem : MonoBehaviour
         int clampedProgress = Mathf.Clamp(progress, 0, target);
 
         if (ProgressText != null)
-            ProgressText.text = completed ? "Done" : clampedProgress + " / " + target;
+            ProgressText.text = completed
+                ? LocalizationService.Get("ui.common.done", "Done")
+                : clampedProgress + " / " + target;
 
         if (ProgressBar != null)
             ProgressBar.fillAmount = target <= 0 ? 1f : (float)clampedProgress / target;

@@ -227,7 +227,7 @@ RefreshPotionSlots();
         }
         else
         {
-            UIManager.Instance.ShowTooltip("Not enough gold!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.not_enough_gold", "Not enough gold!"));
             SoundManager.TryPlay(SoundType.Error);
         }
     }
@@ -242,7 +242,7 @@ RefreshPotionSlots();
         }
         else
         {
-            UIManager.Instance.ShowTooltip("Not enough gold!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.not_enough_gold", "Not enough gold!"));
             SoundManager.TryPlay(SoundType.Error);
         }
     }
@@ -257,7 +257,7 @@ RefreshPotionSlots();
         }
         else
         {
-            UIManager.Instance.ShowTooltip("Not enough gold!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.not_enough_gold", "Not enough gold!"));
             SoundManager.TryPlay(SoundType.Error);
         }
     }

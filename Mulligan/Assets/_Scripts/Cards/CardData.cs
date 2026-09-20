@@ -116,7 +116,7 @@ public class RuneData
     public string GetRarityText()
     {
        RarityType r =  (RarityType)rarity;
-        return "\n\n<color=#"+UIManager.Instance.GetTextColor((int)rarity).ToHexString()+">"+r.ToString()+"</color>";
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor((int)rarity).ToHexString()+">"+LocalizedContent.Rarity(r)+"</color>";
     }
 }
 public enum RuneType
@@ -222,7 +222,7 @@ public class ArtifactData
     public string GetRarityText()
     {
        RarityType r =  (RarityType)rarity;
-        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+LocalizedContent.Rarity(r)+"</color>";
     }
     public CardRace RandomRace;
 }
@@ -240,7 +240,7 @@ public class PotionCardData
     public string GetRarityText()
     {
        RarityType r =  (RarityType)rarity;
-        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+LocalizedContent.Rarity(r)+"</color>";
     }
 }
 [System.Serializable]
@@ -258,7 +258,7 @@ public class UpgradeCardData
     public string GetRarityText()
     {
        RarityType r =  (RarityType)rarity;
-        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+r.ToString()+"</color>";
+        return "\n\n<color=#"+UIManager.Instance.GetTextColor(rarity).ToHexString()+">"+LocalizedContent.Rarity(r)+"</color>";
     }
 }
 [System.Serializable]

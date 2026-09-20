@@ -274,7 +274,7 @@ public class Enemy : MonoBehaviour
                 GameData.CurrentGold -= 10;
                 if(GameData.CurrentGold <0)
                 GameData.CurrentGold =0;
-                UIManager.Instance.ShowTooltip("Gold stolen!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.gold_stolen", "Gold stolen!"));
             }
         });
 
@@ -299,7 +299,7 @@ public class Enemy : MonoBehaviour
                
                     if (50 < Random.Range(0, 100))
                     {
-                        UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.dodged_attack", "Dodged Attack!"));
                         SoundManager.TryPlay(SoundType.Dodge);
                         return;
                     }

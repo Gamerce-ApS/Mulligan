@@ -25,6 +25,16 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
     }
+
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
     public void SetMuted(bool mute)
     {
         isMuted = mute;
@@ -34,12 +44,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         ArtifactData = aData;
 
-        string artifactName = aData.name;
-        if( artifactName.Contains("RandomRace"))
-        {
-            artifactName = artifactName.Replace("RandomRace",aData.RandomRace.ToString());
-        }
-        NameLabel.text = artifactName;
+        NameLabel.text = LocalizedContent.ArtifactName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
         RefreshCounter();
     }
@@ -156,11 +161,10 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
-                    ArtifactData.name,
-                    ArtifactData.description+ ArtifactData.GetRarityText(),
-                    "",
-                    transform
-                );
+                    () => GetArtifactName(),
+                    () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
+                    () => "",
+                    transform);
             }
         }
     }
@@ -189,12 +193,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public string GetArtifactName()
     {
-        string artifactName = ArtifactData.name;
-        if( artifactName.Contains("RandomRace"))
-        {
-            artifactName = artifactName.Replace("RandomRace",ArtifactData.RandomRace.ToString());
-        }
-        return artifactName;
+        return LocalizedContent.ArtifactName(ArtifactData);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -211,9 +210,9 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             else
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                     GetArtifactName(),
-                     ArtifactData.description + ArtifactData.GetRarityText(),
-                     "",
+                     () => GetArtifactName(),
+                     () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
+                     () => "",
                      transform);
             }
         }
@@ -227,7 +226,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 ArtifactManager.Instance.SellArtifact(this); // Add logic here
 
-                UIManager.Instance.ShowTooltip("Artifact sold!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.artifact_sold", "Artifact sold!"));
 
             }
             else
@@ -242,9 +241,16 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     }
 
+    private void RefreshLocalizedText()
+    {
+        if (ArtifactData != null && NameLabel != null)
+            NameLabel.text = LocalizedContent.ArtifactName(ArtifactData);
+    }
+
 
     public GameObject DmgNumber = null;
     bool isCriticalBonus = false;
+    private int damageNumberAmount = 0;
     public void AddDamage(int damageAmount, System.Action onComplete, bool isCrit = false)
     {
         if (damageAmount == 0)
@@ -264,6 +270,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             DmgNumber = Instantiate(UIManager.Instance.DamageFloatPrefab, transform.position, Quaternion.identity, transform);
             DmgNumber.GetComponent<TMPro.TMP_Text>().text = "0";
+            damageNumberAmount = 0;
         }
         else
         {
@@ -275,11 +282,12 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
 
 
-        totalD = int.Parse(dmgText.text.Replace("+", "")) + damageAmount;
+        totalD = damageNumberAmount + damageAmount;
+        damageNumberAmount = totalD;
 
         if (isCrit)
         {
-            dmgText.text = "+" + totalD + " Critical";
+            dmgText.text = LocalizationService.Format("ui.damage.critical", "+{0} Critical", totalD);
             DmgNumber.GetComponent<TMPro.TMP_Text>().fontSize = 50;
             dmgRT.anchoredPosition -= new Vector2(0, 165f+120f);
 
@@ -333,15 +341,16 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 .setEaseInCubic()
                 .setOnComplete(() =>
                 {
-                    string amount = DmgNumber.GetComponent<TMPro.TMP_Text>().text;
+                    int amount = damageNumberAmount;
                     Destroy(DmgNumber);
                     DmgNumber = null;
+                    damageNumberAmount = 0;
 
                     // After animation add to the total
                     if (isCriticalBonus)
-                        UIManager.Instance.AddCritical(int.Parse(amount.Replace(" Critical", "")));
+                        UIManager.Instance.AddCritical(amount);
                     else
-                        UIManager.Instance.AddDamage(int.Parse(amount));
+                        UIManager.Instance.AddDamage(amount);
 
                     onComplete?.Invoke();
                 });
@@ -351,5 +360,6 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         Destroy(DmgNumber);
         DmgNumber = null;
+        damageNumberAmount = 0;
     }
 }

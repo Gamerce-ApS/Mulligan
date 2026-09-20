@@ -68,7 +68,7 @@ public class GameDataLoader : Singleton<GameDataLoader>
             LoadingWindow.SetActive(true);
 
         if (LoadingLabel != null)
-            LoadingLabel.text = "Loading.";
+            LoadingLabel.text = LocalizationService.Format("ui.common.loading", "Loading{0}", ".");
 
         if (loadingTextRoutine != null)
             StopCoroutine(loadingTextRoutine);
@@ -95,7 +95,7 @@ public class GameDataLoader : Singleton<GameDataLoader>
         while (true)
         {
             if (LoadingLabel != null)
-                LoadingLabel.text = "Loading" + new string('.', dotCount);
+                LoadingLabel.text = LocalizationService.Format("ui.common.loading", "Loading{0}", new string('.', dotCount));
 
             dotCount++;
             if (dotCount > 3)

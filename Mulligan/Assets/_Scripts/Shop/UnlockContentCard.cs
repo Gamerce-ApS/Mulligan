@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,8 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public bool IsInteractable = true;
     private string title;
     private string description;
+    private Func<string> titleProvider;
+    private Func<string> descriptionProvider;
     private bool isHolding = false;
     private float holdTimer = 0f;
     private Vector2 pointerDownPosition;
@@ -20,6 +23,15 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         title = aTitle;
         description = aDescription;
+        titleProvider = null;
+        descriptionProvider = null;
+        PopupTarget = aPopupTarget;
+    }
+
+    public void Init(Func<string> aTitleProvider, Func<string> aDescriptionProvider, Transform aPopupTarget)
+    {
+        titleProvider = aTitleProvider;
+        descriptionProvider = aDescriptionProvider;
         PopupTarget = aPopupTarget;
     }
 
@@ -98,6 +110,16 @@ public class UnlockContentCard : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void ShowInfo()
     {
+        if (titleProvider != null)
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                titleProvider,
+                descriptionProvider,
+                () => "",
+                PopupTarget);
+            return;
+        }
+
         UIManager.Instance.ShowCardInfoPopup(
             title,
             description,

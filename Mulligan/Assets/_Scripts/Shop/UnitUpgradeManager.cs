@@ -155,7 +155,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         }
       if(targetUnitCard == null)
         {
-            UIManager.Instance.ShowTooltip("Click on a Unit and a Upgrade!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.select_unit_upgrade", "Click on a Unit and an Upgrade!"));
 
             return;
         }
@@ -169,7 +169,7 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         }
     if(upgradeCard == null)
         {
-            UIManager.Instance.ShowTooltip("Click on a Unit and a Upgrade card!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.select_unit_upgrade_card", "Click on a Unit and an Upgrade card!"));
 
             return;
         }
@@ -254,9 +254,9 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
 
         if (upgrade.effect == UpgradeEffect.Destroy)
         {
-            string unitName = target.data != null ? target.data.cardName : "Unit";
+            string unitName = target.data != null ? LocalizedContent.UnitName(target.data) : LocalizationService.Get("ui.common.unit", "Unit");
             target.Destroy();
-            UIManager.Instance.ShowTooltip(unitName + " Destroyed");
+            UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.unit_destroyed", "{0} Destroyed", unitName));
             return;
         }
 
@@ -266,7 +266,10 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
                 return;
 
             CardContainer.Instance.CurrentDeck.Add(target.CreateCopyForDeck());
-            UIManager.Instance.ShowTooltip(target.data.cardName + " Duplicated");
+            UIManager.Instance.ShowTooltip(LocalizationService.Format(
+                "ui.tooltip.unit_duplicated",
+                "{0} Duplicated",
+                LocalizedContent.UnitName(target.data)));
             return;
         }
 
@@ -351,9 +354,9 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             if (aCard.myType == CardTypeEnum.UnitUpgradeCard)
             {
                 UIManager.Instance.ShowCardInfoPopup(
-              aCard.cardInstance.upgradeData.name,
-              aCard.cardInstance.upgradeData.description+ aCard.cardInstance.upgradeData.GetRarityText(),
-              aCard.cardInstance.upgradeData.type.ToString(),
+              () => LocalizedContent.UpgradeName(aCard.cardInstance.upgradeData),
+              () => LocalizedContent.UpgradeDescription(aCard.cardInstance.upgradeData) + aCard.cardInstance.upgradeData.GetRarityText(),
+              () => LocalizedContent.UpgradeType(aCard.cardInstance.upgradeData.type),
               InfoBoxPopup.transform);
             }
         }

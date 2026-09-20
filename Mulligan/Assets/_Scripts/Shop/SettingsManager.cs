@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ public class SettingsManager : Singleton<SettingsManager>
     private const string MusicVolumeKey = "Settings_MusicVolume";
     private const string SoundVolumeKey = "Settings_SoundVolume";
     private const string VibrationsEnabledKey = "Settings_VibrationsEnabled";
-    private const string LanguageIndexKey = "Settings_LanguageIndex";
+    private const string LegacyLanguageIndexKey = "Settings_LanguageIndex";
 
     [Header("Window")]
     public GameObject SettingsWindow;
@@ -25,7 +24,6 @@ public class SettingsManager : Singleton<SettingsManager>
 
     [Header("Language")]
     public TMP_Text CurrentLanguageLabel;
-    public List<string> Languages = new List<string> { "English" };
 
     [Header("Defaults")]
     [Range(0f, 1f)] public float DefaultMusicVolume = 1f;
@@ -44,7 +42,9 @@ public class SettingsManager : Singleton<SettingsManager>
         if (SettingsWindow != null)
             startPosition = SettingsWindow.GetComponent<RectTransform>().anchoredPosition;
 
-        EnsureLanguageList();
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+        LocalizationService.LanguageChanged += HandleLanguageChanged;
+
         LoadSettings();
         ApplySettings();
         UpdateUI();
@@ -163,7 +163,7 @@ public class SettingsManager : Singleton<SettingsManager>
         PlayerPrefs.SetFloat(MusicVolumeKey, DefaultMusicVolume);
         PlayerPrefs.SetFloat(SoundVolumeKey, DefaultSoundVolume);
         PlayerPrefs.SetInt(VibrationsEnabledKey, DefaultVibrationsEnabled ? 1 : 0);
-        PlayerPrefs.SetInt(LanguageIndexKey, currentLanguageIndex);
+        LocalizationService.SetLanguage(LocalizationService.Languages[currentLanguageIndex]);
 
         ApplySettings();
         UpdateUI();
@@ -172,8 +172,8 @@ public class SettingsManager : Singleton<SettingsManager>
 
     private void LoadSettings()
     {
-        currentLanguageIndex = PlayerPrefs.GetInt(LanguageIndexKey, GetDefaultLanguageIndex());
-        currentLanguageIndex = Mathf.Clamp(currentLanguageIndex, 0, Languages.Count - 1);
+        MigrateLegacyLanguageSetting();
+        currentLanguageIndex = GetCurrentLanguageIndex();
     }
 
     private void ApplySettings()
@@ -207,7 +207,7 @@ public class SettingsManager : Singleton<SettingsManager>
         UpdateVibrationImage(vibrationsEnabled);
 
         if (CurrentLanguageLabel != null)
-            CurrentLanguageLabel.text = Languages[currentLanguageIndex];
+            CurrentLanguageLabel.text = LocalizationService.Languages[currentLanguageIndex];
     }
 
     private void UpdateVibrationImage(bool vibrationsEnabled)
@@ -222,33 +222,44 @@ public class SettingsManager : Singleton<SettingsManager>
     {
         SoundManager.TryPlay(SoundType.ButtonTap);
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
-        EnsureLanguageList();
-
-        currentLanguageIndex = (currentLanguageIndex + direction + Languages.Count) % Languages.Count;
-        PlayerPrefs.SetInt(LanguageIndexKey, currentLanguageIndex);
+        int languageCount = LocalizationService.Languages.Count;
+        currentLanguageIndex = (currentLanguageIndex + direction + languageCount) % languageCount;
+        LocalizationService.SetLanguage(LocalizationService.Languages[currentLanguageIndex]);
 
         if (CurrentLanguageLabel != null)
-            CurrentLanguageLabel.text = Languages[currentLanguageIndex];
-    }
-
-    private void EnsureLanguageList()
-    {
-        if (Languages == null)
-            Languages = new List<string>();
-
-        if (Languages.Count == 0)
-            Languages.Add("English");
+            CurrentLanguageLabel.text = LocalizationService.Languages[currentLanguageIndex];
     }
 
     private int GetDefaultLanguageIndex()
     {
-        for (int i = 0; i < Languages.Count; i++)
+        for (int i = 0; i < LocalizationService.Languages.Count; i++)
         {
-            if (string.Equals(Languages[i], "English", System.StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(LocalizationService.Languages[i], "English", System.StringComparison.OrdinalIgnoreCase))
                 return i;
         }
 
         return 0;
+    }
+
+    private int GetCurrentLanguageIndex()
+    {
+        for (int i = 0; i < LocalizationService.Languages.Count; i++)
+        {
+            if (string.Equals(LocalizationService.Languages[i], LocalizationService.CurrentLanguage, System.StringComparison.OrdinalIgnoreCase))
+                return i;
+        }
+
+        return GetDefaultLanguageIndex();
+    }
+
+    private void MigrateLegacyLanguageSetting()
+    {
+        if (PlayerPrefs.HasKey(LocalizationService.LanguagePlayerPrefsKey) || !PlayerPrefs.HasKey(LegacyLanguageIndexKey))
+            return;
+
+        int legacyIndex = Mathf.Clamp(PlayerPrefs.GetInt(LegacyLanguageIndexKey, 0), 0, LocalizationService.Languages.Count - 1);
+        LocalizationService.SetLanguage(LocalizationService.Languages[legacyIndex]);
+        PlayerPrefs.DeleteKey(LegacyLanguageIndexKey);
     }
 
     private void SaveSettings()
@@ -265,5 +276,16 @@ public class SettingsManager : Singleton<SettingsManager>
     private void OnApplicationQuit()
     {
         SaveSettings();
+    }
+
+    private void HandleLanguageChanged()
+    {
+        currentLanguageIndex = GetCurrentLanguageIndex();
+        UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
     }
 }

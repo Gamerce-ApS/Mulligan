@@ -340,7 +340,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             HidePrice(shopCard);
         }
 
-        InitWrapper(visual, content.name, content.description);
+        InitWrapper(
+            visual,
+            () => LocalizedContent.ArtifactName(displayArtifact),
+            () => LocalizedContent.ArtifactDescription(displayArtifact) + displayArtifact.GetRarityText());
         HideUnusedArtifactPreview(visual);
         DisableChildRaycasts(visual);
         RegisterNewReveal(content, visual);
@@ -424,7 +427,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             HidePrice(shopCard);
         }
 
-        InitWrapper(visual, content.name, content.description);
+        InitWrapper(
+            visual,
+            () => LocalizedContent.PotionName(content.potion),
+            () => LocalizedContent.PotionDescription(content.potion) + content.potion.GetRarityText());
         DisableChildRaycasts(visual);
         RegisterNewReveal(content, visual);
     }
@@ -443,7 +449,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             HidePrice(shopCard);
         }
 
-        InitWrapper(visual, content.name, content.description);
+        InitWrapper(
+            visual,
+            () => LocalizedContent.RuneName(content.rune),
+            () => LocalizedContent.RuneDescription(content.rune) + content.rune.GetRarityText());
         DisableChildRaycasts(visual);
         RegisterNewReveal(content, visual);
     }
@@ -462,7 +471,10 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
             card.allowDrag = false;
         }
 
-        InitWrapper(visual, content.name, content.description);
+        InitWrapper(
+            visual,
+            () => LocalizedContent.UpgradeName(content.upgrade),
+            () => LocalizedContent.UpgradeDescription(content.upgrade) + content.upgrade.GetRarityText());
         DisableChildRaycasts(visual);
         RegisterNewReveal(content, visual);
     }
@@ -989,7 +1001,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         return visual;
     }
 
-    private void InitWrapper(GameObject visual, string title, string description)
+    private void InitWrapper(GameObject visual, System.Func<string> titleProvider, System.Func<string> descriptionProvider)
     {
         if (visual == null || visual.transform.parent == null)
             return;
@@ -1001,7 +1013,7 @@ public class InventoryOverviewManager : Singleton<InventoryOverviewManager>
         if (unlockCard != null)
         {
             unlockCard.AllowLongPress = false;
-            unlockCard.Init(title, description, visual.transform);
+            unlockCard.Init(titleProvider, descriptionProvider, visual.transform);
         }
     }
 

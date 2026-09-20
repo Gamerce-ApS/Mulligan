@@ -131,6 +131,16 @@ public class TutorialController : Singleton<TutorialController>
     private bool waitingForContinueClick = false;
     private int stepRequestId = 0;
 
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
+
     public GameObject GnomeObject;
     public GameObject ShopMerchant;
 
@@ -247,7 +257,7 @@ public class TutorialController : Singleton<TutorialController>
         UpdateOverlay(step);
 
         if (dialogueText != null)
-            dialogueText.text = step.Dialogue;
+            dialogueText.text = LocalizedContent.Tutorial(step.Id, step.Dialogue);
 
         if (step.DialogueParent != null)
             step.DialogueParent.anchoredPosition = step.DialoguePosition;
@@ -271,7 +281,7 @@ public class TutorialController : Singleton<TutorialController>
         TutorialStep step = steps[index];
 
         if (dialogueText != null)
-            dialogueText.text = step.Dialogue;
+            dialogueText.text = LocalizedContent.Tutorial(step.Id, step.Dialogue);
 
         if (step.DialogueParent != null)
         {
@@ -709,7 +719,7 @@ public class TutorialController : Singleton<TutorialController>
         TutorialStep step = steps[index];
 
         if (dialogueText != null)
-            dialogueText.text = step.Dialogue;
+            dialogueText.text = LocalizedContent.Tutorial(step.Id, step.Dialogue);
 
         if (step.DialogueParent != null)
         {
@@ -742,6 +752,16 @@ public class TutorialController : Singleton<TutorialController>
         }
 
         HandleStartAction();
+    }
+
+    private void RefreshLocalizedText()
+    {
+        TutorialStep step = CurrentStep;
+        if (step != null && dialogueText != null)
+            dialogueText.text = LocalizedContent.Tutorial(step.Id, step.Dialogue);
+
+        if (clickToContinueText != null)
+            clickToContinueText.text = LocalizationService.Get("ui.tutorial.click_continue", clickToContinueString);
     }
     private void OnFullScreenBlockButtonClicked()
     {
@@ -786,7 +806,7 @@ public class TutorialController : Singleton<TutorialController>
             clickToContinueObject.SetActive(true);
 
         if (clickToContinueText != null)
-            clickToContinueText.text = clickToContinueString;
+            clickToContinueText.text = LocalizationService.Get("ui.tutorial.click_continue", clickToContinueString);
     }
 
     private void HideClickToContinue()

@@ -34,7 +34,7 @@ public class PotionManager : Singleton<PotionManager>
                 {
                     targetCard.cardInstance.tempCritBonus += (int)potion.value* EffectMultiplier;
                     targetCard.UpdateCardUI();
-                    UIManager.Instance.ShowTooltip($"+{potion.value} Crit to {targetCard.cardInstance.data.cardName}");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_crit", "+{0} Crit to {1}", potion.value, LocalizedContent.UnitName(targetCard.cardInstance.data)));
                 }
                 break;
 
@@ -43,7 +43,7 @@ public class PotionManager : Singleton<PotionManager>
                 {
                     targetCard.cardInstance.tempDamageBonus += (int)potion.value * EffectMultiplier;
                     targetCard.UpdateCardUI();
-                    UIManager.Instance.ShowTooltip($"+{potion.value} Damage to {targetCard.cardInstance.data.cardName}");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_damage", "+{0} Damage to {1}", potion.value, LocalizedContent.UnitName(targetCard.cardInstance.data)));
                 }
                 break;
 
@@ -62,14 +62,14 @@ public class PotionManager : Singleton<PotionManager>
                 if (targetCard != null)
                 {
                     targetCard.cardInstance.BecomeFacelessThisTurn();
-                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} becomes Faceless");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_faceless", "{0} becomes Faceless", LocalizedContent.UnitName(targetCard.cardInstance.data)));
                 }
                 break;
                 case PotionEffectType.DestroyUnit:
                 if (targetCard != null)
                 {
                     targetCard.cardInstance.Destroy();
-                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} Destroyed");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.unit_destroyed", "{0} Destroyed", LocalizedContent.UnitName(targetCard.cardInstance.data)));
                 }
                 break;
 
@@ -79,7 +79,7 @@ public class PotionManager : Singleton<PotionManager>
                 foreach (var unit in list.Take(2))
                 {
                     unit.BecomeFacelessThisTurn();
-                    UIManager.Instance.ShowTooltip($"{unit.data.cardName} becomes Faceless");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_faceless", "{0} becomes Faceless", LocalizedContent.UnitName(unit.data)));
                 }
 
                 if(EffectMultiplier==2)
@@ -87,7 +87,7 @@ public class PotionManager : Singleton<PotionManager>
                     foreach (var unit in list.Take(2))
                     {
                         unit.BecomeFacelessThisTurn();
-                        UIManager.Instance.ShowTooltip($"{unit.data.cardName} becomes Faceless");
+                        UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_faceless", "{0} becomes Faceless", LocalizedContent.UnitName(unit.data)));
                     }
                 }
                 break;
@@ -98,18 +98,18 @@ public class PotionManager : Singleton<PotionManager>
                     targetCard.cardInstance.tempDamageBonus += targetCard.cardInstance.GetDamage() * (int)potion.value * EffectMultiplier;
                     targetCard.cardInstance.WillExplodeAfterAttack = true;
                     targetCard.UpdateCardUI();
-                    UIManager.Instance.ShowTooltip($"{targetCard.cardInstance.data.cardName} gains {potion.value} 4x Damage but will explode");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_suicide_boost", "{0} gains {1} 4x Damage but will explode", LocalizedContent.UnitName(targetCard.cardInstance.data), potion.value));
                 }
                 break;
 
             case PotionEffectType.DisableDebuff:
                 GameManager.Instance.DisableBossDebuffForTurn();
-                UIManager.Instance.ShowTooltip($"Boss debuff disabled this turn");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_disable_debuff", "Boss debuff disabled this turn"));
                 break;
 
             case PotionEffectType.HealHero:
                 GameManager.Instance.TheHero.HealPercent(potion.value * EffectMultiplier);
-                UIManager.Instance.ShowTooltip("Hero healed "+ potion.value * EffectMultiplier+ "% HP");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_heal", "Hero healed {0}% HP", potion.value * EffectMultiplier));
 
                 GameManager.Instance.TheHero.HealEffect.SetActive(false);
                 GameManager.Instance.TheHero.HealEffect.SetActive(true);
@@ -127,14 +127,14 @@ public class PotionManager : Singleton<PotionManager>
 
 
                 GameManager.Instance.TheHero.ReduceMaxHPPercent(0.1f);
-                UIManager.Instance.ShowTooltip("All damage x5 this turn, lose 10% max HP");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_boost_lose_hp", "All damage x5 this turn, lose 10% max HP"));
                 break;
 
             case PotionEffectType.RetriggerUpgrades:
                 if (targetCard != null)
                 {
                     //targetCard.cardInstance.TriggerAllUpgrades();
-                    UIManager.Instance.ShowTooltip($"Retriggered upgrades for {targetCard.cardInstance.data.cardName}");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_retrigger_upgrades", "Retriggered upgrades for {0}", LocalizedContent.UnitName(targetCard.cardInstance.data)));
                 }
                 break;
 
@@ -151,7 +151,7 @@ public class PotionManager : Singleton<PotionManager>
             {
                 LeanTween.delayedCall(gameObject, 0.5f, () =>
                 {
-                    UIManager.Instance.ShowTooltip($"Retriggered Potion!");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_retriggered", "Retriggered Potion!"));
                     LeanTween.delayedCall(gameObject, 0.5f, () =>
                     {
                         TriggerPotion(potion, targetCard);
@@ -300,7 +300,7 @@ public void SellPotion(Potion aPotion)
         if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
             Debug.Log("potion slots are full.");
-            UIManager.Instance.ShowTooltip("potion slots are full.");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_slots_full", "Potion slots are full."));
 
             return;
         }
@@ -347,7 +347,7 @@ public void SellPotion(Potion aPotion)
         }
         if (ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
         {
-            UIManager.Instance.ShowTooltip("potion slots are full.");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_slots_full", "Potion slots are full."));
             return;
         }
 

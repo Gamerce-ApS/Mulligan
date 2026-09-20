@@ -30,7 +30,7 @@ public class HandManager : Singleton<HandManager>
         {
             var randomCard = CurrentHand[Random.Range(0, CurrentHand.Count)];
             randomCard.UpgradeRank();
-            UIManager.Instance.ShowTooltip("1 Unit Ranked Up!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.unit_ranked_up", "1 Unit Ranked Up!"));
         }
     }
     public void GiveRandomUpgrade()
@@ -40,7 +40,7 @@ public class HandManager : Singleton<HandManager>
             var randomCard = CurrentHand[Random.Range(0, CurrentHand.Count)];
 
             randomCard.ApplyUpgrade(UnitUpgradeManager.Instance.GetRandomUpgrade());
-            UIManager.Instance.ShowTooltip("1 Unit Ranked Up!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.unit_ranked_up", "1 Unit Ranked Up!"));
         }
     }
     public void DrawHand()

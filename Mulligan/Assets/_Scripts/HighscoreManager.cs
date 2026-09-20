@@ -564,7 +564,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
         string playerName = CleanPlayerName(rawName);
         if (string.IsNullOrEmpty(playerName))
         {
-            ShowNameError("Enter a name");
+            ShowNameError(LocalizationService.Get("ui.highscore.enter_name", "Enter a name"));
             return;
         }
 
@@ -573,7 +573,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
 
         if (IsUGSReady == false)
         {
-            ShowNameError("Could not connect");
+            ShowNameError(LocalizationService.Get("ui.highscore.could_not_connect", "Could not connect"));
             return;
         }
 
@@ -587,7 +587,7 @@ public class HighscoreManager : Singleton<HighscoreManager>
         }
         catch (Exception e)
         {
-            ShowNameError("Name unavailable");
+            ShowNameError(LocalizationService.Get("ui.highscore.name_unavailable", "Name unavailable"));
             Debug.LogWarning("Failed to update player name. " + e.Message);
         }
     }

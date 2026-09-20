@@ -32,6 +32,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
         OriginalScale = HeroNormal[0].transform.localScale;
+        LocalizationService.LanguageChanged += HandleLanguageChanged;
     }
 
     // Update is called once per frame
@@ -173,6 +174,8 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
     private void OnDestroy()
     {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+
         if (subscribedToIapInitialized && IAPManager.Instance != null)
             IAPManager.Instance.OnIAPInitialized -= RefreshBuyHeroButton;
     }
@@ -182,40 +185,40 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
         HeroData data= CardContainer.Instance.HeroDataList[aID];
         if(aID == 0)
         {
-            NameLabel.text=data.heroName.ToString();
+            NameLabel.text=LocalizedContent.HeroName(data, aID);
             HPLabel.text=data.startingHP.ToString();
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="None";
+            RuneLabel.text=LocalizedContent.HeroStartingItems(data, aID);
         }
          if(aID == 1)
         {
-            NameLabel.text=data.heroName.ToString();
+            NameLabel.text=LocalizedContent.HeroName(data, aID);
             HPLabel.text=data.startingHP.ToString();
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="Rune of Rare chance \nArtifact: +2 Gold";
+            RuneLabel.text=LocalizedContent.HeroStartingItems(data, aID);
         }
          if(aID == 2)
         {
-            NameLabel.text=data.heroName.ToString();
+            NameLabel.text=LocalizedContent.HeroName(data, aID);
             HPLabel.text=data.startingHP.ToString();
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="Rune of Attack \nArtifact: Rank Up";
+            RuneLabel.text=LocalizedContent.HeroStartingItems(data, aID);
         }
          if(aID == 3)
         {
     
-            NameLabel.text=data.heroName.ToString();
+            NameLabel.text=LocalizedContent.HeroName(data, aID);
             HPLabel.text=data.startingHP.ToString();
             ArtifactSlotsLabel.text=data.ArtifactSlots.ToString();
             PotionSlotsLabel.text=data.PotionSlots.ToString();
             GolfLabel.text= CardContainer.Instance.StatingGold.ToString();
-            RuneLabel.text="2x Potions";
+            RuneLabel.text=LocalizedContent.HeroStartingItems(data, aID);
         }
         RefreshHighscoreUI(aID);
    
@@ -232,13 +235,13 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     {
         if(selectedHero == -1)
         {
-            UIManager.Instance.ShowTooltip("You need to selected a hero!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.select_hero", "You need to select a hero!"));
             return;
         }
 
         if (IAPManager.Instance != null && IAPManager.Instance.IsHeroUnlocked(selectedHero) == false)
         {
-            UIManager.Instance.ShowTooltip("Unlock this hero first!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.hero_locked", "Unlock this hero first!"));
             RefreshBuyHeroButton();
             return;
         }
@@ -277,7 +280,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
         if (IAPManager.Instance.IsHeroUnlocked(selectedHero))
         {
-            UIManager.Instance.ShowTooltip("You already own this hero!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.hero_owned", "You already own this hero!"));
             RefreshBuyHeroButton();
             return;
         }
@@ -324,11 +327,11 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
     }
     public void ClickTalent()
     {
-        UIManager.Instance.ShowTooltip("Comming soon!");
+        UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.coming_soon", "Coming soon!"));
     }
     public void ClickedHighScore()
     {
-       UIManager.Instance.ShowTooltip("Comming soon!");
+       UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.coming_soon", "Coming soon!"));
     }
     public void ClickBack()
     {
@@ -338,5 +341,15 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
 
         });
 
+    }
+
+    private void HandleLanguageChanged()
+    {
+        int heroIndex = selectedHero >= 0 ? selectedHero : GameData.HeroSelected;
+        if (CardContainer.Instance != null && CardContainer.Instance.HeroDataList != null &&
+            heroIndex >= 0 && heroIndex < CardContainer.Instance.HeroDataList.Length)
+        {
+            SetCharacterData(heroIndex);
+        }
     }
 }

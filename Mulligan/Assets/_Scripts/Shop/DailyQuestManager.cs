@@ -69,6 +69,9 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     public void Init()
     {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+        LocalizationService.LanguageChanged += HandleLanguageChanged;
+
         if (ShopWindow != null)
             startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
 
@@ -517,7 +520,7 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
         quest.Progress = definition.TargetAmount;
         quest.Completed = true;
         GameData.CompletedQuestsTowardsReward++;
-        UIManager.Instance.ShowTooltip("Achievement completed!");
+        UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.achievement_completed", "Achievement completed!"));
     }
 
     private DailyQuestDefinition GetDefinition(ActiveQuest quest)
@@ -530,6 +533,21 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
     private string GetQuestText(DailyQuestDefinition definition)
     {
+        string fallback = GetQuestFallbackText(definition);
+        if (definition == null)
+            return fallback;
+
+        if (definition.Type == DailyQuestType.PlayRaceUnits)
+            return LocalizationService.Format(LocalizationKeys.DailyQuest(definition), fallback, definition.TargetAmount, LocalizedContent.Race(definition.Race));
+
+        if (definition.Type == DailyQuestType.PlayClassUnits)
+            return LocalizationService.Format(LocalizationKeys.DailyQuest(definition), fallback, definition.TargetAmount, LocalizedContent.Class(definition.Class));
+
+        return LocalizationService.Format(LocalizationKeys.DailyQuest(definition), fallback, definition.TargetAmount);
+    }
+
+    public static string GetQuestFallbackText(DailyQuestDefinition definition)
+    {
         if (definition == null)
             return "";
 
@@ -538,16 +556,32 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
 
         switch (definition.Type)
         {
+            case DailyQuestType.DealDamage:
+                return "Deal {0} damage";
+            case DailyQuestType.DefeatBosses:
+                return "Defeat {0} bosses";
+            case DailyQuestType.ConsumePotions:
+                return "Consume {0} potions";
+            case DailyQuestType.Heal:
+                return "Heal for {0} HP";
             case DailyQuestType.PlayRaceUnits:
-                return "Play " + definition.TargetAmount + " " + definition.Race + " units";
+                return "Play {0} {1} units";
             case DailyQuestType.PlayClassUnits:
-                return "Play " + definition.TargetAmount + " " + definition.Class + " units";
+                return "Play {0} {1} units";
             case DailyQuestType.ReachLevel:
-                return "Reach level " + definition.TargetAmount;
+                return "Reach level {0}";
+            case DailyQuestType.DestroyUnits:
+                return "Destroy {0} units";
+            case DailyQuestType.PlayRuns:
+                return "Play {0} runs";
+            case DailyQuestType.EarnGold:
+                return "Earn {0} Gold";
             case DailyQuestType.SingleAttackDamage:
-                return "Deal " + definition.TargetAmount + " damage in one attack";
+                return "Deal {0} damage in one attack";
+            case DailyQuestType.UpgradeUnits:
+                return "Upgrade {0} units";
             default:
-                return definition.Type.ToString() + " " + definition.TargetAmount;
+                return definition.Type + " {0}";
         }
     }
 
@@ -557,7 +591,11 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
             return;
 
         TimeSpan remaining = new TimeSpan(Math.Max(0, GameData.DailyQuestNextResetUtcTicks - DateTime.UtcNow.Ticks));
-        ResetLabel.text = "New quests in " + Mathf.FloorToInt((float)remaining.TotalHours) + "h " + remaining.Minutes + "m";
+        ResetLabel.text = LocalizationService.Format(
+            "ui.daily.new_quests_in",
+            "New quests in {0}h {1}m",
+            Mathf.FloorToInt((float)remaining.TotalHours),
+            remaining.Minutes);
     }
 
     private void UpdateRewardUI()
@@ -568,6 +606,17 @@ public class DailyQuestManager : Singleton<DailyQuestManager>
     private float GetRewardProgressFillAmount(int progress)
     {
         return Mathf.Clamp01((float)progress / RewardTarget);
+    }
+
+    private void HandleLanguageChanged()
+    {
+        if (isInitialized)
+            UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
     }
 
     private int GetRewardIndexForArtifact(ArtifactData artifact)

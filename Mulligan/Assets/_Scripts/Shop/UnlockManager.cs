@@ -247,11 +247,10 @@ public class UnlockManager : Singleton<UnlockManager>
             HidePrice(shopCard);
         }
 
-        string artifactName = data.name;
-        if (artifactName.Contains("RandomRace"))
-            artifactName = artifactName.Replace("RandomRace", data.RandomRace.ToString());
-
-        InitWrapper(visual, artifactName, data.description + data.GetRarityText());
+        InitWrapper(
+            visual,
+            () => LocalizedContent.ArtifactName(data),
+            () => LocalizedContent.ArtifactDescription(data) + data.GetRarityText());
         DisableChildRaycasts(visual);
     }
 
@@ -269,7 +268,10 @@ public class UnlockManager : Singleton<UnlockManager>
             HidePrice(shopCard);
         }
 
-        InitWrapper(visual, data.name, data.description + data.GetRarityText());
+        InitWrapper(
+            visual,
+            () => LocalizedContent.PotionName(data),
+            () => LocalizedContent.PotionDescription(data) + data.GetRarityText());
         DisableChildRaycasts(visual);
     }
 
@@ -287,7 +289,10 @@ public class UnlockManager : Singleton<UnlockManager>
             HidePrice(shopCard);
         }
 
-        InitWrapper(visual, data.name, data.description + data.GetRarityText());
+        InitWrapper(
+            visual,
+            () => LocalizedContent.RuneName(data),
+            () => LocalizedContent.RuneDescription(data) + data.GetRarityText());
         DisableChildRaycasts(visual);
     }
 
@@ -305,7 +310,10 @@ public class UnlockManager : Singleton<UnlockManager>
             card.allowDrag = false;
         }
 
-        InitWrapper(visual, data.name, data.description + data.GetRarityText());
+        InitWrapper(
+            visual,
+            () => LocalizedContent.UpgradeName(data),
+            () => LocalizedContent.UpgradeDescription(data) + data.GetRarityText());
         DisableChildRaycasts(visual);
     }
 
@@ -417,7 +425,7 @@ public class UnlockManager : Singleton<UnlockManager>
         }
     }
 
-    private void InitWrapper(GameObject visual, string title, string description)
+    private void InitWrapper(GameObject visual, System.Func<string> titleProvider, System.Func<string> descriptionProvider)
     {
         if (visual == null || visual.transform.parent == null)
             return;
@@ -427,7 +435,7 @@ public class UnlockManager : Singleton<UnlockManager>
             unlockCard = visual.transform.parent.gameObject.AddComponent<UnlockContentCard>();
 
         if (unlockCard != null)
-            unlockCard.Init(title, description, visual.transform);
+            unlockCard.Init(titleProvider, descriptionProvider, visual.transform);
     }
 
     private void DisableChildRaycasts(GameObject visual)

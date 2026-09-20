@@ -29,6 +29,16 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
     }
+
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
     public void SetMuted(bool mute)
     {
         isMuted = mute;
@@ -36,7 +46,8 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
     public void Init(PotionCardData aData)
     {
-        NameLabel.text = aData.name;
+        PotionData = aData;
+        NameLabel.text = LocalizedContent.PotionName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
     }
     public void OnPointerClick(PointerEventData eventData)
@@ -164,11 +175,10 @@ public class Potion : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             {
                 isHolding = false;
                 UIManager.Instance.ShowCardInfoPopup(
-                    PotionData.name,
-                    PotionData.description + PotionData.GetRarityText(),
-                    "",
-                    transform
-                );
+                    () => LocalizedContent.PotionName(PotionData),
+                    () => LocalizedContent.PotionDescription(PotionData) + PotionData.GetRarityText(),
+                    () => "",
+                    transform);
             }
         }
     }
@@ -268,11 +278,10 @@ float threshold = baseThreshold * scaleFactor;
             else
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                         PotionData.name,
-                         PotionData.description + PotionData.GetRarityText(),
-                         "",
-                         transform
-                     );
+                         () => LocalizedContent.PotionName(PotionData),
+                         () => LocalizedContent.PotionDescription(PotionData) + PotionData.GetRarityText(),
+                         () => "",
+                         transform);
             }
         }
         else
@@ -285,7 +294,7 @@ float threshold = baseThreshold * scaleFactor;
             {
                 PotionManager.Instance.SellPotion(this); // Add logic here
 
-                UIManager.Instance.ShowTooltip("Potion sold!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.potion_sold", "Potion sold!"));
 
             }
             else
@@ -297,6 +306,12 @@ float threshold = baseThreshold * scaleFactor;
         }
 
 
+    }
+
+    private void RefreshLocalizedText()
+    {
+        if (PotionData != null && NameLabel != null)
+            NameLabel.text = LocalizedContent.PotionName(PotionData);
     }
 
 

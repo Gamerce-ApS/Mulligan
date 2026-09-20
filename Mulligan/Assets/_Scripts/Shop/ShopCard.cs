@@ -25,14 +25,19 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public TMPro.TMP_Text PriceLabel;
     public TMPro.TMP_Text NameLabel;
     public bool CanBeDraged = true;
+
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
     public void Init(ArtifactData aData)
     {
-        string artifactName = aData.name;
-        if( artifactName.Contains("RandomRace"))
-        {
-            artifactName = artifactName.Replace("RandomRace",aData.RandomRace.ToString());
-        }
-        NameLabel.text = artifactName;
+        NameLabel.text = LocalizedContent.ArtifactName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
 
         ArtifactData = aData;
@@ -49,7 +54,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(RuneData aData)
     {
-        NameLabel.text = aData.name;
+        NameLabel.text = LocalizedContent.RuneName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
 
         RuneData = aData;
@@ -67,7 +72,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         ArtifactData = null;
         RuneData = null;
-        NameLabel.text = aData.name;
+        NameLabel.text = LocalizedContent.PotionName(aData);
         NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
 
         PotionData = aData;
@@ -183,7 +188,7 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             }
             else
             {
-                UIManager.Instance.ShowTooltip("Not enough gold!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.not_enough_gold", "Not enough gold!"));
                 SoundManager.TryPlay(SoundType.ShopItemDropCancel);
                 ReturnToShop();
             }
@@ -191,11 +196,11 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         else
         {
             if( ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
-                UIManager.Instance.ShowTooltip("No slots!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
             else if( PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
-                UIManager.Instance.ShowTooltip("No slots!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
             else if( RuneManager.Instance.ActiveRunes.Count >= 6)
-                UIManager.Instance.ShowTooltip("No slots!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
             SoundManager.TryPlay(SoundType.ShopItemDropCancel);
             ReturnToShop();
         }
@@ -227,38 +232,34 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             if(ArtifactData !=null)
             {
                     UIManager.Instance.ShowCardInfoPopup(
-                   NameLabel.text,
-                   ArtifactData.description+ ArtifactData.GetRarityText(),
-                   "",
-                   transform
-               );
+                   () => LocalizedContent.ArtifactName(ArtifactData),
+                   () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
+                   () => "",
+                   transform);
             }
             else if (PotionData != null)
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                   PotionData.name,
-                   PotionData.description+ PotionData.GetRarityText(),
-                   "",
-                   transform
-                          );
+                   () => LocalizedContent.PotionName(PotionData),
+                   () => LocalizedContent.PotionDescription(PotionData) + PotionData.GetRarityText(),
+                   () => "",
+                   transform);
             }
             else if (RuneData != null)
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                   RuneData.name,
-                   RuneData.description+ RuneData.GetRarityText(),
-                   "",
-                   transform
-                          );
+                   () => LocalizedContent.RuneName(RuneData),
+                   () => LocalizedContent.RuneDescription(RuneData) + RuneData.GetRarityText(),
+                   () => "",
+                   transform);
             }
             else
             {
                 UIManager.Instance.ShowCardInfoPopup(
-                           "Unit Upgrade Pack",
-                           "Allows you to upgrade your units with Charms, Enchantments or Rank up",
-                           "",
-                           transform
-                       );
+                           () => LocalizationService.Get("ui.shop.unit_upgrade_pack", "Unit Upgrade Pack"),
+                           () => LocalizationService.Get("ui.shop.unit_upgrade_pack_description", "Allows you to upgrade your units with Charms, Enchantments or Rank up"),
+                           () => "",
+                           transform);
             }
 
             isSelected = true;
@@ -275,6 +276,19 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     void Update()
     {
 
+    }
+
+    private void RefreshLocalizedText()
+    {
+        if (NameLabel == null)
+            return;
+
+        if (ArtifactData != null)
+            NameLabel.text = LocalizedContent.ArtifactName(ArtifactData);
+        else if (PotionData != null)
+            NameLabel.text = LocalizedContent.PotionName(PotionData);
+        else if (RuneData != null)
+            NameLabel.text = LocalizedContent.RuneName(RuneData);
     }
 
     public void OnPointerDown(PointerEventData eventData)

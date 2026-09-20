@@ -43,6 +43,7 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
     void Awake()
     {
         startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
+        LocalizationService.LanguageChanged += RefreshLocalizedBossInfo;
 
     }
 
@@ -123,15 +124,15 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
             if (TutorialController.Instance.HasRunTutorial() == false)
             {
                 BossPortrait.sprite = GetPortraitSprite(TutorialController.Instance.myBossList[0].sprite_theSprite, true);
-                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].name;
-                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = TutorialController.Instance.myBossList[0].description;
+                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossName(TutorialController.Instance.myBossList[0]);
+                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossDescription(TutorialController.Instance.myBossList[0]);
 
             }
             else
             {
                 BossPortrait.sprite = GetPortraitSprite(CardContainer.Instance.myBossList[0].sprite_theSprite, true);
-                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].name;
-                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = CardContainer.Instance.myBossList[0].description;
+                BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossName(CardContainer.Instance.myBossList[0]);
+                BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossDescription(CardContainer.Instance.myBossList[0]);
 
             }
         }
@@ -161,6 +162,24 @@ public class LevelSelectionManager : Singleton<LevelSelectionManager>
         }
 
         return Resources.Load<Sprite>("" + key);
+    }
+
+    private void RefreshLocalizedBossInfo()
+    {
+        if (ShopWindow == null || ShopWindow.activeSelf == false || BossInfoBox == null || BossInfoBox.activeSelf == false)
+            return;
+
+        BossData boss = TutorialController.Instance.HasRunTutorial() == false
+            ? TutorialController.Instance.myBossList[0]
+            : CardContainer.Instance.myBossList[0];
+
+        BossInfoBox.transform.Find("Name").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossName(boss);
+        BossInfoBox.transform.Find("AbbilityText").GetComponent<TMPro.TMP_Text>().text = LocalizedContent.BossDescription(boss);
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedBossInfo;
     }
 
     private void SetPortrait(Image portrait, Sprite sprite)

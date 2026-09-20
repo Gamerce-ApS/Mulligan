@@ -32,11 +32,12 @@ public class DeckOverviewCard : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             isHolding = false;
             showedInfoThisPress = true;
             UIManager.Instance.ShowCardInfoPopup(
-                Card.NameLabel.text,
-                Card.GetDescription(),
-                "",
-                Card.transform
-            );
+                () => Card.cardInstance != null && Card.cardInstance.data != null
+                    ? LocalizedContent.UnitName(Card.cardInstance.data)
+                    : Card.NameLabel.text,
+                () => Card.GetDescription(),
+                () => "",
+                Card.transform);
         }
     }
 

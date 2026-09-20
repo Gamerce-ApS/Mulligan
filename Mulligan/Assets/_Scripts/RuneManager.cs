@@ -28,12 +28,12 @@ public class RuneManager : Singleton<RuneManager>
             case RuneType.RerollBonus:
                 // int rerolls = (aRune.rarity == RuneRarity.Rare) ? 2 : 1;
                 GameManager.Instance.BonusRerolls += 1;
-                UIManager.Instance.ShowTooltip($"+{1} Reroll{(1 > 1 ? "s" : "")} per turn");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_rerolls", "+{0} Reroll per turn", 1));
                 break;
                             case RuneType.RerollBonus2X:
                 // int rerolls = (aRune.rarity == RuneRarity.Rare) ? 2 : 1;
                 GameManager.Instance.BonusRerolls += 2;
-                UIManager.Instance.ShowTooltip($"+{2} Reroll{(1 > 1 ? "s" : "")} per turn");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_rerolls", "+{0} Reroll per turn", 2));
                 break;
 
             case RuneType.HeroAegis:
@@ -45,55 +45,55 @@ public class RuneManager : Singleton<RuneManager>
                 // else
                 // {
                 GameManager.Instance.ReviveWith1HP = true;
-                UIManager.Instance.ShowTooltip("Revive once with 1 HP");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rune_revive", "Revive once with 1 HP"));
                 // }
                 break;
 
             case RuneType.MarketDiscount:
                 // float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
                 GameManager.Instance.MarketDiscountModifier = 0.25f;
-                UIManager.Instance.ShowTooltip($"{(int)(0.25f * 100)}% discount in the Market");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_market_discount", "{0}% discount in the Market", 25));
                 break;
                             case RuneType.MarketDiscount2X:
                 // float discount = (aRune.rarity == RuneRarity.Rare) ? 0.5f : 0.25f;
                 GameManager.Instance.MarketDiscountModifier = 0.5f;
-                UIManager.Instance.ShowTooltip($"{(int)(0.5f * 100)}% discount in the Market");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_market_discount", "{0}% discount in the Market", 50));
                 break;
 
             case RuneType.BossDoubleGold:
                 GameManager.Instance.BossGoldMultiplier = 2f;
-                UIManager.Instance.ShowTooltip("Bosses drop double Gold");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rune_double_gold", "Bosses drop double Gold"));
                 break;
 
             case RuneType.PotionRetriggerChance:
                 // float retriggerChance = (aRune.rarity == RuneRarity.Rare) ? 0.20f : 0.10f;
                 GameManager.Instance.PotionRetriggerChance = 0.1f;
-                UIManager.Instance.ShowTooltip($"{(int)(0.1f * 100)}% chance to retrigger Potions");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_retrigger_potions", "{0}% chance to retrigger Potions", 10));
                 break;
 
             case RuneType.FreeMarketReroll:
                 GameManager.Instance.HasFreeReroll = true;
-                UIManager.Instance.ShowTooltip("First Market reroll each turn is free");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rune_free_market_reroll", "First Market reroll each turn is free"));
                 break;
             case RuneType.RuneOfAttack:
                 GameManager.Instance.BonusAttacks += 1;
-                UIManager.Instance.ShowTooltip($"+{1} Attacks{(1 > 1 ? "s" : "")} per turn");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_attacks", "+{0} Attacks per turn", 1));
                 break;
             case RuneType.RuneOfAttack2X:
                 GameManager.Instance.BonusAttacks += 2;
-                UIManager.Instance.ShowTooltip($"+{2} Attacks{(1 > 1 ? "s" : "")} per turn");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.rune_attacks", "+{0} Attacks per turn", 2));
                 break;
 
             case RuneType.RuneOfArtifact:
                 GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
                 ShopManager.Instance.RefreshArtifactSlots();
-                UIManager.Instance.ShowTooltip("Artifact slot unlocked!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rune_artifact_slot", "Artifact slot unlocked!"));
                 break;
             case RuneType.RuneOfArtifact2X:
                 GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
                 GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
                 ShopManager.Instance.RefreshArtifactSlots();
-                UIManager.Instance.ShowTooltip("Artifact slot unlocked!");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rune_artifact_slot", "Artifact slot unlocked!"));
                 break;
 
             case RuneType.RuneOfRareChance:
@@ -240,7 +240,7 @@ public class RuneManager : Singleton<RuneManager>
         string tot = "";
         foreach (var r in ActiveRunes)
         {
-            tot += r.name + "\n";
+            tot += LocalizedContent.RuneName(r) + "\n";
         }
         return tot;
     }

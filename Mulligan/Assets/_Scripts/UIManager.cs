@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using GameAnalyticsSDK;
 using Singular;
@@ -87,6 +88,8 @@ public class UIManager : Singleton<UIManager>
     // Start is called before the first frame update
     public void Init()
     {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+        LocalizationService.LanguageChanged += HandleLanguageChanged;
         DamageLabelOriginalScale = DamageLabel.transform.localScale;
         CriticalLabelOriginalScale = CriticalLabel.transform.localScale;
         if (DeckPileIcon != null)
@@ -125,6 +128,8 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDestroy()
     {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+
         if (subscribedToIapInitialized && IAPManager.Instance != null)
             IAPManager.Instance.OnIAPInitialized -= UpdateIapPriceTexts;
     }
@@ -160,7 +165,7 @@ public class UIManager : Singleton<UIManager>
     {
         AttackLabel.text = GameData.CurrentAttacks.ToString();
         ReRollLabel.text = GameData.CurrentReRolls.ToString();
-        RoundsLabel.text = "Level " + GameData.CurrentRound.ToString();
+        RoundsLabel.text = LocalizationService.Format("ui.common.level", "Level {0}", GameData.CurrentRound);
         int totalWorlds = 8; // or however many worlds you have
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
         WorldLabel.text = $"{currentWorld}/{totalWorlds}";
@@ -174,7 +179,7 @@ public class UIManager : Singleton<UIManager>
         {
             if (HandManager.Instance.SelectedCardCount() <= 3)
             {
-                UIManager.Instance.ShowTooltip("Click on ORCs");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
                 return;
             }
         }
@@ -196,24 +201,24 @@ public class UIManager : Singleton<UIManager>
         {
             if (HandManager.Instance.SelectedCardCount() <= 3)
             {
-                UIManager.Instance.ShowTooltip("Click on ORCs");
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
                 return;
             }
         }
         if (HandManager.Instance.SelectedCardCount() <= 0)
         {
-            UIManager.Instance.ShowTooltip("Select a card to reroll");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.select_reroll_card", "Select a card to reroll"));
             return;
         }
         if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ReRollCards &&
             HandManager.Instance.SelectedCardCount() < 2)
         {
-            UIManager.Instance.ShowTooltip("Select 2 cards to reroll");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.select_two_reroll_cards", "Select 2 cards to reroll"));
             return;
         }
         if (GameManager.Instance.TheEnemy.ActiveAbbilities.Contains(BossAbilityEnum.DisableRerolls))
         {
-            UIManager.Instance.ShowTooltip("ReRolls disabled!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.rerolls_disabled", "Rerolls disabled!"));
             return;
         }
 
@@ -243,7 +248,7 @@ public class UIManager : Singleton<UIManager>
             UnlockManager.Instance != null &&
             UnlockManager.Instance.HasUnlocksToReveal())
         {
-            UIManager.Instance.ShowTooltip("New unlocks!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.new_unlocks", "New unlocks!"));
             return;
         }
 
@@ -663,10 +668,29 @@ public class UIManager : Singleton<UIManager>
     private GameObject activeInfoPopup;
     private bool isIapHeroInfoPopupOpen = false;
     public Transform currentTransform;
+    private Func<string> activeInfoTitleProvider;
+    private Func<string> activeInfoDescriptionProvider;
+    private Func<string> activeInfoText2Provider;
+
     public void ShowCardInfoPopup(string title, string description, string text2, Transform target)
     {
         isIapHeroInfoPopupOpen = false;
+        ClearInfoProviders();
         ShowInfoPopup(title, description, text2, target, CardInfoPopupPrefab);
+    }
+
+    public void ShowCardInfoPopup(Func<string> titleProvider, Func<string> descriptionProvider, Func<string> text2Provider, Transform target)
+    {
+        isIapHeroInfoPopupOpen = false;
+        activeInfoTitleProvider = titleProvider;
+        activeInfoDescriptionProvider = descriptionProvider;
+        activeInfoText2Provider = text2Provider;
+        ShowInfoPopup(
+            titleProvider != null ? titleProvider() : "",
+            descriptionProvider != null ? descriptionProvider() : "",
+            text2Provider != null ? text2Provider() : "",
+            target,
+            CardInfoPopupPrefab);
     }
 
     private void ShowInfoPopup(string title, string description, string text2, Transform target, GameObject popupPrefab)
@@ -726,6 +750,26 @@ public class UIManager : Singleton<UIManager>
         // else
         //     activeInfoPopup.transform.Find("SellItemArea").gameObject.SetActive(false);
     }
+
+    private void ClearInfoProviders()
+    {
+        activeInfoTitleProvider = null;
+        activeInfoDescriptionProvider = null;
+        activeInfoText2Provider = null;
+    }
+
+    private void RefreshActiveInfoPopup()
+    {
+        if (activeInfoPopup == null || activeInfoTitleProvider == null)
+            return;
+
+        TMP_Text titleText = activeInfoPopup.transform.Find("Title").GetComponent<TMP_Text>();
+        TMP_Text descText = activeInfoPopup.transform.Find("Description").GetComponent<TMP_Text>();
+        TMP_Text text2Text = activeInfoPopup.transform.Find("Text2").GetComponent<TMP_Text>();
+        titleText.text = activeInfoTitleProvider().Replace("\n", " ");
+        descText.text = activeInfoDescriptionProvider != null ? activeInfoDescriptionProvider() : "";
+        text2Text.text = activeInfoText2Provider != null ? activeInfoText2Provider() : "";
+    }
     public void HideCardInfoPopup()
     {
         if (activeInfoPopup != null)
@@ -735,6 +779,7 @@ public class UIManager : Singleton<UIManager>
         }
         isIapHeroInfoPopupOpen = false;
         currentTransform = null;
+        ClearInfoProviders();
     }
 
     private void UpdateIapHeroInfoPopupClose()
@@ -768,6 +813,7 @@ public class UIManager : Singleton<UIManager>
         "- Hero of the realm!",
         "- You crushed it!"
 };
+    private int currentVictoryMessageIndex = -1;
     public TMP_Text VictoryFunText;
     public GameObject VictoryParent;
     public void ShowVictoryScreen(System.Action onComplete)
@@ -784,7 +830,8 @@ public class UIManager : Singleton<UIManager>
         HealthGainedText.text = "+ " + healthGainedThisRound.ToString();
 
         // Pick a fun message
-        VictoryFunText.text = funMessages[UnityEngine.Random.Range(0, funMessages.Length)];
+        currentVictoryMessageIndex = UnityEngine.Random.Range(0, funMessages.Length);
+        VictoryFunText.text = LocalizationService.Get("ui.victory.message_" + currentVictoryMessageIndex, funMessages[currentVictoryMessageIndex]);
 
         // Fade in
         LeanTween.alphaCanvas(VictoryParent.GetComponent<CanvasGroup>(), 1f, 0.3f).setEaseOutQuad().setOnComplete(() =>
@@ -818,14 +865,14 @@ public class UIManager : Singleton<UIManager>
 
             LeanTween.delayedCall(gameObject, 1.5f, () =>
             {
-                ShowTooltip($"Level Up! Max HP increased to {hero.MaxHealth}");
+                ShowTooltip(LocalizationService.Format("ui.tooltip.level_up", "Level Up! Max HP increased to {0}", hero.MaxHealth));
             });
             // 4. Show level-up tooltip
 
 
 
         }
-        LevelText.text = "Level " + hero.Level.ToString();
+        LevelText.text = LocalizationService.Format("ui.common.level", "Level {0}", hero.Level);
         XpBar.fillAmount = (float)hero.Experience / (float)CardContainer.Instance.ExperienceToLevelUp;
         GoldGainedText.text = "+ " + goldGainedThisRound.ToString();
 
@@ -844,7 +891,7 @@ public class UIManager : Singleton<UIManager>
         SoundManager.TryPlay(SoundType.Lose);
 
         int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
-        LostText.text = "You reached World " + currentWorld + ", Level " + GameData.CurrentRound.ToString();
+        LostText.text = LocalizationService.Format("ui.defeat.reached", "You reached World {0}, Level {1}", currentWorld, GameData.CurrentRound);
         LoseParent.GetComponent<CanvasGroup>().alpha = 0f;
         LoseParent.SetActive(true);
 
@@ -900,6 +947,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text BossAbilityText;
     public Image BossImage;
     public GameObject BossParent;
+    private BossData currentBossIntroData;
     public void ShowBossIntroScreen(BossData boss, System.Action onComplete)
     {
         SoundManager.TryPlay(SoundType.BossIntro);
@@ -908,8 +956,9 @@ public class UIManager : Singleton<UIManager>
         BossParent.SetActive(true);
 
         // Pick a fun message
-        BossNameText.text = boss.name;
-        BossAbilityText.text = boss.description;
+        currentBossIntroData = boss;
+        BossNameText.text = LocalizedContent.BossName(boss);
+        BossAbilityText.text = LocalizedContent.BossDescription(boss);
         //BossImage.sprite = boss.theSprite;
         BossImage.sprite = Resources.Load<Sprite>("" + boss.sprite_theSprite);
 
@@ -935,11 +984,10 @@ public class UIManager : Singleton<UIManager>
         else
         {
             UIManager.Instance.ShowCardInfoPopup(
-                "Synergies",
-                "2 units: 2X damage \n\n4 units: 3X Critical",
-                "",
-                SynergiButtonInfo
-            );
+                () => LocalizationService.Get("ui.synergy.title", "Synergies"),
+                () => LocalizationService.Get("ui.synergy.description", "2 units: 2X damage \n\n4 units: 3X Critical"),
+                () => "",
+                SynergiButtonInfo);
         }
 
     }
@@ -950,11 +998,10 @@ public class UIManager : Singleton<UIManager>
         else
         {
             UIManager.Instance.ShowCardInfoPopup(
-                "Hero Runes",
-                RuneManager.Instance.GetActiveRunesInfo(),
-                "",
-                HeroButtonInfo
-            );
+                () => LocalizationService.Get("ui.runes.title", "Hero Runes"),
+                () => RuneManager.Instance.GetActiveRunesInfo(),
+                () => "",
+                HeroButtonInfo);
         }
 
     }
@@ -1251,7 +1298,7 @@ public class UIManager : Singleton<UIManager>
 
         if (IAPManager.Instance.IsHeroUnlocked(heroIndex))
         {
-            ShowTooltip("You already own this hero!");
+            ShowTooltip(LocalizationService.Get("ui.tooltip.hero_owned", "You already own this hero!"));
             return;
         }
 
@@ -1278,7 +1325,7 @@ public class UIManager : Singleton<UIManager>
             heroIndex < 0 ||
             heroIndex >= CardContainer.Instance.HeroDataList.Length)
         {
-            ShowTooltip("Hero info coming soon!");
+            ShowTooltip(LocalizationService.Get("ui.tooltip.hero_info_coming_soon", "Hero info coming soon!"));
             return;
         }
 
@@ -1290,57 +1337,28 @@ public class UIManager : Singleton<UIManager>
             popupTarget = BuyPopupWindow.transform;
 
         ShowInfoPopup(
-            heroData.heroName,
-            GetIapHeroDescription(heroData),
+            LocalizedContent.HeroName(heroData, heroIndex),
+            GetIapHeroDescription(heroData, heroIndex),
             "",
             popupTarget,
             IapHeroInfoPopupPrefab
         );
+        activeInfoTitleProvider = () => LocalizedContent.HeroName(heroData, heroIndex);
+        activeInfoDescriptionProvider = () => GetIapHeroDescription(heroData, heroIndex);
+        activeInfoText2Provider = () => "";
         isIapHeroInfoPopupOpen = true;
     }
 
-    private string GetIapHeroDescription(HeroData heroData)
+    private string GetIapHeroDescription(HeroData heroData, int heroIndex)
     {
         string labelColor = "#EAAF3B";
         return
-            "<color=" + labelColor + ">Health:</color> " + heroData.startingHP + "\n" +
-            "<color=" + labelColor + ">Artifact Slots:</color> " + heroData.ArtifactSlots + "\n" +
-            "<color=" + labelColor + ">Potions Slots:</color> " + heroData.PotionSlots + "\n" +
-            "<color=" + labelColor + ">Starting Gold:</color> " + CardContainer.Instance.StatingGold + "\n\n" +
-            "<color=" + labelColor + ">Starting Items:</color>\n" +
-            GetIapHeroStartingItems(heroData);
-    }
-
-    private string GetIapHeroStartingItems(HeroData heroData)
-    {
-        if (heroData.heroName == "Dwarf")
-            return "Rune of Rare Chance\nArtifact: +2 Gold";
-
-        if (heroData.heroName == "Warlock")
-            return "Rune of Attack\nArtifact: Rank Up";
-
-        if (heroData.heroName == "Goblin")
-            return "2x Potions";
-
-        if (heroData.startingItem == StartingItemType.RandomArtifact)
-            return "Random Artifact";
-
-        if (heroData.startingItem == StartingItemType.RandomPotion)
-            return "Random Potion";
-
-        if (heroData.startingTrait == HeroTrait.BonusAttack)
-            return "+1 Attack";
-
-        if (heroData.startingTrait == HeroTrait.BonusReroll)
-            return "+1 Reroll";
-
-        if (heroData.startingTrait == HeroTrait.ExtraGold)
-            return "Extra Gold";
-
-        if (string.IsNullOrEmpty(heroData.description) == false)
-            return heroData.description;
-
-        return "None";
+            LocalizationService.Format("ui.hero.health", "<color={0}>Health:</color> {1}", labelColor, heroData.startingHP) + "\n" +
+            LocalizationService.Format("ui.hero.artifact_slots", "<color={0}>Artifact Slots:</color> {1}", labelColor, heroData.ArtifactSlots) + "\n" +
+            LocalizationService.Format("ui.hero.potion_slots", "<color={0}>Potion Slots:</color> {1}", labelColor, heroData.PotionSlots) + "\n" +
+            LocalizationService.Format("ui.hero.starting_gold", "<color={0}>Starting Gold:</color> {1}", labelColor, CardContainer.Instance.StatingGold) + "\n\n" +
+            LocalizationService.Format("ui.hero.starting_items", "<color={0}>Starting Items:</color>", labelColor) + "\n" +
+            LocalizedContent.HeroStartingItems(heroData, heroIndex);
     }
 
     public void ClickTutorial()
@@ -1447,6 +1465,36 @@ public class UIManager : Singleton<UIManager>
             });
         }
     }
+
+    private void HandleLanguageChanged()
+    {
+        if (AttackLabel != null && ReRollLabel != null && RoundsLabel != null && WorldLabel != null && GoldLabel != null)
+            UpdateLabels();
+
+        RefreshActiveInfoPopup();
+
+        if (VictoryParent != null && VictoryParent.activeSelf)
+        {
+            if (currentVictoryMessageIndex >= 0 && currentVictoryMessageIndex < funMessages.Length && VictoryFunText != null)
+                VictoryFunText.text = LocalizationService.Get("ui.victory.message_" + currentVictoryMessageIndex, funMessages[currentVictoryMessageIndex]);
+
+            if (LevelText != null && GameManager.Instance != null && GameManager.Instance.TheHero != null)
+                LevelText.text = LocalizationService.Format("ui.common.level", "Level {0}", GameManager.Instance.TheHero.Level);
+        }
+
+        if (LoseParent != null && LoseParent.activeSelf && LostText != null)
+        {
+            int currentWorld = (GameData.CurrentRound - 1) / 4 + 1;
+            LostText.text = LocalizationService.Format("ui.defeat.reached", "You reached World {0}, Level {1}", currentWorld, GameData.CurrentRound);
+        }
+
+        if (BossParent != null && BossParent.activeSelf && currentBossIntroData != null)
+        {
+            BossNameText.text = LocalizedContent.BossName(currentBossIntroData);
+            BossAbilityText.text = LocalizedContent.BossDescription(currentBossIntroData);
+        }
+    }
+
     public void Reset()
     {
         PlayerPrefs.DeleteAll();

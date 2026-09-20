@@ -185,7 +185,7 @@ public class Hero : MonoBehaviour
             {
                 if (Random.Range(0, 100) < artifact.value)
                 {
-                    UIManager.Instance.ShowTooltip($"Dodged Attack!");
+                    UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.dodged_attack", "Dodged Attack!"));
                     SoundManager.TryPlay(SoundType.Dodge);
                     return true;
                 }

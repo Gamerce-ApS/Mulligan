@@ -22,6 +22,9 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
 
     public void Init()
     {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
+        LocalizationService.LanguageChanged += HandleLanguageChanged;
+
         if (ShopWindow != null)
             startPosition = ShopWindow.GetComponent<RectTransform>().anchoredPosition;
 
@@ -145,10 +148,10 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
     private async void UpdateDailyBestUI()
     {
         if (DailyBestLevelLabel != null)
-            DailyBestLevelLabel.text = "Level ...";
+            DailyBestLevelLabel.text = LocalizationService.Format("ui.common.level", "Level {0}", "...");
 
         if (DailyBestTopHitLabel != null)
-            DailyBestTopHitLabel.text = "... Hit";
+            DailyBestTopHitLabel.text = LocalizationService.Format("ui.common.hit", "{0} Hit", "...");
         if (TodaysBestName != null)
                 TodaysBestName.text = "";
 
@@ -156,10 +159,10 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         if (dailyBest == null)
         {
             if (DailyBestLevelLabel != null)
-                DailyBestLevelLabel.text = "Level 0";
+                DailyBestLevelLabel.text = LocalizationService.Format("ui.common.level", "Level {0}", 0);
 
             if (DailyBestTopHitLabel != null)
-                DailyBestTopHitLabel.text = "0 Hit";
+                DailyBestTopHitLabel.text = LocalizationService.Format("ui.common.hit", "{0} Hit", 0);
                 if (TodaysBestName != null)
                 TodaysBestName.text = "";
 
@@ -169,10 +172,10 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
         SetDailyBestHeroPortrait(dailyBest.HeroId);
 
         if (DailyBestLevelLabel != null)
-            DailyBestLevelLabel.text = "Level " + dailyBest.LevelReached;
+            DailyBestLevelLabel.text = LocalizationService.Format("ui.common.level", "Level {0}", dailyBest.LevelReached);
 
         if (DailyBestTopHitLabel != null)
-            DailyBestTopHitLabel.text = "" + dailyBest.TopHit+" Hit";
+            DailyBestTopHitLabel.text = LocalizationService.Format("ui.common.hit", "{0} Hit", dailyBest.TopHit);
 
           if(TodaysBestName != null);
             TodaysBestName.text = ""+HighscoreManager.Instance.GetDisplayPlayerName(dailyBest.PlayerName);
@@ -214,5 +217,16 @@ public class HeroInfoScreen : Singleton<HeroInfoScreen>
     {
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.ButtonTap);
+    }
+
+    private void HandleLanguageChanged()
+    {
+        if (ShopWindow != null && ShopWindow.activeSelf)
+            UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationService.LanguageChanged -= HandleLanguageChanged;
     }
 }

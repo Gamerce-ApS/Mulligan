@@ -338,7 +338,7 @@ public class GameManager : Singleton<GameManager>
             GameManager.Instance.TheEnemy.Health > 0)
             {
                 AddGold(artifact.value);
-                UIManager.Instance.ShowTooltip($"+{artifact.value} Gold from artifact");
+                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.gold_from_artifact", "+{0} Gold from artifact", artifact.value));
             }
         }
 
@@ -604,7 +604,7 @@ public class GameManager : Singleton<GameManager>
             InventoryOverviewManager.Instance.PopulateInventory();
         }
 
-        UIManager.Instance.ShowTooltip("All artifacts unlocked");
+        UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.all_artifacts_unlocked", "All artifacts unlocked"));
     }
 
     public bool AreArtifactsMutedByBoss()

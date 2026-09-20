@@ -100,7 +100,7 @@ public class ArmoryManager : Singleton<ArmoryManager>
         }
         else
         {
-            UIManager.Instance.ShowTooltip("Not enough gold!");
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.not_enough_gold", "Not enough gold!"));
 
         }
     }

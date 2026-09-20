@@ -21,7 +21,19 @@ public class RewardManager : Singleton<RewardManager>
     void Awake()
     {
         startPosition = Window.GetComponent<RectTransform>().anchoredPosition;
+        LocalizationService.LanguageChanged += RefreshLocalizedText;
 
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationService.LanguageChanged -= RefreshLocalizedText;
+    }
+
+    private void RefreshLocalizedText()
+    {
+        if (Title != null && LevelSelectionManager.Instance != null && LevelSelectionManager.Instance.CurrentRewardData != null)
+            Title.text = LocalizedContent.SkipRewardTitle(LevelSelectionManager.Instance.CurrentRewardData);
     }
 
     // Update is called once per frame
@@ -41,7 +53,7 @@ public class RewardManager : Singleton<RewardManager>
         if (LevelSelectionManager.Instance.CurrentRewardData == null)
             LevelSelectionManager.Instance.CurrentRewardData = GetRandom();
 
-        Title.text = LevelSelectionManager.Instance.CurrentRewardData.title;
+        Title.text = LocalizedContent.SkipRewardTitle(LevelSelectionManager.Instance.CurrentRewardData);
 
         OnHideShop = onComplete;
 
