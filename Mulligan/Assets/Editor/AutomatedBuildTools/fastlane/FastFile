@@ -37,7 +37,7 @@ platform :ios do
   )
 
   upload_to_testflight(
-    api_key: api_key
+    api_key: api_key,
     itc_provider: "CG4Y9LU6WS"
   )
   end
