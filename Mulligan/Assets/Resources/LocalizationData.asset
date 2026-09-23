@@ -33,7 +33,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '- Grymt jobbat!'
     - Language: Danish
-      Text: 
+      Text: '- Flot klaret!'
     - Language: German
       Text: '- Stark gemacht!'
     - Language: French
@@ -49,7 +49,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Prestationer
     - Language: Danish
-      Text: 
+      Text: Bedrifter
     - Language: German
       Text: Erfolge
     - Language: French
@@ -65,7 +65,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Alla tider
     - Language: Danish
-      Text: 
+      Text: Alle tider
     - Language: German
       Text: Allzeit
     - Language: French
@@ -81,7 +81,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Arm\xE9uppgradering"
     - Language: Danish
-      Text: 
+      Text: Enhedsopgradering
     - Language: German
       Text: Unit-Upgrade
     - Language: French
@@ -97,7 +97,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Artefakt
     - Language: Danish
-      Text: 
+      Text: Artefakt
     - Language: German
       Text: Artefakt
     - Language: French
@@ -113,7 +113,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Artefaktplatser
     - Language: Danish
-      Text: 
+      Text: Artefakt-slots
     - Language: German
       Text: Artefakt-Slots
     - Language: French
@@ -129,7 +129,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "<color=#EAAF3B>+10</color> efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+10</color> efter hvert niveau
     - Language: German
       Text: <color=#EAAF3B>+10</color> nach jedem Level
     - Language: French
@@ -145,7 +145,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +10 Guld
     - Language: Danish
-      Text: 
+      Text: +10 Guld
     - Language: German
       Text: +10 Gold
     - Language: French
@@ -161,7 +161,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+120</color> skada varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+120</color> Skade hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+120</color> Schaden pro Runde.
     - Language: French
@@ -177,7 +177,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +120 Skada
     - Language: Danish
-      Text: 
+      Text: +120 Skade
     - Language: German
       Text: +120 Schaden
     - Language: French
@@ -193,7 +193,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+1</color> extra attack.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+1</color> ekstra angreb.
     - Language: German
       Text: Gibt <color=#EAAF3B>+1</color> extra Angriff.
     - Language: French
@@ -209,7 +209,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +1 Attack
     - Language: Danish
-      Text: 
+      Text: +1 Angreb
     - Language: German
       Text: +1 Angriff
     - Language: French
@@ -225,7 +225,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+1</color> extra reroll.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+1</color> ekstra Reroll.
     - Language: German
       Text: Gibt <color=#EAAF3B>+1</color> extra Reroll.
     - Language: French
@@ -241,7 +241,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +1 Reroll
     - Language: Danish
-      Text: 
+      Text: +1 Reroll
     - Language: German
       Text: +1 Reroll
     - Language: French
@@ -257,7 +257,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+20</color> skada varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+20</color> Skade hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+20</color> Schaden pro Runde.
     - Language: French
@@ -273,7 +273,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +20 Skada
     - Language: Danish
-      Text: 
+      Text: +20 Skade
     - Language: German
       Text: +20 Schaden
     - Language: French
@@ -289,7 +289,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+2</color> Crit varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+2</color> Crit hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+2</color> Crit pro Runde.
     - Language: French
@@ -305,7 +305,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +2 Crit
     - Language: Danish
-      Text: 
+      Text: +2 Crit
     - Language: German
       Text: +2 Crit
     - Language: French
@@ -321,7 +321,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "<color=#EAAF3B>+2</color> efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+2</color> efter hvert niveau
     - Language: German
       Text: <color=#EAAF3B>+2</color> nach jedem Level
     - Language: French
@@ -337,7 +337,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +2 Guld
     - Language: Danish
-      Text: 
+      Text: +2 Guld
     - Language: German
       Text: +2 Gold
     - Language: French
@@ -353,7 +353,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+4</color> Crit varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+4</color> Crit hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+4</color> Crit pro Runde.
     - Language: French
@@ -369,7 +369,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +4 Crit
     - Language: Danish
-      Text: 
+      Text: +4 Crit
     - Language: German
       Text: +4 Crit
     - Language: French
@@ -385,7 +385,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "<color=#EAAF3B>+4</color> efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+4</color> efter hvert niveau
     - Language: German
       Text: <color=#EAAF3B>+4</color> nach jedem Level
     - Language: French
@@ -401,7 +401,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +4 Guld
     - Language: Danish
-      Text: 
+      Text: +4 Guld
     - Language: German
       Text: +4 Gold
     - Language: French
@@ -417,7 +417,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+60</color> skada varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+60</color> Skade hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+60</color> Schaden pro Runde.
     - Language: French
@@ -433,7 +433,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +60 Skada
     - Language: Danish
-      Text: 
+      Text: +60 Skade
     - Language: German
       Text: +60 Schaden
     - Language: French
@@ -449,7 +449,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger <color=#EAAF3B>+6</color> Crit varje runda.
     - Language: Danish
-      Text: 
+      Text: Giver <color=#EAAF3B>+6</color> Crit hver runde.
     - Language: German
       Text: Gibt <color=#EAAF3B>+6</color> Crit pro Runde.
     - Language: French
@@ -465,7 +465,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +6 Crit
     - Language: Danish
-      Text: 
+      Text: +6 Crit
     - Language: German
       Text: +6 Crit
     - Language: French
@@ -481,7 +481,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 <color=#EAAF3B>+1</color> Crit per anv\xE4nd brygd."
     - Language: Danish
-      Text: 
+      Text: "F\xE5 <color=#EAAF3B>+1</color> Crit pr. brugt Eliksir."
     - Language: German
       Text: <color=#EAAF3B>+1</color> Crit pro Trank in diesem Run.
     - Language: French
@@ -497,7 +497,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit / Brygd
     - Language: Danish
-      Text: 
+      Text: Crit / Eliksir
     - Language: German
       Text: Crit / Trank
     - Language: French
@@ -513,7 +513,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 <color=#EAAF3B>+1</color> Crit f\xF6r varje uppgraderad enhet."
     - Language: Danish
-      Text: 
+      Text: "F\xE5 <color=#EAAF3B>+1</color> Crit pr. opgraderet Enhed."
     - Language: German
       Text: <color=#EAAF3B>+1</color> Crit pro verbesserter Einheit.
     - Language: French
@@ -529,7 +529,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit / Uppgr.
     - Language: Danish
-      Text: 
+      Text: Crit / Opgr.
     - Language: German
       Text: Crit / Upg.
     - Language: French
@@ -545,7 +545,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 <color=#EAAF3B>+3</color> skada per Guld."
     - Language: Danish
-      Text: 
+      Text: "F\xE5 <color=#EAAF3B>+3</color> Skade pr. Guld."
     - Language: German
       Text: <color=#EAAF3B>+3</color> Schaden pro Gold.
     - Language: French
@@ -561,7 +561,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Skada / Guld
     - Language: Danish
-      Text: 
+      Text: Skade / Guld
     - Language: German
       Text: Schaden / Gold
     - Language: French
@@ -577,7 +577,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color=#EAAF3B>+15%</color> chans att undvika en attack
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+15%</color> chance for at undvige
     - Language: German
       Text: <color=#EAAF3B>+15%</color> Ausweichchance
     - Language: French
@@ -593,7 +593,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dodge
     - Language: Danish
-      Text: 
+      Text: Undvig
     - Language: German
       Text: Ausweichen
     - Language: French
@@ -609,7 +609,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color=#EAAF3B>+20%</color> chans att undvika en attack
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+20%</color> chance for at undvige
     - Language: German
       Text: <color=#EAAF3B>+20%</color> Ausweichchance
     - Language: French
@@ -625,7 +625,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dodge
     - Language: Danish
-      Text: 
+      Text: Undvig
     - Language: German
       Text: Ausweichen
     - Language: French
@@ -641,7 +641,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color=#EAAF3B>+30%</color> chans att undvika en attack
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+30%</color> chance for at undvige
     - Language: German
       Text: <color=#EAAF3B>+30%</color> Ausweichchance
     - Language: French
@@ -657,7 +657,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dodge
     - Language: Danish
-      Text: 
+      Text: Undvig
     - Language: German
       Text: Ausweichen
     - Language: French
@@ -673,7 +673,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color=#EAAF3B>+40%</color> chans att undvika en attack
     - Language: Danish
-      Text: 
+      Text: <color=#EAAF3B>+40%</color> chance for at undvige
     - Language: German
       Text: <color=#EAAF3B>+40%</color> Ausweichchance
     - Language: French
@@ -689,7 +689,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dodge
     - Language: Danish
-      Text: 
+      Text: Undvig
     - Language: German
       Text: Ausweichen
     - Language: French
@@ -705,7 +705,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Alla brygdeffekter <color=#EAAF3B>f\xF6rdubblas</color>."
     - Language: Danish
-      Text: 
+      Text: Alle Eliksireffekter <color=#EAAF3B>fordobles</color>.
     - Language: German
       Text: Alle Trankeffekte werden <color=#EAAF3B>verdoppelt</color>.
     - Language: French
@@ -721,7 +721,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dubbel effekt
     - Language: Danish
-      Text: 
+      Text: Eliksirer x2
     - Language: German
       Text: "Tr\xE4nke x2"
     - Language: French
@@ -737,7 +737,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>15%</color> max-HP efter varje niv\xE5."
     - Language: Danish
-      Text: 
+      Text: Hel <color=#EAAF3B>15%</color> af max HP efter hvert niveau.
     - Language: German
       Text: Heile <color=#EAAF3B>15%</color> Max-HP nach jedem Level.
     - Language: French
@@ -753,7 +753,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Efterl\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Efterheling
     - Language: German
       Text: Regeneration
     - Language: French
@@ -769,7 +769,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>25%</color> max-HP efter varje niv\xE5."
     - Language: Danish
-      Text: 
+      Text: Hel <color=#EAAF3B>25%</color> af max HP efter hvert niveau.
     - Language: German
       Text: Heile <color=#EAAF3B>25%</color> Max-HP nach jedem Level.
     - Language: French
@@ -785,7 +785,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Efterl\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Efterheling
     - Language: German
       Text: Regeneration
     - Language: French
@@ -801,7 +801,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>35%</color> max-HP efter varje niv\xE5."
     - Language: Danish
-      Text: 
+      Text: Hel <color=#EAAF3B>35%</color> af max HP efter hvert niveau.
     - Language: German
       Text: Heile <color=#EAAF3B>35%</color> Max-HP nach jedem Level.
     - Language: French
@@ -817,7 +817,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Efterl\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Efterheling
     - Language: German
       Text: Regeneration
     - Language: French
@@ -833,7 +833,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "G\xF6r skada = 20% av ditt max-HP"
     - Language: Danish
-      Text: 
+      Text: Giv Skade svarende til 20% af dit max HP
     - Language: German
       Text: Verursache 20% deiner Max-HP als Schaden
     - Language: French
@@ -849,7 +849,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: HP = Skada
     - Language: Danish
-      Text: 
+      Text: HP = Skade
     - Language: German
       Text: HP = Schaden
     - Language: French
@@ -865,7 +865,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "G\xF6r skada = 40% av ditt max-HP"
     - Language: Danish
-      Text: 
+      Text: Giv Skade svarende til 40% af dit max HP
     - Language: German
       Text: Verursache 40% deiner Max-HP als Schaden
     - Language: French
@@ -881,7 +881,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: HP = Skada
     - Language: Danish
-      Text: 
+      Text: HP = Skade
     - Language: German
       Text: HP = Schaden
     - Language: French
@@ -897,7 +897,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +20 skada till alla raskort
     - Language: Danish
-      Text: 
+      Text: +20 Skade til alle Race-kort
     - Language: German
       Text: "+20 Schaden f\xFCr alle Volkskarten"
     - Language: French
@@ -913,7 +913,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '{0} +20 SKADA'
     - Language: Danish
-      Text: 
+      Text: '{0} +20 SKADE'
     - Language: German
       Text: '{0} +20 SCHADEN'
     - Language: French
@@ -929,7 +929,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +40 skada till alla raskort
     - Language: Danish
-      Text: 
+      Text: +40 Skade til alle Race-kort
     - Language: German
       Text: "+40 Schaden f\xFCr alle Volkskarten"
     - Language: French
@@ -945,7 +945,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '{0} +40 SKADA'
     - Language: Danish
-      Text: 
+      Text: '{0} +40 SKADE'
     - Language: German
       Text: '{0} +40 SCHADEN'
     - Language: French
@@ -961,7 +961,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 en slumpad Vanlig brygd efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 en tilf\xE6ldig Almindelig Eliksir efter hvert niveau"
     - Language: German
       Text: "Erhalte nach jedem Level einen gew\xF6hnlichen Trank"
     - Language: French
@@ -977,7 +977,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +Slumpad Brygd
     - Language: Danish
-      Text: 
+      Text: "+Tilf\xE6ldig eliksir"
     - Language: German
       Text: +Zufallstrank
     - Language: French
@@ -993,7 +993,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 en slumpad S\xE4llsynt brygd efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 en tilf\xE6ldig Sj\xE6lden Eliksir efter hvert niveau"
     - Language: German
       Text: Erhalte nach jedem Level einen seltenen Trank
     - Language: French
@@ -1009,7 +1009,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +Slumpad Brygd
     - Language: Danish
-      Text: 
+      Text: "+Tilf\xE6ldig eliksir"
     - Language: German
       Text: +Zufallstrank
     - Language: French
@@ -1025,7 +1025,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 en slumpad Episk brygd efter varje niv\xE5"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 en tilf\xE6ldig Episk Eliksir efter hvert niveau"
     - Language: German
       Text: Erhalte nach jedem Level einen epischen Trank
     - Language: French
@@ -1041,7 +1041,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +Slumpad Brygd
     - Language: Danish
-      Text: 
+      Text: "+Tilf\xE6ldig eliksir"
     - Language: German
       Text: +Zufallstrank
     - Language: French
@@ -1059,7 +1059,8 @@ MonoBehaviour:
       Text: "H\xF6j rangen p\xE5 <color=#EAAF3B>1</color> slumpad enhet vid varje
         niv\xE5start."
     - Language: Danish
-      Text: 
+      Text: "H\xE6ver rangen p\xE5 <color=#EAAF3B>1</color> tilf\xE6ldig Enhed ved
+        hvert niveau."
     - Language: German
       Text: "Erh\xF6ht zu Levelbeginn den Rang von <color=#EAAF3B>1</color> zuf\xE4lligen
         Unit."
@@ -1078,7 +1079,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "H\xF6j rang"
     - Language: Danish
-      Text: 
+      Text: Rang +1
     - Language: German
       Text: Rang +1
     - Language: French
@@ -1094,7 +1095,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ATTACKERA
     - Language: Danish
-      Text: 
+      Text: ANGRIB
     - Language: German
       Text: ANGRIFF
     - Language: French
@@ -1110,7 +1111,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: STRID
     - Language: Danish
-      Text: 
+      Text: KAMP
     - Language: German
       Text: KAMPF
     - Language: French
@@ -1126,7 +1127,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- 2 raser \xE4r avst\xE4ngda"
     - Language: Danish
-      Text: 
+      Text: "- 2 Racer er sl\xE5et fra"
     - Language: German
       Text: "- 2 V\xF6lker deaktiviert"
     - Language: French
@@ -1142,7 +1143,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 1
     - Language: Danish
-      Text: 
+      Text: Boss 1
     - Language: German
       Text: Boss 1
     - Language: French
@@ -1158,7 +1159,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Rerolls \xE4r avst\xE4ngda"
     - Language: Danish
-      Text: 
+      Text: "- Rerolls er sl\xE5et fra"
     - Language: German
       Text: '- Rerolls deaktiviert'
     - Language: French
@@ -1174,7 +1175,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 5
     - Language: Danish
-      Text: 
+      Text: Boss 5
     - Language: German
       Text: Boss 5
     - Language: French
@@ -1190,7 +1191,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- 2 klasser \xE4r avst\xE4ngda"
     - Language: Danish
-      Text: 
+      Text: "- 2 Klasser er sl\xE5et fra"
     - Language: German
       Text: '- 2 Klassen deaktiviert'
     - Language: French
@@ -1206,7 +1207,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 2
     - Language: Danish
-      Text: 
+      Text: Boss 2
     - Language: German
       Text: Boss 2
     - Language: French
@@ -1222,7 +1223,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Stj\xE4l 10 Guld vid attack"
     - Language: Danish
-      Text: 
+      Text: "- Stj\xE6ler 10 Guld ved angreb"
     - Language: German
       Text: '- Stiehlt 10 Gold beim Angriff'
     - Language: French
@@ -1238,7 +1239,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 6
     - Language: Danish
-      Text: 
+      Text: Boss 6
     - Language: German
       Text: Boss 6
     - Language: French
@@ -1254,7 +1255,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Brygder \xE4r avst\xE4ngda"
     - Language: Danish
-      Text: 
+      Text: "- Eliksirer er sl\xE5et fra"
     - Language: German
       Text: "- Tr\xE4nke deaktiviert"
     - Language: French
@@ -1270,7 +1271,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 3
     - Language: Danish
-      Text: 
+      Text: Boss 3
     - Language: German
       Text: Boss 3
     - Language: French
@@ -1286,7 +1287,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- D\xF6dar med 1 tr\xE4ff"
     - Language: Danish
-      Text: 
+      Text: "- Dr\xE6ber med 1 hit"
     - Language: German
       Text: "- T\xF6tet mit 1 Treffer"
     - Language: French
@@ -1302,7 +1303,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 7
     - Language: Danish
-      Text: 
+      Text: Boss 7
     - Language: German
       Text: Boss 7
     - Language: French
@@ -1318,7 +1319,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- 2 Artefakter \xE4r avst\xE4ngda"
     - Language: Danish
-      Text: 
+      Text: "- 2 Artefakter er sl\xE5et fra"
     - Language: German
       Text: '- 2 Artefakte deaktiviert'
     - Language: French
@@ -1334,7 +1335,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Boss 4
     - Language: Danish
-      Text: 
+      Text: Boss 4
     - Language: German
       Text: Boss 4
     - Language: French
@@ -1350,7 +1351,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "H\xE4mta"
     - Language: Danish
-      Text: 
+      Text: Hent
     - Language: German
       Text: Abholen
     - Language: French
@@ -1366,7 +1367,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Klass
     - Language: Danish
-      Text: 
+      Text: Klasse
     - Language: German
       Text: Klasse
     - Language: French
@@ -1382,7 +1383,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "B\xE5gskytt"
     - Language: Danish
-      Text: 
+      Text: Bueskytte
     - Language: German
       Text: "Sch\xFCtze"
     - Language: French
@@ -1398,7 +1399,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Bard
     - Language: Danish
-      Text: 
+      Text: Barde
     - Language: German
       Text: Barde
     - Language: French
@@ -1414,7 +1415,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Pr\xE4st"
     - Language: Danish
-      Text: 
+      Text: Kleriker
     - Language: German
       Text: Kleriker
     - Language: French
@@ -1430,7 +1431,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Magiker
     - Language: Danish
-      Text: 
+      Text: Magiker
     - Language: German
       Text: Magier
     - Language: French
@@ -1446,7 +1447,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Bonde
     - Language: Danish
-      Text: 
+      Text: Bonde
     - Language: German
       Text: Bauer
     - Language: French
@@ -1462,7 +1463,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Rogue
     - Language: Danish
-      Text: 
+      Text: Rogue
     - Language: German
       Text: Schurke
     - Language: French
@@ -1478,7 +1479,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Warlock
     - Language: Danish
-      Text: 
+      Text: Warlock
     - Language: German
       Text: Hexer
     - Language: French
@@ -1494,7 +1495,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Krigare
     - Language: Danish
-      Text: 
+      Text: Kriger
     - Language: German
       Text: Krieger
     - Language: French
@@ -1510,7 +1511,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "St\xE4ng"
     - Language: Danish
-      Text: 
+      Text: Luk
     - Language: German
       Text: "Schlie\xDFen"
     - Language: French
@@ -1530,7 +1531,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Bekr\xE4fta\n"
     - Language: Danish
-      Text: 
+      Text: "Bekr\xE6ft\n"
     - Language: German
       Text: "Best\xE4tigen\n"
     - Language: French
@@ -1550,7 +1551,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "FORTS\xC4TT"
     - Language: Danish
-      Text: 
+      Text: "FORTS\xC6T"
     - Language: German
       Text: WEITER
     - Language: French
@@ -1566,7 +1567,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit
     - Language: Danish
-      Text: 
+      Text: Crit
     - Language: German
       Text: Crit
     - Language: French
@@ -1582,7 +1583,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Daglig
     - Language: Danish
-      Text: 
+      Text: Daglig
     - Language: German
       Text: "T\xE4glich"
     - Language: French
@@ -1598,7 +1599,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dagens b\xE4sta"
     - Language: Danish
-      Text: 
+      Text: Dagens bedste
     - Language: German
       Text: Tagesbest
     - Language: French
@@ -1614,7 +1615,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dagligt uppdrag
     - Language: Danish
-      Text: 
+      Text: Daglig mission
     - Language: German
       Text: Tagesquest
     - Language: French
@@ -1630,7 +1631,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Dagliga uppdrag
     - Language: Danish
-      Text: 
+      Text: Daglige missioner
     - Language: German
       Text: Tagesquests
     - Language: French
@@ -1646,7 +1647,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Anv\xE4nd 3 Brygder"
     - Language: Danish
-      Text: 
+      Text: Brug 3 Eliksirer
     - Language: German
       Text: "Nutze 3 Tr\xE4nke"
     - Language: French
@@ -1662,7 +1663,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "G\xF6r 1000 skada"
     - Language: Danish
-      Text: 
+      Text: Giv 1000 Skade
     - Language: German
       Text: Verursache 1000 Schaden
     - Language: French
@@ -1678,7 +1679,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Besegra 2 Bossar
     - Language: Danish
-      Text: 
+      Text: Besejr 2 Bosser
     - Language: German
       Text: Besiege 2 Bosse
     - Language: French
@@ -1694,7 +1695,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rst\xF6r 3 Enheter"
     - Language: Danish
-      Text: 
+      Text: "\xD8del\xE6g 3 Enheder"
     - Language: German
       Text: "Zerst\xF6re 3 Einheiten"
     - Language: French
@@ -1710,7 +1711,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Tj\xE4na 30 Guld"
     - Language: Danish
-      Text: 
+      Text: Tjen 30 Guld
     - Language: German
       Text: Verdiene 30 Gold
     - Language: French
@@ -1726,7 +1727,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k 200 HP"
     - Language: Danish
-      Text: 
+      Text: Hel 200 HP
     - Language: German
       Text: Heile 200 HP
     - Language: French
@@ -1742,7 +1743,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Spela {0} {1}-enheter
     - Language: Danish
-      Text: 
+      Text: Spil {0} {1}-Enheder
     - Language: German
       Text: Spiele {0} {1}-Einheiten
     - Language: French
@@ -1758,7 +1759,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Spela {0} {1}-enheter
     - Language: Danish
-      Text: 
+      Text: Spil {0} {1}-Enheder
     - Language: German
       Text: Spiele {0} {1}-Einheiten
     - Language: French
@@ -1774,7 +1775,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Spela 2 runs
     - Language: Danish
-      Text: 
+      Text: Spil 2 Runs
     - Language: German
       Text: Spiele 2 Runs
     - Language: French
@@ -1790,7 +1791,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "N\xE5 niv\xE5 8"
     - Language: Danish
-      Text: 
+      Text: "N\xE5 niveau 8"
     - Language: German
       Text: Erreiche Level 8
     - Language: French
@@ -1806,7 +1807,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "G\xF6r 500 skada i en attack"
     - Language: Danish
-      Text: 
+      Text: "Giv 500 Skade i \xE9t angreb"
     - Language: German
       Text: 500 Schaden mit einem Angriff
     - Language: French
@@ -1822,7 +1823,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Uppgradera 3 Enheter
     - Language: Danish
-      Text: 
+      Text: Opgrader 3 Enheder
     - Language: German
       Text: Verbessere 3 Einheiten
     - Language: French
@@ -1838,7 +1839,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Skada
     - Language: Danish
-      Text: 
+      Text: Skade
     - Language: German
       Text: Schaden
     - Language: French
@@ -1854,7 +1855,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Deck
     - Language: Danish
-      Text: 
+      Text: Deck
     - Language: German
       Text: Deck
     - Language: French
@@ -1870,7 +1871,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xD6RLUST"
     - Language: Danish
-      Text: 
+      Text: NEDERLAG
     - Language: German
       Text: NIEDERLAGE
     - Language: French
@@ -1886,7 +1887,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Klar
     - Language: Danish
-      Text: 
+      Text: "F\xE6rdig"
     - Language: German
       Text: Fertig
     - Language: French
@@ -1902,7 +1903,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 1
     - Language: Danish
-      Text: 
+      Text: Fjende 1
     - Language: German
       Text: Gegner 1
     - Language: French
@@ -1918,7 +1919,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 2
     - Language: Danish
-      Text: 
+      Text: Fjende 2
     - Language: German
       Text: Gegner 2
     - Language: French
@@ -1934,7 +1935,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 3
     - Language: Danish
-      Text: 
+      Text: Fjende 3
     - Language: German
       Text: Gegner 3
     - Language: French
@@ -1950,7 +1951,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 4
     - Language: Danish
-      Text: 
+      Text: Fjende 4
     - Language: German
       Text: Gegner 4
     - Language: French
@@ -1966,7 +1967,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 5
     - Language: Danish
-      Text: 
+      Text: Fjende 5
     - Language: German
       Text: Gegner 5
     - Language: French
@@ -1982,7 +1983,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Fiende 6
     - Language: Danish
-      Text: 
+      Text: Fjende 6
     - Language: German
       Text: Gegner 6
     - Language: French
@@ -1998,7 +1999,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Intj\xE4nat Guld:"
     - Language: Danish
-      Text: 
+      Text: 'Guld tjent:'
     - Language: German
       Text: 'Gold verdient:'
     - Language: French
@@ -2014,7 +2015,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "H\xC4LSA"
     - Language: Danish
-      Text: 
+      Text: HELBRED
     - Language: German
       Text: LEBEN
     - Language: French
@@ -2030,7 +2031,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kt HP:"
     - Language: Danish
-      Text: 
+      Text: 'HP helet:'
     - Language: German
       Text: 'HP geheilt:'
     - Language: French
@@ -2046,7 +2047,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Hj\xE4lterunor"
     - Language: Danish
-      Text: 
+      Text: Helteruner
     - Language: German
       Text: Heldenrunen
     - Language: French
@@ -2062,7 +2063,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "HJ\xC4LTEBUTIK"
     - Language: Danish
-      Text: 
+      Text: HELTEBUTIK
     - Language: German
       Text: HELDENSHOP
     - Language: French
@@ -2078,7 +2079,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "100 HP      +1 Reroll \\n\u2022 B\xF6rjar med Brygd"
     - Language: Danish
-      Text: 
+      Text: "100 HP      +1 Reroll \\n\u2022 Starter med Eliksir"
     - Language: German
       Text: "100 HP      +1 Reroll \\n\u2022 Startet mit Trank"
     - Language: French
@@ -2094,7 +2095,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: KRIGARE
     - Language: Danish
-      Text: 
+      Text: KRIGER
     - Language: German
       Text: KRIEGER
     - Language: French
@@ -2110,7 +2111,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Slumpad Artefakt
     - Language: Danish
-      Text: 
+      Text: "Tilf\xE6ldigt artefakt"
     - Language: German
       Text: Zufallsartefakt
     - Language: French
@@ -2126,7 +2127,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "150 HP        +1 Attack \\n\u2022 B\xF6rjar med Artefakt"
     - Language: Danish
-      Text: 
+      Text: "150 HP        +1 Angreb \\n\u2022 Starter med Artefakt"
     - Language: German
       Text: "150 HP        +1 Angriff \\n\u2022 Startet mit Artefakt"
     - Language: French
@@ -2142,7 +2143,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dv\xE4rg"
     - Language: Danish
-      Text: 
+      Text: "Dv\xE6rg"
     - Language: German
       Text: Zwerg
     - Language: French
@@ -2162,7 +2163,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Runa: S\xE4llsynt chans\nArtefakt: +2 Guld"
     - Language: Danish
-      Text: 
+      Text: "Rune: Sj\xE6lden chance\nArtefakt: +2 Guld"
     - Language: German
       Text: 'Rune: Selten-Chance
 
@@ -2184,7 +2185,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "120 HP        +1 Attack \\n\u2022 B\xF6rjar med Artefakt"
     - Language: Danish
-      Text: 
+      Text: "120 HP        +1 Angreb \\n\u2022 Starter med Artefakt"
     - Language: German
       Text: "120 HP        +1 Angriff \\n\u2022 Startet mit Artefakt"
     - Language: French
@@ -2200,7 +2201,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Warlock
     - Language: Danish
-      Text: 
+      Text: Warlock
     - Language: German
       Text: Hexer
     - Language: French
@@ -2220,7 +2221,9 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Runa: Attack\nArtefakt: H\xF6j rang"
     - Language: Danish
-      Text: 
+      Text: 'Rune: Angreb
+
+        Artefakt: Rang +1'
     - Language: German
       Text: 'Rune: Angriff
 
@@ -2242,7 +2245,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "100 HP        +1 Attack \\n\u2022 B\xF6rjar med Artefakt"
     - Language: Danish
-      Text: 
+      Text: "100 HP        +1 Angreb \\n\u2022 Starter med Artefakt"
     - Language: German
       Text: "100 HP        +1 Angriff \\n\u2022 Startet mit Artefakt"
     - Language: French
@@ -2258,7 +2261,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Goblin
     - Language: Danish
-      Text: 
+      Text: Goblin
     - Language: German
       Text: Goblin
     - Language: French
@@ -2274,7 +2277,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 2x Brygder
     - Language: Danish
-      Text: 
+      Text: 2x Eliksirer
     - Language: German
       Text: "2x Tr\xE4nke"
     - Language: French
@@ -2290,7 +2293,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Hj\xE4ltar"
     - Language: Danish
-      Text: 
+      Text: Helte
     - Language: German
       Text: Helden
     - Language: French
@@ -2306,7 +2309,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Highscore
     - Language: Danish
-      Text: 
+      Text: Highscore
     - Language: German
       Text: Highscore
     - Language: French
@@ -2322,7 +2325,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Inventory
     - Language: Danish
-      Text: 
+      Text: Inventar
     - Language: German
       Text: Inventar
     - Language: French
@@ -2338,7 +2341,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Spr\xE5k"
     - Language: Danish
-      Text: 
+      Text: Sprog
     - Language: German
       Text: Sprache
     - Language: French
@@ -2354,7 +2357,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Huvudmeny
     - Language: Danish
-      Text: 
+      Text: Hovedmenu
     - Language: German
       Text: "Hauptmen\xFC"
     - Language: French
@@ -2370,7 +2373,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Musik
     - Language: Danish
-      Text: 
+      Text: Musik
     - Language: German
       Text: Musik
     - Language: French
@@ -2386,7 +2389,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj din bel\xF6ning!"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg din bel\xF8nning!"
     - Language: German
       Text: "W\xE4hle deine Belohnung!"
     - Language: French
@@ -2402,7 +2405,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: SPELA
     - Language: Danish
-      Text: 
+      Text: SPIL
     - Language: German
       Text: SPIELEN
     - Language: French
@@ -2418,7 +2421,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Brygd
     - Language: Danish
-      Text: 
+      Text: Eliksir
     - Language: German
       Text: Trank
     - Language: French
@@ -2434,7 +2437,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Brygdplatser
     - Language: Danish
-      Text: 
+      Text: Eliksir-slots
     - Language: German
       Text: Trank-Slots
     - Language: French
@@ -2450,7 +2453,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+120</color> skada denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+120</color> Skade denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+120</color> Schaden diesen Zug"
     - Language: French
@@ -2466,7 +2469,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Berserk
     - Language: Danish
-      Text: 
+      Text: Berserk
     - Language: German
       Text: Berserker
     - Language: French
@@ -2482,7 +2485,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+30</color> skada denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+30</color> Skade denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+30</color> Schaden diesen Zug"
     - Language: French
@@ -2498,7 +2501,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Berserk
     - Language: Danish
-      Text: 
+      Text: Berserk
     - Language: German
       Text: Berserker
     - Language: French
@@ -2514,7 +2517,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+60</color> skada denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+60</color> Skade denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+60</color> Schaden diesen Zug"
     - Language: French
@@ -2530,7 +2533,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Berserk
     - Language: Danish
-      Text: 
+      Text: Berserk
     - Language: German
       Text: Berserker
     - Language: French
@@ -2546,7 +2549,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rst\xF6r vald enhet direkt"
     - Language: Danish
-      Text: 
+      Text: "\xD8del\xE6gger valgt Enhed med det samme"
     - Language: German
       Text: "Zerst\xF6rt gew\xE4hlte Einheit sofort"
     - Language: French
@@ -2562,7 +2565,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rst\xF6r"
     - Language: Danish
-      Text: 
+      Text: "\xD8del\xE6g"
     - Language: German
       Text: "Zerst\xF6ren"
     - Language: French
@@ -2581,7 +2584,8 @@ MonoBehaviour:
       Text: "<color=#EAAF3B>3</color> slumpade enheter f\xE5r <color=#EAAF3B>+25</color>
         skada denna tur"
     - Language: Danish
-      Text: 
+      Text: "<color=#EAAF3B>3</color> tilf\xE6ldige Enheder: <color=#EAAF3B>+25</color>
+        Skade denne tur"
     - Language: German
       Text: "<color=#EAAF3B>3</color> zuf\xE4llige Einheiten: <color=#EAAF3B>+25</color>
         Schaden diesen Zug"
@@ -2600,7 +2604,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Frenzy
     - Language: Danish
-      Text: 
+      Text: Frenzy
     - Language: German
       Text: Raserei
     - Language: French
@@ -2619,7 +2623,8 @@ MonoBehaviour:
       Text: "<color=#EAAF3B>3</color> slumpade enheter f\xE5r <color=#EAAF3B>+40</color>
         skada denna tur"
     - Language: Danish
-      Text: 
+      Text: "<color=#EAAF3B>3</color> tilf\xE6ldige Enheder: <color=#EAAF3B>+40</color>
+        Skade denne tur"
     - Language: German
       Text: "<color=#EAAF3B>3</color> zuf\xE4llige Einheiten: <color=#EAAF3B>+40</color>
         Schaden diesen Zug"
@@ -2638,7 +2643,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Frenzy
     - Language: Danish
-      Text: 
+      Text: Frenzy
     - Language: German
       Text: Raserei
     - Language: French
@@ -2654,7 +2659,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>20%</color> max-HP"
     - Language: Danish
-      Text: 
+      Text: Hel Helten med <color=#EAAF3B>20%</color> af max HP
     - Language: German
       Text: Heilt den Helden um <color=#EAAF3B>20%</color> Max-HP
     - Language: French
@@ -2670,7 +2675,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Heling
     - Language: German
       Text: Heilung
     - Language: French
@@ -2686,7 +2691,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>30%</color> max-HP"
     - Language: Danish
-      Text: 
+      Text: Hel Helten med <color=#EAAF3B>30%</color> af max HP
     - Language: German
       Text: Heilt den Helden um <color=#EAAF3B>30%</color> Max-HP
     - Language: French
@@ -2702,7 +2707,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Heling
     - Language: German
       Text: Heilung
     - Language: French
@@ -2718,7 +2723,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4k Hj\xE4lten <color=#EAAF3B>50%</color> max-HP"
     - Language: Danish
-      Text: 
+      Text: Hel Helten med <color=#EAAF3B>50%</color> af max HP
     - Language: German
       Text: Heilt den Helden um <color=#EAAF3B>50%</color> Max-HP
     - Language: French
@@ -2734,7 +2739,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kning"
     - Language: Danish
-      Text: 
+      Text: Heling
     - Language: German
       Text: Heilung
     - Language: French
@@ -2753,7 +2758,8 @@ MonoBehaviour:
       Text: "All skada <color=#EAAF3B>x2</color> denna tur, men f\xF6rlora <color=#EAAF3B>10%</color>
         max-HP"
     - Language: Danish
-      Text: 
+      Text: Al Skade <color=#EAAF3B>x2</color> denne tur, men mist <color=#EAAF3B>10%</color>
+        max HP
     - Language: German
       Text: Gesamtschaden <color=#EAAF3B>x2</color> diesen Zug, verliere <color=#EAAF3B>10%</color>
         Max-HP
@@ -2772,7 +2778,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Legionens vrede
     - Language: Danish
-      Text: 
+      Text: Legionens raseri
     - Language: German
       Text: Zorn der Legion
     - Language: French
@@ -2790,7 +2796,7 @@ MonoBehaviour:
       Text: "Vald enhet f\xE5r <color=#EAAF3B>4x</color> skada men exploderar efter
         attack"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>4x</color> Skade, eksploderer efter angreb'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>4x</color> Schaden, explodiert nach
         Angriff"
@@ -2808,7 +2814,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: OverBrew
     - Language: Danish
-      Text: 
+      Text: OverBrew
     - Language: German
       Text: OverBrew
     - Language: French
@@ -2824,7 +2830,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+2</color> Crit denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+2</color> Crit denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+2</color> Crit diesen Zug"
     - Language: French
@@ -2840,7 +2846,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Precision
     - Language: Danish
-      Text: 
+      Text: "Pr\xE6cision"
     - Language: German
       Text: "Pr\xE4zision"
     - Language: French
@@ -2856,7 +2862,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+3</color> Crit denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+3</color> Crit denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+3</color> Crit diesen Zug"
     - Language: French
@@ -2872,7 +2878,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Precision
     - Language: Danish
-      Text: 
+      Text: "Pr\xE6cision"
     - Language: German
       Text: "Pr\xE4zision"
     - Language: French
@@ -2888,7 +2894,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Vald enhet f\xE5r <color=#EAAF3B>+5</color> Crit denna tur"
     - Language: Danish
-      Text: 
+      Text: 'Valgt Enhed: <color=#EAAF3B>+5</color> Crit denne tur'
     - Language: German
       Text: "Gew\xE4hlte Einheit: <color=#EAAF3B>+5</color> Crit diesen Zug"
     - Language: French
@@ -2904,7 +2910,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Precision
     - Language: Danish
-      Text: 
+      Text: "Pr\xE6cision"
     - Language: German
       Text: "Pr\xE4zision"
     - Language: French
@@ -2920,7 +2926,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ras
     - Language: Danish
-      Text: 
+      Text: Race
     - Language: German
       Text: Volk
     - Language: French
@@ -2936,7 +2942,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dv\xE4rg"
     - Language: Danish
-      Text: 
+      Text: "Dv\xE6rg"
     - Language: German
       Text: Zwerg
     - Language: French
@@ -2952,7 +2958,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Alv
     - Language: Danish
-      Text: 
+      Text: Elver
     - Language: German
       Text: Elf
     - Language: French
@@ -2968,7 +2974,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xE4nniska"
     - Language: Danish
-      Text: 
+      Text: Menneske
     - Language: German
       Text: Mensch
     - Language: French
@@ -2984,7 +2990,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Orch
     - Language: Danish
-      Text: 
+      Text: Ork
     - Language: German
       Text: Ork
     - Language: French
@@ -3000,7 +3006,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Troll
     - Language: Danish
-      Text: 
+      Text: Trold
     - Language: German
       Text: Troll
     - Language: French
@@ -3016,7 +3022,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Od\xF6d"
     - Language: Danish
-      Text: 
+      Text: "Ud\xF8d"
     - Language: German
       Text: Untot
     - Language: French
@@ -3032,7 +3038,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Slumpad
     - Language: Danish
-      Text: 
+      Text: "Tilf\xE6ldig"
     - Language: German
       Text: "Zuf\xE4llig"
     - Language: French
@@ -3048,7 +3054,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Vanlig
     - Language: Danish
-      Text: 
+      Text: Almindelig
     - Language: German
       Text: "Gew\xF6hnlich"
     - Language: French
@@ -3064,7 +3070,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Episk
     - Language: Danish
-      Text: 
+      Text: Episk
     - Language: German
       Text: Episch
     - Language: French
@@ -3080,7 +3086,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Legendarisk
     - Language: Danish
-      Text: 
+      Text: Legendarisk
     - Language: German
       Text: "Legend\xE4r"
     - Language: French
@@ -3096,7 +3102,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "S\xE4llsynt"
     - Language: Danish
-      Text: 
+      Text: "Sj\xE6lden"
     - Language: German
       Text: Selten
     - Language: French
@@ -3112,7 +3118,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: REROLL
     - Language: Danish
-      Text: 
+      Text: REROLL
     - Language: German
       Text: REROLL
     - Language: French
@@ -3128,7 +3134,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "\xC5TERST\xC4LL"
     - Language: Danish
-      Text: 
+      Text: GENDAN
     - Language: German
       Text: RESTORE
     - Language: French
@@ -3144,7 +3150,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "BEL\xD6NING"
     - Language: Danish
-      Text: 
+      Text: "BEL\xD8NNING"
     - Language: German
       Text: BELOHNUNG
     - Language: French
@@ -3160,7 +3166,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Bel\xF6ningar"
     - Language: Danish
-      Text: 
+      Text: "Bel\xF8nninger"
     - Language: German
       Text: Belohnungen
     - Language: French
@@ -3176,7 +3182,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Runa
     - Language: Danish
-      Text: 
+      Text: Rune
     - Language: German
       Text: Rune
     - Language: French
@@ -3192,7 +3198,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Bossar ger dubbelt Guld
     - Language: Danish
-      Text: 
+      Text: Bosser giver dobbelt Guld
     - Language: German
       Text: Bosse droppen doppelt Gold
     - Language: French
@@ -3208,7 +3214,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Runa: Bossbel\xF6ning"
     - Language: Danish
-      Text: 
+      Text: "Boss-bel\xF8nningsrune"
     - Language: German
       Text: Boss-Beute-Rune
     - Language: French
@@ -3224,7 +3230,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 1 Aegis (\xE5teruppliva med 1 HP)"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 1 Aegis (genopliv med 1 HP)"
     - Language: German
       Text: Erhalte 1 Aegis (Wiederbelebung mit 1 HP)
     - Language: French
@@ -3240,7 +3246,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Aegis'
     - Language: Danish
-      Text: 
+      Text: Aegis-rune
     - Language: German
       Text: Aegis-Rune
     - Language: French
@@ -3256,7 +3262,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +1 Attack per runda
     - Language: Danish
-      Text: 
+      Text: +1 Angreb pr. runde
     - Language: German
       Text: +1 Angriff pro Runde
     - Language: French
@@ -3272,7 +3278,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Attack'
     - Language: Danish
-      Text: 
+      Text: Angrebsrune
     - Language: German
       Text: Angriffsrune
     - Language: French
@@ -3288,7 +3294,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "25% rabatt p\xE5 Marknaden"
     - Language: Danish
-      Text: 
+      Text: "25% rabat p\xE5 Markedet"
     - Language: German
       Text: 25% Rabatt im Markt
     - Language: French
@@ -3304,7 +3310,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Rabatt'
     - Language: Danish
-      Text: 
+      Text: Rabatrune
     - Language: German
       Text: Rabatt-Rune
     - Language: French
@@ -3320,7 +3326,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dubbla chansen f\xF6r Episka f\xF6rem\xE5l"
     - Language: Danish
-      Text: 
+      Text: Dobbelt chance for Episke items
     - Language: German
       Text: Doppelte Chance auf epische Items
     - Language: French
@@ -3336,7 +3342,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Episk chans'
     - Language: Danish
-      Text: 
+      Text: 'Rune: Episk chance'
     - Language: German
       Text: Episch-Chance-Rune
     - Language: French
@@ -3352,7 +3358,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+2 Guld per niv\xE5"
     - Language: Danish
-      Text: 
+      Text: +2 Guld pr. niveau
     - Language: German
       Text: +2 Gold pro Level
     - Language: French
@@ -3368,7 +3374,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Guld'
     - Language: Danish
-      Text: 
+      Text: Guldrune
     - Language: German
       Text: Goldrune
     - Language: French
@@ -3384,7 +3390,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+5 Guld per niv\xE5"
     - Language: Danish
-      Text: 
+      Text: +5 Guld pr. niveau
     - Language: German
       Text: +5 Gold pro Level
     - Language: French
@@ -3400,7 +3406,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Guld'
     - Language: Danish
-      Text: 
+      Text: Guldrune
     - Language: German
       Text: Goldrune
     - Language: French
@@ -3416,7 +3422,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dubbla chansen f\xF6r S\xE4llsynta f\xF6rem\xE5l"
     - Language: Danish
-      Text: 
+      Text: "Dobbelt chance for Sj\xE6ldne items"
     - Language: German
       Text: Doppelte Chance auf seltene Items
     - Language: French
@@ -3432,7 +3438,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Runa: S\xE4llsynt chans"
     - Language: Danish
-      Text: 
+      Text: "Rune: Sj\xE6lden chance"
     - Language: German
       Text: Selten-Chance-Rune
     - Language: French
@@ -3448,7 +3454,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +1 Reroll per runda
     - Language: Danish
-      Text: 
+      Text: +1 Reroll pr. runde
     - Language: German
       Text: +1 Reroll pro Runde
     - Language: French
@@ -3464,7 +3470,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Reroll'
     - Language: Danish
-      Text: 
+      Text: Reroll-rune
     - Language: German
       Text: Reroll-Rune
     - Language: French
@@ -3480,7 +3486,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Gratis f\xF6rsta reroll p\xE5 Marknaden varje tur"
     - Language: Danish
-      Text: 
+      Text: "F\xF8rste Reroll p\xE5 Markedet er gratis hver tur"
     - Language: German
       Text: Erster Markt-Reroll pro Zug gratis
     - Language: French
@@ -3496,7 +3502,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Runa: Reset'
     - Language: Danish
-      Text: 
+      Text: Reset-rune
     - Language: German
       Text: Reset-Rune
     - Language: French
@@ -3512,7 +3518,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xC4LJ"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg"
     - Language: German
       Text: "W\xE4hlen"
     - Language: French
@@ -3528,7 +3534,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xC4LJ HJ\xC4LTE"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg helt"
     - Language: German
       Text: "Held w\xE4hlen"
     - Language: French
@@ -3544,7 +3550,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xC4LJ Enhet och Uppgradering"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg enhed + opgradering"
     - Language: German
       Text: "Einheit + Upgrade w\xE4hlen"
     - Language: French
@@ -3560,7 +3566,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ange namn
     - Language: Danish
-      Text: 
+      Text: Angiv navn
     - Language: German
       Text: Name setzen
     - Language: French
@@ -3576,7 +3582,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ange namn
     - Language: Danish
-      Text: 
+      Text: Angiv navn
     - Language: German
       Text: Name setzen
     - Language: French
@@ -3592,7 +3598,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Inst\xE4llningar"
     - Language: Danish
-      Text: 
+      Text: Indstillinger
     - Language: German
       Text: Einstellungen
     - Language: French
@@ -3608,7 +3614,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: HOPPA
     - Language: Danish
-      Text: 
+      Text: SPRING OVER
     - Language: German
       Text: SKIP
     - Language: French
@@ -3640,7 +3646,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 Enhetsuppgradering"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 en Enhedsopgradering"
     - Language: German
       Text: Erhalte ein Unit-Upgrade
     - Language: French
@@ -3672,7 +3678,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rdubbla ditt Guld"
     - Language: Danish
-      Text: 
+      Text: Fordobl dit Guld
     - Language: German
       Text: Verdopple dein Gold
     - Language: French
@@ -3704,7 +3710,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+2 attacker n\xE4sta runda"
     - Language: Danish
-      Text: 
+      Text: "+2 angreb n\xE6ste runde"
     - Language: German
       Text: "+2 Angriffe n\xE4chste Runde"
     - Language: French
@@ -3736,7 +3742,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "\xC5terst\xE4ll Hj\xE4ltens HP till 100%"
     - Language: Danish
-      Text: 
+      Text: Gendan heltens HP til 100%
     - Language: German
       Text: Helden-HP auf 100%
     - Language: French
@@ -3768,7 +3774,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Alla f\xF6rem\xE5l p\xE5 Marknaden kostar 0 Guld"
     - Language: Danish
-      Text: 
+      Text: "Alt p\xE5 Markedet koster 0 Guld"
     - Language: German
       Text: Alles im Markt kostet 0 Gold
     - Language: French
@@ -3800,7 +3806,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 2 slumpade Brygder"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 2 tilf\xE6ldige Eliksirer"
     - Language: German
       Text: "Erhalte 2 Zufallstr\xE4nke"
     - Language: French
@@ -3832,7 +3838,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 slumpad S\xE4llsynt Artefakt"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 et tilf\xE6ldigt Sj\xE6ldent Artefakt"
     - Language: German
       Text: "Zuf\xE4lliges seltenes Artefakt"
     - Language: French
@@ -3864,7 +3870,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xE5 en slumpad Ovanlig Artefakt"
     - Language: Danish
-      Text: 
+      Text: "F\xE5 et tilf\xE6ldigt Us\xE6dvanligt Artefakt"
     - Language: German
       Text: "Zuf\xE4lliges ungew\xF6hnliches Artefakt"
     - Language: French
@@ -3880,7 +3886,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ljud
     - Language: Danish
-      Text: 
+      Text: Lyd
     - Language: German
       Text: Sound
     - Language: French
@@ -3896,7 +3902,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Startguld
     - Language: Danish
-      Text: 
+      Text: Startguld
     - Language: German
       Text: Startgold
     - Language: French
@@ -3912,7 +3918,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Startf\xF6rem\xE5l"
     - Language: Danish
-      Text: 
+      Text: Startitems
     - Language: German
       Text: Startitems
     - Language: French
@@ -3928,7 +3934,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: SYNERGIER
     - Language: Danish
-      Text: 
+      Text: SYNERGIER
     - Language: German
       Text: SYNERGIEN
     - Language: French
@@ -3944,7 +3950,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Talanger
     - Language: Danish
-      Text: 
+      Text: Talenter
     - Language: German
       Text: Talente
     - Language: French
@@ -3960,7 +3966,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: TILL STRID
     - Language: Danish
-      Text: 
+      Text: TIL KAMP
     - Language: German
       Text: ZUM KAMPF
     - Language: French
@@ -3981,7 +3987,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Slut p\xE5 attacker,\noch striden \xE4r \xF6ver\n-- precis som du..."
     - Language: Danish
-      Text: 
+      Text: "L\xF8ber du t\xF8r for angreb,\ner kampen slut\n-- og det er du ogs\xE5..."
     - Language: German
       Text: 'Keine Angriffe mehr,
 
@@ -4012,7 +4018,7 @@ MonoBehaviour:
       Text: "DET H\xC4R \xC4R DIN ARM\xC9!\n\nBESEGRA FIENDEN GENOM ATT ATTACKERA
         MED UPP TILL 4 ENHETER PER TUR"
     - Language: Danish
-      Text: 
+      Text: "DET HER ER DIN H\xC6R!\n\nBESEJR FJENDEN MED OP TIL 4 ENHEDER PR. TUR"
     - Language: German
       Text: 'DAS IST DEINE ARMEE!
 
@@ -4034,7 +4040,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka p\xE5 REROLL"
     - Language: Danish
-      Text: 
+      Text: Tryk REROLL
     - Language: German
       Text: Klicke REROLL
     - Language: French
@@ -4054,7 +4060,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "NU SER DET UT SOM EN BRA COMBO!\n\nV\xC4LJ 4 TILL N\xC4STA ATTACK"
     - Language: Danish
-      Text: 
+      Text: "DET LIGNER EN GOD COMBO!\n\nV\xC6LG 4 TIL N\xC6STE ANGREB"
     - Language: German
       Text: "DAS IST EINE GUTE COMBO!\n\nW\xC4HLE 4 F\xDCR DEN N\xC4CHSTEN ANGRIFF"
     - Language: French
@@ -4076,7 +4082,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Fiender sl\xE5r g\xE4rna tillbaka....\n\nProffstips: D\xF6 inte"
     - Language: Danish
-      Text: 
+      Text: "Fjender sl\xE5r gerne igen....\n\nPro-tip: Lad v\xE6re med at d\xF8"
     - Language: German
       Text: "Gegner schlagen gern zur\xFCck....\n\nProfi-Tipp: Nicht sterben"
     - Language: French
@@ -4098,7 +4104,10 @@ MonoBehaviour:
     - Language: Swedish
       Text: "BRA JOBBAT!\n\nDU TJ\xC4NAR GULD GENOM ATT BESEGRA FIENDER"
     - Language: Danish
-      Text: 
+      Text: 'GODT KLARET!
+
+
+        DU TJENER GULD VED AT BESEJRE FJENDER'
     - Language: German
       Text: "GUT GEMACHT!\n\nF\xDCR BESIEGTE GEGNER ERH\xC4LTST DU GOLD"
     - Language: French
@@ -4119,7 +4128,8 @@ MonoBehaviour:
       Text: "AH, V\xC4LKOMMEN UNGA HJ\xC4LTE!\n\nL\xC5T OSS G\xD6RA DIG REDO F\xD6R
         DIN F\xD6RSTA STRID"
     - Language: Danish
-      Text: 
+      Text: "AH, VELKOMMEN UNGE HELT!\n\nLAD OS G\xD8RE DIG KLAR TIL DIN F\xD8RSTE
+        KAMP"
     - Language: German
       Text: "AH, WILLKOMMEN JUNGER HELD!\n\nMACH DICH BEREIT F\xDCR DEINEN ERSTEN
         KAMPF"
@@ -4136,7 +4146,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Klicka ATTACKERA
     - Language: Danish
-      Text: 
+      Text: Tryk ANGRIB
     - Language: German
       Text: Klicke ANGRIFF
     - Language: French
@@ -4155,7 +4165,8 @@ MonoBehaviour:
       Text: "Ingen stark combo h\xE4r... Testa en reroll f\xF6r att hitta kort med
         samma ras eller klass"
     - Language: Danish
-      Text: 
+      Text: "Ingen st\xE6rk combo her... Brug Reroll for kort med samme Race eller
+        Klasse"
     - Language: German
       Text: "Keine starke Combo... Nutze Reroll f\xFCr Karten mit gleichem Volk oder
         gleicher Klasse"
@@ -4174,7 +4185,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xC4LJ 4 Orcher"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg 4 Orker"
     - Language: German
       Text: "W\xE4hle 4 Orks"
     - Language: French
@@ -4190,7 +4201,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xC4LJ 4 Krigare"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg 4 Krigere"
     - Language: German
       Text: "W\xE4hle 4 Krieger"
     - Language: French
@@ -4206,7 +4217,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 4 ORCHER GER 3X TOTAL SKADA
     - Language: Danish
-      Text: 
+      Text: 4 ORKER GIVER 3X TOTAL SKADE
     - Language: German
       Text: 4 ORK-UNITS MACHEN 3X GESAMTSCHADEN
     - Language: French
@@ -4222,7 +4233,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 4 KRIGARE GER 3X TOTAL SKADA
     - Language: Danish
-      Text: 
+      Text: 4 KRIGERE GIVER 3X TOTAL SKADE
     - Language: German
       Text: 4 KRIEGER-UNITS MACHEN 3X GESAMTSCHADEN
     - Language: French
@@ -4244,7 +4255,8 @@ MonoBehaviour:
       Text: "V\xC4LKOMMEN TILL BUTIKEN!\n\nKLIV IN - MINA VAROR KANSKE H\xC5LLER
         DIG VID LIV EN STRID TILL"
     - Language: Danish
-      Text: 
+      Text: "VELKOMMEN I BUTIKKEN!\n\nKOM IND - MINE VARER KAN M\xC5SKE HOLDE DIG
+        I LIVE \xC9N KAMP MERE"
     - Language: German
       Text: "WILLKOMMEN IM SHOP!\n\nKOMM REIN - MEINE WAREN K\xD6NNTEN DICH NOCH
         EINEN KAMPF RETTEN"
@@ -4263,7 +4275,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Artefakter ger passiva bonusar som f\xF6rb\xE4ttrar ditt Deck"
     - Language: Danish
-      Text: 
+      Text: Artefakter giver passive bonusser, der forbedrer dit Deck
     - Language: German
       Text: Artefakte geben passive Boni und verbessern dein Deck
     - Language: French
@@ -4288,7 +4300,8 @@ MonoBehaviour:
       Text: "K\xD6P DEN H\xC4R!\n\nDEN GER +20 SKADA VARJE G\xC5NG DU ATTACKERAR\n\nDra
         f\xF6r att k\xF6pa!"
     - Language: Danish
-      Text: 
+      Text: "K\xD8B DEN HER!\n\nDEN GIVER +20 SKADE VED HVERT ANGREB\n\nTr\xE6k for
+        at k\xF8be!"
     - Language: German
       Text: 'KAUF DAS!
 
@@ -4312,7 +4325,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka f\xF6r strid!"
     - Language: Danish
-      Text: 
+      Text: "Tryk for at g\xE5 i kamp!"
     - Language: German
       Text: "Klicke f\xFCr den Kampf!"
     - Language: French
@@ -4328,7 +4341,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Brygder anv\xE4nds en g\xE5ng och ger enheter bonusar i strid"
     - Language: Danish
-      Text: 
+      Text: "Eliksirer bruges \xE9n gang og giver bonusser i kamp"
     - Language: German
       Text: "Tr\xE4nke sind Verbrauchsitems und geben einmalige Boni im Kampf"
     - Language: French
@@ -4354,7 +4367,8 @@ MonoBehaviour:
       Text: "Precis vad du beh\xF6ver!\n\nDen h\xE4r brygden l\xE4ker Hj\xE4lten
         med 20% max-HP i strid\n\nDra f\xF6r att k\xF6pa"
     - Language: Danish
-      Text: 
+      Text: "Lige hvad du mangler!\n\nDenne Eliksir heler Helten med 20% max HP\n\nTr\xE6k
+        for at k\xF8be"
     - Language: German
       Text: 'Genau das Richtige!
 
@@ -4385,7 +4399,11 @@ MonoBehaviour:
       Text: "Precis vad du beh\xF6ver!\n\nDen h\xE4r brygden l\xE4ker Hj\xE4lten
         med 20% max-HP i strid."
     - Language: Danish
-      Text: 
+      Text: 'Lige hvad du mangler!
+
+
+        Denne Eliksir heler Helten med 20% max
+        HP.'
     - Language: German
       Text: 'Genau das Richtige!
 
@@ -4404,7 +4422,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: DIN ARTEFAKT LA JUST TILL +20 BONUSSKADA
     - Language: Danish
-      Text: 
+      Text: DIT ARTEFAKT GAV +20 BONUSSKADE
     - Language: German
       Text: DEIN ARTEFAKT GAB +20 BONUS-SCHADEN
     - Language: French
@@ -4420,7 +4438,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Dra brygden till en enhet eller Hj\xE4lten."
     - Language: Danish
-      Text: 
+      Text: "Tr\xE6k Eliksiren til en Enhed eller Helten."
     - Language: German
       Text: "Ziehe Tr\xE4nke auf Units oder den Helden."
     - Language: French
@@ -4441,7 +4459,8 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Tillbaka i ett stycke!\n\nVill du \xF6ka chansen att f\xF6rbli s\xE5?"
     - Language: Danish
-      Text: 
+      Text: "Tilbage i \xE9t stykke!\n\nVil du forbedre chancen for at blive ved
+        med det?"
     - Language: German
       Text: "Noch an einem St\xFCck!\n\nWillst du deine Chancen erh\xF6hen, dass
         das so bleibt?"
@@ -4461,7 +4480,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Enhetsuppgraderingar st\xE4rker enskilda enheter i ditt Deck"
     - Language: Danish
-      Text: 
+      Text: "Enhedsopgraderinger g\xF8r enkelte Enheder i dit Deck st\xE6rkere"
     - Language: German
       Text: "Unit-Upgrades verst\xE4rken einzelne Einheiten in deinem Deck"
     - Language: French
@@ -4485,7 +4504,8 @@ MonoBehaviour:
       Text: "DET H\xC4R \xC4R EN ENHETSUPPGRADERING.\n\nDEN GER EN VALD ENHET EXTRA
         KRAFTER"
     - Language: Danish
-      Text: 
+      Text: "DET HER ER EN ENHEDSOPGRADERING.\n\nDEN GIVER EN VALGT ENHED EKSTRA
+        KR\xC6FTER"
     - Language: German
       Text: "DAS IST EIN UNIT-UPGRADE.\n\nES GIBT EINER EINHEIT ZUS\xC4TZLICHE KR\xC4FTE"
     - Language: French
@@ -4505,7 +4525,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Bossstrid framf\xF6r dig!\n\nDen h\xE4r br\xE5kmakaren har en specialf\xF6rm\xE5ga"
     - Language: Danish
-      Text: 
+      Text: "Bosskamp forude!\n\nDenne ballademager har en s\xE6rlig evne"
     - Language: German
       Text: "Bosskampf voraus!\n\nDieser Gegner hat eine Spezialf\xE4higkeit"
     - Language: French
@@ -4521,7 +4541,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Tv\xE5 slumpade raser \xE4r avst\xE4ngda i den h\xE4r striden"
     - Language: Danish
-      Text: 
+      Text: "To tilf\xE6ldige Racer er sl\xE5et fra i denne kamp"
     - Language: German
       Text: "Zwei zuf\xE4llige V\xF6lker sind in diesem Kampf deaktiviert"
     - Language: French
@@ -4542,7 +4562,7 @@ MonoBehaviour:
       Text: "GRATTIS - DIN F\xD6RSTA BOSSSEGER!\n\nJAG HAR N\xC5GOT SPECIELLT \xC5T
         DIG."
     - Language: Danish
-      Text: 
+      Text: "TILLYKKE - DIN F\xD8RSTE BOSSSEJR!\n\nJEG HAR NOGET S\xC6RLIGT TIL DIG."
     - Language: German
       Text: "GL\xDCCKWUNSCH - DEIN ERSTER BOSS-SIEG!\n\nICH HABE ETWAS BESONDERES
         F\xDCR DICH."
@@ -4565,7 +4585,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Din f\xF6rsta Runa!\n\nRunor ger passiva bonusar under hela din run"
     - Language: Danish
-      Text: 
+      Text: "Din f\xF8rste Rune!\n\nRuner giver passive bonusser under hele dit Run"
     - Language: German
       Text: "Deine erste Rune!\n\nRunen geben passive Boni f\xFCr deinen gesamten
         Run"
@@ -4590,7 +4610,9 @@ MonoBehaviour:
 
         +{0} Crit'
     - Language: Danish
-      Text: 
+      Text: '
+
+        +{0} Crit'
     - Language: German
       Text: '
 
@@ -4616,7 +4638,9 @@ MonoBehaviour:
 
         +{0} Skada'
     - Language: Danish
-      Text: 
+      Text: '
+
+        +{0} Skade'
     - Language: German
       Text: '
 
@@ -4636,7 +4660,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Klar
     - Language: Danish
-      Text: 
+      Text: "F\xE6rdig"
     - Language: German
       Text: Fertig
     - Language: French
@@ -4652,7 +4676,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "{0} Tr\xE4ff"
     - Language: Danish
-      Text: 
+      Text: '{0} Hit'
     - Language: German
       Text: '{0} Treffer'
     - Language: French
@@ -4668,7 +4692,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Niv\xE5 {0}"
     - Language: Danish
-      Text: 
+      Text: Niveau {0}
     - Language: German
       Text: Level {0}
     - Language: French
@@ -4684,7 +4708,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Laddar{0}
     - Language: Danish
-      Text: 
+      Text: "Indl\xE6ser{0}"
     - Language: German
       Text: Laden{0}
     - Language: French
@@ -4700,7 +4724,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ingen
     - Language: Danish
-      Text: 
+      Text: Ingen
     - Language: German
       Text: Keine
     - Language: French
@@ -4716,7 +4740,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Enhet
     - Language: Danish
-      Text: 
+      Text: Enhed
     - Language: German
       Text: Einheit
     - Language: French
@@ -4732,7 +4756,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Nya uppdrag om {0}h {1}m
     - Language: Danish
-      Text: 
+      Text: Nye missioner om {0}t {1}m
     - Language: German
       Text: Neue Quests in {0}h {1}m
     - Language: French
@@ -4748,7 +4772,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Spela {0} {1}-enheter
     - Language: Danish
-      Text: 
+      Text: Spil {0} {1}-Enheder
     - Language: German
       Text: Spiele {0} {1}-Einheiten
     - Language: French
@@ -4764,7 +4788,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Spela {0} {1}-enheter
     - Language: Danish
-      Text: 
+      Text: Spil {0} {1}-Enheder
     - Language: German
       Text: Spiele {0} {1}-Einheiten
     - Language: French
@@ -4780,7 +4804,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "N\xE5 niv\xE5 {0}"
     - Language: Danish
-      Text: 
+      Text: "N\xE5 niveau {0}"
     - Language: German
       Text: Erreiche Level {0}
     - Language: French
@@ -4796,7 +4820,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "G\xF6r {0} skada i en attack"
     - Language: Danish
-      Text: 
+      Text: "Giv {0} Skade i \xE9t angreb"
     - Language: German
       Text: Verursache {0} Schaden mit einem Angriff
     - Language: French
@@ -4812,7 +4836,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Crit
     - Language: Danish
-      Text: 
+      Text: +{0} Crit
     - Language: German
       Text: +{0} Crit
     - Language: French
@@ -4828,7 +4852,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Guld
     - Language: Danish
-      Text: 
+      Text: +{0} Guld
     - Language: German
       Text: +{0} Gold
     - Language: French
@@ -4844,7 +4868,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Du n\xE5dde V\xE4rld {0}, Niv\xE5 {1}"
     - Language: Danish
-      Text: 
+      Text: "Du n\xE5ede Verden {0}, Niveau {1}"
     - Language: German
       Text: Du hast Welt {0}, Level {1} erreicht
     - Language: French
@@ -4860,7 +4884,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color={0}>Artefaktplatser:</color> {1}
     - Language: Danish
-      Text: 
+      Text: <color={0}>Artefakt-slots:</color> {1}
     - Language: German
       Text: <color={0}>Artefakt-Slots:</color> {1}
     - Language: French
@@ -4876,7 +4900,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "<color={0}>H\xE4lsa:</color> {1}"
     - Language: Danish
-      Text: 
+      Text: <color={0}>HP:</color> {1}
     - Language: German
       Text: <color={0}>Leben:</color> {1}
     - Language: French
@@ -4892,7 +4916,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color={0}>Brygdplatser:</color> {1}
     - Language: Danish
-      Text: 
+      Text: <color={0}>Eliksir-slots:</color> {1}
     - Language: German
       Text: <color={0}>Trank-Slots:</color> {1}
     - Language: French
@@ -4908,7 +4932,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: <color={0}>Startguld:</color> {1}
     - Language: Danish
-      Text: 
+      Text: <color={0}>Startguld:</color> {1}
     - Language: German
       Text: <color={0}>Startgold:</color> {1}
     - Language: French
@@ -4924,7 +4948,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "<color={0}>Startf\xF6rem\xE5l:</color>"
     - Language: Danish
-      Text: 
+      Text: <color={0}>Startitems:</color>
     - Language: German
       Text: <color={0}>Startitems:</color>
     - Language: French
@@ -4940,7 +4964,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Kunde inte ansluta
     - Language: Danish
-      Text: 
+      Text: Kunne ikke forbinde
     - Language: German
       Text: Verbindung fehlgeschlagen
     - Language: French
@@ -4956,7 +4980,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ange ett namn
     - Language: Danish
-      Text: 
+      Text: Indtast et navn
     - Language: German
       Text: Name eingeben
     - Language: French
@@ -4972,7 +4996,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "{0} Tr\xE4ff"
     - Language: Danish
-      Text: 
+      Text: '{0} Hit'
     - Language: German
       Text: '{0} Treffer'
     - Language: French
@@ -4988,7 +5012,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Niv\xE5 {0}"
     - Language: Danish
-      Text: 
+      Text: Niveau {0}
     - Language: German
       Text: Level {0}
     - Language: French
@@ -5004,7 +5028,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Namnet \xE4r upptaget"
     - Language: Danish
-      Text: 
+      Text: Navnet er optaget
     - Language: German
       Text: "Name nicht verf\xFCgbar"
     - Language: French
@@ -5020,7 +5044,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Hj\xE4lterunor"
     - Language: Danish
-      Text: 
+      Text: Helteruner
     - Language: German
       Text: Heldenrunen
     - Language: French
@@ -5036,7 +5060,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Uppgraderingspaket
     - Language: Danish
-      Text: 
+      Text: Enhedsopgraderingspakke
     - Language: German
       Text: Unit-Upgrade-Pack
     - Language: French
@@ -5052,7 +5076,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Uppgradera enheter med Charms, F\xF6rtrollningar eller Rang"
     - Language: Danish
-      Text: 
+      Text: Opgrader Enheder med Amuletter, Fortryllelser eller Rang
     - Language: German
       Text: Upgrade Units mit Talismanen, Verzauberungen oder Rang
     - Language: French
@@ -5074,7 +5098,10 @@ MonoBehaviour:
 
         4 enheter: 3X Crit'
     - Language: Danish
-      Text: 
+      Text: '2 Enheder: 2X Skade
+
+
+        4 Enheder: 3X Crit'
     - Language: German
       Text: '2 Units: 2X Schaden
 
@@ -5096,7 +5123,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Synergier
     - Language: Danish
-      Text: 
+      Text: Synergier
     - Language: German
       Text: Synergien
     - Language: French
@@ -5112,7 +5139,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Prestation klar!
     - Language: Danish
-      Text: 
+      Text: "Bedrift fuldf\xF8rt!"
     - Language: German
       Text: Erfolg abgeschlossen!
     - Language: French
@@ -5128,7 +5155,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Alla Artefakter uppl\xE5sta"
     - Language: Danish
-      Text: 
+      Text: "Alle Artefakter l\xE5st op"
     - Language: German
       Text: Alle Artefakte freigeschaltet
     - Language: French
@@ -5144,7 +5171,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+{0} Arm\xE9storlek"
     - Language: Danish
-      Text: 
+      Text: "+{0} H\xE6rst\xF8rrelse"
     - Language: German
       Text: "+{0} Armeegr\xF6\xDFe"
     - Language: French
@@ -5160,7 +5187,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Artefakt s\xE5ld!"
     - Language: Danish
-      Text: 
+      Text: Artefakt solgt!
     - Language: German
       Text: Artefakt verkauft!
     - Language: French
@@ -5176,7 +5203,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Attack
     - Language: Danish
-      Text: 
+      Text: +{0} Angreb
     - Language: German
       Text: +{0} Angriff
     - Language: French
@@ -5192,7 +5219,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka p\xE5 r\xE4tt kort!"
     - Language: Danish
-      Text: 
+      Text: "Tryk p\xE5 de rigtige kort!"
     - Language: German
       Text: Klicke die richtigen Karten!
     - Language: French
@@ -5208,7 +5235,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka p\xE5 ORCHER"
     - Language: Danish
-      Text: 
+      Text: "Tryk p\xE5 ORKER"
     - Language: German
       Text: Klicke ORKS
     - Language: French
@@ -5224,7 +5251,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka p\xE5 Krigare"
     - Language: Danish
-      Text: 
+      Text: "Tryk p\xE5 Krigere"
     - Language: German
       Text: Klicke Krieger
     - Language: French
@@ -5240,7 +5267,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Kommer snart!
     - Language: Danish
-      Text: 
+      Text: Kommer snart!
     - Language: German
       Text: Kommt bald!
     - Language: French
@@ -5256,7 +5283,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Attack undviken!
     - Language: Danish
-      Text: 
+      Text: Angreb undveget!
     - Language: German
       Text: Angriff ausgewichen!
     - Language: French
@@ -5272,7 +5299,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+{0} Guld fr\xE5n Artefakt"
     - Language: Danish
-      Text: 
+      Text: +{0} Guld fra Artefakt
     - Language: German
       Text: +{0} Gold vom Artefakt
     - Language: French
@@ -5288,7 +5315,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Guld stulet!
     - Language: Danish
-      Text: 
+      Text: "Guld stj\xE5let!"
     - Language: German
       Text: Gold gestohlen!
     - Language: French
@@ -5304,7 +5331,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kte {0}% HP fr\xE5n Artefakt"
     - Language: Danish
-      Text: 
+      Text: Helede {0}% HP fra Artefakt
     - Language: German
       Text: '{0}% HP durch Artefakt geheilt'
     - Language: French
@@ -5320,7 +5347,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE4kte 10% max-HP!"
     - Language: Danish
-      Text: 
+      Text: Helede 10% af max HP!
     - Language: German
       Text: 10% Max-HP geheilt!
     - Language: French
@@ -5336,7 +5363,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Hj\xE4lteinfo kommer snart!"
     - Language: Danish
-      Text: 
+      Text: Helteinfo kommer snart!
     - Language: German
       Text: Heldeninfo kommt bald!
     - Language: French
@@ -5352,7 +5379,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "L\xE5s upp Hj\xE4lten f\xF6rst!"
     - Language: Danish
-      Text: 
+      Text: "L\xE5s helten op f\xF8rst!"
     - Language: German
       Text: Schalte diesen Helden zuerst frei!
     - Language: French
@@ -5368,7 +5395,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Du \xE4ger redan den h\xE4r Hj\xE4lten!"
     - Language: Danish
-      Text: 
+      Text: Du ejer allerede denne helt!
     - Language: German
       Text: Du besitzt diesen Helden schon!
     - Language: French
@@ -5384,7 +5411,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Ny niv\xE5! Max-HP: {0}"
     - Language: Danish
-      Text: 
+      Text: 'Niveau op! Max HP: {0}'
     - Language: German
       Text: 'Level Up! Max-HP: {0}'
     - Language: French
@@ -5400,7 +5427,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Nytt uppl\xE5st!"
     - Language: Danish
-      Text: 
+      Text: "Nyt l\xE5st op!"
     - Language: German
       Text: Neue Freischaltungen!
     - Language: French
@@ -5416,7 +5443,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Inte nog med Guld!
     - Language: Danish
-      Text: 
+      Text: Ikke nok Guld!
     - Language: German
       Text: Nicht genug Gold!
     - Language: French
@@ -5432,7 +5459,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Inga platser!
     - Language: Danish
-      Text: 
+      Text: Ingen slots!
     - Language: German
       Text: Keine Slots!
     - Language: French
@@ -5448,7 +5475,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Endast 4 kort kan v\xE4ljas."
     - Language: Danish
-      Text: 
+      Text: "Kun 4 kort kan v\xE6lges."
     - Language: German
       Text: "Nur 4 Karten w\xE4hlbar."
     - Language: French
@@ -5464,7 +5491,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Brygd tillagd: {0}'
     - Language: Danish
-      Text: 
+      Text: "Eliksir tilf\xF8jet: {0}"
     - Language: German
       Text: "Trank hinzugef\xFCgt: {0}"
     - Language: French
@@ -5480,7 +5507,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "All skada x5 denna tur, f\xF6rlora 10% max-HP"
     - Language: Danish
-      Text: 
+      Text: Al Skade x5 denne tur, mist 10% max HP
     - Language: German
       Text: Gesamtschaden x5 diesen Zug, verliere 10% Max-HP
     - Language: French
@@ -5496,7 +5523,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Crit till {1}
     - Language: Danish
-      Text: 
+      Text: +{0} Crit til {1}
     - Language: German
       Text: "+{0} Crit f\xFCr {1}"
     - Language: French
@@ -5512,7 +5539,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "+{0} Skada f\xF6r {1}"
     - Language: Danish
-      Text: 
+      Text: +{0} Skade til {1}
     - Language: German
       Text: "+{0} Schaden f\xFCr {1}"
     - Language: French
@@ -5528,7 +5555,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Boss-debuff avst\xE4ngd denna tur"
     - Language: Danish
-      Text: 
+      Text: "Boss-debuff sl\xE5et fra denne tur"
     - Language: German
       Text: Boss-Debuff diese Runde aus
     - Language: French
@@ -5544,7 +5571,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '{0} blir Faceless'
     - Language: Danish
-      Text: 
+      Text: '{0} bliver Faceless'
     - Language: German
       Text: '{0} wird Faceless'
     - Language: French
@@ -5560,7 +5587,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Hj\xE4lten l\xE4ktes {0}% HP"
     - Language: Danish
-      Text: 
+      Text: Helten helede {0}% HP
     - Language: German
       Text: Held um {0}% HP geheilt
     - Language: French
@@ -5576,7 +5603,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Brygd aktiverad igen!
     - Language: Danish
-      Text: 
+      Text: "Eliksir udl\xF8st igen!"
     - Language: German
       Text: "Trank erneut ausgel\xF6st!"
     - Language: French
@@ -5592,7 +5619,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Triggade uppgraderingar: {0}'
     - Language: Danish
-      Text: 
+      Text: "Opgraderinger udl\xF8st igen for {0}"
     - Language: German
       Text: "Upgrades f\xFCr {0} erneut ausgel\xF6st"
     - Language: French
@@ -5608,7 +5635,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Brygdplatserna \xE4r fulla."
     - Language: Danish
-      Text: 
+      Text: Eliksir-slots er fulde.
     - Language: German
       Text: Trank-Slots sind voll.
     - Language: French
@@ -5624,7 +5651,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Brygd s\xE5ld!"
     - Language: Danish
-      Text: 
+      Text: Eliksir solgt!
     - Language: German
       Text: Trank verkauft!
     - Language: French
@@ -5640,7 +5667,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "{0} f\xE5r {1} 4x Skada men exploderar"
     - Language: Danish
-      Text: 
+      Text: "{0} f\xE5r {1} 4x Skade, men eksploderer"
     - Language: German
       Text: "{0} erh\xE4lt {1} 4x Schaden und explodiert danach"
     - Language: French
@@ -5656,7 +5683,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Slumpad brygd tillagd!
     - Language: Danish
-      Text: 
+      Text: "Tilf\xE6ldig Eliksir tilf\xF8jet!"
     - Language: German
       Text: "Zufallstrank hinzugef\xFCgt!"
     - Language: French
@@ -5672,7 +5699,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Slumpad enhet i handen f\xF6rst\xF6rd"
     - Language: Danish
-      Text: 
+      Text: "Tilf\xE6ldig Enhed p\xE5 h\xE5nden \xF8delagt"
     - Language: German
       Text: "Zuf\xE4llige Einheit auf der Hand zerst\xF6rt"
     - Language: French
@@ -5688,7 +5715,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Rerolls avst\xE4ngda!"
     - Language: Danish
-      Text: 
+      Text: "Rerolls sl\xE5et fra!"
     - Language: German
       Text: Rerolls deaktiviert!
     - Language: French
@@ -5704,7 +5731,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Reroll
     - Language: Danish
-      Text: 
+      Text: +{0} Reroll
     - Language: German
       Text: +{0} Reroll
     - Language: French
@@ -5720,7 +5747,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Aktiverad igen: {0}'
     - Language: Danish
-      Text: 
+      Text: "Udl\xF8st igen: {0}"
     - Language: German
       Text: "Erneut ausgel\xF6st: {0}"
     - Language: French
@@ -5736,7 +5763,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Artefaktplats uppl\xE5st!"
     - Language: Danish
-      Text: 
+      Text: "Artefakt-slot l\xE5st op!"
     - Language: German
       Text: Artefakt-Slot freigeschaltet!
     - Language: French
@@ -5752,7 +5779,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Attacker per tur
     - Language: Danish
-      Text: 
+      Text: +{0} Angreb pr. tur
     - Language: German
       Text: +{0} Angriffe pro Zug
     - Language: French
@@ -5768,7 +5795,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Bossar ger dubbelt Guld
     - Language: Danish
-      Text: 
+      Text: Bosser giver dobbelt Guld
     - Language: German
       Text: Bosse droppen doppelt Gold
     - Language: French
@@ -5784,7 +5811,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Gratis f\xF6rsta reroll p\xE5 Marknaden varje tur"
     - Language: Danish
-      Text: 
+      Text: "F\xF8rste Reroll p\xE5 Markedet er gratis hver tur"
     - Language: German
       Text: Erster Markt-Reroll pro Zug gratis
     - Language: French
@@ -5800,7 +5827,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "{0}% rabatt p\xE5 Marknaden"
     - Language: Danish
-      Text: 
+      Text: "{0}% rabat p\xE5 Markedet"
     - Language: German
       Text: '{0}% Rabatt im Markt'
     - Language: French
@@ -5816,7 +5843,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +{0} Reroll per tur
     - Language: Danish
-      Text: 
+      Text: +{0} Reroll pr. tur
     - Language: German
       Text: +{0} Reroll pro Zug
     - Language: French
@@ -5832,7 +5859,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '{0}% chans att aktivera Brygder igen'
     - Language: Danish
-      Text: 
+      Text: "{0}% chance for at udl\xF8se Eliksirer igen"
     - Language: German
       Text: "{0}% Chance, Tr\xE4nke erneut auszul\xF6sen"
     - Language: French
@@ -5848,7 +5875,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "\xC5teruppliva 1 g\xE5ng, 1 HP"
     - Language: Danish
-      Text: 
+      Text: "Genopliv \xE9n gang med 1 HP"
     - Language: German
       Text: Einmal mit 1 HP wiederbeleben
     - Language: French
@@ -5864,7 +5891,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj en Hj\xE4lte f\xF6rst!"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg en helt f\xF8rst!"
     - Language: German
       Text: "W\xE4hle zuerst einen Helden!"
     - Language: French
@@ -5880,7 +5907,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj ett kort att rerolla"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg et kort til Reroll"
     - Language: German
       Text: "W\xE4hle eine Karte f\xFCr Reroll"
     - Language: French
@@ -5896,7 +5923,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj 2 kort att rerolla"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg 2 kort til Reroll"
     - Language: German
       Text: "W\xE4hle 2 Karten f\xFCr Reroll"
     - Language: French
@@ -5912,7 +5939,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj Enhet + Uppgradering!"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg Enhed + Opgradering!"
     - Language: German
       Text: "W\xE4hle Einheit + Upgrade!"
     - Language: French
@@ -5928,7 +5955,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4lj Enhet + Uppgraderingskort!"
     - Language: Danish
-      Text: 
+      Text: "V\xE6lg Enhed + Opgraderingskort!"
     - Language: German
       Text: "W\xE4hle Einheit + Upgrade-Karte!"
     - Language: French
@@ -5944,7 +5971,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "{0} F\xF6rst\xF6rd"
     - Language: Danish
-      Text: 
+      Text: "{0} \xF8delagt"
     - Language: German
       Text: "{0} zerst\xF6rt"
     - Language: French
@@ -5960,7 +5987,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '{0} Duplicerad'
     - Language: Danish
-      Text: 
+      Text: '{0} duplikeret'
     - Language: German
       Text: '{0} dupliziert'
     - Language: French
@@ -5976,7 +6003,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "1 Enhet h\xF6jde rang!"
     - Language: Danish
-      Text: 
+      Text: 1 Enhed steg i rang!
     - Language: German
       Text: 1 Einheit im Rang gestiegen!
     - Language: French
@@ -5992,7 +6019,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Klicka f\xF6r att forts\xE4tta"
     - Language: Danish
-      Text: 
+      Text: "Tryk for at forts\xE6tte"
     - Language: German
       Text: Klicken zum Fortfahren
     - Language: French
@@ -6008,7 +6035,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '- Grymt jobbat!'
     - Language: Danish
-      Text: 
+      Text: '- Flot klaret!'
     - Language: German
       Text: '- Stark gemacht!'
     - Language: French
@@ -6024,7 +6051,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Segern \xE4r din!"
     - Language: Danish
-      Text: 
+      Text: '- Sejren er din!'
     - Language: German
       Text: "- Der Sieg geh\xF6rt dir!"
     - Language: French
@@ -6040,7 +6067,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '- Publiken jublar!'
     - Language: Danish
-      Text: 
+      Text: "- Publikum g\xE5r amok!"
     - Language: German
       Text: '- Die Menge rastet aus!'
     - Language: French
@@ -6056,7 +6083,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Ett steg n\xE4rmare \xE4ra!"
     - Language: Danish
-      Text: 
+      Text: "- Et skridt n\xE6rmere h\xE6der!"
     - Language: German
       Text: "- Ein Schritt n\xE4her zum Ruhm!"
     - Language: French
@@ -6072,7 +6099,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Du \xE4r ostoppbar!"
     - Language: Danish
-      Text: 
+      Text: '- Du er ustoppelig!'
     - Language: German
       Text: '- Du bist unaufhaltsam!'
     - Language: French
@@ -6088,7 +6115,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "- Rikets hj\xE4lte!"
     - Language: Danish
-      Text: 
+      Text: '- Rigets helt!'
     - Language: German
       Text: '- Held des Reiches!'
     - Language: French
@@ -6104,7 +6131,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: '- Du krossade dem!'
     - Language: Danish
-      Text: 
+      Text: '- Du knuste dem!'
     - Language: German
       Text: '- Du hast sie zerlegt!'
     - Language: French
@@ -6120,7 +6147,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Uppgradering
     - Language: Danish
-      Text: 
+      Text: Enhedsopgradering
     - Language: German
       Text: Unit-Upgrade
     - Language: French
@@ -6136,7 +6163,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ALVSKYTT
     - Language: Danish
-      Text: 
+      Text: ELVER-BUESKYTTE
     - Language: German
       Text: "ELF-SCH\xDCTZE"
     - Language: French
@@ -6152,7 +6179,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOSKYTT"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-BUESKYTTE
     - Language: German
       Text: "MENSCH-SCH\xDCTZE"
     - Language: French
@@ -6168,7 +6195,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ORCSKYTT
     - Language: Danish
-      Text: 
+      Text: ORK-BUESKYTTE
     - Language: German
       Text: "ORK-SCH\xDCTZE"
     - Language: French
@@ -6184,7 +6211,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D SKYTT"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-BUESKYTTE"
     - Language: German
       Text: "UNTOTER-SCH\xDCTZE"
     - Language: French
@@ -6200,7 +6227,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "DV\xC4RGPR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: "DV\xC6RG-KLERIKER"
     - Language: German
       Text: ZWERG-KLERIKER
     - Language: French
@@ -6216,7 +6243,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "DV\xC4RGMAGIKER"
     - Language: Danish
-      Text: 
+      Text: "DV\xC6RG-MAGIKER"
     - Language: German
       Text: ZWERG-MAGIER
     - Language: French
@@ -6232,7 +6259,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "DV\xC4RGBONDE"
     - Language: Danish
-      Text: 
+      Text: "DV\xC6RG-BONDE"
     - Language: German
       Text: ZWERG-BAUER
     - Language: French
@@ -6248,7 +6275,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "DV\xC4RGKRIGARE"
     - Language: Danish
-      Text: 
+      Text: "DV\xC6RG-KRIGER"
     - Language: German
       Text: ZWERG-KRIEGER
     - Language: French
@@ -6264,7 +6291,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ALVBONDE
     - Language: Danish
-      Text: 
+      Text: ELVER-BONDE
     - Language: German
       Text: ELF-BAUER
     - Language: French
@@ -6280,7 +6307,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "ALVPR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: ELVER-KLERIKER
     - Language: German
       Text: ELF-KLERIKER
     - Language: French
@@ -6296,7 +6323,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ALVMAGIKER
     - Language: Danish
-      Text: 
+      Text: ELVER-MAGIKER
     - Language: German
       Text: ELF-MAGIER
     - Language: French
@@ -6312,7 +6339,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOBARD"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-BARDE
     - Language: German
       Text: MENSCH-BARDE
     - Language: French
@@ -6328,7 +6355,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOPR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-KLERIKER
     - Language: German
       Text: MENSCH-KLERIKER
     - Language: French
@@ -6344,7 +6371,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOMAGIKER"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-MAGIKER
     - Language: German
       Text: MENSCH-MAGIER
     - Language: French
@@ -6360,7 +6387,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOBONDE"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-BONDE
     - Language: German
       Text: MENSCH-BAUER
     - Language: French
@@ -6376,7 +6403,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOWARLOCK"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-WARLOCK
     - Language: German
       Text: MENSCH-HEXER
     - Language: French
@@ -6392,7 +6419,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "ORCPR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: ORK-KLERIKER
     - Language: German
       Text: ORK-KLERIKER
     - Language: French
@@ -6408,7 +6435,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ORCMAGIKER
     - Language: Danish
-      Text: 
+      Text: ORK-MAGIKER
     - Language: German
       Text: ORK-MAGIER
     - Language: French
@@ -6424,7 +6451,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ORCBONDE
     - Language: Danish
-      Text: 
+      Text: ORK-BONDE
     - Language: German
       Text: ORK-BAUER
     - Language: French
@@ -6440,7 +6467,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ORCWARLOCK
     - Language: Danish
-      Text: 
+      Text: ORK-WARLOCK
     - Language: German
       Text: ORK-HEXER
     - Language: French
@@ -6456,7 +6483,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "TROLLPR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: TROLD-KLERIKER
     - Language: German
       Text: TROLL-KLERIKER
     - Language: French
@@ -6472,7 +6499,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "TROLLJ\xC4GARE"
     - Language: Danish
-      Text: 
+      Text: "TROLD-J\xC6GER"
     - Language: German
       Text: "TROLL-J\xC4GER"
     - Language: French
@@ -6488,7 +6515,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: TROLLBONDE
     - Language: Danish
-      Text: 
+      Text: TROLD-BONDE
     - Language: German
       Text: TROLL-BAUER
     - Language: French
@@ -6504,7 +6531,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: TROLLWARLOCK
     - Language: Danish
-      Text: 
+      Text: TROLD-WARLOCK
     - Language: German
       Text: TROLL-HEXER
     - Language: French
@@ -6520,7 +6547,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: TROLLKRIGARE
     - Language: Danish
-      Text: 
+      Text: TROLD-KRIGER
     - Language: German
       Text: TROLL-KRIEGER
     - Language: French
@@ -6536,7 +6563,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D BARD"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-BARDE"
     - Language: German
       Text: UNTOTER-BARDE
     - Language: French
@@ -6552,7 +6579,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D PR\xC4ST"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-KLERIKER"
     - Language: German
       Text: UNTOTER-KLERIKER
     - Language: French
@@ -6568,7 +6595,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D MAGIKER"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-MAGIKER"
     - Language: German
       Text: UNTOTER-MAGIER
     - Language: French
@@ -6584,7 +6611,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D BONDE"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-BONDE"
     - Language: German
       Text: UNTOTER-BAUER
     - Language: French
@@ -6600,7 +6627,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D WARLOCK"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-WARLOCK"
     - Language: German
       Text: UNTOTER-HEXER
     - Language: French
@@ -6616,7 +6643,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ALVKRIGARE
     - Language: Danish
-      Text: 
+      Text: ELVER-KRIGER
     - Language: German
       Text: ELF-KRIEGER
     - Language: French
@@ -6632,7 +6659,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "M\xC4NNISKOKRIGARE"
     - Language: Danish
-      Text: 
+      Text: MENNESKE-KRIGER
     - Language: German
       Text: MENSCH-KRIEGER
     - Language: French
@@ -6648,7 +6675,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: ORCKRIGARE
     - Language: Danish
-      Text: 
+      Text: ORK-KRIGER
     - Language: German
       Text: ORK-KRIEGER
     - Language: French
@@ -6664,7 +6691,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "OD\xD6D KRIGARE"
     - Language: Danish
-      Text: 
+      Text: "UD\xD8D-KRIGER"
     - Language: German
       Text: UNTOTER-KRIEGER
     - Language: French
@@ -6680,7 +6707,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Uppl\xE5st"
     - Language: Danish
-      Text: 
+      Text: "L\xE5st op"
     - Language: German
       Text: Freigeschaltet
     - Language: French
@@ -6696,7 +6723,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger +1 permanent Crit-multiplikator
     - Language: Danish
-      Text: 
+      Text: Giver +1 permanent Crit-multiplikator
     - Language: German
       Text: Gibt +1 permanenten Multiplikator
     - Language: French
@@ -6712,7 +6739,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit +1
     - Language: Danish
-      Text: 
+      Text: Crit +1
     - Language: German
       Text: Crit +1
     - Language: French
@@ -6728,7 +6755,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger +2 permanent Crit-multiplikator
     - Language: Danish
-      Text: 
+      Text: Giver +2 permanent Crit-multiplikator
     - Language: German
       Text: Gibt +2 permanenten Multiplikator
     - Language: French
@@ -6744,7 +6771,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit +2
     - Language: Danish
-      Text: 
+      Text: Crit +2
     - Language: German
       Text: Crit +2
     - Language: French
@@ -6760,7 +6787,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger +3 permanent Crit-multiplikator
     - Language: Danish
-      Text: 
+      Text: Giver +3 permanent Crit-multiplikator
     - Language: German
       Text: Gibt +3 permanenten Multiplikator
     - Language: French
@@ -6776,7 +6803,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Crit +3
     - Language: Danish
-      Text: 
+      Text: Crit +3
     - Language: German
       Text: Crit +3
     - Language: French
@@ -6792,7 +6819,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rst\xF6r vald enhet direkt"
     - Language: Danish
-      Text: 
+      Text: "\xD8del\xE6gger valgt Enhed med det samme"
     - Language: German
       Text: "Zerst\xF6rt gew\xE4hlte Einheit sofort"
     - Language: French
@@ -6808,7 +6835,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rst\xF6r"
     - Language: Danish
-      Text: 
+      Text: "\xD8del\xE6g"
     - Language: German
       Text: "Zerst\xF6ren"
     - Language: French
@@ -6824,7 +6851,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Duplicerar vald enhet direkt
     - Language: Danish
-      Text: 
+      Text: Duplikerer valgt Enhed med det samme
     - Language: German
       Text: "Dupliziert die gew\xE4hlte Unit sofort"
     - Language: French
@@ -6840,7 +6867,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Duplicera
     - Language: Danish
-      Text: 
+      Text: "Duplik\xE9r"
     - Language: German
       Text: Duplizieren
     - Language: French
@@ -6856,7 +6883,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +3 Guld
     - Language: Danish
-      Text: 
+      Text: +3 Guld
     - Language: German
       Text: +3 Gold
     - Language: French
@@ -6872,7 +6899,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Guld
     - Language: Danish
-      Text: 
+      Text: Guld
     - Language: German
       Text: Gold
     - Language: French
@@ -6888,7 +6915,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger 10% Lifesteal
     - Language: Danish
-      Text: 
+      Text: Giver 10% Lifesteal
     - Language: German
       Text: Gibt 10% Lifesteal
     - Language: French
@@ -6904,7 +6931,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Lifesteal 10%
     - Language: Danish
-      Text: 
+      Text: Lifesteal 10%
     - Language: German
       Text: Lifesteal 10%
     - Language: French
@@ -6920,7 +6947,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Ger 5% Lifesteal
     - Language: Danish
-      Text: 
+      Text: Giver 5% Lifesteal
     - Language: German
       Text: Gibt 5% Lifesteal
     - Language: French
@@ -6936,7 +6963,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Lifesteal 5%
     - Language: Danish
-      Text: 
+      Text: Lifesteal 5%
     - Language: German
       Text: Lifesteal 5%
     - Language: French
@@ -6952,7 +6979,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: +1 Brygd
     - Language: Danish
-      Text: 
+      Text: +1 Eliksir
     - Language: German
       Text: +1 Trank
     - Language: French
@@ -6968,7 +6995,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Brygd
     - Language: Danish
-      Text: 
+      Text: Eliksir
     - Language: German
       Text: Trank
     - Language: French
@@ -6984,7 +7011,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Enhetens rang +1
     - Language: Danish
-      Text: 
+      Text: Enhedens Rang +1
     - Language: German
       Text: Einheitenrang +1
     - Language: French
@@ -7000,7 +7027,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Rang +1
     - Language: Danish
-      Text: 
+      Text: Rang +1
     - Language: German
       Text: Rang +1
     - Language: French
@@ -7016,7 +7043,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Enhetens rang +2
     - Language: Danish
-      Text: 
+      Text: Enhedens Rang +2
     - Language: German
       Text: Einheitenrang +2
     - Language: French
@@ -7032,7 +7059,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Rang +2
     - Language: Danish
-      Text: 
+      Text: Rang +2
     - Language: German
       Text: Rang +2
     - Language: French
@@ -7048,7 +7075,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Enhetens rang +3
     - Language: Danish
-      Text: 
+      Text: Enhedens Rang +3
     - Language: German
       Text: Einheitenrang +3
     - Language: French
@@ -7064,7 +7091,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Rang +3
     - Language: Danish
-      Text: 
+      Text: Rang +3
     - Language: German
       Text: Rang +3
     - Language: French
@@ -7080,7 +7107,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Triggar enheten igen
     - Language: Danish
-      Text: 
+      Text: "Udl\xF8ser Enheden igen"
     - Language: German
       Text: "L\xF6st Einheit erneut aus"
     - Language: French
@@ -7096,7 +7123,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Retrigger
     - Language: Danish
-      Text: 
+      Text: Retrigger
     - Language: German
       Text: Retrigger
     - Language: French
@@ -7112,7 +7139,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Charms
     - Language: Danish
-      Text: 
+      Text: Amuletter
     - Language: German
       Text: Talismane
     - Language: French
@@ -7128,7 +7155,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "F\xF6rtrollning"
     - Language: Danish
-      Text: 
+      Text: Fortryllelse
     - Language: German
       Text: Verzauberung
     - Language: French
@@ -7144,7 +7171,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: Rang
     - Language: Danish
-      Text: 
+      Text: Rang
     - Language: German
       Text: Rang
     - Language: French
@@ -7160,7 +7187,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: 'Vibrationer:'
     - Language: Danish
-      Text: 
+      Text: 'Vibrationer:'
     - Language: German
       Text: 'Vibration:'
     - Language: French
@@ -7182,7 +7209,9 @@ MonoBehaviour:
 
 '
     - Language: Danish
-      Text: 
+      Text: 'SEJR
+
+'
     - Language: German
       Text: 'SIEG
 
@@ -7202,7 +7231,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "V\xE4rld"
     - Language: Danish
-      Text: 
+      Text: Verden
     - Language: German
       Text: Welt
     - Language: French
@@ -7218,7 +7247,7 @@ MonoBehaviour:
     - Language: Swedish
       Text: "Ditt b\xE4sta"
     - Language: Danish
-      Text: 
+      Text: Din rekord
     - Language: German
       Text: Dein Bestwert
     - Language: French
