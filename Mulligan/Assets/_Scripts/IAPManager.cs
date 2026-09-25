@@ -15,7 +15,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public const string FullGameProductId = "full_game_unlock";
 
 #else
-    public const string FullGameProductId = "full-game-unlock";
+    public const string FullGameProductId = "full_game_unlock";
 #endif
 
     public const string FullGameUnlockedKey = "full_game_unlocked";
@@ -28,6 +28,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     private static IStoreController storeController;
     private static IExtensionProvider extensionProvider;
+    private bool purchaseInProgress;
 
     public bool IsInitialized => storeController != null && extensionProvider != null;
     public bool IsFullGameUnlocked => PlayerPrefs.GetInt(FullGameUnlockedKey, 0) == 1;
@@ -81,6 +82,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public void BuyFullGame(System.Action onComplete)
     {
+        if (purchaseInProgress)
+            return;
+
         OnFullGameUnlockedEvent = onComplete;
         if (IsFullGameUnlocked)
         {
@@ -111,7 +115,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             return;
         }
 
-        storeController.InitiatePurchase(product);
+        InitiatePurchase(product);
     }
 
     public bool IsHeroUnlocked(int heroIndex)
@@ -141,6 +145,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public void BuyHero(int heroIndex, System.Action onComplete)
     {
+        if (purchaseInProgress)
+            return;
+
         OnHeroUnlockedEvent = onComplete;
         if (IsHeroUnlocked(heroIndex))
         {
@@ -172,7 +179,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             return;
         }
 
-        storeController.InitiatePurchase(product);
+        InitiatePurchase(product);
     }
 
     public string GetLocalizedPrice()
@@ -248,27 +255,34 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        Product product = args.purchasedProduct;
-        string productId = product.definition.id;
-        int heroIndex = GetHeroIndexFromProductId(productId);
-
-        Debug.Log("Purchase success: " + productId);
-
-        TrackPurchaseWithSingular(product);
-
-        if (productId == FullGameProductId)
+        try
         {
-            TrackPurchaseWithGameAnalytics(product);
-            UnlockFullGame();
+            Product product = args.purchasedProduct;
+            string productId = product.definition.id;
+            int heroIndex = GetHeroIndexFromProductId(productId);
+
+            Debug.Log("Purchase success: " + productId);
+
+            TrackPurchaseWithSingular(product);
+
+            if (productId == FullGameProductId)
+            {
+                TrackPurchaseWithGameAnalytics(product);
+                UnlockFullGame();
+            }
+            else if (heroIndex >= 0)
+            {
+                TrackPurchaseWithGameAnalytics(product);
+                UnlockHero(heroIndex);
+            }
+            else
+            {
+                Debug.LogWarning("Unknown product purchased: " + productId);
+            }
         }
-        else if (heroIndex >= 0)
+        finally
         {
-            TrackPurchaseWithGameAnalytics(product);
-            UnlockHero(heroIndex);
-        }
-        else
-        {
-            Debug.LogWarning("Unknown product purchased: " + productId);
+            FinishPurchase();
         }
 
         return PurchaseProcessingResult.Complete;
@@ -352,6 +366,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
     }
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
+        FinishPurchase();
         string productId = product != null ? product.definition.id : "unknown";
         string msg = $"Purchase failed: {productId} | {failureReason}";
         Debug.LogWarning(msg);
@@ -362,12 +377,46 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
     {
+        FinishPurchase();
         string productId = product != null ? product.definition.id : "unknown";
         string msg = $"Purchase failed: {productId} | {failureDescription.reason} | {failureDescription.message}";
         Debug.LogWarning(msg);
         TrackDesign("purchase:fail");
         TrackDesign("purchase:fail:" + productId);
         OnPurchaseFailedEvent?.Invoke(msg);
+    }
+
+    private void InitiatePurchase(Product product)
+    {
+        if (purchaseInProgress)
+            return;
+
+        purchaseInProgress = true;
+
+        if (GameDataLoader.Instance != null)
+            GameDataLoader.Instance.ShowLoadingWindow();
+
+        try
+        {
+            storeController.InitiatePurchase(product);
+        }
+        catch (Exception exception)
+        {
+            FinishPurchase();
+            Debug.LogError("Could not initiate purchase: " + exception.Message);
+            OnPurchaseFailedEvent?.Invoke(exception.Message);
+        }
+    }
+
+    private void FinishPurchase()
+    {
+        if (purchaseInProgress == false)
+            return;
+
+        purchaseInProgress = false;
+
+        if (GameDataLoader.Instance != null)
+            GameDataLoader.Instance.HideLoadingWindow();
     }
 
     private void RefreshOwnershipFromStore()

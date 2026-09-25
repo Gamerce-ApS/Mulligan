@@ -62,7 +62,7 @@ public class GameDataLoader : Singleton<GameDataLoader>
         onComplete.Invoke();
     }
 
-    private void ShowLoadingWindow()
+    public void ShowLoadingWindow()
     {
         if (LoadingWindow != null)
             LoadingWindow.SetActive(true);
@@ -76,7 +76,7 @@ public class GameDataLoader : Singleton<GameDataLoader>
         loadingTextRoutine = StartCoroutine(AnimateLoadingText());
     }
 
-    private void HideLoadingWindow()
+    public void HideLoadingWindow()
     {
         if (loadingTextRoutine != null)
         {
