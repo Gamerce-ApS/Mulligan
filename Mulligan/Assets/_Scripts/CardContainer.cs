@@ -332,18 +332,30 @@ public class CardContainer : Singleton<CardContainer>
     }
     public CardInstance GetRandomCardFromDecks()
     {
+        List<CardInstance> cards = GetRandomCardFromDecks(1);
+        return cards.Count > 0 ? cards[0] : null;
+    }
+
+    public List<CardInstance> GetRandomCardFromDecks(int amount)
+    {
+        if (amount <= 0)
+            return new List<CardInstance>();
+
         List<CardInstance> allC = new List<CardInstance>();
         allC.AddRange(CurrentDeck);
         allC.AddRange(DiscardDeck);
         allC.AddRange(HandManager.Instance.CurrentHand);
         allC.RemoveAll(c => c == null || c.data == null);
+        allC = allC.Distinct().ToList();
+
         if (allC.Count == 0)
         {
             Debug.LogWarning("No cards available from deck, discard, or hand.");
-            return null;
+            return allC;
         }
-        return allC[Random.Range(0, allC.Count)];
 
+        allC.Shuffle();
+        return allC.Take(amount).ToList();
     }
     public CardInstance DrawCard()
     {

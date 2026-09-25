@@ -23,12 +23,9 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             DestroyImmediate(UnitParent.GetChild(i).gameObject);
         }
 
-        for(int i = 0; i < 8;i++)
+        List<CardInstance> units = CardContainer.Instance.GetRandomCardFromDecks(8);
+        foreach (CardInstance unit in units)
         {
-            CardInstance unit = CardContainer.Instance.GetRandomCardFromDecks();
-            if (unit == null)
-                continue;
-
             GameObject go = GameObject.Instantiate(UnitPrefab, UnitParent);
             go.GetComponent<Card>().Init(unit);
             go.GetComponent<Card>().OnClick += ClickOnCard;

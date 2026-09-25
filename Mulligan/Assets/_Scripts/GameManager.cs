@@ -149,6 +149,7 @@ public class GameManager : Singleton<GameManager>
         GameData.HeroSelected = 0;
         UIManager.Instance.SplashScreen.SetActive(false);
         myGameStates = GameStates.Pre_Game;
+        ShopManager.Instance.ResetRunSlotUnlocks();
         TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
         HighscoreManager.Instance.StartRun(GameData.HeroSelected);
         TrackRunStart();
@@ -192,6 +193,7 @@ public class GameManager : Singleton<GameManager>
     public void RunPreGameSetup()
     {
         myGameStates = GameStates.Pre_Game;
+        ShopManager.Instance.ResetRunSlotUnlocks();
         TheHero.Init(CardContainer.Instance.HeroDataList[GameData.HeroSelected]);
         HighscoreManager.Instance.StartRun(GameData.HeroSelected);
         TrackRunStart();

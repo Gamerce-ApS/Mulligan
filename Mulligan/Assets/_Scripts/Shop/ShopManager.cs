@@ -22,6 +22,13 @@ public class ShopManager : Singleton<ShopManager>
     public GameObject BattleButton;
     public TMPro.TMP_Text ReRollCostLabel;
     private int shopEnterCount = 0;
+    private int artifactSlotsUnlockedThisRun = 0;
+
+    public void ResetRunSlotUnlocks()
+    {
+        artifactSlotsUnlockedThisRun = 0;
+    }
+
     public void PopulateShop()
     {
 
@@ -169,8 +176,7 @@ RefreshPotionSlots();
             else
                 UIManager.Instance.ArtifactBackground[i].SetActive(false);
         }
-        //Activate the last slot in shop
-        if(IAPManager.Instance.HasBoughtAnyIAP())
+        // Always show the next artifact slot. The first shop unlock is free from the IAP gate.
         if (GameManager.Instance.TheHero.myHeroData.ArtifactSlots < UIManager.Instance.ArtifactBackground.Count)
         {
             UIManager.Instance.ArtifactBackground[GameManager.Instance.TheHero.myHeroData.ArtifactSlots].gameObject.SetActive(true);
@@ -233,10 +239,17 @@ RefreshPotionSlots();
     }
     public void ClickUnlockSlot()
     {
+        if (artifactSlotsUnlockedThisRun >= 1 && IAPManager.Instance.HasBoughtAnyIAP() == false)
+        {
+            UIManager.Instance.ClickBuyPopupWindow();
+            return;
+        }
+
         if (GameData.CurrentGold >= 20)
         {
             GameData.CurrentGold -= 20;
             GameManager.Instance.TheHero.myHeroData.ArtifactSlots++;
+            artifactSlotsUnlockedThisRun++;
             SoundManager.TryPlay(SoundType.Success);
             RefreshArtifactSlots();
         }
