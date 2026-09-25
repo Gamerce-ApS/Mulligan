@@ -11,12 +11,10 @@ public class IAPManager : MonoBehaviour, IStoreListener
 {
     public static IAPManager Instance { get; private set; }
 
-#if UNITY_ANDROID
+
     public const string FullGameProductId = "full_game_unlock";
 
-#else
-    public const string FullGameProductId = "full_game_unlock";
-#endif
+
 
     public const string FullGameUnlockedKey = "full_game_unlocked";
     private const string HeroProductPrefix = "hero_";
