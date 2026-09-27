@@ -282,10 +282,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
                 return;
             }
-            if(HandManager.Instance.SelectedCardCount()>=3)
-            {
-                TutorialController.Instance.ShowNextStep();
-            }
         }
         if(TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.CLICK_ReRollCards)
         {
@@ -304,10 +300,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             {
                 UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_warriors", "Click on Warriors"));
                 return;
-            }
-            if(HandManager.Instance.SelectedCardCount()>=3)
-            {
-                TutorialController.Instance.ShowNextStep();
             }
         }
 
@@ -358,6 +350,44 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             TutorialController.Instance.ShowNextStep();
         }
+        else if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS &&
+                 HasSelectedTutorialOrcs())
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
+        else if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_WARRIORS &&
+                 HasSelectedTutorialWarriors())
+        {
+            TutorialController.Instance.ShowNextStep();
+        }
+    }
+
+    private bool HasSelectedTutorialOrcs()
+    {
+        return HasSelectedTutorialCards(card => card.data.race == CardRace.Orc);
+    }
+
+    private bool HasSelectedTutorialWarriors()
+    {
+        return HasSelectedTutorialCards(card => card.data.cardClass == CardClass.Warrior);
+    }
+
+    private bool HasSelectedTutorialCards(System.Predicate<CardInstance> matchesRequirement)
+    {
+        int selectedCount = 0;
+
+        foreach (CardInstance card in HandManager.Instance.CurrentHand)
+        {
+            if (card == null || card.data == null || card.CardGO == null || card.CardGO.isSelected == false)
+                continue;
+
+            if (matchesRequirement(card) == false)
+                return false;
+
+            selectedCount++;
+        }
+
+        return selectedCount == 4;
     }
 
     private bool HasSelectedTutorialRerollCards()
