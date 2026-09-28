@@ -45236,6 +45236,10 @@ PrefabInstance:
       propertyPath: SingularAPISecret
       value: fd0814eb54c4dcce0db3916e66e971f8
       objectReference: {fileID: 0}
+    - target: {fileID: 4110131251777105351, guid: 3bdc8169fdaaa4f8ca750b10b56d78d3, type: 3}
+      propertyPath: waitForTrackingAuthorizationWithTimeoutInterval
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 7363679512987422457, guid: 3bdc8169fdaaa4f8ca750b10b56d78d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
