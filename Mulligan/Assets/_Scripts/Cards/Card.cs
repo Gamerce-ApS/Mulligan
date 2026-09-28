@@ -243,6 +243,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_crit", "\n+{0} Crit", cardInstance.tempCritBonus) + "</color>";
         if(cardInstance.tempDamageBonus>0)
         upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_damage", "\n+{0} Damage", cardInstance.tempDamageBonus) + "</color>";
+        if(cardInstance.permanentDamageBonus > 0)
+        upgradeString += "<color=\"#FFD166\">" + LocalizationService.Format("ui.card.permanent_damage", "\n+{0} Permanent Attack", cardInstance.permanentDamageBonus) + "</color>";
 
 
         //upgradeString = upgradeString.Replace(" ", "");
@@ -680,7 +682,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public int GetTotalDamage()
     {
         int TotalDamage = 0;
-        TotalDamage = cardInstance.GetDamage();
+        TotalDamage = EvaluatorManager.Instance.GetEffectiveAttack(cardInstance);
         int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand,false,false);
         TotalDamage += synergyBonus;
         TotalDamage+=EvaluatorManager.Instance.GetArtifactBonusDamage(cardInstance);
@@ -728,7 +730,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
 
-    public void FlyAwayAndDiscard(Vector3 flyTargetWorld, float delay,CardInstance cInstance)
+    public void FlyAwayAndDiscard(Vector3 flyTargetWorld, float delay,CardInstance cInstance, bool destroyAfterFlight = false)
     {
         SoundManager.TryPlay(SoundType.CardDiscard);
 
@@ -755,15 +757,16 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             // After animation, add to discard pile and destroy visual
             LeanTween.delayedCall(gameObject, flyTime, () =>
             {
-                CardContainer.Instance.DiscardCard(cInstance);
-                Destroy(gameObject);
+                bool shouldDestroy = destroyAfterFlight || cInstance.WillExplodeAfterAttack;
+                if (shouldDestroy)
+                    cInstance.Destroy(false);
+                else
+                {
+                    CardContainer.Instance.DiscardCard(cInstance);
+                    cInstance.CardGO = null;
+                }
 
-                    if (cardInstance.WillExplodeAfterAttack)
-                    {
-                            DailyQuestManager.Instance.AddProgress(DailyQuestType.DestroyUnits);
-                            CardContainer.Instance.DiscardDeck.Remove(cardInstance);
-                            CardContainer.Instance.CurrentDeck.Remove(cardInstance);
-                    }
+                Destroy(gameObject);
             });
         });
     }

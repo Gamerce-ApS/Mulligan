@@ -52,8 +52,12 @@ public enum ArtifactEffectType
     GainGoldAfterLevel, // Done
     GetPotion, // Done
     AttackingMagesPlusDamage,
-    BardInHandAttackingUnitsPlusDamage,
-    ProcHPinDamage, // Done
+    BardInHandAttackingUnitsPlusDamage = 23,
+    ProcHPinDamage = 24, // Done
+    DoubleOrcAttackBelowHalfHealth = 25,
+    UndeadPermanentAttackPerDestroyedUnit = 26,
+    WarriorPermanentAttackOnAttack = 27,
+    ClericsInHandHealOnAttack = 28,
 }
 public enum PotionEffectType
 {

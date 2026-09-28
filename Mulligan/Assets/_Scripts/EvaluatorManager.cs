@@ -52,7 +52,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     {
         if (index >= boostedCards.Count)
         {
-            EvaluateAttackPost(() => LastCardEvaluatedDoDamgge());
+            EvaluateAttackPost(boostedCards, () => LastCardEvaluatedDoDamgge());
             return;
 
         }
@@ -60,7 +60,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // Pre Evaluation
         if (index == -1)
         {
-            EvaluateAttackPre(() =>  PlayBoostedCardsSequentially(boostedCards, index + 1));
+            EvaluateAttackPre(boostedCards, () => PlayBoostedCardsSequentially(boostedCards, index + 1));
             return;
         }
 
@@ -71,7 +71,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         });
 
     }
-    public void EvaluateAttackPost(System.Action onComplete)
+    public void EvaluateAttackPost(List<CardInstance> attackingCards, System.Action onComplete)
     {
         Queue<System.Action<System.Action>> steps = new();
 
@@ -109,14 +109,29 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         {
             EvaluateUpgradesPost(next);
         });
+        steps.Enqueue(next =>
+        {
+            ArtifactManager.Instance.ApplyAfterAttackEffects(attackingCards);
+            next();
+        });
+        steps.Enqueue(next =>
+        {
+            ArtifactManager.Instance.ApplyHolySymbolEffects(next);
+        });
         // Step 3: Done
         steps.Enqueue(_ => onComplete?.Invoke());
 
         RunNextStep(steps);
     }
-    public void EvaluateAttackPre(System.Action onComplete)
+    public void EvaluateAttackPre(List<CardInstance> attackingCards, System.Action onComplete)
     {
         Queue<System.Action<System.Action>> steps = new();
+
+        steps.Enqueue(next =>
+        {
+            ArtifactManager.Instance.ApplyAttackStartEffects(attackingCards);
+            next();
+        });
 
         // Step 1: Apply synergy crit
         steps.Enqueue(next =>
@@ -150,8 +165,14 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         Queue<System.Action<System.Action>> steps = new();
 
+        steps.Enqueue(next =>
+        {
+            ArtifactManager.Instance.TriggerWaaaghForCard(aCard);
+            next();
+        });
+
         // Step 1: Base Damage
-        steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamage(), next));
+        steps.Enqueue(next => aCard.CardGO.AddDamage(GetEffectiveAttack(aCard), next));
 
         // Step 2.5: Card Bonuses damage
         //steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamageBonus(), next));
@@ -230,7 +251,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
                 {
                     Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen
                     CardInstance ins = HandManager.Instance.CurrentHand.GetRandom();
-                    ins.CardGO.FlyAwayAndDiscard(discardTarget,0.1f,ins);
+                    ins.CardGO.FlyAwayAndDiscard(discardTarget,0.1f,ins, true);
 
                 UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.random_unit_destroyed", "Destroyed random unit in hand"));
                 }
@@ -340,11 +361,21 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             if (isBoosted && card.isMuted == false)
             {
                 boosted.Add(card);
-                totalDamage += card.GetDamage(); // include ranks, bonuses, etc.
+                totalDamage += GetEffectiveAttack(card); // include ranks, bonuses, etc.
             }
         }
 
         return boosted;
+    }
+    public int GetEffectiveAttack(CardInstance card, int additionalPermanentDamage = 0)
+    {
+        if (card == null)
+            return 0;
+
+        if (ArtifactManager.Instance == null)
+            return card.GetDamage() + additionalPermanentDamage * GameData.GlobalDamageMultiplier;
+
+        return ArtifactManager.Instance.GetEffectiveAttack(card, additionalPermanentDamage);
     }
     public int GetArtifactBonusDamage(CardInstance card)
     {
@@ -364,7 +395,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         }
         return bonusDmg;
     }
-    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand, bool isCombat = false,bool popUI = true)
+    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand, bool isCombat = false,
+        bool popUI = true, int additionalPermanentDamage = 0)
     {
         // Count synergies in current PlayedHand
         int raceCount = 0;
@@ -380,14 +412,14 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         if (raceCount == 2 || raceCount == 3 )
         {
-            bonus += card.GetDamage(); // Double race damage
+            bonus += GetEffectiveAttack(card, additionalPermanentDamage); // Double race damage
             if(popUI)
             UIManager.Instance.PulseSynergyItem(card.data.race.ToString(), isCombat);
         }
 
         if (classCount == 2 || classCount == 3)
         {
-            bonus += card.GetDamage(); // Double class damage
+            bonus += GetEffectiveAttack(card, additionalPermanentDamage); // Double class damage
             if(popUI)
             UIManager.Instance.PulseSynergyItem(card.data.cardClass.ToString(), isCombat);
         }

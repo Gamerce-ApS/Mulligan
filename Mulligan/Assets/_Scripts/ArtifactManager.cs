@@ -209,6 +209,306 @@ public class ArtifactManager : Singleton<ArtifactManager>
         return index >= 0 && index < 2;
     }
 
+    public int GetEffectiveAttack(CardInstance card, int additionalPermanentDamage = 0)
+    {
+        if (card == null || card.data == null)
+            return 0;
+
+        int attack = card.GetDamage() + additionalPermanentDamage * GameData.GlobalDamageMultiplier;
+        if (card.data.race != CardRace.Orc)
+            return attack;
+
+        Hero hero = GameManager.Instance.TheHero;
+        if (hero == null || hero.MaxHealth <= 0 || hero.Health >= hero.MaxHealth * 0.5f)
+            return attack;
+
+        int multiplier = GetArtifactValue(ArtifactEffectType.DoubleOrcAttackBelowHalfHealth);
+        return multiplier > 1 ? attack * multiplier : attack;
+    }
+
+    public int GetTavernTalesBonus(List<CardInstance> cardsBeingPlayed)
+    {
+        int artifactValue = GetArtifactValue(ArtifactEffectType.BardInHandAttackingUnitsPlusDamage);
+        if (artifactValue <= 0)
+            return 0;
+
+        return artifactValue * GetBardsKeptInHandCount(cardsBeingPlayed);
+    }
+
+    private int GetBardsKeptInHandCount(List<CardInstance> cardsBeingPlayed)
+    {
+        return HandManager.Instance.CurrentHand.Count(card =>
+            card != null && card.data != null && card.isMuted == false &&
+            card.data.cardClass == CardClass.Bard &&
+            (cardsBeingPlayed == null || cardsBeingPlayed.Contains(card) == false));
+    }
+
+    public void ApplyAttackStartEffects(List<CardInstance> attackingCards)
+    {
+        if (attackingCards == null || attackingCards.Count == 0)
+            return;
+
+        List<CardInstance> validAttackers = attackingCards
+            .Where(card => card != null && card.data != null && card.isMuted == false)
+            .Distinct()
+            .ToList();
+
+        if (validAttackers.Count == 0)
+            return;
+
+        foreach (var artifact in ActiveArtifacts)
+        {
+            if (artifact == null || IsArtifactMutedByBoss(artifact))
+                continue;
+
+            switch (artifact.effect)
+            {
+                case ArtifactEffectType.BardInHandAttackingUnitsPlusDamage:
+                {
+                    int bardCount = GetBardsKeptInHandCount(HandManager.Instance.PlayedHand);
+                    int bonus = artifact.value * bardCount;
+
+                    if (bonus > 0)
+                    {
+                        foreach (var attacker in validAttackers)
+                            attacker.AddPermanentDamage(bonus);
+
+                        TriggerArtifact(artifact);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public void TriggerWaaaghForCard(CardInstance card)
+    {
+        if (card == null || card.data == null || card.data.race != CardRace.Orc)
+            return;
+
+        Hero hero = GameManager.Instance.TheHero;
+        if (hero == null || hero.MaxHealth <= 0 || hero.Health >= hero.MaxHealth * 0.5f)
+            return;
+
+        if (GetArtifactValue(ArtifactEffectType.DoubleOrcAttackBelowHalfHealth) <= 1)
+            return;
+
+        foreach (var artifact in ActiveArtifacts)
+        {
+            if (artifact != null &&
+                artifact.effect == ArtifactEffectType.DoubleOrcAttackBelowHalfHealth &&
+                IsArtifactMutedByBoss(artifact) == false)
+            {
+                TriggerArtifact(artifact);
+            }
+        }
+    }
+
+    public void ApplyAfterAttackEffects(List<CardInstance> attackingCards)
+    {
+        if (attackingCards == null || attackingCards.Count == 0)
+            return;
+
+        List<CardInstance> warriors = attackingCards
+            .Where(card => card != null && card.data != null && card.isMuted == false &&
+                           card.data.cardClass == CardClass.Warrior)
+            .Distinct()
+            .ToList();
+
+        if (warriors.Count == 0)
+            return;
+
+        foreach (var artifact in ActiveArtifacts)
+        {
+            if (artifact == null ||
+                artifact.effect != ArtifactEffectType.WarriorPermanentAttackOnAttack ||
+                IsArtifactMutedByBoss(artifact) || artifact.value <= 0)
+                continue;
+
+            foreach (var warrior in warriors)
+                warrior.AddPermanentDamage(artifact.value);
+
+            TriggerArtifact(artifact);
+        }
+    }
+
+    public void ApplyHolySymbolEffects(System.Action onComplete)
+    {
+        List<ArtifactData> holySymbols = ActiveArtifacts
+            .Where(artifact => artifact != null &&
+                               artifact.effect == ArtifactEffectType.ClericsInHandHealOnAttack &&
+                               IsArtifactMutedByBoss(artifact) == false)
+            .ToList();
+
+        if (holySymbols.Count == 0)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        List<CardInstance> clerics = HandManager.Instance.CurrentHand
+            .Where(card => card != null && card.data != null && card.isMuted == false &&
+                           card.data.cardClass == CardClass.Cleric)
+            .ToList();
+
+        int healAmount = clerics.Sum(card => GetEffectiveAttack(card)) * holySymbols.Count;
+
+        if (healAmount <= 0)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        StartCoroutine(PlayHolySymbolHeal(clerics, holySymbols, healAmount, onComplete));
+    }
+
+    private IEnumerator PlayHolySymbolHeal(List<CardInstance> clerics, List<ArtifactData> holySymbols,
+        int healAmount, System.Action onComplete)
+    {
+        const float popDuration = 0.2f;
+        const float flyDuration = 0.4f;
+        const float totalHoldDuration = 1.5f;
+        Color healColor = new Color(0.25f, 1f, 0.35f, 1f);
+        Hero hero = GameManager.Instance.TheHero;
+        List<GameObject> healNumbers = new List<GameObject>();
+
+        if (hero == null || UIManager.Instance.DamageFloatPrefab == null || UIManager.Instance.thCanvas == null)
+        {
+            ApplyHolySymbolHeal(holySymbols, healAmount);
+            onComplete?.Invoke();
+            yield break;
+        }
+
+        foreach (var cleric in clerics)
+        {
+            if (cleric.CardGO == null)
+                continue;
+
+            int clericHeal = GetEffectiveAttack(cleric) * holySymbols.Count;
+            GameObject healNumber = Instantiate(
+                UIManager.Instance.DamageFloatPrefab,
+                cleric.CardGO.transform.position,
+                Quaternion.identity,
+                UIManager.Instance.thCanvas.transform);
+
+            TMPro.TMP_Text healText = healNumber.GetComponent<TMPro.TMP_Text>();
+            if (healText != null)
+            {
+                healText.text = "+" + clericHeal;
+                healText.color = healColor;
+                healText.raycastTarget = false;
+            }
+
+            healNumber.transform.localScale = Vector3.zero;
+            LeanTween.scale(healNumber, Vector3.one * 1.15f, popDuration).setEaseOutBack();
+            healNumbers.Add(healNumber);
+        }
+
+        yield return new WaitForSeconds(popDuration);
+
+        Vector3 healTarget = hero.healthLabel != null ? hero.healthLabel.transform.position : hero.transform.position;
+        foreach (var healNumber in healNumbers)
+        {
+            if (healNumber == null)
+                continue;
+
+            LeanTween.move(healNumber, healTarget, flyDuration).setEaseInCubic();
+            LeanTween.scale(healNumber, Vector3.one * 0.7f, flyDuration).setEaseInCubic();
+        }
+
+        yield return new WaitForSeconds(flyDuration);
+
+        foreach (var healNumber in healNumbers)
+        {
+            if (healNumber != null)
+                Destroy(healNumber);
+        }
+
+        ApplyHolySymbolHeal(holySymbols, healAmount);
+
+        GameObject totalNumber = Instantiate(
+            UIManager.Instance.DamageFloatPrefab,
+            healTarget,
+            Quaternion.identity,
+            UIManager.Instance.thCanvas.transform);
+        TMPro.TMP_Text totalText = totalNumber.GetComponent<TMPro.TMP_Text>();
+        if (totalText != null)
+        {
+            totalText.text = "+" + healAmount;
+            totalText.color = healColor;
+            totalText.raycastTarget = false;
+        }
+
+        totalNumber.transform.localScale = Vector3.zero;
+        LeanTween.scale(totalNumber, Vector3.one * 1.35f, popDuration).setEaseOutBack();
+        yield return new WaitForSeconds(popDuration + totalHoldDuration);
+
+        CanvasGroup canvasGroup = totalNumber.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = totalNumber.AddComponent<CanvasGroup>();
+
+        LeanTween.alphaCanvas(canvasGroup, 0f, 0.2f).setOnComplete(() =>
+        {
+            if (totalNumber != null)
+                Destroy(totalNumber);
+        });
+
+        yield return new WaitForSeconds(0.2f);
+        onComplete?.Invoke();
+    }
+
+    private void ApplyHolySymbolHeal(List<ArtifactData> holySymbols, int healAmount)
+    {
+        GameManager.Instance.TheHero.HealHPPoints(healAmount);
+
+        foreach (var artifact in holySymbols)
+            TriggerArtifact(artifact);
+
+        if (GameManager.Instance.TheHero.HealEffect != null)
+        {
+            GameManager.Instance.TheHero.HealEffect.SetActive(false);
+            GameManager.Instance.TheHero.HealEffect.SetActive(true);
+        }
+    }
+
+    public void OnUnitDestroyed(CardInstance destroyedUnit)
+    {
+        List<ArtifactData> boneCollectors = ActiveArtifacts
+            .Where(artifact => artifact != null &&
+                               artifact.effect == ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit &&
+                               IsArtifactMutedByBoss(artifact) == false)
+            .ToList();
+
+        if (boneCollectors.Count == 0)
+            return;
+
+        List<CardInstance> undeadCards = CardContainer.Instance.GetAllOwnedCards()
+            .Where(card => card != destroyedUnit && card.data.race == CardRace.Undead)
+            .ToList();
+
+        if (undeadCards.Count == 0)
+            return;
+
+        int bonus = boneCollectors.Sum(artifact => artifact.value);
+        if (bonus <= 0)
+            return;
+
+        foreach (var card in undeadCards)
+            card.AddPermanentDamage(bonus);
+
+        foreach (var artifact in boneCollectors)
+            TriggerArtifact(artifact);
+    }
+
+    private void TriggerArtifact(ArtifactData artifact)
+    {
+        Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+        if (visual != null)
+            visual.Shake();
+
+        SoundManager.TryPlay(SoundType.ArtifactTrigger);
+    }
+
 
 
     [System.Serializable]

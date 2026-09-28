@@ -316,11 +316,18 @@ public class UIManager : Singleton<UIManager>
 
         int totalDmg;
         List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(selectedCards, out totalDmg);
+        int tavernTalesBonus = ArtifactManager.Instance.GetTavernTalesBonus(selectedCards);
+        totalDmg = 0;
 
         foreach (var card in boostedCards)
         {
-            int synergyDMG = EvaluatorManager.Instance.GetSynergyDamage(card, selectedCards);
-            totalDmg += synergyDMG;
+            totalDmg += EvaluatorManager.Instance.GetEffectiveAttack(card, tavernTalesBonus);
+            totalDmg += EvaluatorManager.Instance.GetSynergyDamage(
+                card,
+                selectedCards,
+                false,
+                true,
+                tavernTalesBonus);
         }
 
         TMPro.TMP_Text text = DamageLabel.GetComponent<TMPro.TMP_Text>();

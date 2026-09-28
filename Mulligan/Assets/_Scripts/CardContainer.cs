@@ -357,6 +357,23 @@ public class CardContainer : Singleton<CardContainer>
         allC.Shuffle();
         return allC.Take(amount).ToList();
     }
+    public List<CardInstance> GetAllOwnedCards()
+    {
+        List<CardInstance> cards = new List<CardInstance>();
+        cards.AddRange(CurrentDeck);
+        cards.AddRange(DiscardDeck);
+
+        if (HandManager.Instance != null)
+        {
+            cards.AddRange(HandManager.Instance.CurrentHand);
+            cards.AddRange(HandManager.Instance.PlayedHand);
+        }
+
+        return cards
+            .Where(card => card != null && card.data != null)
+            .Distinct()
+            .ToList();
+    }
     public CardInstance DrawCard()
     {
 

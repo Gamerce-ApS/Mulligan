@@ -14,10 +14,12 @@ public class CardInstance
 
     public int tempCritBonus = 0;
     public int tempDamageBonus = 0;
+    public int permanentDamageBonus = 0;
     public bool WillExplodeAfterAttack = false;
     public bool IsFacelessThisTurn = false;
 
     public bool isMuted = false;
+    [System.NonSerialized] private bool isDestroyed = false;
 
     public CardInstance(CardData data)
     {
@@ -31,7 +33,7 @@ public class CardInstance
     }
     public bool IsSpecial()
     {
-        if(tempDamageBonus>0 || tempCritBonus>0 || WillExplodeAfterAttack || IsFacelessThisTurn || appliedUpgrades.Count>0)
+        if(tempDamageBonus>0 || permanentDamageBonus > 0 || tempCritBonus>0 || WillExplodeAfterAttack || IsFacelessThisTurn || appliedUpgrades.Count>0)
     return true;
 
         return false;
@@ -43,12 +45,23 @@ public class CardInstance
     }
     public int GetDamage()
     {
+        int damageBonus = tempDamageBonus + permanentDamageBonus;
+
         if(currentRank == 0)
-            return (data.damage+ tempDamageBonus) * GameData.GlobalDamageMultiplier;
+            return (data.damage + damageBonus) * GameData.GlobalDamageMultiplier;
 
         if (data.RankUpgrades != null && currentRank-1 < data.RankUpgrades.Count)
-            return (data.RankUpgrades[currentRank-1]+ tempDamageBonus) * GameData.GlobalDamageMultiplier;
-        return data.damage * GameData.GlobalDamageMultiplier;
+            return (data.RankUpgrades[currentRank-1] + damageBonus) * GameData.GlobalDamageMultiplier;
+        return (data.damage + damageBonus) * GameData.GlobalDamageMultiplier;
+    }
+    public void AddPermanentDamage(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        permanentDamageBonus += amount;
+        if (CardGO != null)
+            CardGO.UpdateCardUI();
     }
     //public int GetDamageBonus()
     //{
@@ -122,6 +135,7 @@ public class CardInstance
     {
         CardInstance copy = new CardInstance(data);
         copy.currentRank = currentRank;
+        copy.permanentDamageBonus = permanentDamageBonus;
         copy.appliedUpgrades = new List<UpgradeCardData>(appliedUpgrades);
         return copy;
     }
@@ -173,17 +187,25 @@ public class CardInstance
         }
         CardGO.AnyClass.SetActive(true);
     }
-    public void Destroy()
+    public void Destroy(bool destroyVisual = true)
     {
+        if (isDestroyed)
+            return;
+
+        isDestroyed = true;
         DailyQuestManager.Instance.AddProgress(DailyQuestType.DestroyUnits);
         HandManager.Instance.CurrentHand.Remove(this);
         HandManager.Instance.PlayedHand.Remove(this);   
         CardContainer.Instance.DiscardDeck.Remove(this);
         CardContainer.Instance.CurrentDeck.Remove(this);
+        CardContainer.Instance.TutorialDeck.Remove(this);
+
+        ArtifactManager.Instance.OnUnitDestroyed(this);
 
         if (CardGO != null)
         {
-            GameObject.Destroy(CardGO.gameObject);
+            if (destroyVisual)
+                GameObject.Destroy(CardGO.gameObject);
             CardGO = null;
         }
     }

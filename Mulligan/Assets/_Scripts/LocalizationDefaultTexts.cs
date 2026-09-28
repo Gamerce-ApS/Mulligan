@@ -95,6 +95,7 @@ public static class LocalizationDefaultTexts
         yield return new LocalizationSourceText("ui.damage.gold", "+{0} Gold");
         yield return new LocalizationSourceText("ui.card.temp_crit", "\n+{0} Crit");
         yield return new LocalizationSourceText("ui.card.temp_damage", "\n+{0} Damage");
+        yield return new LocalizationSourceText("ui.card.permanent_damage", "\n+{0} Permanent Attack");
         yield return new LocalizationSourceText("ui.hero.starting_items", "<color={0}>Starting Items:</color>");
         yield return new LocalizationSourceText("ui.hero.health", "<color={0}>Health:</color> {1}");
         yield return new LocalizationSourceText("ui.hero.artifact_slots", "<color={0}>Artifact Slots:</color> {1}");

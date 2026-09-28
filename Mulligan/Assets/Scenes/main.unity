@@ -39556,6 +39556,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -48673,6 +48674,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -70357,6 +70359,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -90791,6 +90794,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -93058,6 +93062,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -126397,6 +126402,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -199400,6 +199406,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -217936,6 +217943,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -234108,6 +234116,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -249894,6 +249903,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0
@@ -250076,7 +250086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4adcfa1394949f291fae7b1dc2746b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonUrl: https://pbertilsson.se/Mulligan/V14/data.json
+  jsonUrl: https://pbertilsson.se/Mulligan/V15/data.json
   useLocalData: 0
   LoadingWindow: {fileID: 1234134291}
   LoadingLabel: {fileID: 401636138}

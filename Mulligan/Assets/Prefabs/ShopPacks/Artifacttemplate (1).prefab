@@ -898,11 +898,17 @@ MonoBehaviour:
   isSelected: 0
   ArtifactData:
     name: 
+    UnlockRun: 0
     description: 
     sprite_icon: 
     effect: 0
     value: 0
+    rarity: 0
+    RandomRace: 0
   NameLabel: {fileID: 8236216775970936306}
+  CounterLabel: {fileID: 0}
+  mutedGO: {fileID: 0}
+  isMuted: 0
   DmgNumber: {fileID: 0}
 --- !u!114 &9184327537911893209
 MonoBehaviour:
@@ -918,18 +924,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArtifactData:
     name: 
+    UnlockRun: 0
     description: 
     sprite_icon: 
     effect: 0
     value: 0
+    rarity: 0
+    RandomRace: 0
   PotionData:
     name: 
+    UnlockRun: 0
     effectType: 0
     description: 
     sprite_icon: 
     value: 0
+    rarity: 0
   RuneData:
     name: 
+    UnlockRun: 0
     type: 0
     rarity: 0
     description: 
@@ -937,6 +949,7 @@ MonoBehaviour:
   isSelected: 0
   PriceLabel: {fileID: 2135691238658502423}
   NameLabel: {fileID: 8236216775970936306}
+  CanBeDraged: 1
 --- !u!1 &3300889310247476300
 GameObject:
   m_ObjectHideFlags: 0
