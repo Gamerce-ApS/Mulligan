@@ -243,8 +243,8 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_crit", "\n+{0} Crit", cardInstance.tempCritBonus) + "</color>";
         if(cardInstance.tempDamageBonus>0)
         upgradeString += "<color=\"red\">" + LocalizationService.Format("ui.card.temp_damage", "\n+{0} Damage", cardInstance.tempDamageBonus) + "</color>";
-        if(cardInstance.permanentDamageBonus > 0)
-        upgradeString += "<color=\"#FFD166\">" + LocalizationService.Format("ui.card.permanent_damage", "\n+{0} Permanent Attack", cardInstance.permanentDamageBonus) + "</color>";
+        // if(cardInstance.permanentDamageBonus > 0)
+        // upgradeString += "<color=\"yellow\">" + LocalizationService.Format("ui.card.permanent_damage", "\n+{0} Permanent Attack", cardInstance.permanentDamageBonus) + "</color>";
 
 
         //upgradeString = upgradeString.Replace(" ", "");

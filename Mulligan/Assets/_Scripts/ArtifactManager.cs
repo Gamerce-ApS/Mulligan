@@ -8,6 +8,7 @@ using System.Linq;
 public class ArtifactManager : Singleton<ArtifactManager>
 {
     public List<ArtifactData> ActiveArtifacts = new List<ArtifactData>(5);
+    private readonly Dictionary<ArtifactData, int> boneCollectorDestroyedUnits = new Dictionary<ArtifactData, int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +59,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
             return;
 
         DailyQuestManager.Instance.RollUnlockedRaceForArtifact(selected);
-        ActiveArtifacts.Add(selected);
+        AddActiveArtifact(selected);
         SoundManager.TryPlay(SoundType.ArtifactObtained);
 
         // Update UI
@@ -131,7 +132,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
             if (!ActiveArtifacts.Contains(artifact) && aType== artifact.effect)
             {
                 DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
-                ActiveArtifacts.Add(artifact);
+                AddActiveArtifact(artifact);
                 SoundManager.TryPlay(SoundType.ArtifactObtained);
 
                 // Update UI
@@ -154,6 +155,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     }
     public void SellArtifact(Artifact aArtifact)
     {
+        boneCollectorDestroyedUnits.Remove(aArtifact.ArtifactData);
         ActiveArtifacts.Remove(aArtifact.ArtifactData);
         Destroy(aArtifact.gameObject);
         SoundManager.TryPlay(SoundType.ArtifactSold);
@@ -171,7 +173,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
         DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
-        ActiveArtifacts.Add(artifact);
+        AddActiveArtifact(artifact);
         SoundManager.TryPlay(SoundType.ArtifactObtained);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
 
@@ -198,6 +200,22 @@ public class ArtifactManager : Singleton<ArtifactManager>
                 total += artifact.value;
         }
         return total;
+    }
+
+    public int GetBoneCollectorDestroyedUnits(ArtifactData artifact)
+    {
+        if (artifact == null || artifact.effect != ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit)
+            return 0;
+
+        return boneCollectorDestroyedUnits.TryGetValue(artifact, out int amount) ? amount : 0;
+    }
+
+    private void AddActiveArtifact(ArtifactData artifact)
+    {
+        ActiveArtifacts.Add(artifact);
+
+        if (artifact.effect == ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit)
+            boneCollectorDestroyedUnits[artifact] = 0;
     }
 
     public bool IsArtifactMutedByBoss(ArtifactData artifact)
@@ -481,6 +499,15 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
         if (boneCollectors.Count == 0)
             return;
+
+        foreach (var artifact in boneCollectors)
+        {
+            boneCollectorDestroyedUnits[artifact] = GetBoneCollectorDestroyedUnits(artifact) + 1;
+
+            Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+            if (visual != null)
+                visual.RefreshCounter();
+        }
 
         List<CardInstance> undeadCards = CardContainer.Instance.GetAllOwnedCards()
             .Where(card => card != destroyedUnit && card.data.race == CardRace.Undead)

@@ -18,6 +18,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public TMPro.TMP_Text CounterLabel;
     public GameObject mutedGO;
     public bool isMuted = false;
+    public GameObject ActiveEffect = null;
 
     private void Awake()
     {
@@ -39,6 +40,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         isMuted = mute;
         mutedGO.SetActive(isMuted);
+        RefreshActiveEffect();
     }
     public void Init(ArtifactData aData)
     {
@@ -50,6 +52,8 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void RefreshCounter()
     {
+        RefreshActiveEffect();
+
         if (CounterLabel == null)
             return;
 
@@ -82,6 +86,9 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
                 counter = Mathf.RoundToInt((ArtifactData.value / 100f) * GameManager.Instance.TheHero.MaxHealth);
                 break;
+            case ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit:
+                counter = ArtifactManager.Instance.GetBoneCollectorDestroyedUnits(ArtifactData);
+                break;
             default:
                 showCounter = false;
                 break;
@@ -92,6 +99,27 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         CounterLabel.text = counter.ToString();
         counterObject.SetActive(true);
+    }
+
+    private void RefreshActiveEffect()
+    {
+        if (ActiveEffect == null)
+            return;
+
+        bool isActive = false;
+
+        if (ArtifactData != null &&
+            ArtifactData.effect == ArtifactEffectType.DoubleOrcAttackBelowHalfHealth &&
+            ArtifactData.value > 1 &&
+            isMuted == false &&
+            ArtifactManager.Instance.ActiveArtifacts.Contains(ArtifactData) &&
+            ArtifactManager.Instance.IsArtifactMutedByBoss(ArtifactData) == false)
+        {
+            Hero hero = GameManager.Instance.TheHero;
+            isActive = hero != null && hero.MaxHealth > 0 && hero.Health < hero.MaxHealth * 0.5f;
+        }
+
+        ActiveEffect.SetActive(isActive);
     }
     public void OnPointerClick(PointerEventData eventData)
     {

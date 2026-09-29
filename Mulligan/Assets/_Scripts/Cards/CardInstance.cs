@@ -33,7 +33,7 @@ public class CardInstance
     }
     public bool IsSpecial()
     {
-        if(tempDamageBonus>0 || permanentDamageBonus > 0 || tempCritBonus>0 || WillExplodeAfterAttack || IsFacelessThisTurn || appliedUpgrades.Count>0)
+        if(tempDamageBonus>0  || tempCritBonus>0 || WillExplodeAfterAttack || IsFacelessThisTurn || appliedUpgrades.Count>0)
     return true;
 
         return false;
@@ -191,6 +191,13 @@ public class CardInstance
     {
         if (isDestroyed)
             return;
+
+        if (destroyVisual && CardGO != null)
+        {
+            CardRenderTextureCapture textureCapture = UnityEngine.Object.FindObjectOfType<CardRenderTextureCapture>();
+            if (textureCapture != null)
+                textureCapture.CaptureCard(CardGO);
+        }
 
         isDestroyed = true;
         DailyQuestManager.Instance.AddProgress(DailyQuestType.DestroyUnits);
