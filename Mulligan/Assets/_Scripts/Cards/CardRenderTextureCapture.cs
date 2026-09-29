@@ -21,6 +21,12 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
     public GameObject DestroyCardVFX;
     public Camera VFXWorldCamera;
 
+    [Header("Merge VFX")]
+    public GameObject MergeCardVFX;
+    public SpriteRenderer MergeCardSpriteRenderer;
+    public float MergeSpritePixelsPerUnit = 100f;
+    [Min(0f)] public float MergeVFXShowBeforeArrival = 0.2f;
+
     [Header("Capture")]
     [Range(0, 31)] public int CaptureLayer = 31;
 
@@ -28,6 +34,9 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
     private GameObject captureRoot;
     private Camera captureCamera;
     private Canvas captureCanvas;
+    private Texture2D mergeCardTexture;
+    private Sprite mergeCardSprite;
+    private Card mergeFollowCard;
 
     protected override void Awake()
     {
@@ -96,7 +105,6 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
 
             CapturedTexture = texture;
             ApplyTextureToMaterial(texture);
-            PlayDestroyCardVFX(card);
             return texture;
         }
         catch (Exception exception)
@@ -141,6 +149,56 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
         Destroy(texture);
     }
 
+    public RenderTexture CaptureAndPlayDestroy(Card card)
+    {
+        RenderTexture texture = CaptureCard(card);
+        if (texture != null)
+            PositionAndRestartVFX(DestroyCardVFX, card);
+
+        return texture;
+    }
+
+    public RenderTexture CaptureAndPlayMerge(Card card)
+    {
+        RenderTexture texture = CaptureCard(card);
+        if (texture == null || MergeCardVFX == null)
+            return texture;
+
+        MergeCardVFX.SetActive(false);
+        PositionVFX(MergeCardVFX, card);
+        ApplyTextureToMergeSprite(texture);
+        mergeFollowCard = card;
+        MergeCardVFX.SetActive(true);
+
+        SpriteRenderer spriteRenderer = GetMergeSpriteRenderer();
+        if (spriteRenderer != null && mergeCardSprite != null)
+            spriteRenderer.sprite = mergeCardSprite;
+
+        return texture;
+    }
+
+    public void StopMergeVFX()
+    {
+        mergeFollowCard = null;
+
+        if (MergeCardVFX != null)
+            MergeCardVFX.SetActive(false);
+    }
+
+    private void LateUpdate()
+    {
+        if (mergeFollowCard == null || MergeCardVFX == null || MergeCardVFX.activeSelf == false)
+            return;
+
+        if (mergeFollowCard.gameObject.activeInHierarchy == false)
+        {
+            StopMergeVFX();
+            return;
+        }
+
+        PositionVFX(MergeCardVFX, mergeFollowCard);
+    }
+
     private void ApplyTextureToMaterial(RenderTexture texture)
     {
         if (TargetMaterial == null)
@@ -158,15 +216,96 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
         TargetMaterial.SetTexture(TexturePropertyName, texture);
     }
 
-    private void PlayDestroyCardVFX(Card card)
+    private void ApplyTextureToMergeSprite(RenderTexture texture)
     {
-        if (DestroyCardVFX == null || card == null)
+        SpriteRenderer spriteRenderer = GetMergeSpriteRenderer();
+        if (spriteRenderer == null)
+        {
+            Debug.LogWarning("Merge card VFX requires a SpriteRenderer.", this);
+            return;
+        }
+
+        RenderTexture previousActiveTexture = RenderTexture.active;
+
+        try
+        {
+            RenderTexture.active = texture;
+
+            Texture2D cardTexture = new Texture2D(
+                texture.width,
+                texture.height,
+                TextureFormat.RGBA32,
+                false);
+            cardTexture.name = "Merge Card Texture";
+            cardTexture.filterMode = FilterMode;
+            cardTexture.wrapMode = TextureWrapMode.Clamp;
+            cardTexture.ReadPixels(new Rect(0f, 0f, texture.width, texture.height), 0, 0, false);
+            cardTexture.Apply(false, false);
+
+            Sprite cardSprite = Sprite.Create(
+                cardTexture,
+                new Rect(0f, 0f, cardTexture.width, cardTexture.height),
+                new Vector2(0.5f, 0.5f),
+                Mathf.Max(1f, MergeSpritePixelsPerUnit));
+            cardSprite.name = "Merge Card Sprite";
+
+            ClearMergeSprite();
+            mergeCardTexture = cardTexture;
+            mergeCardSprite = cardSprite;
+            spriteRenderer.sprite = mergeCardSprite;
+        }
+        finally
+        {
+            RenderTexture.active = previousActiveTexture;
+        }
+    }
+
+    private void ClearMergeSprite()
+    {
+        SpriteRenderer spriteRenderer = GetMergeSpriteRenderer();
+        if (spriteRenderer != null && spriteRenderer.sprite == mergeCardSprite)
+            spriteRenderer.sprite = null;
+
+        if (mergeCardSprite != null)
+            Destroy(mergeCardSprite);
+
+        if (mergeCardTexture != null)
+            Destroy(mergeCardTexture);
+
+        mergeCardSprite = null;
+        mergeCardTexture = null;
+    }
+
+    private SpriteRenderer GetMergeSpriteRenderer()
+    {
+        if (MergeCardSpriteRenderer != null)
+            return MergeCardSpriteRenderer;
+
+        if (MergeCardVFX != null)
+            MergeCardSpriteRenderer = MergeCardVFX.GetComponentInChildren<SpriteRenderer>(true);
+
+        return MergeCardSpriteRenderer;
+    }
+
+    private void PositionAndRestartVFX(GameObject vfx, Card card)
+    {
+        if (vfx == null || card == null)
+            return;
+
+        vfx.SetActive(false);
+        PositionVFX(vfx, card);
+        vfx.SetActive(true);
+    }
+
+    private void PositionVFX(GameObject vfx, Card card)
+    {
+        if (vfx == null || card == null)
             return;
 
         Camera worldCamera = VFXWorldCamera != null ? VFXWorldCamera : Camera.main;
         if (worldCamera == null)
         {
-            Debug.LogWarning("Card destroy VFX requires a world camera.", this);
+            Debug.LogWarning("Card VFX requires a world camera.", this);
             return;
         }
 
@@ -176,7 +315,7 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
             : null;
 
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(uiCamera, card.rectTransform.position);
-        float worldDepth = worldCamera.WorldToScreenPoint(DestroyCardVFX.transform.position).z;
+        float worldDepth = worldCamera.WorldToScreenPoint(vfx.transform.position).z;
 
         if (worldDepth <= worldCamera.nearClipPlane)
             worldDepth = worldCamera.nearClipPlane + 1f;
@@ -186,9 +325,7 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
             screenPosition.y,
             worldDepth));
 
-        DestroyCardVFX.SetActive(false);
-        DestroyCardVFX.transform.position = vfxPosition;
-        DestroyCardVFX.SetActive(true);
+        vfx.transform.position = vfxPosition;
     }
 
     private void EnsureCaptureSetup()
@@ -277,13 +414,19 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
         TextureHeight = Mathf.Max(1, TextureHeight);
         Padding = Mathf.Clamp(Padding, 0, Mathf.Min(TextureWidth, TextureHeight) / 2);
         CaptureLayer = Mathf.Clamp(CaptureLayer, 0, 31);
+        MergeSpritePixelsPerUnit = Mathf.Max(1f, MergeSpritePixelsPerUnit);
+        MergeVFXShowBeforeArrival = Mathf.Max(0f, MergeVFXShowBeforeArrival);
     }
 
     private void OnDestroy()
     {
+        mergeFollowCard = null;
+
         List<RenderTexture> texturesToRelease = new List<RenderTexture>(capturedTextures);
         foreach (RenderTexture texture in texturesToRelease)
             ReleaseTexture(texture);
+
+        ClearMergeSprite();
 
         if (captureRoot != null)
             Destroy(captureRoot);

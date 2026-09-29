@@ -196,7 +196,7 @@ public class CardInstance
         {
             CardRenderTextureCapture textureCapture = UnityEngine.Object.FindObjectOfType<CardRenderTextureCapture>();
             if (textureCapture != null)
-                textureCapture.CaptureCard(CardGO);
+                textureCapture.CaptureAndPlayDestroy(CardGO);
         }
 
         isDestroyed = true;

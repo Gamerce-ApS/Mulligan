@@ -522,6 +522,13 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         .setOnUpdate((Vector2 val) => rt.anchoredPosition = val);
 
     }
+
+    public void Shake()
+    {
+        LeanTween.scale(gameObject, Vector3.one * 1.7f, 0.6f)
+            .setEasePunch();
+    }
+
     public void PlayBoostAnimation( int damageAmount, Transform targetLabel, System.Action onComplete = null)
     {
         float delay =  0.0f; // spread delay per card

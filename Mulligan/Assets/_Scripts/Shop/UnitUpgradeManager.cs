@@ -128,6 +128,10 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             .setEaseInBack()
             .setOnComplete(() =>
             {
+                CardRenderTextureCapture textureCapture = FindObjectOfType<CardRenderTextureCapture>();
+                if (textureCapture != null)
+                    textureCapture.StopMergeVFX();
+
                 OnHideShop?.Invoke();
                 ShopWindow.SetActive(false);
                 ShopWindow.GetComponent<RectTransform>().anchoredPosition = startPosition;
@@ -190,6 +194,30 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
         }
   
         UIManager.Instance.HideCardInfoPopup();
+        bool upgradeApplied = false;
+        bool mergeVFXPlayed = false;
+        const float upgradeMoveDelay = 1f;
+        const float upgradeMoveDuration = 0.5f;
+        CardRenderTextureCapture textureCapture = FindObjectOfType<CardRenderTextureCapture>();
+
+        if (upgradeCard.cardInstance.upgradeData.effect != UpgradeEffect.Destroy && textureCapture != null)
+        {
+            float showBeforeArrival = Mathf.Clamp(
+                textureCapture.MergeVFXShowBeforeArrival,
+                0f,
+                upgradeMoveDuration);
+            float showDelay = upgradeMoveDelay + upgradeMoveDuration - showBeforeArrival;
+
+            UnityHelper.RunAfterDelay(this, showDelay, () =>
+            {
+                if (upgradeApplied || targetUnitCard == null)
+                    return;
+
+                mergeVFXPlayed = true;
+                textureCapture.CaptureAndPlayMerge(targetUnitCard);
+            });
+        }
+
         for (int i = UnitUpgradeParent.childCount - 1; i >= 0; i--)
         {
             if (UnitUpgradeParent.GetChild(i).GetComponent<Card>().isSelected == false)
@@ -208,35 +236,39 @@ public class UnitUpgradeManager : Singleton<UnitUpgradeManager>
             else
             {
                 GameObject go = UnitUpgradeParent.GetChild(i).gameObject;
-                LeanTween.move(go, targetUnitCard.transform.position, 0.5f)
+                LeanTween.move(go, targetUnitCard.transform.position, upgradeMoveDuration)
                   .setEaseInOutCirc()
                   .setOnComplete(() =>
                   {
+                      if (upgradeApplied)
+                          return;
+
+                      upgradeApplied = true;
+
+                      if (upgradeCard.cardInstance.upgradeData.effect != UpgradeEffect.Destroy &&
+                          mergeVFXPlayed == false && textureCapture != null)
+                      {
+                          mergeVFXPlayed = true;
+                          textureCapture.CaptureAndPlayMerge(targetUnitCard);
+                      }
+
+                      ApplySelectedUpgrade(targetUnitCard, upgradeCard);
+                      SoundManager.TryPlay(SoundType.UnitUpgradeApplied);
+                      DailyQuestManager.Instance.AddProgress(DailyQuestType.UpgradeUnits);
+                      GameData.UpgradedUnits++;
+
                       UnityHelper.RunAfterDelay(this, 0.25f, () =>
                       {
-                          //DestroyImmediate(go.gameObject);
+                          HideWindow();
                       });
-                  }).setDelay(1f);
+                  }).setDelay(upgradeMoveDelay);
             }
         }
-        UnityHelper.RunAfterDelay(this, 1.25f, () =>
-        {
-            HideWindow();
-        });
         //UnityHelper.RunAfterDelay(this, 1.5f, () =>
         //{
         //    DestroyImmediate(aCard.gameObject);
         //});
         //CardContainer.Instance.CurrentDeck.Add(new CardInstance(aCard.cardInstance.data));
-
-
-        if (targetUnitCard != null && upgradeCard != null)
-        {
-            ApplySelectedUpgrade(targetUnitCard, upgradeCard);
-            SoundManager.TryPlay(SoundType.UnitUpgradeApplied);
-            DailyQuestManager.Instance.AddProgress(DailyQuestType.UpgradeUnits);
-        }
-        GameData.UpgradedUnits++;
     }
 
     private void ApplySelectedUpgrade(Card targetUnitCard, Card upgradeCard)

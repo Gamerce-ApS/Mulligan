@@ -255,10 +255,16 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
     private int GetBardsKeptInHandCount(List<CardInstance> cardsBeingPlayed)
     {
-        return HandManager.Instance.CurrentHand.Count(card =>
+        return GetBardsKeptInHand(cardsBeingPlayed).Count;
+    }
+
+    private List<CardInstance> GetBardsKeptInHand(List<CardInstance> cardsBeingPlayed)
+    {
+        return HandManager.Instance.CurrentHand.Where(card =>
             card != null && card.data != null && card.isMuted == false &&
             card.data.cardClass == CardClass.Bard &&
-            (cardsBeingPlayed == null || cardsBeingPlayed.Contains(card) == false));
+            (cardsBeingPlayed == null || cardsBeingPlayed.Contains(card) == false))
+            .ToList();
     }
 
     public void ApplyAttackStartEffects(List<CardInstance> attackingCards)
@@ -283,13 +289,20 @@ public class ArtifactManager : Singleton<ArtifactManager>
             {
                 case ArtifactEffectType.BardInHandAttackingUnitsPlusDamage:
                 {
-                    int bardCount = GetBardsKeptInHandCount(HandManager.Instance.PlayedHand);
+                    List<CardInstance> bardsInHand = GetBardsKeptInHand(HandManager.Instance.PlayedHand);
+                    int bardCount = bardsInHand.Count;
                     int bonus = artifact.value * bardCount;
 
                     if (bonus > 0)
                     {
                         foreach (var attacker in validAttackers)
                             attacker.AddPermanentDamage(bonus);
+
+                        foreach (var bard in bardsInHand)
+                        {
+                            if (bard.CardGO != null)
+                                bard.CardGO.Shake();
+                        }
 
                         TriggerArtifact(artifact);
                     }
@@ -344,7 +357,12 @@ public class ArtifactManager : Singleton<ArtifactManager>
                 continue;
 
             foreach (var warrior in warriors)
+            {
                 warrior.AddPermanentDamage(artifact.value);
+
+                if (warrior.CardGO != null)
+                    warrior.CardGO.Shake();
+            }
 
             TriggerArtifact(artifact);
         }
@@ -389,6 +407,12 @@ public class ArtifactManager : Singleton<ArtifactManager>
         Color healColor = new Color(0.25f, 1f, 0.35f, 1f);
         Hero hero = GameManager.Instance.TheHero;
         List<GameObject> healNumbers = new List<GameObject>();
+
+        foreach (var cleric in clerics)
+        {
+            if (cleric.CardGO != null)
+                cleric.CardGO.Shake();
+        }
 
         if (hero == null || UIManager.Instance.DamageFloatPrefab == null || UIManager.Instance.thCanvas == null)
         {
