@@ -15,6 +15,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     public float TavernTalesBardShakeDuration = 0.4f;
 
     private readonly Dictionary<ArtifactData, int> boneCollectorDestroyedUnits = new Dictionary<ArtifactData, int>();
+    private readonly Dictionary<ArtifactData, int> gravekeeperUndeadRerolls = new Dictionary<ArtifactData, int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -162,6 +163,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     public void SellArtifact(Artifact aArtifact)
     {
         boneCollectorDestroyedUnits.Remove(aArtifact.ArtifactData);
+        gravekeeperUndeadRerolls.Remove(aArtifact.ArtifactData);
         ActiveArtifacts.Remove(aArtifact.ArtifactData);
         Destroy(aArtifact.gameObject);
         SoundManager.TryPlay(SoundType.ArtifactSold);
@@ -216,12 +218,51 @@ public class ArtifactManager : Singleton<ArtifactManager>
         return boneCollectorDestroyedUnits.TryGetValue(artifact, out int amount) ? amount : 0;
     }
 
+    public float GetGravekeeperCritMultiplier(ArtifactData artifact)
+    {
+        if (artifact == null || artifact.effect != ArtifactEffectType.CritMultiplierPerUndeadRerolled)
+            return 1f;
+
+        int rerolledUndead = gravekeeperUndeadRerolls.TryGetValue(artifact, out int amount) ? amount : 0;
+        int multiplierStepInTenths = Mathf.Max(1, artifact.value);
+        return 1f + rerolledUndead * multiplierStepInTenths * 0.1f;
+    }
+
+    public void OnUnitsRerolled(List<CardInstance> rerolledCards)
+    {
+        if (rerolledCards == null || rerolledCards.Count == 0)
+            return;
+
+        int undeadAmount = rerolledCards.Count(card =>
+            card != null && card.data != null && card.data.race == CardRace.Undead);
+        if (undeadAmount == 0)
+            return;
+
+        foreach (var artifact in ActiveArtifacts)
+        {
+            if (artifact == null ||
+                artifact.effect != ArtifactEffectType.CritMultiplierPerUndeadRerolled ||
+                IsArtifactMutedByBoss(artifact))
+                continue;
+
+            int currentAmount = gravekeeperUndeadRerolls.TryGetValue(artifact, out int amount) ? amount : 0;
+            gravekeeperUndeadRerolls[artifact] = currentAmount + undeadAmount;
+
+            Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+            if (visual != null)
+                visual.RefreshCounter();
+        }
+    }
+
     private void AddActiveArtifact(ArtifactData artifact)
     {
         ActiveArtifacts.Add(artifact);
 
         if (artifact.effect == ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit)
             boneCollectorDestroyedUnits[artifact] = 0;
+
+        if (artifact.effect == ArtifactEffectType.CritMultiplierPerUndeadRerolled)
+            gravekeeperUndeadRerolls[artifact] = 0;
     }
 
     public bool IsArtifactMutedByBoss(ArtifactData artifact)
@@ -653,6 +694,47 @@ public class ArtifactManager : Singleton<ArtifactManager>
             GameManager.Instance.TheHero.HealEffect.SetActive(false);
             GameManager.Instance.TheHero.HealEffect.SetActive(true);
         }
+    }
+
+    public void ApplyGravekeeperCritMultiplier(System.Action onComplete)
+    {
+        List<ArtifactData> gravekeepers = ActiveArtifacts
+            .Where(artifact => artifact != null &&
+                               artifact.effect == ArtifactEffectType.CritMultiplierPerUndeadRerolled &&
+                               IsArtifactMutedByBoss(artifact) == false &&
+                               GetGravekeeperCritMultiplier(artifact) > 1f)
+            .ToList();
+
+        ApplyGravekeeperCritMultiplier(gravekeepers, 0, onComplete);
+    }
+
+    private void ApplyGravekeeperCritMultiplier(List<ArtifactData> gravekeepers, int index,
+        System.Action onComplete)
+    {
+        if (index >= gravekeepers.Count)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        ArtifactData artifact = gravekeepers[index];
+        float multiplier = GetGravekeeperCritMultiplier(artifact);
+        Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+
+        if (visual == null)
+        {
+            UIManager.Instance.MultiplyCritical(multiplier);
+            ApplyGravekeeperCritMultiplier(gravekeepers, index + 1, onComplete);
+            return;
+        }
+
+        visual.AddCriticalMultiplier(multiplier, () =>
+        {
+            visual.MultiplyCritical(() =>
+            {
+                ApplyGravekeeperCritMultiplier(gravekeepers, index + 1, onComplete);
+            });
+        });
     }
 
     public void OnUnitDestroyed(CardInstance destroyedUnit)

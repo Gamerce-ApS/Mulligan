@@ -65,6 +65,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         bool showCounter = true;
         int counter = 0;
+        string counterText = null;
 
         switch (ArtifactData.effect)
         {
@@ -89,6 +90,10 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             case ArtifactEffectType.UndeadPermanentAttackPerDestroyedUnit:
                 counter = ArtifactManager.Instance.GetBoneCollectorDestroyedUnits(ArtifactData);
                 break;
+            case ArtifactEffectType.CritMultiplierPerUndeadRerolled:
+                counterText = ArtifactManager.Instance.GetGravekeeperCritMultiplier(ArtifactData)
+                    .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "";
+                break;
             default:
                 showCounter = false;
                 break;
@@ -97,7 +102,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (showCounter == false)
             return;
 
-        CounterLabel.text = counter.ToString();
+        CounterLabel.text = counterText ?? counter.ToString();
         counterObject.SetActive(true);
     }
 
@@ -346,6 +351,54 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
   
     }
 
+    private float criticalMultiplierAmount = 1f;
+
+    public void AddCriticalMultiplier(float multiplier, System.Action onComplete)
+    {
+        if (multiplier <= 1f)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        SoundManager.TryPlay(SoundType.ArtifactTrigger);
+        LeanTween.scale(gameObject, Vector3.one * 1.7f, 0.6f).setEasePunch();
+        criticalMultiplierAmount = multiplier;
+
+        DmgNumber = Instantiate(UIManager.Instance.DamageFloatPrefab, transform.position, Quaternion.identity, transform);
+        RectTransform dmgRT = DmgNumber.GetComponent<RectTransform>();
+        TMPro.TMP_Text dmgText = DmgNumber.GetComponent<TMPro.TMP_Text>();
+        dmgText.text = multiplier.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "X";
+        dmgText.fontSize = 50;
+        dmgRT.anchoredPosition -= new Vector2(0, 165f + 120f);
+        dmgRT.localScale = Vector3.zero;
+        LeanTween.scale(DmgNumber, Vector3.one * 1.3f, 0.3f).setEaseOutBack();
+        LeanTween.delayedCall(DmgNumber, 1.0f, () => onComplete?.Invoke());
+    }
+
+    public void MultiplyCritical(System.Action onComplete)
+    {
+        if (DmgNumber == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        LeanTween.delayedCall(DmgNumber, 0.75f, () =>
+        {
+            LeanTween.move(DmgNumber, UIManager.Instance.CriticalLabel.transform.position, 0.25f)
+                .setEaseInCubic()
+                .setOnComplete(() =>
+                {
+                    UIManager.Instance.MultiplyCritical(criticalMultiplierAmount);
+                    Destroy(DmgNumber);
+                    DmgNumber = null;
+                    criticalMultiplierAmount = 1f;
+                    onComplete?.Invoke();
+                });
+        });
+    }
+
 
 
     public void AddToTotalDamage(System.Action onComplete)
@@ -389,5 +442,6 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         Destroy(DmgNumber);
         DmgNumber = null;
         damageNumberAmount = 0;
+        criticalMultiplierAmount = 1f;
     }
 }

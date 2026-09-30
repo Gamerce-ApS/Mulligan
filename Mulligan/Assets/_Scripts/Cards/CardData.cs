@@ -58,6 +58,7 @@ public enum ArtifactEffectType
     UndeadPermanentAttackPerDestroyedUnit = 26,
     WarriorPermanentAttackOnAttack = 27,
     ClericsInHandHealOnAttack = 28,
+    CritMultiplierPerUndeadRerolled = 29,
 }
 public enum PotionEffectType
 {

@@ -159,6 +159,7 @@ public class HandManager : Singleton<HandManager>
     }
     public void ReRollHand()
     {
+        List<CardInstance> rerolledCards = new List<CardInstance>();
         for (int i = CurrentHand.Count - 1; i >= 0; i--)
         {
             var cardInstance = CurrentHand[i];
@@ -166,10 +167,13 @@ public class HandManager : Singleton<HandManager>
 
             if (cardGO.isSelected)
             {
+                rerolledCards.Add(cardInstance);
                 PlayedHand.Add(cardInstance);
                 CurrentHand.RemoveAt(i); // remove from hand list
             }
         }
+
+        ArtifactManager.Instance.OnUnitsRerolled(rerolledCards);
 
         Vector3 discardTarget = UIManager.Instance.DiscardPileIcon.transform.position; // or anywhere off-screen
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Globalization;
 using GameAnalyticsSDK;
 using Singular;
 using TMPro;
@@ -269,13 +270,44 @@ public class UIManager : Singleton<UIManager>
     }
     public void AddCritical(float aDamage)
     {
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (float.Parse(CriticalLabel.GetComponent<TMPro.TMP_Text>().text) + aDamage).ToString();
+        SetCriticalValue(GetCriticalValue() + aDamage);
         VibrationsManager.TryVibrate(VibrationType.ButtonTap);
         SoundManager.TryPlay(SoundType.CritTotal);
         LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
         {
             CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
         });
+    }
+
+    public float GetCriticalValue()
+    {
+        if (CriticalLabel == null)
+            return 1f;
+
+        string value = CriticalLabel.GetComponent<TMPro.TMP_Text>().text.Replace(',', '.');
+        return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float result)
+            ? result
+            : 1f;
+    }
+
+    public void MultiplyCritical(float multiplier)
+    {
+        if (multiplier <= 0f)
+            return;
+
+        SetCriticalValue(GetCriticalValue() * multiplier);
+        VibrationsManager.TryVibrate(VibrationType.ButtonTap);
+        SoundManager.TryPlay(SoundType.CritTotal);
+        LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch().setOnComplete(() =>
+        {
+            CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
+        });
+    }
+
+    private void SetCriticalValue(float value)
+    {
+        CriticalLabel.GetComponent<TMPro.TMP_Text>().text =
+            value.ToString("0.##", CultureInfo.InvariantCulture);
     }
 
 

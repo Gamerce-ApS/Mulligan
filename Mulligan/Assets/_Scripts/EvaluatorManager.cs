@@ -29,12 +29,12 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         UnityHelper.RunAfterDelay(this, 0.75f, () =>
         {
             string totalDamage = UIManager.Instance.DamageLabel.GetComponent<TMPro.TMP_Text>().text;
-            string totalCritical = UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text;
+            float totalCritical = UIManager.Instance.GetCriticalValue();
             UIManager.Instance.DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
             UIManager.Instance.CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
-            int crit = int.Parse(totalCritical);
-            if (crit == 0) crit = 1;
-            int damage = int.Parse(totalDamage) * crit;
+            if (totalCritical <= 0f)
+                totalCritical = 1f;
+            int damage = Mathf.RoundToInt(int.Parse(totalDamage) * totalCritical);
             HighscoreManager.Instance.UpdateMaxDamage(damage);
             DailyQuestManager.Instance.AddProgress(DailyQuestType.DealDamage, damage);
             DailyQuestManager.Instance.SetProgressIfHigher(DailyQuestType.SingleAttackDamage, damage);
@@ -108,6 +108,10 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         steps.Enqueue(next =>
         {
             EvaluateUpgradesPost(next);
+        });
+        steps.Enqueue(next =>
+        {
+            ArtifactManager.Instance.ApplyGravekeeperCritMultiplier(next);
         });
         steps.Enqueue(next =>
         {
