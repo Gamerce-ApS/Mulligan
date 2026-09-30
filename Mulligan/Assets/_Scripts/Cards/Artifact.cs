@@ -94,6 +94,9 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 counterText = ArtifactManager.Instance.GetGravekeeperCritMultiplier(ArtifactData)
                     .ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "";
                 break;
+            case ArtifactEffectType.ExplosiveArrow:
+                counterText = ArtifactManager.Instance.GetExplosiveArrowHunterAttacks(ArtifactData) + "/3";
+                break;
             default:
                 showCounter = false;
                 break;

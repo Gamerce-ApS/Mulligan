@@ -196,6 +196,8 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // Step 5: Total Damage move
         steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next));
 
+        steps.Enqueue(next => ArtifactManager.Instance.OnHunterDamageAdded(aCard, next));
+
 
         // Step 6: Add crit from upgrades
         if(aCard.GetUpgradeCritBonus()+ aCard.GetCritBonus() > 0  )

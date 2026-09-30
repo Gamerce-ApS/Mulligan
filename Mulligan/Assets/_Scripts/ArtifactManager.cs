@@ -16,6 +16,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
     private readonly Dictionary<ArtifactData, int> boneCollectorDestroyedUnits = new Dictionary<ArtifactData, int>();
     private readonly Dictionary<ArtifactData, int> gravekeeperUndeadRerolls = new Dictionary<ArtifactData, int>();
+    private readonly Dictionary<ArtifactData, int> explosiveArrowHunterAttacks = new Dictionary<ArtifactData, int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -164,6 +165,7 @@ public class ArtifactManager : Singleton<ArtifactManager>
     {
         boneCollectorDestroyedUnits.Remove(aArtifact.ArtifactData);
         gravekeeperUndeadRerolls.Remove(aArtifact.ArtifactData);
+        explosiveArrowHunterAttacks.Remove(aArtifact.ArtifactData);
         ActiveArtifacts.Remove(aArtifact.ArtifactData);
         Destroy(aArtifact.gameObject);
         SoundManager.TryPlay(SoundType.ArtifactSold);
@@ -228,6 +230,14 @@ public class ArtifactManager : Singleton<ArtifactManager>
         return 1f + rerolledUndead * multiplierStepInTenths * 0.1f;
     }
 
+    public int GetExplosiveArrowHunterAttacks(ArtifactData artifact)
+    {
+        if (artifact == null || artifact.effect != ArtifactEffectType.ExplosiveArrow)
+            return 0;
+
+        return explosiveArrowHunterAttacks.TryGetValue(artifact, out int amount) ? amount : 0;
+    }
+
     public void OnUnitsRerolled(List<CardInstance> rerolledCards)
     {
         if (rerolledCards == null || rerolledCards.Count == 0)
@@ -263,6 +273,79 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
         if (artifact.effect == ArtifactEffectType.CritMultiplierPerUndeadRerolled)
             gravekeeperUndeadRerolls[artifact] = 0;
+
+        if (artifact.effect == ArtifactEffectType.ExplosiveArrow)
+            explosiveArrowHunterAttacks[artifact] = 0;
+    }
+
+    public void OnHunterDamageAdded(CardInstance card, System.Action onComplete)
+    {
+        if (card == null || card.data == null || card.data.cardClass != CardClass.Archer)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        List<ArtifactData> explosiveArrows = ActiveArtifacts
+            .Where(artifact => artifact != null &&
+                               artifact.effect == ArtifactEffectType.ExplosiveArrow &&
+                               IsArtifactMutedByBoss(artifact) == false)
+            .ToList();
+
+        TriggerExplosiveArrow(explosiveArrows, 0, onComplete);
+    }
+
+    private void TriggerExplosiveArrow(List<ArtifactData> artifacts, int index, System.Action onComplete)
+    {
+        if (index >= artifacts.Count)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        const int attacksRequired = 3;
+        ArtifactData artifact = artifacts[index];
+        int attackCount = GetExplosiveArrowHunterAttacks(artifact) + 1;
+        bool dealsDamage = attackCount >= attacksRequired;
+        explosiveArrowHunterAttacks[artifact] = dealsDamage ? 0 : attackCount;
+
+        Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
+        if (visual != null)
+        {
+            visual.RefreshCounter();
+
+            CardRenderTextureCapture capture = CardRenderTextureCapture.Instance;
+            if (capture != null)
+                capture.PlayArtifactActivateVFXAtUI(visual.transform as RectTransform);
+        }
+
+        if (dealsDamage == false)
+        {
+            TriggerArtifact(artifact);
+            TriggerExplosiveArrow(artifacts, index + 1, onComplete);
+            return;
+        }
+
+        if (artifact.value <= 0)
+        {
+            TriggerExplosiveArrow(artifacts, index + 1, onComplete);
+            return;
+        }
+
+        if (visual == null)
+        {
+            UIManager.Instance.AddDamage(artifact.value);
+            TriggerExplosiveArrow(artifacts, index + 1, onComplete);
+            return;
+        }
+
+        visual.AddDamage(artifact.value, () =>
+        {
+            visual.AddToTotalDamage(() =>
+            {
+                TriggerExplosiveArrow(artifacts, index + 1, onComplete);
+            });
+        });
     }
 
     public bool IsArtifactMutedByBoss(ArtifactData artifact)

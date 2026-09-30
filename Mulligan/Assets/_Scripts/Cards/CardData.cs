@@ -59,6 +59,7 @@ public enum ArtifactEffectType
     WarriorPermanentAttackOnAttack = 27,
     ClericsInHandHealOnAttack = 28,
     CritMultiplierPerUndeadRerolled = 29,
+    ExplosiveArrow = 30,
 }
 public enum PotionEffectType
 {

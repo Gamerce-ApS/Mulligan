@@ -27,6 +27,9 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
     public float MergeSpritePixelsPerUnit = 100f;
     [Min(0f)] public float MergeVFXShowBeforeArrival = 0.2f;
 
+    [Header("Artifact Activate VFX")]
+    public GameObject ArtifactActivateVFX;
+
     [Header("Capture")]
     [Range(0, 31)] public int CaptureLayer = 31;
 
@@ -185,6 +188,16 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
             MergeCardVFX.SetActive(false);
     }
 
+    public void PlayArtifactActivateVFXAtUI(RectTransform target)
+    {
+        if (ArtifactActivateVFX == null || target == null)
+            return;
+
+        ArtifactActivateVFX.SetActive(false);
+        PositionVFX(ArtifactActivateVFX, target);
+        ArtifactActivateVFX.SetActive(true);
+    }
+
     private void LateUpdate()
     {
         if (mergeFollowCard == null || MergeCardVFX == null || MergeCardVFX.activeSelf == false)
@@ -302,6 +315,14 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
         if (vfx == null || card == null)
             return;
 
+        PositionVFX(vfx, card.rectTransform);
+    }
+
+    private void PositionVFX(GameObject vfx, RectTransform target)
+    {
+        if (vfx == null || target == null)
+            return;
+
         Camera worldCamera = VFXWorldCamera != null ? VFXWorldCamera : Camera.main;
         if (worldCamera == null)
         {
@@ -309,12 +330,12 @@ public class CardRenderTextureCapture : Singleton<CardRenderTextureCapture>
             return;
         }
 
-        Canvas cardCanvas = card.GetComponentInParent<Canvas>();
-        Camera uiCamera = cardCanvas != null && cardCanvas.renderMode != RenderMode.ScreenSpaceOverlay
-            ? cardCanvas.worldCamera
+        Canvas targetCanvas = target.GetComponentInParent<Canvas>();
+        Camera uiCamera = targetCanvas != null && targetCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+            ? targetCanvas.worldCamera
             : null;
 
-        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(uiCamera, card.rectTransform.position);
+        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(uiCamera, target.position);
         float worldDepth = worldCamera.WorldToScreenPoint(vfx.transform.position).z;
 
         if (worldDepth <= worldCamera.nearClipPlane)
