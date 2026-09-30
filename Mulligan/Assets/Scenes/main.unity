@@ -170576,6 +170576,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveArtifacts: []
+  TavernTalesDamageTargetOffset: {x: 0, y: -75}
+  TavernTalesBardShakeScale: 1.2
+  TavernTalesBardShakeDuration: 0.4
 --- !u!4 &1264652088
 Transform:
   m_ObjectHideFlags: 0

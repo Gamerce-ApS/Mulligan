@@ -129,8 +129,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         steps.Enqueue(next =>
         {
-            ArtifactManager.Instance.ApplyAttackStartEffects(attackingCards);
-            next();
+            ArtifactManager.Instance.ApplyAttackStartEffects(attackingCards, next);
         });
 
         // Step 1: Apply synergy crit

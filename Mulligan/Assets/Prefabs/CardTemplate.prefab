@@ -2151,7 +2151,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1229.3065, y: 14394.104}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 216.2766, y: 335.0267}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &697117858179336577
 CanvasRenderer:
@@ -2252,6 +2252,7 @@ MonoBehaviour:
     appliedUpgrades: []
     tempCritBonus: 0
     tempDamageBonus: 0
+    permanentDamageBonus: 0
     WillExplodeAfterAttack: 0
     IsFacelessThisTurn: 0
     isMuted: 0

@@ -8,6 +8,12 @@ using System.Linq;
 public class ArtifactManager : Singleton<ArtifactManager>
 {
     public List<ArtifactData> ActiveArtifacts = new List<ArtifactData>(5);
+
+    [Header("Tavern Tales VFX")]
+    public Vector2 TavernTalesDamageTargetOffset = Vector2.zero;
+    public float TavernTalesBardShakeScale = 1.15f;
+    public float TavernTalesBardShakeDuration = 0.4f;
+
     private readonly Dictionary<ArtifactData, int> boneCollectorDestroyedUnits = new Dictionary<ArtifactData, int>();
     // Start is called before the first frame update
     void Start()
@@ -267,10 +273,13 @@ public class ArtifactManager : Singleton<ArtifactManager>
             .ToList();
     }
 
-    public void ApplyAttackStartEffects(List<CardInstance> attackingCards)
+    public void ApplyAttackStartEffects(List<CardInstance> attackingCards, System.Action onComplete)
     {
         if (attackingCards == null || attackingCards.Count == 0)
+        {
+            onComplete?.Invoke();
             return;
+        }
 
         List<CardInstance> validAttackers = attackingCards
             .Where(card => card != null && card.data != null && card.isMuted == false)
@@ -278,38 +287,171 @@ public class ArtifactManager : Singleton<ArtifactManager>
             .ToList();
 
         if (validAttackers.Count == 0)
-            return;
-
-        foreach (var artifact in ActiveArtifacts)
         {
-            if (artifact == null || IsArtifactMutedByBoss(artifact))
-                continue;
+            onComplete?.Invoke();
+            return;
+        }
 
-            switch (artifact.effect)
+        List<ArtifactData> tavernTalesArtifacts = ActiveArtifacts
+            .Where(artifact => artifact != null &&
+                               artifact.effect == ArtifactEffectType.BardInHandAttackingUnitsPlusDamage &&
+                               IsArtifactMutedByBoss(artifact) == false &&
+                               artifact.value > 0)
+            .ToList();
+
+        List<CardInstance> bardsInHand = GetBardsKeptInHand(attackingCards);
+        int bonusPerBard = tavernTalesArtifacts.Sum(artifact => artifact.value);
+
+        if (tavernTalesArtifacts.Count == 0 || bardsInHand.Count == 0 || bonusPerBard <= 0)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        foreach (var artifact in tavernTalesArtifacts)
+            TriggerArtifact(artifact);
+
+        StartCoroutine(PlayTavernTalesBoost(
+            bardsInHand,
+            validAttackers,
+            bonusPerBard,
+            onComplete));
+    }
+
+    private IEnumerator PlayTavernTalesBoost(List<CardInstance> bardsInHand,
+        List<CardInstance> attackingCards, int bonusPerBard, System.Action onComplete)
+    {
+        const float popDuration = 0.2f;
+        const float flyDuration = 0.4f;
+        List<GameObject> damageNumbers = new List<GameObject>();
+        List<RectTransform> damageTargets = new List<RectTransform>();
+
+        foreach (var bard in bardsInHand)
+        {
+            if (bard.CardGO != null)
+                bard.CardGO.Shake(TavernTalesBardShakeScale, TavernTalesBardShakeDuration);
+        }
+
+        bool canAnimate = UIManager.Instance.DamageFloatPrefab != null &&
+                          UIManager.Instance.thCanvas != null;
+
+        if (canAnimate)
+        {
+            foreach (var bard in bardsInHand)
             {
-                case ArtifactEffectType.BardInHandAttackingUnitsPlusDamage:
+                if (bard.CardGO == null)
+                    continue;
+
+                foreach (var attacker in attackingCards)
                 {
-                    List<CardInstance> bardsInHand = GetBardsKeptInHand(HandManager.Instance.PlayedHand);
-                    int bardCount = bardsInHand.Count;
-                    int bonus = artifact.value * bardCount;
+                    if (attacker.CardGO == null)
+                        continue;
 
-                    if (bonus > 0)
+                    RectTransform target = attacker.CardGO.DamageLabel != null
+                        ? attacker.CardGO.DamageLabel.rectTransform
+                        : attacker.CardGO.rectTransform;
+                    GameObject damageNumber = Instantiate(
+                        UIManager.Instance.DamageFloatPrefab,
+                        bard.CardGO.transform.position,
+                        Quaternion.identity,
+                        UIManager.Instance.thCanvas.transform);
+
+                    TMPro.TMP_Text damageText = damageNumber.GetComponent<TMPro.TMP_Text>();
+                    if (damageText != null)
                     {
-                        foreach (var attacker in validAttackers)
-                            attacker.AddPermanentDamage(bonus);
-
-                        foreach (var bard in bardsInHand)
-                        {
-                            if (bard.CardGO != null)
-                                bard.CardGO.Shake();
-                        }
-
-                        TriggerArtifact(artifact);
+                        damageText.text = "+" + bonusPerBard;
+                        damageText.raycastTarget = false;
                     }
-                    break;
+
+                    damageNumber.transform.localScale = Vector3.zero;
+                    LeanTween.scale(damageNumber, Vector3.one * 1.15f, popDuration).setEaseOutBack();
+                    damageNumbers.Add(damageNumber);
+                    damageTargets.Add(target);
                 }
             }
         }
+
+        if (damageNumbers.Count > 0)
+        {
+            yield return new WaitForSeconds(popDuration);
+
+            for (int i = 0; i < damageNumbers.Count; i++)
+            {
+                if (damageNumbers[i] == null || damageTargets[i] == null)
+                    continue;
+
+                Vector3 targetPosition = GetPositionOnEffectCanvas(damageTargets[i]);
+                LeanTween.move(damageNumbers[i], targetPosition, flyDuration).setEaseInCubic();
+                LeanTween.scale(damageNumbers[i], Vector3.one * 0.7f, flyDuration).setEaseInCubic();
+            }
+
+            yield return new WaitForSeconds(flyDuration);
+
+            foreach (var damageNumber in damageNumbers)
+            {
+                if (damageNumber != null)
+                    Destroy(damageNumber);
+            }
+        }
+
+        int totalBonus = bonusPerBard * bardsInHand.Count;
+        foreach (var attacker in attackingCards)
+        {
+            attacker.AddPermanentDamage(totalBonus);
+
+            if (attacker.CardGO != null)
+                PulseDamageLabel(attacker.CardGO);
+        }
+
+        onComplete?.Invoke();
+    }
+
+    private Vector3 GetPositionOnEffectCanvas(RectTransform target)
+    {
+        if (target == null || UIManager.Instance.thCanvas == null)
+            return target != null ? target.position : Vector3.zero;
+
+        Canvas sourceCanvas = target.GetComponentInParent<Canvas>();
+        Camera sourceCamera = sourceCanvas != null && sourceCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+            ? sourceCanvas.worldCamera
+            : null;
+        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(sourceCamera, target.position);
+
+        Canvas effectCanvas = UIManager.Instance.thCanvas;
+        screenPosition += TavernTalesDamageTargetOffset * effectCanvas.scaleFactor;
+        RectTransform effectCanvasRect = effectCanvas.transform as RectTransform;
+        Camera effectCamera = effectCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+            ? effectCanvas.worldCamera
+            : null;
+
+        if (effectCanvasRect != null && RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                effectCanvasRect,
+                screenPosition,
+                effectCamera,
+                out Vector3 worldPosition))
+        {
+            return worldPosition;
+        }
+
+        return target.position;
+    }
+
+    private void PulseDamageLabel(Card card)
+    {
+        if (card == null || card.DamageLabel == null)
+            return;
+
+        GameObject labelObject = card.DamageLabel.gameObject;
+        Vector3 originalScale = labelObject.transform.localScale;
+        LeanTween.cancel(labelObject);
+        labelObject.transform.localScale = originalScale;
+        LeanTween.scale(labelObject, originalScale * 1.3f, 0.3f)
+            .setEasePunch()
+            .setOnComplete(() =>
+            {
+                if (labelObject != null)
+                    labelObject.transform.localScale = originalScale;
+            });
     }
 
     public void TriggerWaaaghForCard(CardInstance card)

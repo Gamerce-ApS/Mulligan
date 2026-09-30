@@ -529,6 +529,18 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             .setEasePunch();
     }
 
+    public void Shake(float scaleMultiplier, float duration)
+    {
+        Vector3 originalScale = transform.localScale;
+        LeanTween.scale(gameObject, originalScale * Mathf.Max(1f, scaleMultiplier), Mathf.Max(0.01f, duration))
+            .setEasePunch()
+            .setOnComplete(() =>
+            {
+                if (gameObject != null)
+                    transform.localScale = originalScale;
+            });
+    }
+
     public void PlayBoostAnimation( int damageAmount, Transform targetLabel, System.Action onComplete = null)
     {
         float delay =  0.0f; // spread delay per card
