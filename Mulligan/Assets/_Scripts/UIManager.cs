@@ -41,7 +41,10 @@ public class UIManager : Singleton<UIManager>
     public TMPro.TMP_Text GoldLabel;
     public GameObject SplashScreen;
     public GameObject BuyPopupWindow;
+    public IAP_PromotionPopup IapPromotionPopup;
     private Dictionary<RectTransform, Vector2> buyPopupItemPositions = new Dictionary<RectTransform, Vector2>();
+    private Vector2 buyPopupContentTargetPosition;
+    private bool hasBuyPopupContentTargetPosition = false;
     public List<IapPriceText> IapPriceTexts;
     private bool subscribedToIapInitialized = false;
     public GameObject AttackButton;
@@ -1141,19 +1144,57 @@ public class UIManager : Singleton<UIManager>
         GameAnalytics.NewDesignEvent("paywall:show");
         SubscribeToIapInitialized();
         UpdateIapPriceTexts();
+
+        if (IapPromotionPopup == null && BuyPopupWindow != null)
+            IapPromotionPopup = BuyPopupWindow.GetComponentInChildren<IAP_PromotionPopup>(true);
+
+        if (IapPromotionPopup != null)
+        {
+            if (IapPromotionPopup.transform.parent != BuyPopupWindow.transform)
+                IapPromotionPopup.transform.SetParent(BuyPopupWindow.transform, true);
+
+            IapPromotionPopup.Hide();
+        }
+
         BuyPopupWindow.SetActive(true);
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 0;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 1f, 0.25f).setEaseOutQuad();
 
+        if (IapPromotionPopup != null)
+            IapPromotionPopup.ShowBackground();
+
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
-        // Store the target position
-        Vector2 targetPos = g.GetComponent<RectTransform>().anchoredPosition;
+        RectTransform contentRect = g.GetComponent<RectTransform>();
+        LeanTween.cancel(g);
+
+        if (hasBuyPopupContentTargetPosition == false)
+        {
+            buyPopupContentTargetPosition = contentRect.anchoredPosition;
+            hasBuyPopupContentTargetPosition = true;
+        }
+
+        Vector2 targetPos = buyPopupContentTargetPosition;
+        contentRect.anchoredPosition = targetPos;
         PrepareBuyPopupItems(g.transform);
-        // Start below the screen
-        g.GetComponent<RectTransform>().anchoredPosition = new Vector2(targetPos.x, -Screen.height);
-        AnimateBuyPopupItemsIn(g.transform);
-        // Animate to its original position
-        LeanTween.move(g.GetComponent<RectTransform>(), targetPos, 0.5f).setEaseOutBack();
+
+        AnimateBuyPopupWindowIn(g, targetPos);
+    }
+
+    private void AnimateBuyPopupWindowIn(GameObject popupContent, Vector2 targetPosition)
+    {
+        if (popupContent == null || BuyPopupWindow == null || BuyPopupWindow.activeInHierarchy == false)
+            return;
+
+        RectTransform contentRect = popupContent.GetComponent<RectTransform>();
+        contentRect.anchoredPosition = new Vector2(targetPosition.x, -Screen.height);
+        AnimateBuyPopupItemsIn(popupContent.transform);
+        LeanTween.move(contentRect, targetPosition, 0.5f)
+            .setEaseOutBack()
+            .setOnComplete(() =>
+            {
+                if (IapPromotionPopup != null && BuyPopupWindow.activeInHierarchy)
+                    IapPromotionPopup.ShowBanner();
+            });
     }
 
     public void ClickClosePopupWindow()
@@ -1162,22 +1203,30 @@ public class UIManager : Singleton<UIManager>
         SoundManager.TryPlay(SoundType.WindowClose);
         GameAnalytics.NewDesignEvent("paywall:close");
         HideCardInfoPopup();
+
+        if (IapPromotionPopup != null)
+            IapPromotionPopup.Hide();
+
         BuyPopupWindow.GetComponent<CanvasGroup>().alpha = 1;
         LeanTween.alphaCanvas(BuyPopupWindow.GetComponent<CanvasGroup>(), 0f, 0.25f).setEaseInQuad();
         GameObject g = BuyPopupWindow.transform.GetChild(0).gameObject;
+        RectTransform contentRect = g.GetComponent<RectTransform>();
+        LeanTween.cancel(g);
 
         // Move downward off the screen
-        Vector2 hidePos = new Vector2(g.GetComponent<RectTransform>().anchoredPosition.x, -Screen.height);
-        Vector3 startPos = g.GetComponent<RectTransform>().anchoredPosition;
+        Vector2 targetPosition = hasBuyPopupContentTargetPosition
+            ? buyPopupContentTargetPosition
+            : contentRect.anchoredPosition;
+        Vector2 hidePos = new Vector2(targetPosition.x, -Screen.height);
 
         // Animate down
-        LeanTween.move(g.GetComponent<RectTransform>(), hidePos, 0.4f)
+        LeanTween.move(contentRect, hidePos, 0.4f)
             .setEaseInBack()
             .setOnComplete(() =>
             {
                 BuyPopupWindow.SetActive(false);
                 // g.SetActive(false);
-                g.GetComponent<RectTransform>().anchoredPosition = startPos;
+                contentRect.anchoredPosition = targetPosition;
             });
 
     }
@@ -1186,7 +1235,7 @@ public class UIManager : Singleton<UIManager>
     {
         foreach (Transform child in parent)
         {
-            if (child.name == "ignore")
+            if (ShouldIgnoreBuyPopupItem(child))
                 continue;
 
             RectTransform rect = child.GetComponent<RectTransform>();
@@ -1211,7 +1260,7 @@ public class UIManager : Singleton<UIManager>
         int index = 0;
         foreach (Transform child in parent)
         {
-            if (child.name == "ignore")
+            if (ShouldIgnoreBuyPopupItem(child))
                 continue;
 
             RectTransform rect = child.GetComponent<RectTransform>();
@@ -1239,6 +1288,17 @@ public class UIManager : Singleton<UIManager>
 
             index++;
         }
+    }
+
+    private bool ShouldIgnoreBuyPopupItem(Transform child)
+    {
+        if (child.name == "ignore")
+            return true;
+
+        if (IapPromotionPopup == null)
+            return false;
+
+        return child == IapPromotionPopup.transform || IapPromotionPopup.transform.IsChildOf(child);
     }
 
     public void UpdateIapPriceTexts()
