@@ -182,6 +182,11 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public string GetLocalizedPrice()
     {
+        return GetLocalizedPrice(1);
+    }
+
+    public string GetLocalizedPrice(int multiplier)
+    {
         if (!IsInitialized)
             return "...";
 
@@ -190,10 +195,15 @@ public class IAPManager : MonoBehaviour, IStoreListener
         if (product == null || product.metadata == null)
             return "...";
 
-        return product.metadata.localizedPriceString;
+        return FormatLocalizedPrice(product, multiplier);
     }
 
     public string GetLocalizedHeroPrice(int heroIndex)
+    {
+        return GetLocalizedHeroPrice(heroIndex, 1);
+    }
+
+    public string GetLocalizedHeroPrice(int heroIndex, int multiplier)
     {
         if (!IsInitialized)
             return "...";
@@ -203,7 +213,67 @@ public class IAPManager : MonoBehaviour, IStoreListener
         if (product == null || product.metadata == null)
             return "...";
 
-        return product.metadata.localizedPriceString;
+        return FormatLocalizedPrice(product, multiplier);
+    }
+
+    private string FormatLocalizedPrice(Product product, int multiplier)
+    {
+        string localizedPrice = product.metadata.localizedPriceString;
+        if (multiplier <= 1)
+            return FormatLocalizedPrice(localizedPrice);
+
+        int firstDigitIndex = -1;
+        int lastDigitIndex = -1;
+        for (int i = 0; i < localizedPrice.Length; i++)
+        {
+            if (char.IsDigit(localizedPrice[i]) == false)
+                continue;
+
+            if (firstDigitIndex < 0)
+                firstDigitIndex = i;
+
+            lastDigitIndex = i;
+        }
+
+        if (firstDigitIndex < 0 || lastDigitIndex < firstDigitIndex)
+            return FormatLocalizedPrice(localizedPrice);
+
+        string numberText = localizedPrice.Substring(firstDigitIndex, lastDigitIndex - firstDigitIndex + 1);
+        int decimalSeparatorIndex = Mathf.Max(numberText.LastIndexOf('.'), numberText.LastIndexOf(','));
+        int decimalPlaces = decimalSeparatorIndex >= 0 ? numberText.Length - decimalSeparatorIndex - 1 : 0;
+
+        decimal multipliedPrice = product.metadata.localizedPrice * multiplier;
+        string numberFormat = decimalPlaces > 0 ? "F" + decimalPlaces : "0";
+        string multipliedNumber = multipliedPrice.ToString(numberFormat, System.Globalization.CultureInfo.InvariantCulture);
+
+        if (decimalSeparatorIndex >= 0 && numberText[decimalSeparatorIndex] == ',')
+            multipliedNumber = multipliedNumber.Replace('.', ',');
+
+        string result = localizedPrice.Substring(0, firstDigitIndex) +
+                        multipliedNumber +
+                        localizedPrice.Substring(lastDigitIndex + 1);
+
+        return FormatLocalizedPrice(result);
+    }
+
+    private string FormatLocalizedPrice(string price)
+    {
+        if (string.IsNullOrEmpty(price))
+            return price;
+
+        int decimalSeparatorIndex = Mathf.Max(price.LastIndexOf('.'), price.LastIndexOf(','));
+        if (decimalSeparatorIndex < 0 || decimalSeparatorIndex + 2 >= price.Length)
+            return price;
+
+        bool hasEmptyDecimals = price[decimalSeparatorIndex + 1] == '0' &&
+                                price[decimalSeparatorIndex + 2] == '0';
+        bool decimalsEndThere = decimalSeparatorIndex + 3 == price.Length ||
+                                char.IsDigit(price[decimalSeparatorIndex + 3]) == false;
+
+        if (hasEmptyDecimals && decimalsEndThere)
+            return price.Remove(decimalSeparatorIndex, 3);
+
+        return price;
     }
 
     public void RestorePurchases()

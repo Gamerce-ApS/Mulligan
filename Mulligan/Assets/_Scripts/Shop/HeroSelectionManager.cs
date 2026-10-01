@@ -285,7 +285,7 @@ public class HeroSelectionManager : Singleton<HeroSelectionManager>
             return;
         }
 
-        UIManager.Instance.ClickBuyHero(selectedHero);
+        UIManager.Instance.ClickBuyPopupWindow();
     }
 
     public void RefreshBuyHeroButton()

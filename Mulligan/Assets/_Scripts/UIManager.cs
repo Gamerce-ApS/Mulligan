@@ -46,6 +46,7 @@ public class UIManager : Singleton<UIManager>
     private Vector2 buyPopupContentTargetPosition;
     private bool hasBuyPopupContentTargetPosition = false;
     public List<IapPriceText> IapPriceTexts;
+    public List<IapPriceText> IapPriceTextsFullPrice;
     private bool subscribedToIapInitialized = false;
     public GameObject AttackButton;
     public GameObject ReRollButton;
@@ -1303,18 +1304,27 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateIapPriceTexts()
     {
-        if (IapPriceTexts == null || IAPManager.Instance == null)
+        if (IAPManager.Instance == null)
             return;
 
-        foreach (IapPriceText priceText in IapPriceTexts)
+        UpdateIapPriceTextList(IapPriceTexts, 1);
+        UpdateIapPriceTextList(IapPriceTextsFullPrice, 2);
+    }
+
+    private void UpdateIapPriceTextList(List<IapPriceText> priceTexts, int multiplier)
+    {
+        if (priceTexts == null)
+            return;
+
+        foreach (IapPriceText priceText in priceTexts)
         {
             if (priceText == null || priceText.PriceLabel == null)
                 continue;
 
             if (priceText.IsFullGameUnlock)
-                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedPrice();
+                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedPrice(multiplier);
             else
-                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedHeroPrice(priceText.HeroIndex);
+                priceText.PriceLabel.text = IAPManager.Instance.GetLocalizedHeroPrice(priceText.HeroIndex, multiplier);
         }
     }
 
