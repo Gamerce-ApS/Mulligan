@@ -41,14 +41,13 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         NameLabel.color = UIManager.Instance.GetTextColor(aData.rarity);
 
         ArtifactData = aData;
-        Price = 6;
+        Price = CardContainer.Instance.GetShopPrice(ShopItemType.Artifact, (RarityType)aData.rarity);
         PotionData = null;
         RuneData = null;
 
+        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
-
-        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
 
         PriceLabel.text = Price.ToString();
     }
@@ -58,13 +57,13 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
 
         RuneData = aData;
-        Price = 12;
+        Price = CardContainer.Instance.GetShopPrice(ShopItemType.Rune, aData.rarity);
         PotionData = null;
         ArtifactData = null;
 
+        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
-        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
 
         PriceLabel.text = Price.ToString();
     }
@@ -76,10 +75,10 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         NameLabel.color = UIManager.Instance.GetTextColor((int)aData.rarity);
 
         PotionData = aData;
-        Price = 3;
+        Price = CardContainer.Instance.GetShopPrice(ShopItemType.Potion, (RarityType)aData.rarity);
+        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
         if (ShopManager.Instance.SetEverythingFreeNextRound)
             Price = 0;
-        Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
 
         PriceLabel.text = Price.ToString();
     }

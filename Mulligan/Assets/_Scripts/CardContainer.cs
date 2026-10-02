@@ -27,6 +27,7 @@ public class CardContainer : Singleton<CardContainer>
     public PotionCardData[] PotionDataList = null;
     public HeroData[] HeroDataList = null;
     public ArtifactData[] ArtifactDataList = null;
+    public ShopItemPriceData[] ShopPrices = null;
 
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
@@ -80,6 +81,7 @@ public class CardContainer : Singleton<CardContainer>
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
         ArtifactDataList = CardLoader.LoadAllCards().allArtifacts;
+        ShopPrices = CardLoader.LoadAllCards().ShopPrices;
 
         ExperiencePerKill = CardLoader.LoadAllCards().ExperiencePerKill;
         ExperienceToLevelUp = CardLoader.LoadAllCards().ExperienceToLevelUp;
@@ -487,6 +489,35 @@ public class CardContainer : Singleton<CardContainer>
         }
 
         return RarityType.Common;
+    }
+    public int GetShopPrice(ShopItemType type, RarityType rarity)
+    {
+        if (ShopPrices != null)
+        {
+            foreach (ShopItemPriceData shopPrice in ShopPrices)
+            {
+                if (shopPrice == null || string.Equals(shopPrice.type, type.ToString(), System.StringComparison.OrdinalIgnoreCase) == false)
+                    continue;
+
+                int priceIndex = type == ShopItemType.UnitUpgradePack ? 0 : (int)rarity;
+                if (shopPrice.prices != null && priceIndex >= 0 && priceIndex < shopPrice.prices.Length && shopPrice.prices[priceIndex] >= 0)
+                    return shopPrice.prices[priceIndex];
+            }
+        }
+
+        switch (type)
+        {
+            case ShopItemType.Artifact:
+                return 6;
+            case ShopItemType.Potion:
+                return 3;
+            case ShopItemType.Rune:
+                return 12;
+            case ShopItemType.UnitUpgradePack:
+                return 3;
+        }
+
+        return 0;
     }
     //public void FetchLiveEnemies()
     //{

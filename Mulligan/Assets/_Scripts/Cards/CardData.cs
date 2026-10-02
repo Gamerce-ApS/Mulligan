@@ -200,6 +200,20 @@ public enum RarityType
     Legendary = 3
 }
 [System.Serializable]
+public enum ShopItemType
+{
+    Artifact = 0,
+    Potion = 1,
+    Rune = 2,
+    UnitUpgradePack = 3
+}
+[System.Serializable]
+public class ShopItemPriceData
+{
+    public string type;
+    public int[] prices;
+}
+[System.Serializable]
 public class RaceData
 {
     public CardRace theRace;

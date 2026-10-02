@@ -56,7 +56,7 @@ public class ShopManager : Singleton<ShopManager>
 
             SpawnRandomShopItem();
             GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-            go.GetComponent<ShopCard>().Init(3);
+            go.GetComponent<ShopCard>().Init(CardContainer.Instance.GetShopPrice(ShopItemType.UnitUpgradePack, RarityType.Common));
         }
 
 
@@ -78,13 +78,13 @@ public class ShopManager : Singleton<ShopManager>
             {
                 tutorialShopHelpArmory = true;
                 GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-                go.GetComponent<ShopCard>().Init(3);
+                go.GetComponent<ShopCard>().Init(CardContainer.Instance.GetShopPrice(ShopItemType.UnitUpgradePack, RarityType.Common));
             }
 
             if (TutorialController.Instance.LastStepPlayed == "Step3_Potion")
             {
                 GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
-                go.GetComponent<ShopCard>().Init(3);
+                go.GetComponent<ShopCard>().Init(CardContainer.Instance.GetShopPrice(ShopItemType.UnitUpgradePack, RarityType.Common));
                 TutorialController.Instance.ShowStepById("Step4_Shop1");
                 tutorialShopHelp = true;
             }
@@ -143,7 +143,7 @@ RefreshPotionSlots();
         }else
         {
                 GameObject go = GameObject.Instantiate(UnitPackPrefab, PotionParent);
-            go.GetComponent<ShopCard>().Init(3);  
+            go.GetComponent<ShopCard>().Init(CardContainer.Instance.GetShopPrice(ShopItemType.UnitUpgradePack, RarityType.Common));
         
         }
 

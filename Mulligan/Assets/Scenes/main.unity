@@ -42628,7 +42628,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 487.6, y: 563.22}
+  m_AnchoredPosition: {x: 487.59998, y: 563.22}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &321580154
@@ -168286,6 +168286,7 @@ MonoBehaviour:
   PotionDataList: []
   HeroDataList: []
   ArtifactDataList: []
+  ShopPrices: []
   StatingGold: 0
   GoldGainPerLevel: 5
   GoldInflation: 1.2
@@ -316342,7 +316343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4adcfa1394949f291fae7b1dc2746b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonUrl: https://pbertilsson.se/Mulligan/V15/data.json
+  jsonUrl: https://pbertilsson.se/Mulligan/V16/data.json
   useLocalData: 0
   LoadingWindow: {fileID: 1234134291}
   LoadingLabel: {fileID: 401636138}
