@@ -175,6 +175,40 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
 
     }
+
+    public bool ReorderArtifact(ArtifactData artifact, int targetSlotIndex)
+    {
+        if (artifact == null || GameManager.Instance.TheHero == null)
+            return false;
+
+        int sourceIndex = ActiveArtifacts.IndexOf(artifact);
+        int unlockedSlots = GameManager.Instance.TheHero.myHeroData.ArtifactSlots;
+
+        if (sourceIndex < 0 || targetSlotIndex < 0 || targetSlotIndex >= unlockedSlots)
+            return false;
+
+        if (targetSlotIndex < ActiveArtifacts.Count)
+        {
+            if (sourceIndex == targetSlotIndex)
+                return false;
+
+            ArtifactData targetArtifact = ActiveArtifacts[targetSlotIndex];
+            ActiveArtifacts[targetSlotIndex] = artifact;
+            ActiveArtifacts[sourceIndex] = targetArtifact;
+        }
+        else
+        {
+            if (sourceIndex == ActiveArtifacts.Count - 1)
+                return false;
+
+            ActiveArtifacts.RemoveAt(sourceIndex);
+            ActiveArtifacts.Add(artifact);
+        }
+
+        UIManager.Instance.UpdateArtifactSlotsUI();
+        return true;
+    }
+
     public void AddArtifact(ArtifactData artifact)
     {
         if (artifact == null)

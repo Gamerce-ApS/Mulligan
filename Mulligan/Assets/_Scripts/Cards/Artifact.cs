@@ -11,6 +11,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Vector2 originalAnchoredPos;
     public bool isSelected = false;
     private bool isDragging = false;
+    private bool wasDragged = false;
     private float holdTimer = 0f;
     private bool isHolding = false;
     public ArtifactData ArtifactData;
@@ -133,7 +134,7 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if(isMuted)
         return;
-        if (isDragging) return;
+        if (isDragging || wasDragged) return;
 
         if (!isSelected)
         {
@@ -154,29 +155,31 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
- if(isMuted)
-        return;
+        if(isMuted)
+            return;
         if(isSelected)
             rectTransform.anchoredPosition = originalAnchoredPos;
 
 
         isDragging = true;
+        wasDragged = true;
         isSelected = false;
+        isHolding = false;
+        holdTimer = 0f;
+        UIManager.Instance.HideCardInfoPopup();
 
         originalAnchoredPos = rectTransform.anchoredPosition;
         if(ShopManager.Instance.ShopWindow.activeSelf)
             UIManager.Instance.SellItemArea.gameObject.SetActive(true);
     }
-    private bool IsOverSellSlot()
+    private bool IsOverSellSlot(PointerEventData eventData)
     {
         if(ShopManager.Instance.ShopWindow.activeSelf == false)
             return false;
-        if (RectTransformUtility.RectangleContainsScreenPoint(UIManager.Instance.SellItemArea, Input.mousePosition, Camera.main))
-        {
-            return true;
-        }
-
-        return false;
+        return RectTransformUtility.RectangleContainsScreenPoint(
+            UIManager.Instance.SellItemArea,
+            eventData.position,
+            eventData.pressEventCamera);
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -206,24 +209,40 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void OnEndDrag(PointerEventData eventData)
     {
- if(isMuted)
-        return;
+        if(isMuted || isDragging == false)
+            return;
+
+        isDragging = false;
+        UIManager.Instance.HideCardInfoPopup();
+
+        bool isOverSellSlot = IsOverSellSlot(eventData);
+        UIManager.Instance.SellItemArea.gameObject.SetActive(false);
+
+        if (isOverSellSlot)
         {
-            isDragging = false;
- 
-
-            rectTransform.anchoredPosition = originalAnchoredPos;
-
+            ArtifactManager.Instance.SellArtifact(this);
+            UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.artifact_sold", "Artifact sold!"));
+            return;
         }
 
+        int targetSlotIndex = UIManager.Instance.GetArtifactSlotIndexAtScreenPosition(
+            eventData.position,
+            eventData.pressEventCamera);
 
+        if (ArtifactManager.Instance.ReorderArtifact(ArtifactData, targetSlotIndex))
+        {
+            SoundManager.TryPlay(SoundType.CardMove);
+            VibrationsManager.TryVibrate(VibrationType.Tap);
+            return;
+        }
 
-
+        rectTransform.anchoredPosition = originalAnchoredPos;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         VibrationsManager.TryVibrate(VibrationType.Tap);
         SoundManager.TryPlay(SoundType.Tap);
+        wasDragged = false;
         isHolding = true;
         holdTimer = 0f;
     }
@@ -235,46 +254,25 @@ public class Artifact : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         isHolding = false;
         holdTimer = 0f;
-   
 
-        if(isDragging == false)
+        if(isDragging || wasDragged)
         {
-            if (UIManager.Instance.currentTransform == transform)
-            {
-                UIManager.Instance.HideCardInfoPopup();
-            }
-            else
-            {
-                UIManager.Instance.ShowCardInfoPopup(
-                     () => GetArtifactName(),
-                     () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
-                     () => "",
-                     transform);
-            }
+            UIManager.Instance.HideCardInfoPopup();
+            return;
+        }
+
+        if (UIManager.Instance.currentTransform == transform)
+        {
+            UIManager.Instance.HideCardInfoPopup();
         }
         else
         {
-            UIManager.Instance.HideCardInfoPopup();
-            UIManager.Instance.UpdateArtifactSlotsUI();
-
-
-            if (IsOverSellSlot())
-            {
-                ArtifactManager.Instance.SellArtifact(this); // Add logic here
-
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.artifact_sold", "Artifact sold!"));
-
-            }
-            else
-            {
-
-            }
-
-            UIManager.Instance.SellItemArea.gameObject.SetActive(false);
+            UIManager.Instance.ShowCardInfoPopup(
+                 () => GetArtifactName(),
+                 () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
+                 () => "",
+                 transform);
         }
-
-
-
     }
 
     private void RefreshLocalizedText()

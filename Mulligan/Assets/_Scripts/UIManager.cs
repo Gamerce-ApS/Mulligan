@@ -640,6 +640,30 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.TheHero.RefreshBar();
         RefreshArtifactCounters();
     }
+
+    public int GetArtifactSlotIndexAtScreenPosition(Vector2 screenPosition, Camera eventCamera)
+    {
+        if (ArtifactBackground == null || GameManager.Instance.TheHero == null)
+            return -1;
+
+        int unlockedSlots = Mathf.Min(
+            GameManager.Instance.TheHero.myHeroData.ArtifactSlots,
+            ArtifactBackground.Count);
+
+        for (int i = 0; i < unlockedSlots; i++)
+        {
+            GameObject background = ArtifactBackground[i];
+            if (background == null || background.activeInHierarchy == false)
+                continue;
+
+            RectTransform backgroundRect = background.GetComponent<RectTransform>();
+            if (backgroundRect != null && RectTransformUtility.RectangleContainsScreenPoint(backgroundRect, screenPosition, eventCamera))
+                return i;
+        }
+
+        return -1;
+    }
+
     public void RefreshArtifactCounters()
     {
         if (ArtifactSlotParent == null || ArtifactSlotTemplate == null)
