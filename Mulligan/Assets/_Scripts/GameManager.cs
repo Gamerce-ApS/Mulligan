@@ -63,6 +63,9 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.Init();
             SettingsManager.Instance.Init();
             UnitUpgradeManager.Instance.Init();
+            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>();
+            if (artifactPackManager != null)
+                artifactPackManager.Init();
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
             InventoryOverviewManager.Instance.Init();
@@ -503,6 +506,12 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.V))
         {
             UnitUpgradeManager.Instance.ShowWindow();
+        }
+        if (Input.GetKeyUp(KeyCode.B))
+        {
+            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>();
+            if (artifactPackManager != null)
+                artifactPackManager.ShowWindow();
         }
         if (Input.GetKeyUp(KeyCode.U))
         {

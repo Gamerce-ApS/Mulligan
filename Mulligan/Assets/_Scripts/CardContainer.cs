@@ -499,7 +499,7 @@ public class CardContainer : Singleton<CardContainer>
                 if (shopPrice == null || string.Equals(shopPrice.type, type.ToString(), System.StringComparison.OrdinalIgnoreCase) == false)
                     continue;
 
-                int priceIndex = type == ShopItemType.UnitUpgradePack ? 0 : (int)rarity;
+                int priceIndex = type == ShopItemType.UnitUpgradePack || type == ShopItemType.ArtifactPack ? 0 : (int)rarity;
                 if (shopPrice.prices != null && priceIndex >= 0 && priceIndex < shopPrice.prices.Length && shopPrice.prices[priceIndex] >= 0)
                     return shopPrice.prices[priceIndex];
             }
@@ -515,6 +515,8 @@ public class CardContainer : Singleton<CardContainer>
                 return 12;
             case ShopItemType.UnitUpgradePack:
                 return 3;
+            case ShopItemType.ArtifactPack:
+                return 6;
         }
 
         return 0;

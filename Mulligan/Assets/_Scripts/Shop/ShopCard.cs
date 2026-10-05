@@ -25,6 +25,12 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public TMPro.TMP_Text PriceLabel;
     public TMPro.TMP_Text NameLabel;
     public bool CanBeDraged = true;
+    public bool HoldToShowInfo = false;
+    public float HoldInfoDuration = 0.5f;
+    public ShopItemType PackType = ShopItemType.UnitUpgradePack;
+    public System.Action<ShopCard> OnClick;
+    private bool longPressTriggered = false;
+    private Vector2 pointerDownPosition;
 
     private void OnEnable()
     {
@@ -84,10 +90,22 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void Init(int aCost)
     {
+        Init(aCost, ShopItemType.UnitUpgradePack);
+    }
+
+    public void Init(int aCost, ShopItemType packType)
+    {
         // NameLabel.text = "Army Upgrade";
         ArtifactData = null;
         PotionData = null;
         RuneData = null;
+        PackType = packType;
+        if (NameLabel != null)
+        {
+            NameLabel.text = packType == ShopItemType.ArtifactPack
+                ? LocalizationService.Get("ui.shop.artifact_pack", "Artifact Pack")
+                : LocalizationService.Get("ui.shop.unit_upgrade_pack", "Unit Upgrade Pack");
+        }
         Price = aCost;
         Price = (int)(Price * (1-GameManager.Instance.MarketDiscountModifier));
         if (ShopManager.Instance.SetEverythingFreeNextRound)
@@ -155,13 +173,27 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         bool slotFull = false;
         if(ArtifactData != null && ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
             slotFull = true;
+        if(ArtifactData == null && PotionData == null && RuneData == null && PackType == ShopItemType.ArtifactPack &&
+           ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
+            slotFull = true;
         if(PotionData != null && PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
             slotFull = true;
      if(RuneData != null && RuneManager.Instance.ActiveRunes.Count >= 6)
             slotFull = true;
 
+        bool noArtifactChoices = ArtifactData == null && PotionData == null && RuneData == null &&
+                                 PackType == ShopItemType.ArtifactPack &&
+                                 ArtifactManager.Instance.HasAvailableArtifactChoices() == false;
+        ArtifactPackManager artifactPackManager = null;
+        bool artifactPackMissing = false;
+        if (ArtifactData == null && PotionData == null && RuneData == null && PackType == ShopItemType.ArtifactPack)
+        {
+            artifactPackManager = FindObjectOfType<ArtifactPackManager>();
+            artifactPackMissing = artifactPackManager == null || artifactPackManager.IsConfigured == false;
+        }
 
-        if (IsOverSellSlot() && slotFull == false)
+
+        if (IsOverSellSlot() && slotFull == false && noArtifactChoices == false && artifactPackMissing == false)
         {
             if (GameData.CurrentGold >= Price)
             {
@@ -176,6 +208,10 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     PotionManager.Instance.AddPotion(PotionData); // Add logic here
                 else if (RuneData != null)
                     RuneManager.Instance.AddRune(RuneData); // Add logic here
+                else if (PackType == ShopItemType.ArtifactPack)
+                {
+                    artifactPackManager.ShowWindow();
+                }
                 else
                 {
                     UnitUpgradeManager.Instance.ShowWindow();
@@ -194,11 +230,11 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
-            if( ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
-            else if( PotionManager.Instance.ActivePotions.Count >= GameManager.Instance.TheHero.myHeroData.PotionSlots)
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
-            else if( RuneManager.Instance.ActiveRunes.Count >= 6)
+            if (noArtifactChoices)
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_artifacts_available", "No Artifacts available!"));
+            else if (artifactPackMissing)
+                Debug.LogWarning("Artifact Pack purchase needs a configured ArtifactPackManager in the scene.");
+            else if(slotFull)
                 UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
             SoundManager.TryPlay(SoundType.ShopItemDropCancel);
             ReturnToShop();
@@ -224,7 +260,13 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isDragging) return;
+        if (isDragging || longPressTriggered) return;
+
+        if (OnClick != null)
+        {
+            OnClick(this);
+            return;
+        }
 
         if (!isSelected)
         {
@@ -254,6 +296,17 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             }
             else
             {
+                if (PackType == ShopItemType.ArtifactPack)
+                {
+                    UIManager.Instance.ShowCardInfoPopup(
+                               () => LocalizationService.Get("ui.shop.artifact_pack", "Artifact Pack"),
+                               () => LocalizationService.Get("ui.shop.artifact_pack_description", "Choose one of three random Artifacts"),
+                               () => "",
+                               transform);
+                    isSelected = true;
+                    return;
+                }
+
                 UIManager.Instance.ShowCardInfoPopup(
                            () => LocalizationService.Get("ui.shop.unit_upgrade_pack", "Unit Upgrade Pack"),
                            () => LocalizationService.Get("ui.shop.unit_upgrade_pack_description", "Allows you to upgrade your units with Charms, Enchantments or Rank up"),
@@ -274,7 +327,51 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     void Update()
     {
+        if (HoldToShowInfo == false || isHolding == false || isDragging)
+            return;
 
+        if (Vector2.Distance(pointerDownPosition, Input.mousePosition) > 10f)
+        {
+            isHolding = false;
+            holdTimer = 0f;
+            return;
+        }
+
+        holdTimer += Time.deltaTime;
+        if (holdTimer < HoldInfoDuration)
+            return;
+
+        isHolding = false;
+        longPressTriggered = true;
+        ShowCurrentInfo();
+    }
+
+    private void ShowCurrentInfo()
+    {
+        if (ArtifactData != null)
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                () => LocalizedContent.ArtifactName(ArtifactData),
+                () => LocalizedContent.ArtifactDescription(ArtifactData) + ArtifactData.GetRarityText(),
+                () => "",
+                transform);
+        }
+        else if (PotionData != null)
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                () => LocalizedContent.PotionName(PotionData),
+                () => LocalizedContent.PotionDescription(PotionData) + PotionData.GetRarityText(),
+                () => "",
+                transform);
+        }
+        else if (RuneData != null)
+        {
+            UIManager.Instance.ShowCardInfoPopup(
+                () => LocalizedContent.RuneName(RuneData),
+                () => LocalizedContent.RuneDescription(RuneData) + RuneData.GetRarityText(),
+                () => "",
+                transform);
+        }
     }
 
     private void RefreshLocalizedText()
@@ -288,20 +385,30 @@ public class ShopCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             NameLabel.text = LocalizedContent.PotionName(PotionData);
         else if (RuneData != null)
             NameLabel.text = LocalizedContent.RuneName(RuneData);
+        else if (PackType == ShopItemType.ArtifactPack)
+            NameLabel.text = LocalizationService.Get("ui.shop.artifact_pack", "Artifact Pack");
+        else
+            NameLabel.text = LocalizationService.Get("ui.shop.unit_upgrade_pack", "Unit Upgrade Pack");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         VibrationsManager.TryVibrate(VibrationType.Tap);
         SoundManager.TryPlay(SoundType.Tap);
+        longPressTriggered = false;
         isHolding = true;
         holdTimer = 0f;
+        pointerDownPosition = eventData.position;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isHolding = false;
         holdTimer = 0f;
+
+        if (HoldToShowInfo)
+            return;
+
         UIManager.Instance.HideCardInfoPopup();
     }
 }

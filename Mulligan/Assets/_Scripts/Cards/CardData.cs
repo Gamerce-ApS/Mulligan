@@ -205,7 +205,8 @@ public enum ShopItemType
     Artifact = 0,
     Potion = 1,
     Rune = 2,
-    UnitUpgradePack = 3
+    UnitUpgradePack = 3,
+    ArtifactPack = 4
 }
 [System.Serializable]
 public class ShopItemPriceData

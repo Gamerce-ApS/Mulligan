@@ -8,11 +8,16 @@ public class ShopManager : Singleton<ShopManager>
     public GameObject PotionPrefab;
     public GameObject ArtifactPrefab;
     public GameObject UnitPackPrefab;
+    public GameObject ArtifactPackPrefab;
+    
 
     public Transform RuneParent;
     public Transform ArtifactParent;
     public Transform PotionParent;
     public Transform UnitPackParent;
+    public Transform ArtifactPackParent;
+
+    
 
     public GameObject HeroRunePrefab;
     public Transform HeroRuneParent;
@@ -57,6 +62,7 @@ public class ShopManager : Singleton<ShopManager>
             SpawnRandomShopItem();
             GameObject go = GameObject.Instantiate(UnitPackPrefab, UnitPackParent);
             go.GetComponent<ShopCard>().Init(CardContainer.Instance.GetShopPrice(ShopItemType.UnitUpgradePack, RarityType.Common));
+            SpawnArtifactPack();
         }
 
 
@@ -164,6 +170,17 @@ RefreshPotionSlots();
         aParent = RuneParent;
         GameObject go = GameObject.Instantiate(RunePrefab, aParent);
         go.GetComponent<ShopCard>().Init(rune);
+    }
+
+    private void SpawnArtifactPack()
+    {
+        if (ArtifactPackPrefab == null || UnitPackParent == null)
+            return;
+
+        GameObject go = GameObject.Instantiate(ArtifactPackPrefab, ArtifactPackParent);
+        go.GetComponent<ShopCard>().Init(
+            CardContainer.Instance.GetShopPrice(ShopItemType.ArtifactPack, RarityType.Common),
+            ShopItemType.ArtifactPack);
     }
 
     public void RefreshArtifactSlots()
@@ -281,6 +298,7 @@ RefreshPotionSlots();
         RuneParent.DestroyAllChildren();
         PotionParent.DestroyAllChildren();
         HeroRuneParent.DestroyAllChildren();
+        ArtifactPackParent.DestroyAllChildren();
     }
     // Start is called before the first frame update
     void Start()

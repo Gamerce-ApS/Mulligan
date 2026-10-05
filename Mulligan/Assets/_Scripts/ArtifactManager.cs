@@ -118,6 +118,44 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
         return selected;
     }
+
+    public bool HasAvailableArtifactChoices()
+    {
+        return GetAvailableArtifactChoices().Count > 0;
+    }
+
+    public List<ArtifactData> GetRandomArtifactChoices(int amount)
+    {
+        List<ArtifactData> choices = new List<ArtifactData>();
+        if (amount <= 0)
+            return choices;
+
+        List<ArtifactData> available = GetAvailableArtifactChoices();
+        while (choices.Count < amount && available.Count > 0)
+        {
+            ArtifactData selected = PickArtifactByRarity(available);
+            if (selected == null)
+                break;
+
+            DailyQuestManager.Instance.RollUnlockedRaceForArtifact(selected);
+            choices.Add(selected);
+            available.Remove(selected);
+        }
+
+        return choices;
+    }
+
+    private List<ArtifactData> GetAvailableArtifactChoices()
+    {
+        List<ArtifactData> unlockedArtifacts = CardContainer.Instance.GetUnlockedArtifacts();
+        if (unlockedArtifacts == null)
+            return new List<ArtifactData>();
+
+        return unlockedArtifacts
+            .Where(artifact => artifact != null && ActiveArtifacts.Contains(artifact) == false)
+            .ToList();
+    }
+
     public void AddArtifact(ArtifactEffectType aType)
     {
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
@@ -211,12 +249,18 @@ public class ArtifactManager : Singleton<ArtifactManager>
 
     public void AddArtifact(ArtifactData artifact)
     {
+        AddArtifact(artifact, true);
+    }
+
+    public void AddArtifact(ArtifactData artifact, bool rollUnlockedRace)
+    {
         if (artifact == null)
             return;
 
         if (ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots) return;
 
-        DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
+        if (rollUnlockedRace)
+            DailyQuestManager.Instance.RollUnlockedRaceForArtifact(artifact);
         AddActiveArtifact(artifact);
         SoundManager.TryPlay(SoundType.ArtifactObtained);
         UIManager.Instance.UpdateArtifactSlotsUI(); // updates visuals
