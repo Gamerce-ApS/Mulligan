@@ -234,7 +234,7 @@ public class GameManager : Singleton<GameManager>
             GameData.FirstBossCompletedThisRun = 1;
             PlayerPrefs.Save();
         }
-        GameData.CurrentGold = Mathf.RoundToInt(((float)GameData.CurrentGold * CardContainer.Instance.GoldInflation)); //TODO. Interest is based on even numbers.
+        ApplyGoldInterest();
         int goldGained = 0;
         if (GameData.CurrentRound % 4 == 0)
         {
@@ -635,6 +635,20 @@ public class GameManager : Singleton<GameManager>
         SoundManager.TryPlay(SoundType.Gold);
         DailyQuestManager.Instance.AddProgress(DailyQuestType.EarnGold, aValue);
     }
+
+    private int ApplyGoldInterest()
+    {
+        int goldBefore = GameData.CurrentGold;
+        int uncappedTotal = Mathf.RoundToInt(goldBefore * CardContainer.Instance.GoldInflation);
+        int interestGained = uncappedTotal - goldBefore;
+
+        if (interestGained > 0 && CardContainer.Instance.GoldInterestCap > 0)
+            interestGained = Mathf.Min(interestGained, CardContainer.Instance.GoldInterestCap);
+
+        GameData.CurrentGold = goldBefore + interestGained;
+        return interestGained;
+    }
+
     public void DisableBossDebuffForTurn()
     {
         GameData.BossDebuffDisabledThisTurn = 1;

@@ -32,6 +32,7 @@ public class CardContainer : Singleton<CardContainer>
     public int StatingGold = 0;
     public int GoldGainPerLevel = 5;
     public float GoldInflation = 1.2f;
+    public int GoldInterestCap = 0;
     public int EnemyBaseHealth = 0;
     public int EnemyBaseDamage = 0;
     public float GrowthRate = 0.1f;
@@ -72,6 +73,7 @@ public class CardContainer : Singleton<CardContainer>
         StatingGold = CardLoader.LoadAllCards().StatingGold;
         GoldGainPerLevel = CardLoader.LoadAllCards().GoldGainPerLevel;
         GoldInflation = CardLoader.LoadAllCards().GoldInflation;
+        GoldInterestCap = CardLoader.LoadAllCards().GoldInterestCap;
         EnemyBaseHealth = CardLoader.LoadAllCards().EnemyBaseHealth;
         EnemyBaseDamage = CardLoader.LoadAllCards().EnemyBaseDamage;
         GrowthRate = CardLoader.LoadAllCards().GrowthRate;
