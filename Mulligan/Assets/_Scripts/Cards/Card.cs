@@ -702,8 +702,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         int TotalDamage = 0;
         TotalDamage = EvaluatorManager.Instance.GetEffectiveAttack(cardInstance);
-        int synergyBonus = EvaluatorManager.Instance.GetSynergyDamage(cardInstance, HandManager.Instance.PlayedHand,false,false);
-        TotalDamage += synergyBonus;
         TotalDamage+=EvaluatorManager.Instance.GetArtifactBonusDamage(cardInstance);
 
 

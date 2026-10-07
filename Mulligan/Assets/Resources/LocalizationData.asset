@@ -5086,34 +5086,34 @@ MonoBehaviour:
   - TextID: ui.synergy.description
     Texts:
     - Language: English
-      Text: '2 units: 2X damage
+      Text: '2-3 matching units: +1 Crit
 
 
-        4 units: 3X Critical'
+        4 matching units: +4 Crit'
     - Language: Spanish
-      Text: "2 unidades: 2X Da\xF1o\n\n4 unidades: 3X Crit"
+      Text: "2-3 unidades iguales: +1 Crit\n\n4 unidades iguales: +4 Crit"
     - Language: Swedish
-      Text: '2 enheter: 2X skada
+      Text: '2-3 matchande enheter: +1 Crit
 
 
-        4 enheter: 3X Crit'
+        4 matchande enheter: +4 Crit'
     - Language: Danish
-      Text: '2 Enheder: 2X Skade
+      Text: '2-3 matchende enheder: +1 Crit
 
 
-        4 Enheder: 3X Crit'
+        4 matchende enheder: +4 Crit'
     - Language: German
-      Text: '2 Units: 2X Schaden
+      Text: '2-3 gleiche Einheiten: +1 Crit
 
 
-        4 Units: 3X Crit'
+        4 gleiche Einheiten: +4 Crit'
     - Language: French
-      Text: "2 Unit\xE9s: 2X D\xE9g\xE2ts\n\n4 Unit\xE9s: 3X Crit"
+      Text: "2-3 unit\xE9s identiques : +1 Crit\n\n4 unit\xE9s identiques : +4 Crit"
     - Language: Portuguese (Brazil)
-      Text: '2 Unidades: 2X Dano
+      Text: '2-3 unidades iguais: +1 Crit
 
 
-        4 Unidades: 3X Crit'
+        4 unidades iguais: +4 Crit'
   - TextID: ui.synergy.title
     Texts:
     - Language: English

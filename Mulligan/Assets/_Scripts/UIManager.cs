@@ -331,40 +331,24 @@ public class UIManager : Singleton<UIManager>
             }).setOnComplete(onComplete);
     }
     public GameObject SynergiTemplate;
+    public float StrongSynergyGlowScale = 1.5f;
     public void RefreshPreDamage()
     {
-        Dictionary<CardRace, int> raceCounts = new();
-        Dictionary<CardClass, int> classCounts = new();
         List<CardInstance> selectedCards = new List<CardInstance>();
         foreach (var cardInstance in HandManager.Instance.CurrentHand)
         {
             if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected) continue;
             selectedCards.Add(cardInstance);
-            var data = cardInstance.data;
-
-            if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
-            raceCounts[data.race]++;
-
-            if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
-            classCounts[data.cardClass]++;
         }
 
 
         int totalDmg;
-        List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(selectedCards, out totalDmg);
+        List<CardInstance> attackingCards = EvaluatorManager.Instance.EvaluateHand(selectedCards, out totalDmg);
         int tavernTalesBonus = ArtifactManager.Instance.GetTavernTalesBonus(selectedCards);
         totalDmg = 0;
 
-        foreach (var card in boostedCards)
-        {
+        foreach (var card in attackingCards)
             totalDmg += EvaluatorManager.Instance.GetEffectiveAttack(card, tavernTalesBonus);
-            totalDmg += EvaluatorManager.Instance.GetSynergyDamage(
-                card,
-                selectedCards,
-                false,
-                true,
-                tavernTalesBonus);
-        }
 
         TMPro.TMP_Text text = DamageLabel.GetComponent<TMPro.TMP_Text>();
         int prevValue = int.Parse(text.text);
@@ -398,67 +382,24 @@ public class UIManager : Singleton<UIManager>
             }
         }
 
-        // 2. Count synergies from selected cards
-        Dictionary<CardRace, int> raceCounts = new();
-        Dictionary<CardClass, int> classCounts = new();
-
-        foreach (var cardInstance in HandManager.Instance.CurrentHand)
-        {
-            if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected) continue;
-
-            var data = cardInstance.data;
-            if (cardInstance.GetIsAnyClass())
-            {
-
-            }
-            else
-            {
-                if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
-                classCounts[data.cardClass]++;
-            }
-
-            if (cardInstance.GetIsAnyRace())
-            {
-
-            }
-            else
-            {
-                if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
-                raceCounts[data.race]++;
-            }
-        }
+        List<CardInstance> selectedCards = new List<CardInstance>();
         foreach (var cardInstance in HandManager.Instance.CurrentHand)
         {
             if (cardInstance.CardGO == null || !cardInstance.CardGO.isSelected)
                 continue;
 
-            if (cardInstance.GetIsAnyRace())
-            {
-                // ✅ Safe: iterate over a copy of the keys
-                foreach (var key in raceCounts.Keys.ToList())
-                {
-                    raceCounts[key]++;
-                }
-            }
-
-            if (cardInstance.GetIsAnyClass())
-            {
-                foreach (var key in classCounts.Keys.ToList())
-                {
-                    classCounts[key]++;
-                }
-            }
+            selectedCards.Add(cardInstance);
         }
 
-
+        SynergyEvaluationResult synergies = EvaluatorManager.Instance.EvaluateSynergies(selectedCards);
 
         // 3. Create UI items for each synergy
-        foreach (var kvp in raceCounts)
+        foreach (var kvp in synergies.RaceCounts)
         {
             CreateSynergyItem($"Race: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForRace(kvp.Key), true);
         }
 
-        foreach (var kvp in classCounts)
+        foreach (var kvp in synergies.ClassCounts)
         {
             CreateSynergyItem($"Class: {kvp.Key}", kvp.Value, 4, CardContainer.Instance.GetSpriteForClass(kvp.Key), false);
         }
@@ -505,16 +446,16 @@ public class UIManager : Singleton<UIManager>
 
         countText.text = displayText;
 
-        // Highlight if full synergy (2 or 4)
-        bool isFull = (count == 2 || count >= 4);
-        if (isFull)
+        bool isActive = count >= 2;
+        bool isStrong = count >= 4;
+        if (isActive)
         {
             countText.color = new Color(1f, 0.84f, 0.2f); // Gold color
 
             // Scale pulse
             Vector3 originalScale = SynergiTemplate.transform.localScale;
             item.transform.localScale = originalScale;
-            LeanTween.scale(item, originalScale * 1.3f, 0.5f).setEasePunch();
+            LeanTween.scale(item, originalScale * (isStrong ? 1.5f : 1.3f), 0.5f).setEasePunch();
 
             // Enable glow
             var glow = item.transform.Find("Glow");
@@ -523,6 +464,8 @@ public class UIManager : Singleton<UIManager>
             if (glow != null)
             {
                 glow.gameObject.SetActive(true);
+                if (isStrong)
+                    glow.localScale *= StrongSynergyGlowScale;
                 CanvasGroup cg = glow.GetComponent<CanvasGroup>() ?? glow.gameObject.AddComponent<CanvasGroup>();
                 cg.alpha = 0;
                 LeanTween.alphaCanvas(cg, 1f, 0.3f).setEaseOutCubic();
@@ -1052,7 +995,7 @@ public class UIManager : Singleton<UIManager>
         {
             UIManager.Instance.ShowCardInfoPopup(
                 () => LocalizationService.Get("ui.synergy.title", "Synergies"),
-                () => LocalizationService.Get("ui.synergy.description", "2 units: 2X damage \n\n4 units: 3X Critical"),
+                () => LocalizationService.Get("ui.synergy.description", "2-3 matching units: +1 Crit\n\n4 matching units: +4 Crit"),
                 () => "",
                 SynergiButtonInfo);
         }

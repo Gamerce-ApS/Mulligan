@@ -105,7 +105,7 @@ public static class LocalizationDefaultTexts
         yield return new LocalizationSourceText("ui.hero.potion_slots", "<color={0}>Potion Slots:</color> {1}");
         yield return new LocalizationSourceText("ui.hero.starting_gold", "<color={0}>Starting Gold:</color> {1}");
         yield return new LocalizationSourceText("ui.synergy.title", "Synergies");
-        yield return new LocalizationSourceText("ui.synergy.description", "2 units: 2X damage\n\n4 units: 3X Critical");
+        yield return new LocalizationSourceText("ui.synergy.description", "2-3 matching units: +1 Crit\n\n4 matching units: +4 Crit");
         yield return new LocalizationSourceText("ui.runes.title", "Hero Runes");
         yield return new LocalizationSourceText("ui.victory.message_0", "- You did great!");
         yield return new LocalizationSourceText("ui.victory.message_1", "- Victory is yours!");

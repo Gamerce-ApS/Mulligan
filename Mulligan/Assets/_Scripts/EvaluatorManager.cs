@@ -10,6 +10,13 @@ public class RoundRewardResult
     public int HealthGained = 0;
 }
 
+public class SynergyEvaluationResult
+{
+    public Dictionary<CardRace, int> RaceCounts = new Dictionary<CardRace, int>();
+    public Dictionary<CardClass, int> ClassCounts = new Dictionary<CardClass, int>();
+    public int TotalCritBonus = 0;
+}
+
 public class EvaluatorManager  : Singleton<EvaluatorManager>
 {
     // Start is called before the first frame update
@@ -139,9 +146,26 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         // Step 1: Apply synergy crit
         steps.Enqueue(next =>
         {
-            int synergyCritBonus = GetGlobalCritMultiplier(HandManager.Instance.PlayedHand);
-            UIManager.Instance.AddCritical(synergyCritBonus);
-            LeanTween.delayedCall(gameObject, 1.0f, next); // ✅ continue the sequence
+            SynergyEvaluationResult synergies = EvaluateSynergies(attackingCards);
+            foreach (var race in synergies.RaceCounts)
+            {
+                if (GetSynergyCritBonus(race.Value) > 0)
+                    UIManager.Instance.PulseSynergyItem(race.Key.ToString(), true);
+            }
+            foreach (var cardClass in synergies.ClassCounts)
+            {
+                if (GetSynergyCritBonus(cardClass.Value) > 0)
+                    UIManager.Instance.PulseSynergyItem(cardClass.Key.ToString(), true);
+            }
+
+            if (synergies.TotalCritBonus <= 0)
+            {
+                next();
+                return;
+            }
+
+            UIManager.Instance.AddCritical(synergies.TotalCritBonus);
+            LeanTween.delayedCall(gameObject, 1.0f, next);
         });
 
         // Step 2: Apply artifacts
@@ -179,13 +203,6 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
 
         // Step 2.5: Card Bonuses damage
         //steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamageBonus(), next));
-
-        // Step 3: Synergy Damage Bonuses
-        steps.Enqueue(next => {
-            int synergyBonus = GetSynergyDamage(aCard,HandManager.Instance.PlayedHand,true);
-            aCard.CardGO.AddDamage(synergyBonus, next,false,false,false, GetSynergyIconForCard(aCard, HandManager.Instance.PlayedHand) );
-
-        });
 
         // Step 4: Artifact Bonuses (currently 0)
         steps.Enqueue(next => EvaluateArtifactsForCard(aCard, next));
@@ -316,61 +333,74 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     }
     public List<CardInstance> EvaluateHand(List<CardInstance> playedCards, out int totalDamage)
     {
-        Dictionary<CardRace, int> raceCounts = new Dictionary<CardRace, int>();
-        Dictionary<CardClass, int> classCounts = new Dictionary<CardClass, int>();
-        List<CardInstance> boosted = new List<CardInstance>();
-
         totalDamage = 0;
+        List<CardInstance> attackingCards = new List<CardInstance>();
 
-        foreach (var card in playedCards)
+        if (playedCards == null)
+            return attackingCards;
+
+        foreach (CardInstance card in playedCards)
         {
-            var data = card.data;
+            if (card == null || card.data == null || card.isMuted)
+                continue;
 
-            if (!raceCounts.ContainsKey(data.race)) raceCounts[data.race] = 0;
-
-            if(card.GetIsAnyRace() == false && card.isMuted == false)
-            raceCounts[data.race]++;
-
-            if (!classCounts.ContainsKey(data.cardClass)) classCounts[data.cardClass] = 0;
-
-            if (card.GetIsAnyClass() == false && card.isMuted == false)
-                classCounts[data.cardClass]++;
-
-        }
-        foreach (var cardInstance in playedCards)
-        {
-            if (cardInstance.GetIsAnyRace() && cardInstance.isMuted == false)
-            {
-                // ✅ Safe: iterate over a copy of the keys
-                foreach (var key in raceCounts.Keys.ToList())
-                {
-                    raceCounts[key]++;
-                }
-            }
-            if (cardInstance.GetIsAnyClass() && cardInstance.isMuted == false)
-            {
-                foreach (var key in classCounts.Keys.ToList())
-                {
-                    classCounts[key]++;
-                }
-            }
+            attackingCards.Add(card);
+            totalDamage += GetEffectiveAttack(card);
         }
 
+        return attackingCards;
+    }
 
-        foreach (var card in playedCards)
+    public SynergyEvaluationResult EvaluateSynergies(List<CardInstance> cards)
+    {
+        SynergyEvaluationResult result = new SynergyEvaluationResult();
+        if (cards == null)
+            return result;
+
+        List<CardInstance> validCards = cards
+            .Where(card => card != null && card.data != null && card.isMuted == false)
+            .ToList();
+
+        foreach (CardInstance card in validCards)
         {
-            var data = card.data;
+            if (!result.RaceCounts.ContainsKey(card.data.race))
+                result.RaceCounts[card.data.race] = 0;
+            if (card.GetIsAnyRace() == false)
+                result.RaceCounts[card.data.race]++;
 
-            bool isBoosted = raceCounts[data.race] >= 2 || classCounts[data.cardClass] >= 2;
+            if (!result.ClassCounts.ContainsKey(card.data.cardClass))
+                result.ClassCounts[card.data.cardClass] = 0;
+            if (card.GetIsAnyClass() == false)
+                result.ClassCounts[card.data.cardClass]++;
+        }
 
-            if (isBoosted && card.isMuted == false)
+        foreach (CardInstance card in validCards)
+        {
+            if (card.GetIsAnyRace())
             {
-                boosted.Add(card);
-                totalDamage += GetEffectiveAttack(card); // include ranks, bonuses, etc.
+                foreach (CardRace race in result.RaceCounts.Keys.ToList())
+                    result.RaceCounts[race]++;
+            }
+
+            if (card.GetIsAnyClass())
+            {
+                foreach (CardClass cardClass in result.ClassCounts.Keys.ToList())
+                    result.ClassCounts[cardClass]++;
             }
         }
 
-        return boosted;
+        result.TotalCritBonus = result.RaceCounts.Values.Sum(GetSynergyCritBonus) +
+                                result.ClassCounts.Values.Sum(GetSynergyCritBonus);
+        return result;
+    }
+
+    public int GetSynergyCritBonus(int count)
+    {
+        if (count >= 4)
+            return 4;
+        if (count >= 2)
+            return 1;
+        return 0;
     }
     public int GetEffectiveAttack(CardInstance card, int additionalPermanentDamage = 0)
     {
@@ -400,123 +430,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         }
         return bonusDmg;
     }
-    public int GetSynergyDamage(CardInstance card, List<CardInstance> aHand, bool isCombat = false,
-        bool popUI = true, int additionalPermanentDamage = 0)
-    {
-        // Count synergies in current PlayedHand
-        int raceCount = 0;
-        int classCount = 0;
-
-        foreach (var c in aHand)
-        {
-            if (c.data.race == card.data.race || c.GetIsAnyRace()) raceCount++;
-            if (c.data.cardClass == card.data.cardClass || c.GetIsAnyClass()) classCount++;
-        }
-
-        int bonus = 0;
-
-        if (raceCount == 2 || raceCount == 3 )
-        {
-            bonus += GetEffectiveAttack(card, additionalPermanentDamage); // Double race damage
-            if(popUI)
-            UIManager.Instance.PulseSynergyItem(card.data.race.ToString(), isCombat);
-        }
-
-        if (classCount == 2 || classCount == 3)
-        {
-            bonus += GetEffectiveAttack(card, additionalPermanentDamage); // Double class damage
-            if(popUI)
-            UIManager.Instance.PulseSynergyItem(card.data.cardClass.ToString(), isCombat);
-        }
-
-        return bonus;
-    }
-    public string GetSynergyIconForCard(CardInstance card, List<CardInstance> aHand)
-    {
-        // Count synergies in current PlayedHand
-        int raceCount = 0;
-        int classCount = 0;
-
-        foreach (var c in aHand)
-        {
-            if (c.data.race == card.data.race || c.GetIsAnyRace()) raceCount++;
-            if (c.data.cardClass == card.data.cardClass || c.GetIsAnyClass()) classCount++;
-        }
-
-
-        if (raceCount == 2 || raceCount == 3)
-        {
-            return CardContainer.Instance.GetSpriteForRace(card.data.race).name;
-        }
-
-        if (classCount == 2 || classCount == 3)
-        {
-            return CardContainer.Instance.GetSpriteForClass(card.data.cardClass).name;
-        }
-
-        return "";
-    }
     public void ApplyGlobalDamageMultiplier(int multiplier)
     {
         GameData.GlobalDamageMultiplier = multiplier;
     }
     public int GetGlobalCritMultiplier(List<CardInstance> aHand)
     {
-        Dictionary<CardRace, int> raceCounts = new();
-        Dictionary<CardClass, int> classCounts = new();
-
-        foreach (var card in aHand)
-        {
-            if (!raceCounts.ContainsKey(card.data.race))
-                raceCounts[card.data.race] = 0;
-            if (card.GetIsAnyRace() == false)
-                raceCounts[card.data.race]++;
-
-            if (!classCounts.ContainsKey(card.data.cardClass))
-                classCounts[card.data.cardClass] = 0;
-            if (card.GetIsAnyClass() == false)
-                classCounts[card.data.cardClass]++;
-        }
-        foreach (var cardInstance in aHand)
-        {
-            if (cardInstance.GetIsAnyRace())
-            {
-                // ✅ Safe: iterate over a copy of the keys
-                foreach (var key in raceCounts.Keys.ToList())
-                {
-                    raceCounts[key]++;
-                }
-            }
-            if (cardInstance.GetIsAnyClass())
-            {
-                foreach (var key in classCounts.Keys.ToList())
-                {
-                    classCounts[key]++;
-                }
-            }
-        }
-
-        int critTriggered = 0;
-
-        foreach (var kvp in raceCounts)
-        {
-            if (kvp.Value >= 4)
-            {
-                critTriggered++;
-                UIManager.Instance.PulseSynergyItem(kvp.Key.ToString()); // ✅ Use actual race name
-            }
-        }
-
-        foreach (var kvp in classCounts)
-        {
-            if (kvp.Value >= 4)
-            {
-                critTriggered++;
-                UIManager.Instance.PulseSynergyItem(kvp.Key.ToString()); // ✅ Use actual class name
-            }
-        }
-
-        return (critTriggered * 3);
+        return EvaluateSynergies(aHand).TotalCritBonus;
     }
 
     private void RunNextStep(Queue<System.Action<System.Action>> steps)
