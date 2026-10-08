@@ -19,6 +19,12 @@ public class SynergyEvaluationResult
 
 public class EvaluatorManager  : Singleton<EvaluatorManager>
 {
+    private class RaceArtifactDamageTrigger
+    {
+        public Artifact Visual;
+        public int Damage;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -143,31 +149,6 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             ArtifactManager.Instance.ApplyAttackStartEffects(attackingCards, next);
         });
 
-        // Step 1: Apply synergy crit
-        steps.Enqueue(next =>
-        {
-            SynergyEvaluationResult synergies = EvaluateSynergies(attackingCards);
-            foreach (var race in synergies.RaceCounts)
-            {
-                if (GetSynergyCritBonus(race.Value) > 0)
-                    UIManager.Instance.PulseSynergyItem(race.Key.ToString(), true);
-            }
-            foreach (var cardClass in synergies.ClassCounts)
-            {
-                if (GetSynergyCritBonus(cardClass.Value) > 0)
-                    UIManager.Instance.PulseSynergyItem(cardClass.Key.ToString(), true);
-            }
-
-            if (synergies.TotalCritBonus <= 0)
-            {
-                next();
-                return;
-            }
-
-            UIManager.Instance.AddCritical(synergies.TotalCritBonus);
-            LeanTween.delayedCall(gameObject, 1.0f, next);
-        });
-
         // Step 2: Apply artifacts
         steps.Enqueue(next =>
         {
@@ -191,6 +172,7 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     {
 
         Queue<System.Action<System.Action>> steps = new();
+        List<RaceArtifactDamageTrigger> raceArtifactTriggers = new List<RaceArtifactDamageTrigger>();
 
         steps.Enqueue(next =>
         {
@@ -198,33 +180,26 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
             next();
         });
 
-        // Step 1: Base Damage
-        steps.Enqueue(next => aCard.CardGO.AddDamage(GetEffectiveAttack(aCard), next));
-
-        // Step 2.5: Card Bonuses damage
-        //steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetDamageBonus(), next));
-
-        // Step 4: Artifact Bonuses (currently 0)
-        steps.Enqueue(next => EvaluateArtifactsForCard(aCard, next));
+        // Step 1: Show the unit and matching race artifact damage at the same time.
+        steps.Enqueue(next => PrepareCardAndRaceArtifactDamage(aCard, triggers =>
+        {
+            raceArtifactTriggers = triggers;
+            next();
+        }));
 
 
         steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.CardGO.GetTotalDamage(), next,false,false,true));
 
-        // Step 5: Total Damage move
-        steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next));
+        // Step 5: Move the unit and all matching artifact numbers at the same time.
+        steps.Enqueue(next => MoveCardAndRaceArtifactDamageToTotal(aCard, raceArtifactTriggers, next));
 
         steps.Enqueue(next => ArtifactManager.Instance.OnHunterDamageAdded(aCard, next));
 
 
-        // Step 6: Add crit from upgrades
-        if(aCard.GetUpgradeCritBonus()+ aCard.GetCritBonus() > 0  )
+        // Step 6: Temporary crit still resolves with the individual card.
+        if(aCard.GetCritBonus() > 0)
         {
-            steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetUpgradeCritBonus(), next, true));
             steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.GetCritBonus(), next, true));
-
-
-                steps.Enqueue(next => aCard.CardGO.AddDamage(aCard.CardGO.GetTotalCrit(), next, true, false, true));
-
             steps.Enqueue(next => aCard.CardGO.AddToTotalDamage(next, true));
         }
 
@@ -415,18 +390,13 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
     public int GetArtifactBonusDamage(CardInstance card)
     {
         int bonusDmg = 0;
+        if (card == null || card.data == null || ArtifactManager.Instance == null)
+            return bonusDmg;
+
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
-            if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
-                continue;
-
-            if(artifact.effect == ArtifactEffectType.RaceHasExtraDamage)
-            {
-                if(artifact.RandomRace == card.data.race)
-                {
-                    bonusDmg+=artifact.value;
-                }
-            }
+            if (IsRaceDamageArtifactForCard(artifact, card))
+                bonusDmg += artifact.value;
         }
         return bonusDmg;
     }
@@ -439,6 +409,23 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         return EvaluateSynergies(aHand).TotalCritBonus;
     }
 
+    public int GetStartingCritical(List<CardInstance> attackingCards)
+    {
+        int critical = 1 + GetGlobalCritMultiplier(attackingCards);
+        if (attackingCards == null)
+            return critical;
+
+        foreach (CardInstance card in attackingCards)
+        {
+            if (card == null || card.data == null || card.isMuted)
+                continue;
+
+            critical += card.GetUpgradeCritBonus();
+        }
+
+        return critical;
+    }
+
     private void RunNextStep(Queue<System.Action<System.Action>> steps)
     {
         if (steps.Count == 0) return;
@@ -447,61 +434,84 @@ public class EvaluatorManager  : Singleton<EvaluatorManager>
         step(() => RunNextStep(steps));
     }
 
-    public void EvaluateArtifactsForCard(CardInstance card, System.Action onComplete)
+    private bool IsRaceDamageArtifactForCard(ArtifactData artifact, CardInstance card)
     {
-        Queue<System.Action<System.Action>> steps = new();
+        return artifact != null &&
+               card != null &&
+               card.data != null &&
+               artifact.effect == ArtifactEffectType.RaceHasExtraDamage &&
+               artifact.RandomRace == card.data.race &&
+               ArtifactManager.Instance.IsArtifactMutedByBoss(artifact) == false;
+    }
 
+    private void PrepareCardAndRaceArtifactDamage(
+        CardInstance card,
+        System.Action<List<RaceArtifactDamageTrigger>> onComplete)
+    {
+        List<RaceArtifactDamageTrigger> triggers = new List<RaceArtifactDamageTrigger>();
         foreach (var artifact in ArtifactManager.Instance.ActiveArtifacts)
         {
-            
-            steps.Enqueue(next =>
-            {
-                if (ArtifactManager.Instance.IsArtifactMutedByBoss(artifact))
-                {
-                    next();
-                    return;
-                }
+            if (IsRaceDamageArtifactForCard(artifact, card) == false || artifact.value == 0)
+                continue;
 
-                Artifact visual = UIManager.Instance.GetVisualArtifact(artifact);
-                if (visual == null)
-                {
-                    next();
-                    return;
-                }
-                
-                switch (artifact.effect)
-                {
-                    // No artifacts affecting individual cards yet
-                        case ArtifactEffectType.RaceHasExtraDamage:
-                        
-                    
-                            if( card.data.race == artifact.RandomRace)
-                            {
-                                CardInstance c = card;
-                                int dmg = artifact.value;
-                                visual.Shake();
-                                card.CardGO.AddDamage(dmg, () =>
-                                {
-                                    next();
-                                }); 
-                                
-                            }else
-                            {
-                                next();
-                            }
-                        
-                       
-                        break;
-                    default:
-                        next();
-                        break;
-                }
+            triggers.Add(new RaceArtifactDamageTrigger
+            {
+                Visual = UIManager.Instance.GetVisualArtifact(artifact),
+                Damage = artifact.value
             });
         }
 
-        steps.Enqueue(_ => onComplete.Invoke());
+        int pendingNumbers = 1 + triggers.Count(trigger => trigger.Visual != null);
 
-        RunNextStep(steps);
+        void FinishNumber()
+        {
+            pendingNumbers--;
+            if (pendingNumbers <= 0)
+                onComplete?.Invoke(triggers);
+        }
+
+        card.CardGO.AddDamage(GetEffectiveAttack(card), FinishNumber);
+
+        foreach (RaceArtifactDamageTrigger trigger in triggers)
+        {
+            if (trigger.Visual == null)
+                continue;
+
+            trigger.Visual.AddDamage(trigger.Damage, FinishNumber);
+        }
+    }
+
+    private void MoveCardAndRaceArtifactDamageToTotal(
+        CardInstance card,
+        List<RaceArtifactDamageTrigger> triggers,
+        System.Action onComplete)
+    {
+        int pendingAnimations = 1 + triggers.Count;
+
+        void FinishAnimation()
+        {
+            pendingAnimations--;
+            if (pendingAnimations <= 0)
+                onComplete?.Invoke();
+        }
+
+        card.CardGO.AddToTotalDamage(FinishAnimation);
+
+        foreach (RaceArtifactDamageTrigger trigger in triggers)
+        {
+            if (trigger.Visual != null && trigger.Visual.DmgNumber != null)
+            {
+                trigger.Visual.AddToTotalDamage(FinishAnimation);
+                continue;
+            }
+
+            // Preserve gameplay damage if an active artifact visual is unavailable.
+            LeanTween.delayedCall(gameObject, 1f, () =>
+            {
+                UIManager.Instance.AddDamage(trigger.Damage);
+                FinishAnimation();
+            });
+        }
     }
     public void EvaluateUpgradesPost(System.Action onComplete)
     {

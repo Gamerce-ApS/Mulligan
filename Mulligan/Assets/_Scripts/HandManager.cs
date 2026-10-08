@@ -130,7 +130,8 @@ public class HandManager : Singleton<HandManager>
         List<CardInstance> boostedCards = EvaluatorManager.Instance.EvaluateHand(PlayedHand, out totalDmg);
 
 
-        UIManager.Instance.DamageReset();
+        UIManager.Instance.DamageReset(false);
+        UIManager.Instance.SetStartingCritical(boostedCards);
         GameManager.Instance.myGameStates = GameManager.GameStates.Evaluation;
         //Delay so lifting works
         UnityHelper.RunAfterDelay(this, 0.6f, () =>

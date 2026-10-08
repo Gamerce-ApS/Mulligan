@@ -117,10 +117,11 @@ public class UIManager : Singleton<UIManager>
         UpdateIapPriceTexts();
 
     }
-    public void DamageReset()
+    public void DamageReset(bool resetCritical = true)
     {
         DamageLabel.GetComponent<TMPro.TMP_Text>().text = "0";
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
+        if (resetCritical)
+            CriticalLabel.GetComponent<TMPro.TMP_Text>().text = "1";
         DamageLabel.transform.localScale = DamageLabelOriginalScale;
         CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
 
@@ -348,7 +349,10 @@ public class UIManager : Singleton<UIManager>
         totalDmg = 0;
 
         foreach (var card in attackingCards)
+        {
             totalDmg += EvaluatorManager.Instance.GetEffectiveAttack(card, tavernTalesBonus);
+            totalDmg += EvaluatorManager.Instance.GetArtifactBonusDamage(card);
+        }
 
         TMPro.TMP_Text text = DamageLabel.GetComponent<TMPro.TMP_Text>();
         int prevValue = int.Parse(text.text);
@@ -362,10 +366,16 @@ public class UIManager : Singleton<UIManager>
             LeanTween.scale(DamageLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
 
 
-        int crit = EvaluatorManager.Instance.GetGlobalCritMultiplier(selectedCards);
-        CriticalLabel.GetComponent<TMPro.TMP_Text>().text = (crit + 1).ToString();
-        if (crit != 0)
+        int crit = EvaluatorManager.Instance.GetStartingCritical(attackingCards);
+        SetCriticalValue(crit);
+        if (crit > 1)
             LeanTween.scale(CriticalLabel, Vector3.one * 1.3f, 0.5f).setEasePunch();
+    }
+
+    public void SetStartingCritical(List<CardInstance> attackingCards)
+    {
+        SetCriticalValue(EvaluatorManager.Instance.GetStartingCritical(attackingCards));
+        CriticalLabel.transform.localScale = CriticalLabelOriginalScale;
     }
 
     public void ShowSynergies()
@@ -444,8 +454,8 @@ public class UIManager : Singleton<UIManager>
         else
             displayText = "4";
 
-        countText.text = displayText;
-
+        // countText.text = displayText;
+        countText.text="";
         bool isActive = count >= 2;
         bool isStrong = count >= 4;
         if (isActive)
@@ -457,18 +467,21 @@ public class UIManager : Singleton<UIManager>
             item.transform.localScale = originalScale;
             LeanTween.scale(item, originalScale * (isStrong ? 1.5f : 1.3f), 0.5f).setEasePunch();
 
-            // Enable glow
-            var glow = item.transform.Find("Glow");
-            if (glow != null) glow.gameObject.SetActive(true);
-
-            if (glow != null)
+            if(isStrong)
             {
-                glow.gameObject.SetActive(true);
-                if (isStrong)
-                    glow.localScale *= StrongSynergyGlowScale;
-                CanvasGroup cg = glow.GetComponent<CanvasGroup>() ?? glow.gameObject.AddComponent<CanvasGroup>();
-                cg.alpha = 0;
-                LeanTween.alphaCanvas(cg, 1f, 0.3f).setEaseOutCubic();
+                // Enable glow
+                var glow = item.transform.Find("Glow");
+                if (glow != null) glow.gameObject.SetActive(true);
+
+                if (glow != null)
+                {
+                    glow.gameObject.SetActive(true);
+                    if (isStrong)
+                        glow.localScale *= StrongSynergyGlowScale;
+                    CanvasGroup cg = glow.GetComponent<CanvasGroup>() ?? glow.gameObject.AddComponent<CanvasGroup>();
+                    cg.alpha = 0;
+                    LeanTween.alphaCanvas(cg, 1f, 0.3f).setEaseOutCubic();
+                }
             }
         }
         else
@@ -479,6 +492,8 @@ public class UIManager : Singleton<UIManager>
             // Disable glow
             var glow = item.transform.Find("Glow");
             if (glow != null) glow.gameObject.SetActive(false);
+
+            item.SetActive(false);
         }
 
 

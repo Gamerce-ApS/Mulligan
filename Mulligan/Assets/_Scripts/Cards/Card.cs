@@ -700,12 +700,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public int GetTotalDamage()
     {
-        int TotalDamage = 0;
-        TotalDamage = EvaluatorManager.Instance.GetEffectiveAttack(cardInstance);
-        TotalDamage+=EvaluatorManager.Instance.GetArtifactBonusDamage(cardInstance);
-
-
-        return TotalDamage;
+        return EvaluatorManager.Instance.GetEffectiveAttack(cardInstance);
     }
     public int GetTotalCrit()
     {
