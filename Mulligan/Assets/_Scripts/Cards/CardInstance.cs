@@ -5,8 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class CardInstance
 {
-    private const int DamagePerRank = 10;
-
     public CardData data=null;
     public UpgradeCardData upgradeData=null;
     public PotionCardData potionData=null; // ADD THIS
@@ -47,12 +45,21 @@ public class CardInstance
     }
     public int GetDamage()
     {
-        int damage = data.damage + tempDamageBonus + permanentDamageBonus + GetRankDamageBonus();
+        int rankBaseDamage = GetRankBaseDamage();
+        int damage = rankBaseDamage + tempDamageBonus + permanentDamageBonus;
         return damage * GameData.GlobalDamageMultiplier;
     }
-    public int GetRankDamageBonus()
+
+    private int GetRankBaseDamage()
     {
-        return Mathf.Max(0, currentRank) * DamagePerRank;
+        if (data == null)
+            return 0;
+
+        if (currentRank <= 0 || data.RankUpgrades == null || data.RankUpgrades.Count == 0)
+            return data.damage;
+
+        int rankIndex = Mathf.Clamp(currentRank - 1, 0, data.RankUpgrades.Count - 1);
+        return data.RankUpgrades[rankIndex];
     }
     public void AddPermanentDamage(int amount)
     {
@@ -98,10 +105,21 @@ public class CardInstance
     
     public void UpgradeRank(int amount = 1)
     {
-        if (data == null || amount <= 0)
+        if (data == null || amount <= 0 || data.RankUpgrades == null || data.RankUpgrades.Count == 0)
             return;
 
-        currentRank += amount;
+        int originalRank = currentRank;
+        int previousRank = Mathf.Clamp(currentRank, 0, data.RankUpgrades.Count);
+        int newRank = Mathf.Min(previousRank + amount, data.RankUpgrades.Count);
+        currentRank = newRank;
+
+        if (newRank <= previousRank)
+        {
+            if (originalRank != currentRank && CardGO != null)
+                CardGO.UpdateCardUI();
+            return;
+        }
+
         SoundManager.TryPlay(SoundType.RankUp);
 
         if (CardGO != null)

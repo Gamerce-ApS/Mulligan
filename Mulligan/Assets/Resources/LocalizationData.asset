@@ -2105,19 +2105,19 @@ MonoBehaviour:
   - TextID: hero.0.starting_items
     Texts:
     - Language: English
-      Text: Random Artifact
+      Text: 
     - Language: Spanish
-      Text: Artefacto aleatorio
+      Text: 
     - Language: Swedish
-      Text: Slumpad Artefakt
+      Text: 
     - Language: Danish
-      Text: "Tilf\xE6ldigt artefakt"
+      Text: 
     - Language: German
-      Text: Zufallsartefakt
+      Text: 
     - Language: French
-      Text: "Artefact al\xE9atoire"
+      Text: 
     - Language: Portuguese (Brazil)
-      Text: "Artefato aleat\xF3rio"
+      Text: 
   - TextID: hero.1.description
     Texts:
     - Language: English
@@ -5091,7 +5091,10 @@ MonoBehaviour:
 
         4 matching units: +4 Crit'
     - Language: Spanish
-      Text: "2-3 unidades iguales: +1 Crit\n\n4 unidades iguales: +4 Crit"
+      Text: '2-3 unidades iguales: +1 Crit
+
+
+        4 unidades iguales: +4 Crit'
     - Language: Swedish
       Text: '2-3 matchande enheter: +1 Crit
 
@@ -5108,12 +5111,16 @@ MonoBehaviour:
 
         4 gleiche Einheiten: +4 Crit'
     - Language: French
-      Text: "2-3 unit\xE9s identiques : +1 Crit\n\n4 unit\xE9s identiques : +4 Crit"
+      Text: '2-3 unitxE9s identiques : +1 Crit
+
+
+        4 unitxE9s identiques :
+        +4 Crit'
     - Language: Portuguese (Brazil)
-      Text: '2-3 unidades iguais: +1 Crit
+      Text: '2-3 unidades iguales: +1 Crit
 
 
-        4 unidades iguais: +4 Crit'
+        4 unidades iguales: +4 Crit'
   - TextID: ui.synergy.title
     Texts:
     - Language: English
