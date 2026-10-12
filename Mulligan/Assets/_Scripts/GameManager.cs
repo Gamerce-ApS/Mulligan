@@ -53,7 +53,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-
+        DebugMenuManager.EnsureExists(gameObject);
         myGameStates = GameStates.Loading;
         TrackDesign("boot:data_load:request");
         GameDataLoader.Instance.LoadGameData(() =>

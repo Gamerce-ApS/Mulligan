@@ -370,6 +370,15 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    public void DebugSetOneHitHealth()
+    {
+        Health = 1;
+        if (bar != null)
+            bar.fillAmount = MaxHealth > 0f ? Health / MaxHealth : 0f;
+        if (healthLabel != null)
+            healthLabel.text = Health.ToString();
+    }
     private void ShowFloatingDamage(int damageAmount)
     {
         // Clone the health label

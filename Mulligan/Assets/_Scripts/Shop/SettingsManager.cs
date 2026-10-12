@@ -34,6 +34,8 @@ public class SettingsManager : Singleton<SettingsManager>
     private int currentLanguageIndex;
     private bool isInitialized;
 
+    public bool IsOpen => SettingsWindow != null && SettingsWindow.activeInHierarchy;
+
     public void Init()
     {
         if (isInitialized)
