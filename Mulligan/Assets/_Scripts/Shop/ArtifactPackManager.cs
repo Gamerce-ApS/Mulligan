@@ -56,15 +56,20 @@ public class ArtifactPackManager : Singleton<ArtifactPackManager>
         if (IsConfigured == false)
         {
             Debug.LogWarning("ArtifactPackManager is missing window, parent, or artifact template references.");
+            onComplete?.Invoke();
             return;
         }
 
         if (ShopWindow.activeSelf || isClosing)
+        {
+            onComplete?.Invoke();
             return;
+        }
 
         if (ArtifactManager.Instance.ActiveArtifacts.Count >= GameManager.Instance.TheHero.myHeroData.ArtifactSlots)
         {
             UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_slots", "No slots!"));
+            onComplete?.Invoke();
             return;
         }
 
@@ -72,6 +77,7 @@ public class ArtifactPackManager : Singleton<ArtifactPackManager>
         if (artifacts.Count == 0)
         {
             UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.no_artifacts_available", "No Artifacts available!"));
+            onComplete?.Invoke();
             return;
         }
 
@@ -87,9 +93,14 @@ public class ArtifactPackManager : Singleton<ArtifactPackManager>
         SpawnChoices(artifacts);
         if (choices.Count == 0)
         {
+            System.Action callback = onHide;
+            onHide = null;
             ShopWindow.SetActive(false);
             if (bgCanvasGroup.gameObject != ShopWindow)
                 bgCanvasGroup.gameObject.SetActive(false);
+            acceptingInput = false;
+            isClosing = false;
+            callback?.Invoke();
             return;
         }
 

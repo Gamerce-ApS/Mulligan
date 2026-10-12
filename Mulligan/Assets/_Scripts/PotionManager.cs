@@ -108,11 +108,12 @@ public class PotionManager : Singleton<PotionManager>
                 break;
 
             case PotionEffectType.HealHero:
-                GameManager.Instance.TheHero.HealPercent(potion.value * EffectMultiplier);
-                UIManager.Instance.ShowTooltip(LocalizationService.Format("ui.tooltip.potion_heal", "Hero healed {0}% HP", potion.value * EffectMultiplier));
-
-                GameManager.Instance.TheHero.HealEffect.SetActive(false);
-                GameManager.Instance.TheHero.HealEffect.SetActive(true);
+                float healingPercent = GetEffectiveHealingPotionPercent(potion);
+                ApplyHealingPotionEffect(potion);
+                UIManager.Instance.ShowTooltip(LocalizationService.Format(
+                    "ui.tooltip.potion_heal",
+                    "Hero healed {0}% HP",
+                    Mathf.RoundToInt(healingPercent * 100f)));
                 break;
 
             case PotionEffectType.BoostAndLoseHP:
@@ -166,6 +167,33 @@ public class PotionManager : Singleton<PotionManager>
         DailyQuestManager.Instance.AddProgress(DailyQuestType.ConsumePotions);
         ActivePotions.Remove(potion);
         UIManager.Instance.UpdateArtifactSlotsUI();
+    }
+
+    public float GetEffectiveHealingPotionPercent(PotionCardData potion)
+    {
+        if (potion == null || potion.effectType != PotionEffectType.HealHero)
+            return 0f;
+
+        float effectMultiplier = ArtifactManager.Instance.HasArtifact(ArtifactEffectType.DoublePotionEffects) ? 2f : 1f;
+        float bossRewardMultiplier = 1f + Mathf.Max(0f, GameManager.Instance.BossRewardHealingBonus);
+        return potion.value * effectMultiplier * bossRewardMultiplier;
+    }
+
+    public int ApplyHealingPotionEffect(PotionCardData potion)
+    {
+        if (potion == null || potion.effectType != PotionEffectType.HealHero || GameManager.Instance.TheHero == null)
+            return 0;
+
+        float healthBefore = GameManager.Instance.TheHero.Health;
+        GameManager.Instance.TheHero.HealPercent(GetEffectiveHealingPotionPercent(potion));
+
+        if (GameManager.Instance.TheHero.HealEffect != null)
+        {
+            GameManager.Instance.TheHero.HealEffect.SetActive(false);
+            GameManager.Instance.TheHero.HealEffect.SetActive(true);
+        }
+
+        return Mathf.RoundToInt(GameManager.Instance.TheHero.Health - healthBefore);
     }
 
     private SoundType GetPotionSoundType(PotionCardData potion)

@@ -40,6 +40,12 @@ public class GameManager : Singleton<GameManager>
     public float PotionRetriggerChance = 0;
     public bool HasFreeReroll = false;
 
+    // Boss Reward effects for the current run.
+    public float BossRewardHealingBonus = 0f;
+    public int BossRewardGoldPerLevel = 0;
+    public int BossRewardInterestCapBonus = 0;
+    public int BossRewardBonusRerolls = 0;
+
     public List<TMPro.TMP_SpriteAsset> TextSprites = new List<TMPro.TMP_SpriteAsset>();
     public bool ShowDailyQuestDebugButtons = true;
 
@@ -63,9 +69,12 @@ public class GameManager : Singleton<GameManager>
             UIManager.Instance.Init();
             SettingsManager.Instance.Init();
             UnitUpgradeManager.Instance.Init();
-            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>();
+            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>(true);
             if (artifactPackManager != null)
                 artifactPackManager.Init();
+            BossRewardManager bossRewardManager = FindObjectOfType<BossRewardManager>(true);
+            if (bossRewardManager != null)
+                bossRewardManager.Init();
             DeckOverviewManager.Instance.Init();
             UnlockManager.Instance.Init();
             InventoryOverviewManager.Instance.Init();
@@ -107,6 +116,10 @@ public class GameManager : Singleton<GameManager>
         GameData.SkippedLevels = 0;
         GameData.PotionsUsed = 0;
         GameData.UpgradedUnits = 0;
+        BossRewardHealingBonus = 0f;
+        BossRewardGoldPerLevel = 0;
+        BossRewardInterestCapBonus = 0;
+        BossRewardBonusRerolls = 0;
 
         if (TutorialController.Instance.HasRunTutorial() == false)
         {
@@ -227,6 +240,7 @@ public class GameManager : Singleton<GameManager>
         GameAnalytics.NewDesignEvent("round:win:" + GameData.CurrentRound);
         GameAnalytics.NewDesignEvent("round:win", GameData.CurrentRound);
         RateAppManager.Instance.RegisterWinAndMaybeRequestReview();
+        bool defeatedBoss = GameData.CurrentRound % 4 == 0;
         bool completedTutorialThisRound = TutorialController.Instance.HasRunTutorial() == false && GameData.CurrentRound % 4 == 0;
         if (GameData.CurrentRound == 4 && GameData.FirstBossCompletedThisRun == 0)
         {
@@ -236,7 +250,7 @@ public class GameManager : Singleton<GameManager>
         }
         ApplyGoldInterest();
         int goldGained = 0;
-        if (GameData.CurrentRound % 4 == 0)
+        if (defeatedBoss)
         {
             goldGained += (int)(CardContainer.Instance.GoldGainPerLevel * GameManager.Instance.BossGoldMultiplier);
             DailyQuestManager.Instance.AddProgress(DailyQuestType.DefeatBosses);
@@ -269,6 +283,7 @@ public class GameManager : Singleton<GameManager>
         {
             goldGained += 5;
         }
+        goldGained += BossRewardGoldPerLevel;
         AddGold(goldGained);
         int goldGainedThisRound = goldGained + roundRewardResult.GoldGained;
 
@@ -292,36 +307,46 @@ public class GameManager : Singleton<GameManager>
         LeanTween.delayedCall(gameObject, 1f, () =>
         {
             myGameStates = GameStates.Post_Game;
-            UIManager.Instance.ShowVictoryScreen(goldGainedThisRound, roundRewardResult.HealthGained, () =>
+            BossRewardManager bossRewardManager = FindObjectOfType<BossRewardManager>(true);
+            if (defeatedBoss && bossRewardManager != null)
             {
-                ArmoryManager.Instance.ShowWindow(() =>
-                {
-                    TheEnemy.gameObject.SetActive(false);
-                    ArcCardLayout.Instance.transform.gameObject.SetActive(false);
-                    ShopManager.Instance.ShowShopWindow(() =>
-                    {
-                        LevelSelectionManager.Instance.ShowWindow(() =>
-                        {
-                            SoundManager.TryPlayCombatMusic();
-                            ArcCardLayout.Instance.transform.gameObject.SetActive(true);
-                            TheEnemy.gameObject.SetActive(true);
-                            TheEnemy.Init(GameData.CurrentRound);
-                            DrawFreshHandAfterTutorialIfNeeded();
-                            EvaluatorManager.Instance.StartLevel();
-                            GameManager.Instance.myGameStates = GameManager.GameStates.Game;
-
-                        });
-
-                    });
-
-                });
-
-     
-
-            });
+                bossRewardManager.ShowWindow(result =>
+                    ShowVictoryAndContinue(
+                        goldGainedThisRound + result.GoldGained,
+                        roundRewardResult.HealthGained + result.HealthGained));
+            }
+            else
+            {
+                ShowVictoryAndContinue(goldGainedThisRound, roundRewardResult.HealthGained);
+            }
         });
 
 
+    }
+
+    private void ShowVictoryAndContinue(int goldGained, int healthGained)
+    {
+        UIManager.Instance.ShowVictoryScreen(goldGained, healthGained, () =>
+        {
+            ArmoryManager.Instance.ShowWindow(() =>
+            {
+                TheEnemy.gameObject.SetActive(false);
+                ArcCardLayout.Instance.transform.gameObject.SetActive(false);
+                ShopManager.Instance.ShowShopWindow(() =>
+                {
+                    LevelSelectionManager.Instance.ShowWindow(() =>
+                    {
+                        SoundManager.TryPlayCombatMusic();
+                        ArcCardLayout.Instance.transform.gameObject.SetActive(true);
+                        TheEnemy.gameObject.SetActive(true);
+                        TheEnemy.Init(GameData.CurrentRound);
+                        DrawFreshHandAfterTutorialIfNeeded();
+                        EvaluatorManager.Instance.StartLevel();
+                        myGameStates = GameStates.Game;
+                    });
+                });
+            });
+        });
     }
     public void LostGame()
     {
@@ -509,9 +534,15 @@ public class GameManager : Singleton<GameManager>
         }
         if (Input.GetKeyUp(KeyCode.B))
         {
-            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>();
+            ArtifactPackManager artifactPackManager = FindObjectOfType<ArtifactPackManager>(true);
             if (artifactPackManager != null)
                 artifactPackManager.ShowWindow();
+        }
+        if (Input.GetKeyUp(KeyCode.N))
+        {
+            BossRewardManager bossRewardManager = FindObjectOfType<BossRewardManager>(true);
+            if (bossRewardManager != null)
+                bossRewardManager.DebugShowWindow();
         }
         if (Input.GetKeyUp(KeyCode.U))
         {
@@ -643,7 +674,10 @@ public class GameManager : Singleton<GameManager>
         int interestGained = uncappedTotal - goldBefore;
 
         if (interestGained > 0 && CardContainer.Instance.GoldInterestCap > 0)
-            interestGained = Mathf.Min(interestGained, CardContainer.Instance.GoldInterestCap);
+        {
+            int effectiveInterestCap = CardContainer.Instance.GoldInterestCap + BossRewardInterestCapBonus;
+            interestGained = Mathf.Min(interestGained, effectiveInterestCap);
+        }
 
         GameData.CurrentGold = goldBefore + interestGained;
         return interestGained;

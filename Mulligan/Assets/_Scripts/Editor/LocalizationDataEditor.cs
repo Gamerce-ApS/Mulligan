@@ -207,6 +207,18 @@ public class LocalizationDataEditor : Editor
             }
         }
 
+        if (data.allBossRewards != null)
+        {
+            foreach (BossRewardData item in data.allBossRewards)
+            {
+                if (item == null)
+                    continue;
+
+                table.AddSource(LocalizationKeys.BossReward(item, "name"), item.name, "boss reward " + item.name);
+                table.AddSource(LocalizationKeys.BossReward(item, "description"), item.description, "boss reward " + item.name);
+            }
+        }
+
         foreach (CardRace race in Enum.GetValues(typeof(CardRace)))
         {
             if (race != CardRace.END)
@@ -289,7 +301,8 @@ public class LocalizationDataEditor : Editor
             allEnemies = local.allEnemies,
             allSkipeRewards = local.allSkipeRewards,
             allRunes = local.allRunes,
-            allHeroes = local.allHeroes
+            allHeroes = local.allHeroes,
+            allBossRewards = local.allBossRewards
         };
     }
 
@@ -301,7 +314,8 @@ public class LocalizationDataEditor : Editor
                 (data.allPotions != null && data.allPotions.Length > 0) ||
                 (data.allUpgradeCards != null && data.allUpgradeCards.Length > 0) ||
                 (data.allRunes != null && data.allRunes.Length > 0) ||
-                (data.allHeroes != null && data.allHeroes.Length > 0));
+                (data.allHeroes != null && data.allHeroes.Length > 0) ||
+                (data.allBossRewards != null && data.allBossRewards.Length > 0));
     }
 
     private static void ApplyCsv(LocalizationData asset, string csv)

@@ -200,6 +200,37 @@ public enum RarityType
     Legendary = 3
 }
 [System.Serializable]
+public enum BossRewardEffect
+{
+    BlessedHealing = 0,
+    PermanentPower = 1,
+    GoldenOpportunity = 2,
+    Cleanup = 3,
+    Investment = 4,
+    BonusReroll = 5,
+    Gold = 6,
+    RandomArtifact = 7,
+    ArtifactPack = 8,
+    Healing = 9
+}
+[System.Serializable]
+public enum BossRewardApplyType
+{
+    Permanent = 0,
+    Instant = 1
+}
+[System.Serializable]
+public class BossRewardData
+{
+    public string name;
+    [TextArea] public string description;
+    public string sprite_icon;
+    public BossRewardEffect effect;
+    public BossRewardApplyType type;
+    public float value;
+    public int rarity;
+}
+[System.Serializable]
 public enum ShopItemType
 {
     Artifact = 0,

@@ -27,6 +27,7 @@ public class CardContainer : Singleton<CardContainer>
     public PotionCardData[] PotionDataList = null;
     public HeroData[] HeroDataList = null;
     public ArtifactData[] ArtifactDataList = null;
+    public BossRewardData[] BossRewardDataList = null;
     public ShopItemPriceData[] ShopPrices = null;
 
     public int StatingGold = 0;
@@ -83,6 +84,7 @@ public class CardContainer : Singleton<CardContainer>
         SkipDataList = CardLoader.LoadAllCards().allSkipeRewards;
         RuneDataList = CardLoader.LoadAllCards().allRunes;
         ArtifactDataList = CardLoader.LoadAllCards().allArtifacts;
+        BossRewardDataList = CardLoader.LoadAllCards().allBossRewards;
         ShopPrices = CardLoader.LoadAllCards().ShopPrices;
 
         ExperiencePerKill = CardLoader.LoadAllCards().ExperiencePerKill;

@@ -69,6 +69,17 @@ public static class LocalizationKeys
         return "skip_reward." + LocalizationService.Slug(data != null ? data.type.ToString() : "unknown") + "." + field;
     }
 
+    public static string BossReward(BossRewardData data, string field)
+    {
+        if (data == null)
+            return "boss_reward.unknown." + field;
+
+        return "boss_reward." + LocalizationService.Slug(data.name) + "." +
+               LocalizationService.Slug(data.effect.ToString()) + "." +
+               LocalizationService.Number(data.value) + "." +
+               LocalizationService.Number(data.rarity) + "." + field;
+    }
+
     public static string DailyQuest(DailyQuestDefinition definition)
     {
         if (definition == null)
@@ -212,6 +223,22 @@ public static class LocalizedContent
     public static string SkipRewardDescription(SkipRewardData data)
     {
         return data == null ? string.Empty : LocalizationService.Get(LocalizationKeys.SkipReward(data, "description"), data.description);
+    }
+
+    public static string BossRewardName(BossRewardData data, params object[] values)
+    {
+        if (data == null)
+            return string.Empty;
+
+        return LocalizationService.Format(LocalizationKeys.BossReward(data, "name"), data.name, values);
+    }
+
+    public static string BossRewardDescription(BossRewardData data, params object[] values)
+    {
+        if (data == null)
+            return string.Empty;
+
+        return LocalizationService.Format(LocalizationKeys.BossReward(data, "description"), data.description, values);
     }
 
     public static string Race(CardRace race)

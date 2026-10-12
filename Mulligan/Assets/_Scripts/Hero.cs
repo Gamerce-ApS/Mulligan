@@ -162,6 +162,7 @@ public class Hero : MonoBehaviour
             modifier = 1;
         }
         modifier += GameManager.Instance.BonusRerolls;
+        modifier += GameManager.Instance.BossRewardBonusRerolls;
 
         return modifier;
     }
