@@ -4179,7 +4179,7 @@ MonoBehaviour:
   - TextID: tutorial.step1_selectorcs.dialogue
     Texts:
     - Language: English
-      Text: Choose 4 Orcs
+      Text: Choose 2 Orcs and 2 Elfs
     - Language: Spanish
       Text: Elige 4 Orcos
     - Language: Swedish
@@ -4211,7 +4211,8 @@ MonoBehaviour:
   - TextID: tutorial.step1_synergies.dialogue
     Texts:
     - Language: English
-      Text: COMBINING 4 ORC UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
+      Text: "You combined 2 orcs and 2 elfs. \n\n EACH COMBO ADDS\n +1 CRIT TO YOUR\n
+        NEXT ATTACK"
     - Language: Spanish
       Text: "4 ORCOS MULTIPLICAN TU DA\xD1O TOTAL X3"
     - Language: Swedish
@@ -4227,7 +4228,7 @@ MonoBehaviour:
   - TextID: tutorial.step1_synergies2.dialogue
     Texts:
     - Language: English
-      Text: COMBINING 4 WARRIOR UNITS WILL MULTIPLY YOUR TOTAL DAMAGE WITH 3X
+      Text: 4 of the same kind forms a super combo, Giving you +4 CRIT!
     - Language: Spanish
       Text: "4 GUERREROS MULTIPLICAN TU DA\xD1O TOTAL X3"
     - Language: Swedish

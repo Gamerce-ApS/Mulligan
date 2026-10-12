@@ -279,9 +279,9 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if(TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
         {
-            if( cardInstance.data.race != CardRace.Orc)
+            if (cardInstance.data.race != CardRace.Orc && cardInstance.data.race != CardRace.Elf)
             {
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("tutorial.step1_selectorcs.dialogue", "Choose 2 Orcs and 2 Elves"));
                 return;
             }
         }
@@ -353,7 +353,7 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             TutorialController.Instance.ShowNextStep();
         }
         else if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS &&
-                 HasSelectedTutorialOrcs())
+                 TutorialController.Instance.HasSelectedTutorialOrcElfCombination())
         {
             TutorialController.Instance.ShowNextStep();
         }
@@ -362,11 +362,6 @@ public class Card : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             TutorialController.Instance.ShowNextStep();
         }
-    }
-
-    private bool HasSelectedTutorialOrcs()
-    {
-        return HasSelectedTutorialCards(card => card.data.race == CardRace.Orc);
     }
 
     private bool HasSelectedTutorialWarriors()

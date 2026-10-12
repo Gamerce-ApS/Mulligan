@@ -163,10 +163,10 @@ public class CardContainer : Singleton<CardContainer>
     {
         TutorialDeck.Clear();
         AddTutorialCard(CardRace.Orc, CardClass.Warrior);
-        AddTutorialCard(CardRace.Elf, CardClass.Mage);
+        AddTutorialCard(CardRace.Dwarf, CardClass.Mage);
         AddTutorialCard(CardRace.Orc, CardClass.Cleric);
-        AddTutorialCard(CardRace.Orc, CardClass.Mage);
-        AddTutorialCard(CardRace.Orc, CardClass.Archer);
+        AddTutorialCard(CardRace.Elf, CardClass.Mage);
+        AddTutorialCard(CardRace.Elf, CardClass.Archer);
         AddTutorialCard(CardRace.Undead, CardClass.Warrior);
         AddTutorialCard(CardRace.Human, CardClass.Peasant);
         AddTutorialCard(CardRace.Human, CardClass.Cleric);
@@ -178,7 +178,7 @@ public class CardContainer : Singleton<CardContainer>
 
         AddTutorialCard(CardRace.Human, CardClass.Warrior);
 
-        AddTutorialCard(CardRace.Human, CardClass.Warrior);
+        AddTutorialCard(CardRace.Elf, CardClass.Warrior);
         AddTutorialCard(CardRace.Undead, CardClass.Bard);
         AddTutorialCard(CardRace.Dwarf, CardClass.Mage);
         AddTutorialCard(CardRace.Orc, CardClass.Warrior);

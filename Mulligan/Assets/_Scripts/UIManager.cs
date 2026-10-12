@@ -183,9 +183,9 @@ public class UIManager : Singleton<UIManager>
     {
         if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
         {
-            if (HandManager.Instance.SelectedCardCount() <= 3)
+            if (TutorialController.Instance.HasSelectedTutorialOrcElfCombination() == false)
             {
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("tutorial.step1_selectorcs.dialogue", "Choose 2 Orcs and 2 Elves"));
                 return;
             }
         }
@@ -205,9 +205,9 @@ public class UIManager : Singleton<UIManager>
     {
         if (TutorialController.Instance.myCurrentAction == TutorialController.TutorialActionsEnum.SELECT_ORCS)
         {
-            if (HandManager.Instance.SelectedCardCount() <= 3)
+            if (TutorialController.Instance.HasSelectedTutorialOrcElfCombination() == false)
             {
-                UIManager.Instance.ShowTooltip(LocalizationService.Get("ui.tooltip.click_orcs", "Click on ORCs"));
+                UIManager.Instance.ShowTooltip(LocalizationService.Get("tutorial.step1_selectorcs.dialogue", "Choose 2 Orcs and 2 Elves"));
                 return;
             }
         }

@@ -485,12 +485,7 @@ public class TutorialController : Singleton<TutorialController>
     {
         if (myCurrentAction == TutorialActionsEnum.SELECT_ORCS)
         {
-            ArrowDownList.ForEach(c => c.gameObject.SetActive(true));
-            Vector3 offset = new Vector3(0, 30, 0);
-            ArrowDownList[0].transform.position = HandManager.Instance.CurrentHand[0].CardGO.transform.position + offset;
-            ArrowDownList[1].transform.position = HandManager.Instance.CurrentHand[2].CardGO.transform.position + offset;
-            ArrowDownList[2].transform.position = HandManager.Instance.CurrentHand[3].CardGO.transform.position + offset;
-            ArrowDownList[3].transform.position = HandManager.Instance.CurrentHand[4].CardGO.transform.position + offset;
+            ShowTutorialOrcElfArrows();
         }
         if (myCurrentAction == TutorialActionsEnum.CLICK_ATTACK)
         {
@@ -861,5 +856,76 @@ public class TutorialController : Singleton<TutorialController>
     {
         CardContainer.Instance.ResetDeckAfterTutorial();
         GameManager.Instance.RequestFreshHandAfterTutorial();
+    }
+
+    public bool HasSelectedTutorialOrcElfCombination()
+    {
+        if (HandManager.Instance == null)
+            return false;
+
+        int selectedCount = 0;
+        int orcCount = 0;
+        int elfCount = 0;
+
+        foreach (CardInstance card in HandManager.Instance.CurrentHand)
+        {
+            if (card == null || card.data == null || card.CardGO == null || card.CardGO.isSelected == false)
+                continue;
+
+            selectedCount++;
+
+            if (card.data.race == CardRace.Orc)
+                orcCount++;
+            else if (card.data.race == CardRace.Elf)
+                elfCount++;
+            else
+                return false;
+        }
+
+        return selectedCount == 4 && orcCount == 2 && elfCount == 2;
+    }
+
+    private void ShowTutorialOrcElfArrows()
+    {
+        List<CardInstance> targetCards = new List<CardInstance>();
+        int orcCount = 0;
+        int elfCount = 0;
+
+        if (HandManager.Instance != null)
+        {
+            foreach (CardInstance card in HandManager.Instance.CurrentHand)
+            {
+                if (card == null || card.data == null || card.CardGO == null)
+                    continue;
+
+                if (card.data.race == CardRace.Orc && orcCount < 2)
+                {
+                    targetCards.Add(card);
+                    orcCount++;
+                }
+                else if (card.data.race == CardRace.Elf && elfCount < 2)
+                {
+                    targetCards.Add(card);
+                    elfCount++;
+                }
+
+                if (orcCount == 2 && elfCount == 2)
+                    break;
+            }
+        }
+
+        Vector3 offset = new Vector3(0, 30, 0);
+        for (int i = 0; i < ArrowDownList.Count; i++)
+        {
+            Image arrow = ArrowDownList[i];
+            if (arrow == null)
+                continue;
+
+            bool showArrow = i < targetCards.Count;
+            arrow.gameObject.SetActive(showArrow);
+
+            if (showArrow)
+                arrow.transform.position = targetCards[i].CardGO.transform.position + offset;
+        }
     }
 }
