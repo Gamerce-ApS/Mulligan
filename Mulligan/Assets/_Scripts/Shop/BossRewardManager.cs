@@ -30,6 +30,7 @@ public class BossRewardManager : Singleton<BossRewardManager>
     public CanvasGroup bgCanvasGroup;
     public Transform RewardParent;
     public GameObject RewardTemplate;
+    public TMPro.TMP_Text TapAgainToSelectText;
 
     [Header("Animation")]
     public Vector2 RewardEnterOffset = new Vector2(0f, -1000f);
@@ -48,6 +49,60 @@ public class BossRewardManager : Singleton<BossRewardManager>
     private Action<BossRewardResult> onHide;
     private bool acceptingInput;
     private bool isClosing;
+    private BossRewardCard flippedCard;
+
+    private void OnEnable()
+    {
+        LocalizationService.LanguageChanged += UpdateSelectionHint;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationService.LanguageChanged -= UpdateSelectionHint;
+    }
+
+    private void Update()
+    {
+        if (acceptingInput == false || isClosing || flippedCard == null)
+            return;
+
+        Vector2 pointerPosition;
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase != TouchPhase.Began)
+                return;
+            pointerPosition = touch.position;
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0) == false)
+                return;
+            pointerPosition = Input.mousePosition;
+        }
+
+        foreach (BossRewardChoice choice in choices)
+        {
+            Canvas canvas = choice.Card.GetComponentInParent<Canvas>();
+            Camera eventCamera = canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay
+                ? canvas.worldCamera : null;
+            if (RectTransformUtility.RectangleContainsScreenPoint(choice.RectTransform, pointerPosition, eventCamera))
+                return;
+        }
+
+        flippedCard.SetFlipped(false);
+        flippedCard = null;
+        UpdateSelectionHint();
+    }
+
+    private void UpdateSelectionHint()
+    {
+        if (TapAgainToSelectText == null)
+            return;
+
+        TapAgainToSelectText.text = LocalizationService.Get("ui.boss_reward.tap_again_to_select", "Tap again to select");
+        TapAgainToSelectText.gameObject.SetActive(flippedCard != null && isClosing == false);
+    }
 
     public bool IsConfigured => ShopWindow != null &&
                                 bgCanvasGroup != null &&
@@ -58,6 +113,7 @@ public class BossRewardManager : Singleton<BossRewardManager>
     {
         acceptingInput = false;
         isClosing = false;
+        UpdateSelectionHint();
     }
 
     public void ShowWindow(Action<BossRewardResult> onComplete = null)
@@ -131,6 +187,7 @@ public class BossRewardManager : Singleton<BossRewardManager>
 
         acceptingInput = false;
         isClosing = true;
+        UpdateSelectionHint();
         SoundManager.TryPlay(SoundType.WindowClose);
 
         foreach (BossRewardChoice choice in choices)
@@ -284,7 +341,8 @@ public class BossRewardManager : Singleton<BossRewardManager>
             choice.Card = card;
             choice.RectTransform = rectTransform;
             choice.TargetScale = visual.transform.localScale;
-            card.Init(choice.Data, () => GetTargetName(choice), SelectReward);
+            card.HoldToShowInfo = false;
+            card.Init(choice.Data, () => GetTargetName(choice), HandleRewardTap);
         }
 
         choices.RemoveAll(choice => invalidChoices.Contains(choice));
@@ -308,6 +366,26 @@ public class BossRewardManager : Singleton<BossRewardManager>
         }
     }
 
+    private void HandleRewardTap(BossRewardCard card)
+    {
+        if (acceptingInput == false || isClosing || card.IsFlipping)
+            return;
+
+        if (flippedCard == card && card.IsFlipped)
+        {
+            SelectReward(card);
+            return;
+        }
+
+        if (flippedCard != null)
+            flippedCard.SetFlipped(false);
+
+        UIManager.Instance.HideCardInfoPopup();
+        flippedCard = card;
+        card.SetFlipped(true);
+        UpdateSelectionHint();
+    }
+
     private void SelectReward(BossRewardCard selectedCard)
     {
         if (acceptingInput == false || isClosing)
@@ -319,6 +397,7 @@ public class BossRewardManager : Singleton<BossRewardManager>
 
         acceptingInput = false;
         isClosing = true;
+        UpdateSelectionHint();
         UIManager.Instance.HideCardInfoPopup();
         BossRewardResult result = ApplyReward(selectedChoice);
 
@@ -481,6 +560,8 @@ public class BossRewardManager : Singleton<BossRewardManager>
 
     private void ClearChoices()
     {
+        flippedCard = null;
+        UpdateSelectionHint();
         foreach (BossRewardChoice choice in choices)
         {
             if (choice.Card == null)

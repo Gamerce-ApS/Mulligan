@@ -25,6 +25,7 @@ public static class LocalizationDefaultTexts
         yield return new LocalizationSourceText("ui.shop.unit_upgrade_pack", "Unit Upgrade Pack");
         yield return new LocalizationSourceText("ui.shop.unit_upgrade_pack_description", "Allows you to upgrade your units with Charms, Enchantments or Rank up");
         yield return new LocalizationSourceText("ui.shop.artifact_pack", "Artifact Pack");
+        yield return new LocalizationSourceText("ui.boss_reward.tap_again_to_select", "Tap again to select");
         yield return new LocalizationSourceText("ui.shop.artifact_pack_description", "Choose one of three random Artifacts");
         yield return new LocalizationSourceText("ui.tooltip.no_artifacts_available", "No Artifacts available!");
         yield return new LocalizationSourceText("ui.tooltip.not_enough_gold", "Not enough gold!");
