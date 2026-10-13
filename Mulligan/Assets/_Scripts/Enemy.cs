@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
             float baseHp = d.baseHP;
             if (TutorialController.Instance.HasRunTutorial() == false)
             {
-                baseHp = GetTutorialBossBaseHPForTarget(105, aRound);
+                baseHp = GetTutorialBossBaseHPForTarget(205, aRound);
                 baseDamage = GetTutorialBossBaseDamageForTarget(18, aRound);
             }
 
