@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -399,6 +400,7 @@ public class BossRewardManager : Singleton<BossRewardManager>
         isClosing = true;
         UpdateSelectionHint();
         UIManager.Instance.HideCardInfoPopup();
+        GameAnalytics.NewDesignEvent("boss_reward:selected:" + selectedChoice.Data.name);
         BossRewardResult result = ApplyReward(selectedChoice);
 
         foreach (BossRewardChoice choice in choices)
